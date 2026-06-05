@@ -3,25 +3,45 @@ import { resolveImage } from '../lib/images'
 import './ItemVisual.css'
 
 /*
- * One visual for an item, used on the Learning screen (kind="stage") and as a
- * choice tile in the games (kind="choice"). Variants, in priority:
- *   • numeral  → big number + counting dots
- *   • swatch   → colour block
- *   • portrait → clean typographic card (family — no stranger photos)
- *   • photo    → real resolved photograph, with shimmer + typographic fallback
- * Never renders an emoji.
+ * One visual for an item. Variants (priority):
+ *   • numeral  → big colourful number + counting stars   (Counting Mountain)
+ *   • swatch   → glossy paint blob                        (Rainbow Island)
+ *   • portrait → clean typographic card (family)
+ *   • photo    → real photograph (+ shimmer + fallback)   (animals, body, etc.)
+ * Never an emoji.
  */
+
+const BRIGHTS = ['#FF8C00', '#FF1493', '#32CD32', '#1E90FF', '#FFB01F', '#9D4EDD', '#FF6B6B', '#20B2AA']
+
+const Star = ({ color, style }) => (
+  <svg className="count-star" viewBox="0 0 24 24" style={style} aria-hidden="true">
+    <path
+      fill={color}
+      stroke="rgba(0,0,0,0.06)"
+      strokeWidth="1"
+      d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.8 6.1 20.2l1.2-6.6L2.5 9l6.6-.9z"
+    />
+  </svg>
+)
+
 export default function ItemVisual({ item, kind = 'stage' }) {
   const cls = `visual visual-${kind}`
 
   if (item.numeral != null) {
+    const color = BRIGHTS[(item.numeral - 1) % BRIGHTS.length]
     return (
       <div className={`${cls} visual-number`} aria-label={`Number ${item.numeral}`}>
-        <div className="visual-numeral">{item.numeral}</div>
+        <div className="visual-numeral" style={{ color }}>
+          {item.numeral}
+        </div>
         {kind === 'stage' && (
-          <div className="visual-dots">
+          <div className="visual-stars">
             {Array.from({ length: item.count }).map((_, i) => (
-              <span key={i} className="dot" style={{ background: item.color }} />
+              <Star
+                key={i}
+                color={BRIGHTS[i % BRIGHTS.length]}
+                style={{ animationDelay: `${i * 70}ms` }}
+              />
             ))}
           </div>
         )}
@@ -30,13 +50,15 @@ export default function ItemVisual({ item, kind = 'stage' }) {
   }
 
   if (item.swatch) {
+    const isWhite = item.swatch.toLowerCase() === '#ffffff'
     return (
-      <div
-        className={`${cls} visual-swatch`}
-        style={{ background: item.swatch }}
-        aria-label={`${item.word} colour`}
-      >
-        {item.swatch.toLowerCase() === '#ffffff' && <span className="swatch-ring" />}
+      <div className={`${cls} visual-swatch`} aria-label={`${item.word} colour`}>
+        <span className={`paint-blob ${isWhite ? 'is-white' : ''}`} style={{ background: item.swatch }}>
+          <span className="paint-gloss" />
+        </span>
+        <span className="spark spark-a" />
+        <span className="spark spark-b" />
+        <span className="spark spark-c" />
       </div>
     )
   }
@@ -57,7 +79,7 @@ export default function ItemVisual({ item, kind = 'stage' }) {
 }
 
 function Photo({ item, cls }) {
-  const [state, setState] = useState('loading') // loading | ready | failed
+  const [state, setState] = useState('loading')
   const [url, setUrl] = useState(null)
   const alive = useRef(true)
 
@@ -68,11 +90,8 @@ function Photo({ item, cls }) {
     resolveImage(item)
       .then((u) => {
         if (!alive.current) return
-        if (u) {
-          setUrl(u)
-        } else {
-          setState('failed')
-        }
+        if (u) setUrl(u)
+        else setState('failed')
       })
       .catch(() => alive.current && setState('failed'))
     return () => {
@@ -80,7 +99,7 @@ function Photo({ item, cls }) {
     }
   }, [item])
 
-  if (state === 'failed' || (state === 'ready' && !url)) {
+  if (state === 'failed') {
     return (
       <div
         className={`${cls} visual-fallback`}

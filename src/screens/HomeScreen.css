@@ -1,72 +1,67 @@
-.home {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  flex: 1;
-  padding: var(--space-lg) var(--space-md) var(--space-md);
+.home2 {
+  padding: var(--space-md) var(--space-md) calc(var(--space-md) + var(--safe-bottom));
+}
+.home2 > * {
+  position: relative;
+  z-index: 1;
+}
+.home2 .scene-globe {
+  z-index: 0;
 }
 
-.home-header {
+.home2-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.home-title {
+.home2-title {
   font-size: var(--size-md);
   margin: 0;
-  background: linear-gradient(135deg, #ff8c00, #ff1493);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.parent-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--bg-white);
-  border: 2px solid var(--border-light);
-  color: var(--text-gray);
+.home2-parent {
   font-size: 16px;
   letter-spacing: 1px;
 }
-.parent-btn:active {
-  transform: scale(0.92);
+
+.home2-greet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  margin: 2px 0 var(--space-md);
+}
+.home2-greet .speech-bubble {
+  margin-bottom: 26px;
 }
 
-.home-sub {
-  font-size: var(--size-sm);
-  font-weight: 500;
-  color: var(--text-gray);
-  margin: 4px 0 var(--space-lg);
-}
-
-.world-grid {
+.home2-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md);
+  flex: 1;
+  align-content: start;
+  overflow-y: auto;
 }
-
-/* First card spans both columns as a welcoming hero */
 .world-card:first-child {
   grid-column: 1 / -1;
-  min-height: 92px;
+  min-height: 84px;
 }
-
 .world-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   gap: 2px;
-  min-height: 116px;
+  min-height: 104px;
   padding: var(--space-md);
-  border-radius: var(--radius-md);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 22px;
+  border: 3px solid #fff;
   color: #fff;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.18);
   text-align: left;
-  transition: transform var(--duration-quick) var(--easing-out),
-    filter var(--duration-quick) var(--easing-out);
+  transition: transform var(--duration-quick) var(--easing-out);
   animation: fade-scale-in var(--duration-normal) var(--easing-bounce) both;
 }
 .world-card:nth-child(1) { animation-delay: 0.02s; }
@@ -75,10 +70,10 @@
 .world-card:nth-child(4) { animation-delay: 0.11s; }
 .world-card:nth-child(5) { animation-delay: 0.14s; }
 .world-card:nth-child(6) { animation-delay: 0.17s; }
-.world-card:nth-child(7) { animation-delay: 0.20s; }
+.world-card:nth-child(7) { animation-delay: 0.2s; }
 .world-card:active {
-  transform: scale(0.96);
-  filter: brightness(1.1);
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 .world-name {
   font-size: 19px;
@@ -88,56 +83,22 @@
 .world-tagline {
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.95);
 }
 
-.mode-row {
+.home2-modes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md);
   margin-top: var(--space-md);
 }
 .mode-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
-  padding: var(--space-md);
-  min-height: 72px;
-  border-radius: var(--radius-md);
-  color: #fff;
-  box-shadow: var(--shadow-md);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  transition: transform var(--duration-quick) var(--easing-out);
-}
-.mode-btn:active {
-  transform: scale(0.96);
-}
-.mode-game {
-  background: linear-gradient(135deg, #355c7d 0%, #6c5b7b 100%);
+  min-height: 60px;
+  font-size: 17px;
+  background: linear-gradient(180deg, #5aa9d8, #3d7fb0);
+  box-shadow: 0 5px 0 #2f6a96, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
 .mode-twin {
-  background: linear-gradient(135deg, #ff8c00 0%, #ff1493 100%);
-}
-.mode-name {
-  font-size: 17px;
-  font-weight: 700;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
-}
-.mode-tag {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.home-footer {
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-gray);
-  padding-top: var(--space-lg);
-  margin-top: auto;
-}
-.home-footer strong {
-  color: var(--primary-magenta);
+  background: linear-gradient(180deg, #ff9a3d, #ff6a00);
+  box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
 }

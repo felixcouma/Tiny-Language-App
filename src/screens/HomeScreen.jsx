@@ -1,5 +1,6 @@
 import { useStore, WORLDS } from '../store'
 import { playChime } from '../lib/audio'
+import Mascot from '../components/Mascot.jsx'
 import './HomeScreen.css'
 
 export default function HomeScreen() {
@@ -9,16 +10,22 @@ export default function HomeScreen() {
   const openParent = useStore((s) => s.openParent)
 
   return (
-    <div className="home">
-      <header className="home-header">
-        <h1 className="home-title">TinyVoice</h1>
-        <button className="parent-btn" onClick={openParent} aria-label="Parent dashboard">
+    <div className="scene home2">
+      <div className="scene-globe" />
+
+      <header className="home2-top">
+        <h1 className="home2-title">TinyVoice</h1>
+        <button className="round-btn home2-parent" onClick={openParent} aria-label="Parent dashboard">
           •••
         </button>
       </header>
-      <p className="home-sub">What shall we explore today?</p>
 
-      <main className="world-grid">
+      <div className="home2-greet">
+        <div className="speech-bubble">What shall we learn?</div>
+        <Mascot size={70} />
+      </div>
+
+      <main className="home2-grid">
         {WORLDS.map((world) => (
           <button
             key={world.id}
@@ -36,32 +43,26 @@ export default function HomeScreen() {
         ))}
       </main>
 
-      <section className="mode-row" aria-label="Games">
+      <section className="home2-modes" aria-label="Games">
         <button
-          className="mode-btn mode-game"
+          className="chunky mode-btn"
           onClick={() => {
             playChime('game')
             openGame()
           }}
         >
-          <span className="mode-name">Listening Game</span>
-          <span className="mode-tag">Listen &amp; tap</span>
+          Listening Game
         </button>
         <button
-          className="mode-btn mode-twin"
+          className="chunky mode-btn mode-twin"
           onClick={() => {
             playChime('twin')
             openTwin()
           }}
         >
-          <span className="mode-name">Twin Mode</span>
-          <span className="mode-tag">Take turns</span>
+          Twin Mode
         </button>
       </section>
-
-      <footer className="home-footer">
-        Made with love for <strong>Audrey &amp; Adriel</strong>
-      </footer>
     </div>
   )
 }

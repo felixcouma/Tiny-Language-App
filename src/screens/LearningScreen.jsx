@@ -94,6 +94,18 @@ export default function LearningScreen() {
           </h2>
         </button>
 
+        {world.id === 'music-forest' && item.soundLabel && (
+          <button className="music-badge" style={{ background: item.color }} onClick={sayNow}>
+            <span className="eq" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+            </span>
+            {item.soundLabel}
+          </button>
+        )}
+
         <Ladder phrases={item.expand} />
       </main>
 
