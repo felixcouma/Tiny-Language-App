@@ -1,0 +1,18 @@
+{
+  "name": "TinyVoice Twins",
+  "short_name": "TinyVoice",
+  "description": "A sound-first early-language app for toddlers.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFDF8",
+  "theme_color": "#FFFDF8",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
