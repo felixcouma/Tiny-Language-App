@@ -5,34 +5,40 @@
 
 ## Last Session — 2026-06-05 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
-### Built this session (v5 → v5.1 → bug fixes)
-- Cartoon UI shell (sky + globe + Pip mascot + chunky Auto Play/arrow/round buttons).
-- Auto Play, persisted Mute, Parent voice picker; premium ElevenLabs voice wired
-  (via secret-keeping Cloudflare Worker — needs Worker URL to activate).
-- Real photos (Wikimedia) in cartoon frame; no emoji.
-- Revamped Rainbow/Counting/Music visuals; Listening Game + Twin Mode; Parent Dashboard.
+### Built this session — real illustrations + warm spoken voice
+- **53 cartoon illustrations** generated with nano-banana (Gemini image model) into
+  `public/images/<key>.png`. The app (`src/lib/images.js → fromLocal`) already prefers these
+  over Wikimedia. One cohesive flat-vector, thick-outline, pastel toddler style.
+- **My Body (13)** redesigned to one **consistent toddler character** with per-part framing +
+  a highlight halo. `body-ears` and `body-teeth` are on-model but the part is a little small —
+  refine later if wanted.
+- **Kid-friendly spoken audio** pre-baked with **Gemini TTS** into
+  `public/sounds/<voice>/<key>.mp3` (MP3 ~40 KB each). The parent picks the **Storybook voice**
+  (Aoede = default / Leda / Sulafat) in the Parent Dashboard.
+- `src/lib/audio.js`: per-voice bundled playback + `tv_story_voice` preference; `playItem` plays
+  `sounds/<voice>/<key>.mp3` and falls back to the device voice when a clip is missing.
 
-### 🐞 Layout bugs fixed (the "nothing visible" reports)
-1. **Background globe rendered in-flow** — a `.home2 > * { position:relative }` rule
-   was overriding `.scene-globe { position:absolute }`, so the ~700px globe pushed
-   all content off-screen. Fixed with `:not(.scene-globe)` + re-asserted absolute.
-   (Same fix applied to Learning.)
-2. **Shell clipped tall screens** — Parent Dashboard overflowed with no scroll.
-   Shell is now a definite-height `overflow-y:auto` scroll container.
-3. **Confetti overlay** had the same `.game > *` clobber → excluded `:not(.confetti)`.
+### Asset-generation tooling (`scripts/`)
+- `gen-images.mjs` — batch image generator (cheap model `gemini-2.5-flash-image`;
+  `--only a,b` / `--match body-` / `--force`; skips existing).
+- `gen-audio.mjs` — batch TTS, multi-voice MP3 via `@breezystack/lamejs`; `PACE_MS` pacing,
+  `TTS_MODEL` override, `--voices`, skip-existing/resumable.
+- One-time deps: `npm install @google/genai @breezystack/lamejs --no-save`
+- Key from env `GEMINI_API_KEY` (also `scripts/gemini.key.local`, gitignored).
 
-### Guardrails added
-- `scripts/check-content.mjs` (npm `check`, runs as `prebuild` + in CI):
-  validates 7 worlds / 97 items / counting 1..20 / colour swatches / game-pool size.
+### ⚠️ Audio is INCOMPLETE — finish tomorrow (free)
+- Gemini TTS has a **per-model 100 requests/day** cap (Tier-1). Today's quota is used up.
+- Current: **aoede 67/89 · leda 31/89 · sulafat 14/89** (all existing clips are valid).
+- After the daily reset (~midnight Pacific), finish with the resumable script:
+  ```bash
+  GEMINI_API_KEY=... node scripts/gen-audio.mjs        # fills only the missing clips
+  # if a model caps again, switch bucket:
+  GEMINI_API_KEY=... TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-audio.mjs
+  ```
+- App works now: warm voice where clips exist, device voice elsewhere (graceful).
 
-### ✅ Please verify AT YOUR DESK (I can't render in this sandbox — browser CDNs are blocked)
-- [ ] **Home** shows from the top: "TinyVoice" + ••• → Pip + "What shall we learn?"
-      → 7 world cards → Listening Game / Twin Mode (globe is just a hill behind).
-- [ ] **••• Parent Dashboard** scrolls through stats → "Choose the voice" → tip → Reset.
-- [ ] A **world** (e.g. Safari) shows photo + word, speaks, Auto Play advances, arrows work.
-- [ ] **Listening Game**: tapping the right photo bursts confetti over the tiles.
-
-### Next (after you confirm layout is good)
-- Send the **Cloudflare Worker URL** → I switch on the natural voice.
-- Tell me any **photos to swap**.
-- Optional: cartoon-theme the Parent Dashboard; ABC phonics world; story/auto-play mode.
+### Next
+- Finish the remaining audio clips (above).
+- Optionally refine `body-ears` / `body-teeth` images.
+- Ladder **phrases** still use the device voice (`voice()` in `LearningScreen`); a future
+  ElevenLabs/live-TTS layer could read those warmly too.

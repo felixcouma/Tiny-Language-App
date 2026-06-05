@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useStore, getWorld } from '../store'
-import { listVoices, getVoiceURI, setVoice, speak } from '../lib/audio'
+import {
+  listVoices,
+  getVoiceURI,
+  setVoice,
+  speak,
+  STORYBOOK_VOICES,
+  getStorybookVoice,
+  setStorybookVoice,
+  playStorybookSample,
+} from '../lib/audio'
 import './ParentDashboard.css'
 
 export default function ParentDashboard() {
@@ -55,6 +64,8 @@ export default function ParentDashboard() {
           </section>
         )}
 
+        <StorybookVoicePicker />
+
         <VoicePicker />
 
         <section className="parent-section">
@@ -70,6 +81,36 @@ export default function ParentDashboard() {
         </button>
       </main>
     </div>
+  )
+}
+
+function StorybookVoicePicker() {
+  const [voice, setV] = useState(getStorybookVoice())
+
+  const choose = (id) => {
+    setV(id)
+    setStorybookVoice(id)
+    playStorybookSample(id)
+  }
+
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Storybook voice</h3>
+      <p className="voice-hint">
+        The warm voice that reads each word aloud. Tap one to hear it.
+      </p>
+      <div className="voice-options">
+        {STORYBOOK_VOICES.map((v) => (
+          <button
+            key={v.id}
+            className={`voice-option ${voice === v.id ? 'is-active' : ''}`}
+            onClick={() => choose(v.id)}
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -94,10 +135,10 @@ function VoicePicker() {
 
   return (
     <section className="parent-section">
-      <h3 className="parent-h3">Choose the voice</h3>
+      <h3 className="parent-h3">Device voice (backup)</h3>
       <p className="voice-hint">
-        Pick the friendliest voice on this device, then tap a name to hear it. (For a fully
-        human voice, real recordings can be added later.)
+        Used only if a storybook clip hasn’t loaded. Pick the friendliest voice on this device,
+        then tap a name to hear it.
       </p>
       {voices.length === 0 ? (
         <p className="voice-hint">No selectable voices on this device — the default will be used.</p>

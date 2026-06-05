@@ -5,7 +5,7 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 21:05 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-05 21:50 UTC** on branch `main`._
 
 **Recent commits:**
 

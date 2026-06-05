@@ -198,9 +198,45 @@ export async function voice(text) {
   speak(text)
 }
 
+/* ---------------- Storybook voice (bundled premium recordings) ---------------- */
+// Warm, kid-friendly voices pre-rendered with Gemini TTS, shipped under
+// public/sounds/<voice>/<key>.mp3. The parent picks one in the dashboard.
+export const STORYBOOK_VOICES = [
+  { id: 'aoede', label: 'Aoede — warm & breezy' },
+  { id: 'leda', label: 'Leda — bright & youthful' },
+  { id: 'sulafat', label: 'Sulafat — gentle storyteller' },
+]
+const DEFAULT_STORYBOOK_VOICE = 'aoede'
+let storyVoice = (() => {
+  try {
+    return localStorage.getItem('tv_story_voice') || DEFAULT_STORYBOOK_VOICE
+  } catch {
+    return DEFAULT_STORYBOOK_VOICE
+  }
+})()
+export const getStorybookVoice = () => storyVoice
+export function setStorybookVoice(id) {
+  storyVoice = id || DEFAULT_STORYBOOK_VOICE
+  try {
+    localStorage.setItem('tv_story_voice', storyVoice)
+  } catch {
+    /* ignore */
+  }
+}
+
 /* ---------------- Combined item playback ---------------- */
-const realFile = new Map()
+const realFile = new Map() // cache keyed by `${voice}/${key}` → bundled file present?
 let currentEl = null
+
+function playBundled(voice, key) {
+  if (currentEl) {
+    currentEl.pause()
+    currentEl = null
+  }
+  const el = new Audio(`${BASE}sounds/${voice}/${key}.mp3`)
+  currentEl = el
+  return el
+}
 
 export async function playItem(item) {
   if (!item || muted) return
@@ -208,20 +244,18 @@ export async function playItem(item) {
   const key = item.sound
   const phrase = item.say || item.word || ''
 
-  if (key && realFile.get(key) !== false) {
-    if (currentEl) {
-      currentEl.pause()
-      currentEl = null
-    }
-    const el = new Audio(`${BASE}sounds/${key}.mp3`)
-    currentEl = el
-    try {
-      await el.play()
-      realFile.set(key, true)
-      return
-    } catch {
-      realFile.set(key, false)
-      currentEl = null
+  if (key) {
+    const cacheKey = `${storyVoice}/${key}`
+    if (realFile.get(cacheKey) !== false) {
+      const el = playBundled(storyVoice, key)
+      try {
+        await el.play()
+        realFile.set(cacheKey, true)
+        return
+      } catch {
+        realFile.set(cacheKey, false)
+        currentEl = null
+      }
     }
   }
   if (premiumEnabled()) {
@@ -229,4 +263,19 @@ export async function playItem(item) {
     if (ok) return
   }
   if (!speak(phrase)) playChime(key || phrase)
+}
+
+/** Play a short sample in a given storybook voice (for the parent picker). */
+export async function playStorybookSample(voiceId = storyVoice) {
+  if (muted) return false
+  audioCtx()
+  const el = playBundled(voiceId, 'body-head')
+  try {
+    await el.play()
+    return true
+  } catch {
+    currentEl = null
+    speak('My head! This is my head. Pat your head!')
+    return false
+  }
 }
