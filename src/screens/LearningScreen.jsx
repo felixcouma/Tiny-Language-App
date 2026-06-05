@@ -1,7 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useStore } from '../store'
-import { playItem, speak } from '../lib/audio'
+import { playItem, speak, stopSpeaking } from '../lib/audio'
 import ItemVisual from '../components/ItemVisual.jsx'
+import Mascot from '../components/Mascot.jsx'
+import {
+  HomeIcon,
+  ReplayIcon,
+  SpeakerIcon,
+  SpeakerMuteIcon,
+  PlayIcon,
+  StopIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+} from '../components/Icons.jsx'
 import './LearningScreen.css'
 
 export default function LearningScreen() {
@@ -12,96 +23,111 @@ export default function LearningScreen() {
   const next = useStore((s) => s.next)
   const prev = useStore((s) => s.prev)
   const recordHeard = useStore((s) => s.recordHeard)
+  const muted = useStore((s) => s.muted)
+  const toggleMute = useStore((s) => s.toggleMute)
+  const autoPlay = useStore((s) => s.autoPlay)
+  const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
+
+  // Speak each word as it appears.
+  useEffect(() => {
+    if (!item) return
+    const t = setTimeout(() => {
+      playItem(item)
+      recordHeard(item, world.id)
+    }, 350)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item && item.word])
+
+  // Auto-play: gently advance through the world.
+  useEffect(() => {
+    if (!autoPlay || !item) return
+    const t = setTimeout(() => next(), 3600)
+    return () => clearTimeout(t)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoPlay, item && item.word])
 
   if (!world || !item) return null
 
+  const sayNow = () => {
+    playItem(item)
+    recordHeard(item, world.id)
+  }
+
+  const onAutoPlay = () => {
+    if (!autoPlay) sayNow() // start speaking immediately
+    else stopSpeaking()
+    toggleAutoPlay()
+  }
+
   return (
-    <div className="learn">
-      <header className="learn-header">
-        <button className="icon-btn" onClick={goHome} aria-label="Back to home">
-          ‹
+    <div className="scene learn2">
+      <div className="scene-globe" />
+
+      <header className="l2-top">
+        <button className="round-btn" onClick={goHome} aria-label="Home">
+          <HomeIcon size={26} />
         </button>
-        <span className="learn-badge" style={{ background: world.grad }}>
-          {world.name}
-        </span>
-        <span className="learn-count" aria-hidden="true">
-          {itemIndex + 1}/{world.items.length}
-        </span>
+        <div className="l2-spacer" />
+        <button className="round-btn" onClick={sayNow} aria-label="Say it again">
+          <ReplayIcon size={24} />
+        </button>
+        <button
+          className={`round-btn ${muted ? 'is-off' : ''}`}
+          onClick={toggleMute}
+          aria-label={muted ? 'Unmute' : 'Mute'}
+        >
+          {muted ? <SpeakerMuteIcon size={24} /> : <SpeakerIcon size={24} />}
+        </button>
       </header>
 
-      <main className="learn-main">
-        <ItemVisual key={item.word} item={item} kind="stage" />
+      <div className="l2-mascot">
+        <div className="speech-bubble">{world.name.replace(/^My /, '')}</div>
+        <Mascot size={76} />
+      </div>
 
-        <h2 className="learn-word">{item.word}</h2>
-        {item.ipa ? <p className="learn-ipa">{item.ipa}</p> : null}
-
-        <PlayButton item={item} worldId={world.id} onPlayed={() => recordHeard(item, world.id)} />
+      <main className="l2-main">
+        <button className="tv-card l2-card" onClick={sayNow} aria-label={`Hear ${item.word}`}>
+          <ItemVisual key={item.word} item={item} kind="stage" />
+          <h2 className="l2-word" style={{ color: item.color }}>
+            {item.word}
+          </h2>
+        </button>
 
         <Ladder phrases={item.expand} />
       </main>
 
-      <nav className="learn-nav">
-        <button className="nav-btn" onClick={prev} aria-label="Previous">
-          ‹ Prev
+      <nav className="l2-playbar">
+        <button className="chunky arrow" onClick={prev} aria-label="Previous">
+          <ArrowLeftIcon size={26} />
         </button>
-        <button className="nav-btn nav-next" onClick={next} aria-label="Next">
-          Next ›
+        <button className="chunky l2-auto" onClick={onAutoPlay} aria-label="Auto play">
+          {autoPlay ? <StopIcon size={22} /> : <PlayIcon size={22} />}
+          <span>Auto Play</span>
+        </button>
+        <button className="chunky arrow" onClick={next} aria-label="Next">
+          <ArrowRightIcon size={26} />
         </button>
       </nav>
     </div>
   )
 }
 
-function PlayButton({ item, worldId, onPlayed }) {
-  const [pressed, setPressed] = useState(false)
-
-  // Speak the word shortly after it appears (we arrived via a tap, so audio is unlocked).
-  useEffect(() => {
-    const t = setTimeout(() => {
-      playItem(item)
-      onPlayed()
-    }, 350)
-    return () => clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item.word])
-
-  const handle = () => {
-    setPressed(true)
-    playItem(item)
-    onPlayed()
-    setTimeout(() => setPressed(false), 300)
-  }
-
-  return (
-    <button
-      className={`play-btn ${pressed ? 'is-pressed' : ''}`}
-      onClick={handle}
-      aria-label={`Hear ${item.word}`}
-    >
-      <span className="play-dot" aria-hidden="true" />
-      <span className="play-label">{item.soundLabel || `Say "${item.word}"`}</span>
-    </button>
-  )
-}
-
-/* v4 Language Ladder: tap a phrase to hear it spoken (word → sentence). */
+/* v4 Language Ladder: tap a phrase to hear it (word → sentence). */
 function Ladder({ phrases }) {
   if (!phrases || !phrases.length) return null
   return (
-    <section className="ladder" aria-label="Say it together">
-      <h3 className="ladder-title">Say it together</h3>
-      <div className="ladder-chips">
-        {phrases.map((p, i) => (
-          <button
-            key={p}
-            className="ladder-chip"
-            style={{ animationDelay: `${i * 70}ms` }}
-            onClick={() => speak(p)}
-          >
-            {p}
-          </button>
-        ))}
-      </div>
-    </section>
+    <div className="l2-ladder">
+      {phrases.map((p, i) => (
+        <button
+          key={p}
+          className="ladder-chip"
+          style={{ animationDelay: `${i * 70}ms` }}
+          onClick={() => speak(p)}
+        >
+          {p}
+        </button>
+      ))}
+    </div>
   )
 }

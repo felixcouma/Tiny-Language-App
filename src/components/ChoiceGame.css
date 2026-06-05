@@ -4,6 +4,27 @@
   flex: 1;
   min-height: 100%;
   position: relative;
+  background: linear-gradient(180deg, #8ad6ef 0%, #b9e7f6 55%, #d9f3fb 100%);
+  overflow: hidden;
+}
+.game::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(2px 2px at 18% 22%, #fff, transparent),
+    radial-gradient(2px 2px at 72% 16%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 42% 40%, #fff, transparent),
+    radial-gradient(2px 2px at 86% 52%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 12% 60%, #fff, transparent),
+    radial-gradient(2px 2px at 62% 72%, #fff, transparent),
+    radial-gradient(2px 2px at 90% 30%, #fff, transparent);
+  opacity: 0.7;
+  animation: twinkle 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.game > * {
+  position: relative;
+  z-index: 1;
 }
 
 .game-header {

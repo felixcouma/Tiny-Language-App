@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import { useStore, getWorld } from '../store'
+import { listVoices, getVoiceURI, setVoice, speak } from '../lib/audio'
 import './ParentDashboard.css'
 
 export default function ParentDashboard() {
@@ -53,6 +55,8 @@ export default function ParentDashboard() {
           </section>
         )}
 
+        <VoicePicker />
+
         <section className="parent-section">
           <h3 className="parent-h3">A tip for today</h3>
           <p className="parent-tip">
@@ -66,6 +70,51 @@ export default function ParentDashboard() {
         </button>
       </main>
     </div>
+  )
+}
+
+function VoicePicker() {
+  const [voices, setVoices] = useState(listVoices())
+  const [uri, setUri] = useState(getVoiceURI())
+
+  useEffect(() => {
+    // Voices often load a moment after page start.
+    const grab = () => setVoices(listVoices())
+    grab()
+    const t = setTimeout(grab, 400)
+    if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = grab
+    return () => clearTimeout(t)
+  }, [])
+
+  const choose = (value) => {
+    setUri(value)
+    setVoice(value)
+    speak('Hi! I am Pip. Let us learn together!')
+  }
+
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Choose the voice</h3>
+      <p className="voice-hint">
+        Pick the friendliest voice on this device, then tap a name to hear it. (For a fully
+        human voice, real recordings can be added later.)
+      </p>
+      {voices.length === 0 ? (
+        <p className="voice-hint">No selectable voices on this device — the default will be used.</p>
+      ) : (
+        <select className="voice-select" value={uri} onChange={(e) => choose(e.target.value)}>
+          <option value="">Best automatic</option>
+          {voices.map((v) => (
+            <option key={v.voiceURI} value={v.voiceURI}>
+              {v.name} ({v.lang})
+            </option>
+          ))}
+        </select>
+      )}
+      <button className="voice-test" onClick={() => speak('Hello! Can you say cow? Mooooo!')}>
+        Hear a sample
+      </button>
+    </section>
   )
 }
 

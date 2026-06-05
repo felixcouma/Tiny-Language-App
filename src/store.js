@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { WORLDS, getWorld } from './data/content'
+import { isMuted, setMuted } from './lib/audio'
 
 /* ---- Progress (localStorage) — gentle, no scores, just for the parent view ---- */
 const PROG_KEY = 'tv_progress_v1'
@@ -34,10 +35,21 @@ export const useStore = create((set, get) => ({
   worldId: null,
   itemIndex: 0,
   progress: baseProgress(),
+  muted: isMuted(),
+  autoPlay: false,
+
+  toggleMute: () =>
+    set((s) => {
+      const m = !s.muted
+      setMuted(m)
+      return { muted: m }
+    }),
+  setAutoPlay: (v) => set({ autoPlay: !!v }),
+  toggleAutoPlay: () => set((s) => ({ autoPlay: !s.autoPlay })),
 
   // ---- navigation ----
-  goHome: () => set({ screen: 'home' }),
-  openWorld: (worldId) => set({ screen: 'learning', worldId, itemIndex: 0 }),
+  goHome: () => set({ screen: 'home', autoPlay: false }),
+  openWorld: (worldId) => set({ screen: 'learning', worldId, itemIndex: 0, autoPlay: false }),
   openGame: () => set({ screen: 'game' }),
   openTwin: () => set({ screen: 'twin' }),
   openParent: () => set({ screen: 'parent' }),
