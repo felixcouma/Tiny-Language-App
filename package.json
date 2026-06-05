@@ -6,6 +6,8 @@
   "description": "TinyVoice Twins — a sound-first, mobile-first speech & early-language app for toddlers (built for Audrey & Adriel).",
   "scripts": {
     "dev": "vite",
+    "check": "node scripts/check-content.mjs",
+    "prebuild": "node scripts/check-content.mjs",
     "build": "vite build",
     "preview": "vite preview --host"
   },
