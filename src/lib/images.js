@@ -75,9 +75,28 @@ async function fromPexels(query) {
   return first ? first.src.large : null
 }
 
+// Bundled illustration shipped in public/images/<key>.<ext> (e.g. from nano-banana).
+// This is the highest-quality, on-brand, offline source when present.
+const BASE = import.meta.env.BASE_URL || '/'
+const LOCAL_EXTS = ['webp', 'png', 'jpg']
+async function fromLocal(key) {
+  if (!key) return null
+  for (const ext of LOCAL_EXTS) {
+    const url = `${BASE}images/${key}.${ext}`
+    try {
+      const res = await fetch(url, { method: 'HEAD' })
+      if (res.ok) return url
+    } catch {
+      /* keep trying */
+    }
+  }
+  return null
+}
+
 /**
- * Resolve a real photo URL for an item, or null.
- * @param {{word:string, wiki?:string, image?:string, imageQuery?:string}} item
+ * Resolve a real image URL for an item, or null.
+ * Order: explicit override → bundled illustration → Unsplash/Pexels → Wikimedia.
+ * @param {{word:string, wiki?:string, image?:string, imageQuery?:string, sound?:string}} item
  */
 export async function resolveImage(item) {
   if (item.image) return item.image
@@ -88,7 +107,8 @@ export async function resolveImage(item) {
 
   let url = null
   try {
-    if (UNSPLASH_KEY) url = await fromUnsplash(query)
+    url = await fromLocal(item.sound) // bundled illustration first
+    if (!url && UNSPLASH_KEY) url = await fromUnsplash(query)
     if (!url && PEXELS_KEY) url = await fromPexels(query)
     if (!url) url = await fromWikimedia(item.wiki || item.word)
   } catch {
