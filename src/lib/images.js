@@ -80,14 +80,17 @@ async function fromPexels(query) {
 // Bundled illustration shipped in public/images/<key>.<ext> (e.g. from nano-banana).
 // This is the highest-quality, on-brand, offline source when present.
 const BASE = import.meta.env.BASE_URL || '/'
-const LOCAL_EXTS = ['webp', 'png', 'jpg']
+const LOCAL_EXTS = ['png', 'webp', 'jpg']
 async function fromLocal(key) {
   if (!key) return null
   for (const ext of LOCAL_EXTS) {
     const url = `${BASE}images/${key}.${ext}`
     try {
       const res = await fetch(url, { method: 'HEAD' })
-      if (res.ok) return url
+      // Must be a real image — the Vite dev server (and SPA hosts) answer 200 with
+      // index.html for missing paths, so check the content-type, not just res.ok.
+      const type = res.headers.get('content-type') || ''
+      if (res.ok && type.startsWith('image/')) return url
     } catch {
       /* keep trying */
     }
