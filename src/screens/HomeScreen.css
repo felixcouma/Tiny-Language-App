@@ -1,0 +1,106 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  flex: 1;
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+  animation: slide-up-fade var(--duration-normal) var(--easing-out);
+}
+
+.home-title {
+  font-size: var(--size-md);
+  margin: 0;
+  color: var(--text-dark);
+}
+
+.home-sub {
+  font-size: var(--size-sm);
+  font-weight: 500;
+  color: var(--text-gray);
+  margin: var(--space-xs) 0 0;
+}
+
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  flex: 1;
+  align-content: start;
+}
+
+/* The first card (Home Village) spans both columns as a welcoming hero */
+.world-card:first-child {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--space-md);
+  text-align: left;
+  min-height: 96px;
+}
+.world-card:first-child .world-emoji {
+  font-size: 56px;
+}
+.world-card:first-child .world-name {
+  font-size: 22px;
+}
+
+.world-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  min-height: 150px;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  transition: transform var(--duration-quick) var(--easing-out),
+    filter var(--duration-quick) var(--easing-out);
+  animation: fade-scale-in var(--duration-normal) var(--easing-bounce) both;
+}
+
+/* Staggered entrance */
+.world-card:nth-child(1) { animation-delay: 0.02s; }
+.world-card:nth-child(2) { animation-delay: 0.06s; }
+.world-card:nth-child(3) { animation-delay: 0.10s; }
+.world-card:nth-child(4) { animation-delay: 0.14s; }
+.world-card:nth-child(5) { animation-delay: 0.18s; }
+
+.world-card:active {
+  transform: scale(0.95);
+  filter: brightness(1.12);
+}
+
+.world-emoji {
+  font-size: 48px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.world-name {
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.world-tagline {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.home-footer {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-gray);
+  padding-top: var(--space-md);
+}
