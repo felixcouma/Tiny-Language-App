@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 11:35 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-05 11:37 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `7e64b0f Fix confetti overlay in games + add content integrity check`
 - `836397c Fix Home/Learning blank screen: keep background globe out of layout flow`
 - `f31c9b2 Fix clipped/unscrollable screens (Parent Dashboard etc.)`
 - `1a1103e Add tap-to-hear speaker badge on card + readable colour-word contrast guard`
 - `42b002e Polish: cartoon game tiles, round game home button, mascot bob, chunky buttons`
 - `e16fad2 Revamp Rainbow Island, Counting Mountain, Music Forest visuals + unify Home`
-- `e61006b Wire premium natural voice (ElevenLabs) with secret-keeping proxy`
 <!-- AUTO:END -->
 
 ---

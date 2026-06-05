@@ -1,28 +1,38 @@
 # Current Session Tracking
 
-> Update this before you commit/push so the next device (or session) knows where
-> you left off. Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
+> Update before commit/push so the next device/session knows where things stand.
+> Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Last Session — 2026-06-05 (autonomous overnight build)
-**Device:** Claude Code (web) · **Branch:** `main` · **Live:** https://felixcouma.github.io/Tiny-Language-App/
+## Last Session — 2026-06-05 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
-### What was built (v5 — best of v3 + v4)
-- Removed all emoji → **real photographs** (Wikimedia keyless + optional Unsplash/Pexels),
-  with shimmer loading and clean typographic fallbacks.
-- **Spoken words & phrases** via the browser speech engine (real recordings override per item).
-- Two new worlds requested by Dad: **My Body** and **Things I Do** (activities/verbs).
-- **Listening Game** (tap the right photo, confetti) and **Twin Mode** (Audrey & Adriel turns).
-- **Parent Dashboard** (gentle, local-only metrics).
-- Updated PWA icon (no emoji), `.env.example`, docs.
+### Built this session (v5 → v5.1 → bug fixes)
+- Cartoon UI shell (sky + globe + Pip mascot + chunky Auto Play/arrow/round buttons).
+- Auto Play, persisted Mute, Parent voice picker; premium ElevenLabs voice wired
+  (via secret-keeping Cloudflare Worker — needs Worker URL to activate).
+- Real photos (Wikimedia) in cartoon frame; no emoji.
+- Revamped Rainbow/Counting/Music visuals; Listening Game + Twin Mode; Parent Dashboard.
 
-### Verified
-- `npm run build` ✅ · preview HTTP 200 ✅ · emoji scan: none ✅
+### 🐞 Layout bugs fixed (the "nothing visible" reports)
+1. **Background globe rendered in-flow** — a `.home2 > * { position:relative }` rule
+   was overriding `.scene-globe { position:absolute }`, so the ~700px globe pushed
+   all content off-screen. Fixed with `:not(.scene-globe)` + re-asserted absolute.
+   (Same fix applied to Learning.)
+2. **Shell clipped tall screens** — Parent Dashboard overflowed with no scroll.
+   Shell is now a definite-height `overflow-y:auto` scroll container.
+3. **Confetti overlay** had the same `.game > *` clobber → excluded `:not(.confetti)`.
 
-### Review in the morning
-1. Skim photos for friendliness (a few body-part images may be clinical — easy to swap via
-   `image:` on the item, or add a `VITE_UNSPLASH_KEY` for curated photos).
-2. Try Listening Game + Twin Mode on a real device with the twins.
-3. Tell me which to deepen next: real animal-sound files, ABC phonics world, or auto-play mode.
+### Guardrails added
+- `scripts/check-content.mjs` (npm `check`, runs as `prebuild` + in CI):
+  validates 7 worlds / 97 items / counting 1..20 / colour swatches / game-pool size.
 
-### Blockers
-- None. (Sandbox can't fetch images to bundle, so photos load at runtime on-device.)
+### ✅ Please verify AT YOUR DESK (I can't render in this sandbox — browser CDNs are blocked)
+- [ ] **Home** shows from the top: "TinyVoice" + ••• → Pip + "What shall we learn?"
+      → 7 world cards → Listening Game / Twin Mode (globe is just a hill behind).
+- [ ] **••• Parent Dashboard** scrolls through stats → "Choose the voice" → tip → Reset.
+- [ ] A **world** (e.g. Safari) shows photo + word, speaks, Auto Play advances, arrows work.
+- [ ] **Listening Game**: tapping the right photo bursts confetti over the tiles.
+
+### Next (after you confirm layout is good)
+- Send the **Cloudflare Worker URL** → I switch on the natural voice.
+- Tell me any **photos to swap**.
+- Optional: cartoon-theme the Parent Dashboard; ABC phonics world; story/auto-play mode.
