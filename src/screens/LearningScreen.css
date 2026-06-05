@@ -1,11 +1,12 @@
 .learn2 {
   padding: var(--space-md) var(--space-md) calc(var(--space-md) + var(--safe-bottom));
 }
-.learn2 > * {
+.learn2 > *:not(.scene-globe) {
   position: relative;
   z-index: 1;
 }
 .learn2 .scene-globe {
+  position: absolute;
   z-index: 0;
 }
 

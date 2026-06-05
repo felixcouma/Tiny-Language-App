@@ -1,11 +1,12 @@
 .home2 {
   padding: var(--space-md) var(--space-md) calc(var(--space-md) + var(--safe-bottom));
 }
-.home2 > * {
+.home2 > *:not(.scene-globe) {
   position: relative;
   z-index: 1;
 }
 .home2 .scene-globe {
+  position: absolute;
   z-index: 0;
 }
 
