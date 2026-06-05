@@ -11,7 +11,9 @@
  * (never a broken image, never an emoji).
  */
 
-const LS_KEY = 'tv_img_cache_v1'
+// v2: invalidate old caches that may hold Wikimedia URLs/nulls so the new
+// bundled illustrations in public/images/ are picked up by returning visitors.
+const LS_KEY = 'tv_img_cache_v2'
 const mem = (() => {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}')
