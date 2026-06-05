@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Auto-refresh the metadata block in TINYVVOICE_PROJECT_CONTEXT.md on every commit,
+# so the project context stays current across devices without manual effort.
+#
+# One-time setup on each machine (also documented in the README):
+#   git config core.hooksPath .githooks
+#
+# Only the block between the AUTO markers is regenerated; everything else is
+# hand-maintained.
+
+FILE="TINYVVOICE_PROJECT_CONTEXT.md"
+[ -f "$FILE" ] || exit 0
+grep -q "<!-- AUTO:START -->" "$FILE" || exit 0
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+STAMP=$(date -u '+%Y-%m-%d %H:%M UTC')
+TMP=$(mktemp)
+
+{
+  # Everything before the AUTO:START marker
+  awk '/<!-- AUTO:START -->/{exit} {print}' "$FILE"
+
+  # Regenerated block
+  echo '<!-- AUTO:START -->'
+  echo "> _Auto-updated on commit — last refreshed **$STAMP** on branch \`$BRANCH\`._"
+  echo ''
+  echo '**Recent commits:**'
+  echo ''
+  git log --oneline -6 2>/dev/null | sed 's/^/- `/' | sed 's/$/`/'
+  echo '<!-- AUTO:END -->'
+
+  # Everything after the AUTO:END marker
+  awk 'p{print} /<!-- AUTO:END -->/{p=1}' "$FILE"
+} > "$TMP"
+
+mv "$TMP" "$FILE"
+git add "$FILE"
+exit 0
