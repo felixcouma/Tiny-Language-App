@@ -5,10 +5,11 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 01:33 UTC** on branch `claude/eloquent-hamilton-eMHn4`._
+> _Auto-updated on commit — last refreshed **2026-06-05 01:45 UTC** on branch `claude/eloquent-hamilton-eMHn4`._
 
 **Recent commits:**
 
+- `4a33372 Add GitHub Pages auto-deploy workflow`
 - `a83b264 Add living PROJECT_CONTEXT, cross-device workflow, and auto-update hook`
 - `4a060c4 Build TinyVoice Twins mobile-first MVP web app`
 - `03e9ed8 Add TinyVoice Twins v4 Masterplan (final doc, 6 of 6)`
@@ -21,8 +22,8 @@ sections (Build Status, Next Steps) are updated by hand each push.
 ## 📦 LIVE BUILD STATUS
 
 **Stack shipped:** React 18 · Vite · Zustand · CSS animations · HTML5 Audio + Web Audio fallback
-**Branch:** `claude/eloquent-hamilton-eMHn4`
-**Runs with:** `npm install && npm run dev`  ·  Build verified ✅  ·  Preview HTTP 200 ✅
+**Branch:** `main` (active) · **Live:** https://felixcouma.github.io/Tiny-Language-App/
+**Runs with:** `npm install && npm run dev`  ·  Build verified ✅  ·  Auto-deploys to Pages on push ✅
 
 ### ✅ Implemented (MVP)
 - **Home screen** — 5 v4 "living world" cards (Home Village, Safari Island, Rainbow Island,
@@ -72,16 +73,14 @@ Full guide: [`docs/CROSS_DEVICE_WORKFLOW.md`](./docs/CROSS_DEVICE_WORKFLOW.md). 
 ```bash
 git clone <your-repo-url> Tiny-Language-App
 cd Tiny-Language-App
-git checkout claude/eloquent-hamilton-eMHn4   # the active build branch
-git config core.hooksPath .githooks            # enable auto context updates
+git config core.hooksPath .githooks   # enable auto context updates
 npm install
 ```
 
 **Arriving / resuming on a machine you've used before**
 ```bash
 cd Tiny-Language-App
-git checkout claude/eloquent-hamilton-eMHn4
-git pull origin claude/eloquent-hamilton-eMHn4
+git pull origin main
 npm install        # in case dependencies changed
 ```
 
@@ -89,11 +88,10 @@ npm install        # in case dependencies changed
 ```bash
 git add .
 git commit -m "Clear description of what you changed"   # hook refreshes this file
-git push origin claude/eloquent-hamilton-eMHn4
+git push origin main      # also auto-deploys the live site
 ```
 
-> ⚠️ This project's active branch is **`claude/eloquent-hamilton-eMHn4`**, not `main`.
-> The workflow doc's examples say `main` — substitute the branch name above.
+> ✅ The project lives on **`main`** — every push to `main` redeploys the live link above.
 
 `node_modules/` and `dist/` are gitignored; `package-lock.json` **is** committed so installs
 are identical on every device.

@@ -5,7 +5,7 @@ name: Deploy to GitHub Pages
 # "GitHub Actions"), every push gives you an updated public link.
 on:
   push:
-    branches: ['claude/eloquent-hamilton-eMHn4']
+    branches: ['main']
   workflow_dispatch: {}
 
 permissions:

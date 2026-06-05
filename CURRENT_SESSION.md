@@ -4,7 +4,7 @@
 > where you left off. See `TINYVVOICE_PROJECT_CONTEXT.md` for full project state.
 
 ## Last Session — 2026-06-05
-**Device:** Claude Code (web) · **Branch:** `claude/eloquent-hamilton-eMHn4`
+**Device:** Claude Code (web) · **Branch:** `main` · **Live:** https://felixcouma.github.io/Tiny-Language-App/
 
 ### What was built
 - Runnable mobile-first MVP: Home (5 living worlds) + Learning screen.
