@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
-import { playItem, playCelebration, playChime, speak } from '../lib/audio'
+import { playItem, playCelebration, playChime, voice } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import './ChoiceGame.css'
@@ -60,7 +60,7 @@ export default function ChoiceGame({
       setRightWord(null)
       locked.current = false
       const intro = players ? `${players[roundIdx % players.length]}, ` : ''
-      setTimeout(() => speak(intro + buildPrompt(t, { round: roundIdx })), 450)
+      setTimeout(() => voice(intro + buildPrompt(t, { round: roundIdx })), 450)
     },
     [pool, choices, buildPrompt, players],
   )
@@ -83,7 +83,7 @@ export default function ChoiceGame({
       setTimeout(() => {
         if (nextRound >= rounds) {
           setDone(true)
-          setTimeout(() => speak('All done! Wonderful listening!'), 300)
+          setTimeout(() => voice('All done! Wonderful listening!'), 300)
         } else {
           setRound(nextRound)
           deal(nextRound)
@@ -93,7 +93,7 @@ export default function ChoiceGame({
       setWrongWord(item.word)
       playChime(item.word)
       recordGame(false)
-      setTimeout(() => speak(`Try again. Find the ${target.word.toLowerCase()}.`), 200)
+      setTimeout(() => voice(`Try again. Find the ${target.word.toLowerCase()}.`), 200)
       setTimeout(() => setWrongWord(null), 600)
     }
   }
@@ -134,7 +134,7 @@ export default function ChoiceGame({
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
-          onClick={() => target && speak((player ? `${player}, ` : '') + buildPrompt(target, { round }))}
+          onClick={() => target && voice((player ? `${player}, ` : '') + buildPrompt(target, { round }))}
         >
           Listen again
         </button>

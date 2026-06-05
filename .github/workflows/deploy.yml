@@ -29,6 +29,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # Optional upgrades — set these as repo Variables (Settings → Secrets
+          # and variables → Actions → Variables). Blank = device voice + Wikimedia.
+          VITE_TTS_PROXY_URL: ${{ vars.VITE_TTS_PROXY_URL }}
+          VITE_ELEVENLABS_VOICE: ${{ vars.VITE_ELEVENLABS_VOICE }}
+          VITE_UNSPLASH_KEY: ${{ vars.VITE_UNSPLASH_KEY }}
+          VITE_PEXELS_KEY: ${{ vars.VITE_PEXELS_KEY }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

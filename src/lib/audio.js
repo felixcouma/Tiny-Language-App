@@ -11,6 +11,8 @@
  * the first tap (mobile autoplay policy).
  */
 
+import { premiumEnabled, premiumSpeak, stopPremium } from './tts'
+
 const BASE = import.meta.env.BASE_URL || '/'
 
 /* ---------------- mute ---------------- */
@@ -173,6 +175,7 @@ export function speak(text, { rate = 0.9, pitch = 1.18 } = {}) {
 }
 export function stopSpeaking() {
   if (hasSpeech) window.speechSynthesis.cancel()
+  stopPremium()
 }
 function stopAll() {
   stopSpeaking()
@@ -180,6 +183,19 @@ function stopAll() {
     currentEl.pause()
     currentEl = null
   }
+}
+
+/**
+ * Speak text using the best available voice: premium cloud voice if configured,
+ * otherwise the device's speech engine. Fire-and-forget (async).
+ */
+export async function voice(text) {
+  if (muted || !text) return
+  if (premiumEnabled()) {
+    const ok = await premiumSpeak(text)
+    if (ok) return
+  }
+  speak(text)
 }
 
 /* ---------------- Combined item playback ---------------- */
@@ -207,6 +223,10 @@ export async function playItem(item) {
       realFile.set(key, false)
       currentEl = null
     }
+  }
+  if (premiumEnabled()) {
+    const ok = await premiumSpeak(phrase)
+    if (ok) return
   }
   if (!speak(phrase)) playChime(key || phrase)
 }

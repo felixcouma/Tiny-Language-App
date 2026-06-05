@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useStore } from '../store'
-import { playItem, speak, stopSpeaking } from '../lib/audio'
+import { playItem, voice, stopSpeaking } from '../lib/audio'
 import ItemVisual from '../components/ItemVisual.jsx'
 import Mascot from '../components/Mascot.jsx'
 import {
@@ -123,7 +123,7 @@ function Ladder({ phrases }) {
           key={p}
           className="ladder-chip"
           style={{ animationDelay: `${i * 70}ms` }}
-          onClick={() => speak(p)}
+          onClick={() => voice(p)}
         >
           {p}
         </button>

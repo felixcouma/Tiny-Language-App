@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 04:05 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-05 04:10 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `0a40fe7 v5.1: cartoonish UI shell, Auto Play, mute + voice picker`
 - `7c0aed5 v5: real photos (no emoji), spoken words, body+activities, games, parent view`
 - `e272af8 Point deploy at main and update workflow docs to use main branch`
 - `3b31fe1 Add GitHub Pages auto-deploy workflow`
 - `51421de Add living PROJECT_CONTEXT, cross-device workflow, and auto-update hook`
 - `ee05abf Build TinyVoice Twins mobile-first MVP web app`
-- `ee01aab Merge pull request #1 from felixcouma/claude/eloquent-hamilton-eMHn4`
 <!-- AUTO:END -->
 
 ---
@@ -31,6 +31,10 @@ sections (Build Status, Next Steps) are updated by hand each push.
   buttons (matches the reference kids-app style). Learning screen + games themed.
 - **Auto Play** mode (auto-advances & speaks through a world) · **Mute** toggle (persisted) ·
   **Voice picker** in the Parent view (choose the device's friendliest voice; playful cadence).
+- **Premium natural voice ready (ElevenLabs)** — `src/lib/tts.js` + Cloudflare Worker
+  (`infra/tts-worker.js`) keep the API key secret; cached per device; falls back to device
+  voice. **To activate:** deploy the Worker and set repo Variable `VITE_TTS_PROXY_URL`
+  (guide: `docs/PREMIUM_VOICE_SETUP.md`). Decision: premium voice + real photos in cartoon frame.
 - **No emoji — real photographs.** `src/lib/images.js` resolves a real, friendly photo
   per item at runtime from **Wikimedia** (keyless, CORS-ok) with optional **Unsplash/Pexels**
   keys (`.env`). Loading shimmer + clean **typographic fallback** card (never broken, never emoji).
