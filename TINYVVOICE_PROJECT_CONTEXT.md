@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 18:50 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-05 21:05 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `706c1e0 Enable bundled illustrations (nano-banana ready) + prompt generator`
 - `98bca54 Add docs/LOCAL_SETUP.md (Windows/macOS local dev + Claude Code handoff)`
 - `6cbd94d Update session notes: layout fixes + verify-at-desk checklist`
 - `7e64b0f Fix confetti overlay in games + add content integrity check`
 - `836397c Fix Home/Learning blank screen: keep background globe out of layout flow`
 - `f31c9b2 Fix clipped/unscrollable screens (Parent Dashboard etc.)`
-- `1a1103e Add tap-to-hear speaker badge on card + readable colour-word contrast guard`
 <!-- AUTO:END -->
 
 ---

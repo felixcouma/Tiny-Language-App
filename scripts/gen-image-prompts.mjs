@@ -12,14 +12,38 @@ const STYLE =
   'background, single centered subject, no text or letters, friendly, cute, wholesome, ' +
   'consistent children’s-book style, high quality.'
 
+// Body parts must POINT at / EXTEND the part so a toddler can tell what's taught.
+const BODY_POSE = {
+  Head: 'patting the very top of their head with both hands, head clearly visible',
+  Hair: 'pointing up at the hair on top of their head with one index finger',
+  Eyes: 'pointing to one of their two big wide-open eyes with an index finger',
+  Ears: 'turning slightly and pointing to their ear with an index finger, ear clearly visible',
+  Nose: 'pointing right at the tip of their nose with one index finger',
+  Mouth: 'pointing to their wide-open mouth with one index finger',
+  Teeth: 'a big grin showing teeth, pointing to their teeth with one index finger',
+  Hands:
+    'both arms stretched out toward the viewer, both open hands held up palms-forward with fingers spread, hands large and clearly visible',
+  Fingers:
+    'one open hand held up close to the viewer with fingers spread wide, pointing at those fingers with the other hand',
+  Tummy: 'pointing to their round tummy with both hands',
+  Knees:
+    'standing with legs apart, bending forward a little, both index fingers pointing down to the knees, knees clearly visible',
+  Feet:
+    'sitting on the floor with one bare leg stretched out toward the viewer, pointing at the foot, foot large and clearly visible',
+  Toes:
+    'sitting with one bare foot lifted toward the viewer, wiggling and pointing at the toes, toes clearly visible',
+}
+
 function subjectFor(world, item) {
   const w = item.word.toLowerCase()
   switch (world.id) {
     case 'safari-island':
     case 'music-forest':
       return `a cute friendly ${w}, full body, big happy eyes, gentle smile`
-    case 'my-body':
-      return `a cheerful cartoon toddler clearly showing their ${w}, the ${w} prominent and obvious`
+    case 'my-body': {
+      const pose = BODY_POSE[item.word] || `clearly showing their ${w}`
+      return `one cheerful cartoon toddler, full body, front view, ${pose}`
+    }
     case 'things-i-do':
       return `a happy cartoon toddler ${w}, clear simple action`
     case 'home-village':
