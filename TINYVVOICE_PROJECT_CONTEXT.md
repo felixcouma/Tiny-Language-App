@@ -5,69 +5,82 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 01:45 UTC** on branch `claude/eloquent-hamilton-eMHn4`._
+> _Auto-updated on commit — last refreshed **2026-06-05 03:48 UTC** on branch `main`._
 
 **Recent commits:**
 
-- `4a33372 Add GitHub Pages auto-deploy workflow`
-- `a83b264 Add living PROJECT_CONTEXT, cross-device workflow, and auto-update hook`
-- `4a060c4 Build TinyVoice Twins mobile-first MVP web app`
+- `e272af8 Point deploy at main and update workflow docs to use main branch`
+- `3b31fe1 Add GitHub Pages auto-deploy workflow`
+- `51421de Add living PROJECT_CONTEXT, cross-device workflow, and auto-update hook`
+- `ee05abf Build TinyVoice Twins mobile-first MVP web app`
+- `ee01aab Merge pull request #1 from felixcouma/claude/eloquent-hamilton-eMHn4`
 - `03e9ed8 Add TinyVoice Twins v4 Masterplan (final doc, 6 of 6)`
-- `5cfab55 Add TinyVoice Twins project documentation (5 of 6 files)`
-- `f358fd1 Initial commit`
 <!-- AUTO:END -->
 
 ---
 
-## 📦 LIVE BUILD STATUS
+## 📦 LIVE BUILD STATUS — v5 ("best of v3 + v4")
 
-**Stack shipped:** React 18 · Vite · Zustand · CSS animations · HTML5 Audio + Web Audio fallback
-**Branch:** `main` (active) · **Live:** https://felixcouma.github.io/Tiny-Language-App/
+**Stack:** React 18 · Vite · Zustand · CSS animations · Web Speech (spoken words) · Web Audio
+**Branch:** `main` · **Live:** https://felixcouma.github.io/Tiny-Language-App/
 **Runs with:** `npm install && npm run dev`  ·  Build verified ✅  ·  Auto-deploys to Pages on push ✅
 
-### ✅ Implemented (MVP)
-- **Home screen** — 5 v4 "living world" cards (Home Village, Safari Island, Rainbow Island,
-  Counting Mountain, Music Forest), mobile-first, PWA-installable, staggered entrance animation.
-- **Learning screen** — per item: adaptive visual (emoji / real-photo / colour swatch /
-  number-quantity), the word, **IPA phonetics**, teaching script, large **tap-to-play sound**
-  button (auto-plays on arrival), prev/next nav.
-- **v4 Language Ladder** — each item shows 2-word + 3-word "say it together" phrases (Stage D→E).
-- **Audio engine** — plays `public/sounds/<key>.mp3` if present, else a gentle Web Audio tone
-  (never fakes an animal sound). Celebration arpeggio helper ready for the game.
-- **Design tokens** — colours, type, spacing, motion, shadows from the blueprint; safe-area +
-  `prefers-reduced-motion` support.
-- **Content data** — `src/data/content.js`: 20 animals, 10 colours, numbers 1–20, 16 home
-  objects, 8 sound-discrimination items (derived from the 155-word database).
+### ✅ Implemented
+- **No emoji — real photographs.** `src/lib/images.js` resolves a real, friendly photo
+  per item at runtime from **Wikimedia** (keyless, CORS-ok) with optional **Unsplash/Pexels**
+  keys (`.env`). Loading shimmer + clean **typographic fallback** card (never broken, never emoji).
+  Family members use a deliberate typographic card (no stranger photos).
+- **Spoken language (the mission).** `src/lib/audio.js` speaks every word & phrase via the
+  browser speech engine, so children HEAR the language. Prefers a real recording at
+  `public/sounds/<key>.mp3` if present (drop in animal sounds anytime).
+- **7 living worlds** — incl. the two parent-requested favourites:
+  **My Body** (13 parts) and **Things I Do** (12 activities/verbs) + Home Village (family+objects),
+  Safari Island (20 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
+- **Learning screen** — real-photo stage, word, IPA, big "hear it" button (auto-speaks on arrival),
+  and v4 **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
+- **Listening Game** (v3) — listen → tap the right photo from 4 → confetti + celebration; wrong
+  taps gently wobble and invite a retry (no penalty, no scores).
+- **Twin Mode** (v4) — turn-taking rounds that name **Audrey & Adriel** ("Audrey, find the dog!").
+- **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy),
+  stored locally; reset button. No scores/badges/pressure.
+- **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, `prefers-reduced-motion`.
 
 ### 🚧 Not yet built (next candidates)
-- **Sound Game** (listen → tap correct → celebrate, gentle no-penalty retry, confetti)
-- **Twin Mode** (named turn-taking rounds for Audrey & Adriel)
-- **Parent Dashboard** (words exposed/spoken, favourite categories, emerging phrases)
-- **Real assets** — drop Unsplash/Pexels photos (`image` field) and Zapsplat/SoundJay
-  recordings (`public/sounds/`) for the core 10 animals first.
-- Swipe navigation, auto-play world mode.
+- Real recorded **animal sounds** in `public/sounds/` (currently spoken via speech engine).
+- Curated photos via an Unsplash key (wire is ready; just add `VITE_UNSPLASH_KEY`).
+- Auto-play "story" mode; swipe navigation; ABC phonics world (v3) if wanted.
+- Per-item photo overrides for any Wikimedia image you want to swap.
 
 ### 🗂️ Code map
 ```
 src/
-├── data/content.js        # 5 worlds + items (IPA, scripts, ladder phrases)
-├── lib/audio.js           # real-file-first audio with tone fallback
-├── store.js               # Zustand: screen router + position
-├── screens/HomeScreen.*    # the 5 living-world cards
-├── screens/LearningScreen.* # the core learn experience
-└── styles/tokens.css       # design system (from blueprint)
+├── data/content.js          # 7 worlds + items (wiki title, say text, IPA, ladder phrases)
+├── lib/images.js            # real-photo resolver (Wikimedia / Unsplash / Pexels) + cache
+├── lib/audio.js             # speech (words/phrases) + chime + celebration; real-file aware
+├── store.js                 # Zustand: screen router, position, localStorage progress
+├── components/ItemVisual.*   # photo / swatch / number / portrait visual (+ fallback)
+├── components/ChoiceGame.*   # shared listen-and-tap engine (Sound Game + Twin Mode)
+├── components/Confetti.*     # celebration confetti
+└── screens/                 # Home, Learning, SoundGame, TwinMode, ParentDashboard
 public/
-├── manifest.webmanifest    # add-to-home-screen
-├── icon.svg
-└── sounds/README.md        # where to drop real recordings
-docs/                       # all source documents (blueprint, wireframes, csv, v4, workflow)
+├── manifest.webmanifest · icon.svg (no emoji)
+└── sounds/README.md          # drop real recordings here to override speech
+docs/                         # all source documents (blueprint, wireframes, csv, v4, workflow)
+.env.example                  # optional photo API keys
 ```
+
+### ⚠️ Notes for review (morning)
+- Photos come from Wikimedia article images chosen via each item's `wiki` title. Most are
+  clear & friendly; a few (e.g. some body parts) may be clinical. **Skim once** — any photo can
+  be swapped by setting `image: '<url>'` on that item in `content.js`, or add an Unsplash key
+  for curated results app-wide.
+- Audio is the browser's speech voice (varies by device). Real recordings override it per item.
 
 ---
 
 ## 🔄 CROSS-DEVICE WORKFLOW (PC ↔ laptop)
 
-Full guide: [`docs/CROSS_DEVICE_WORKFLOW.md`](./docs/CROSS_DEVICE_WORKFLOW.md). Essentials:
+Full guide: [`docs/CROSS_DEVICE_WORKFLOW.md`](./docs/CROSS_DEVICE_WORKFLOW.md).
 
 **First time on a new machine**
 ```bash
@@ -76,67 +89,41 @@ cd Tiny-Language-App
 git config core.hooksPath .githooks   # enable auto context updates
 npm install
 ```
-
-**Arriving / resuming on a machine you've used before**
+**Resuming**
 ```bash
-cd Tiny-Language-App
-git pull origin main
-npm install        # in case dependencies changed
+cd Tiny-Language-App && git pull origin main && npm install
 ```
-
-**Before leaving a machine**
+**Before leaving**
 ```bash
-git add .
-git commit -m "Clear description of what you changed"   # hook refreshes this file
-git push origin main      # also auto-deploys the live site
+git add . && git commit -m "what changed" && git push origin main   # auto-deploys the live site
 ```
-
-> ✅ The project lives on **`main`** — every push to `main` redeploys the live link above.
-
-`node_modules/` and `dist/` are gitignored; `package-lock.json` **is** committed so installs
-are identical on every device.
+> The project lives on **`main`**; every push redeploys the live link. `node_modules`/`dist`
+> are gitignored; `package-lock.json` is committed for identical installs everywhere.
 
 ---
 
 ## 🎨 DESIGN SYSTEM AT A GLANCE
-
-**Primary (60%)** `#FF8C00` Tangerine (animals) · `#FF1493` Magenta (colours) ·
-`#32CD32` Lime (ABC) · `#1E90FF` Blue (numbers) · `#FF6B6B` Coral (household) ·
-`#9D4EDD` Purple (sounds/magic)
-**Accents** `#FFD700` Yellow · `#20B2AA` Teal
-**Backgrounds** `#FFFDF8` Cream · `#2C3E50` Charcoal text (never pure black) · `#E8E6E1` borders
-**Type** Quicksand Bold · 400/700 only · 28px+ for toddlers
-**Touch** 80×80px primary buttons · 16px spacing · 48×48px secondary min
-**Motion** quick 0.2–0.3s · normal 0.4–0.5s · slow/celebration 0.6–0.8s ·
-bounce `cubic-bezier(0.34,1.56,0.64,1)`
+**Primary** `#FF8C00` · `#FF1493` · `#32CD32` · `#1E90FF` · `#FF6B6B` · `#9D4EDD`
+**Accents** `#FFD700` · `#20B2AA` · **Bg** `#FFFDF8` cream · text `#2C3E50` (never pure black)
+**Type** Quicksand 400/700 · **Touch** 64px+ targets · **Motion** bounce `cubic-bezier(0.34,1.56,0.64,1)`
 
 ## 🪜 LEARNING LADDER (v4)
-`A) Listen → B) Point → C) Repeat → D) Expand (2-word) → E) Build (3-word) → F) Communicate`
+`Listen → Point → Repeat → Expand (2-word) → Build (3-word) → Communicate`
 
 ## 🎯 GOLDEN RULES
-1. Sound first  2. Real assets (no synthetic)  3. Joy over performance (no scores/badges)
-4. Toddler-safe (big buttons, bold colours, chunky fonts)  5. Twin-focused turn-taking
-6. Speech development progression  7. Parent partnership, no pressure
+1. Sound first  2. Real assets (no emoji/synthetic)  3. Joy over performance (no scores)
+4. Toddler-safe  5. Twin-focused turn-taking  6. Speech progression  7. Parent partnership
 
-## 📑 DOCUMENT INDEX (in `docs/`)
-| Doc | Purpose |
-|-----|---------|
-| TinyVoice_MasterBlueprint.md | Design philosophy, architecture, interaction flows |
-| TinyVoice_WireframeSystem.md | Wireframes, button states, animation timing, a11y |
-| TinyVoice_RealAssetsGuide.md | Image/sound sourcing, APIs, licensing |
-| TinyVoice_ContentDatabase.csv | All 155 words (IPA, scripts, colours) |
-| TinyVoice_Twins_v4_Masterplan.md | Speech framework, twin mode, living worlds |
-| DOCUMENTATION_UPDATE_SUMMARY.md | V2→V3 change log |
-| CROSS_DEVICE_WORKFLOW.md | Git workflow across devices |
+## 📑 DOCUMENT INDEX (`docs/`)
+MasterBlueprint · WireframeSystem · RealAssetsGuide · ContentDatabase.csv ·
+Twins_v4_Masterplan · DOCUMENTATION_UPDATE_SUMMARY · CROSS_DEVICE_WORKFLOW
 
 ---
 
-## 📝 HOW TO START TESTING (local, on any device)
+## 📝 HOW TO TEST
+Open the live link on a phone/tablet, or run locally:
 ```bash
-npm install
-npm run dev            # opens on http://localhost:5173
+npm install && npm run dev   # then open the printed Local/Network URL
 ```
-Vite prints a **Network:** URL (e.g. `http://192.168.x.x:5173`). Open that on a phone or
-tablet on the **same Wi-Fi** to test touch + sound on a real device. Tap a world → tap items →
-tap 🔊 to hear the sound (a tone until real recordings are added) → use Prev/Next.
-See the chat / README for the full step-by-step.
+Tap a world → hear the word spoken + see a real photo → tap "Say it together" phrases →
+try the Listening Game and Twin Mode → the ••• button (top-right of Home) opens the Parent view.

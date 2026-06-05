@@ -1,0 +1,79 @@
+import { useStore, getWorld } from '../store'
+import './ParentDashboard.css'
+
+export default function ParentDashboard() {
+  const goHome = useStore((s) => s.goHome)
+  const p = useStore((s) => s.progress)
+  const resetProgress = useStore((s) => s.resetProgress)
+
+  const uniqueWords = Object.keys(p.seen || {}).length
+  const favWorldId = Object.entries(p.byWorld || {}).sort((a, b) => b[1] - a[1])[0]?.[0]
+  const favWorld = favWorldId ? getWorld(favWorldId)?.name : '—'
+  const topWords = Object.entries(p.seen || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([w]) => w)
+  const days = Math.max(1, Math.ceil((Date.now() - (p.firstUse || Date.now())) / 86400000))
+  const accuracy = p.gamesPlayed ? Math.round((p.correct / p.gamesPlayed) * 100) : null
+
+  return (
+    <div className="parent">
+      <header className="parent-header">
+        <button className="icon-btn" onClick={goHome} aria-label="Back to home">
+          ‹
+        </button>
+        <h2 className="parent-title">For Grown-Ups</h2>
+        <span style={{ minWidth: 44 }} />
+      </header>
+
+      <main className="parent-main">
+        <p className="parent-intro">
+          A gentle window into play — no scores, no pressure. Every word heard is progress.
+        </p>
+
+        <div className="stat-grid">
+          <Stat big value={p.wordsHeard || 0} label="words heard" />
+          <Stat big value={uniqueWords} label="different words" />
+          <Stat value={favWorld} label="favourite world" />
+          <Stat value={days} label={days === 1 ? 'day of play' : 'days of play'} />
+          <Stat value={p.gamesPlayed || 0} label="game taps" />
+          <Stat value={accuracy == null ? '—' : `${accuracy}%`} label="found first try" />
+        </div>
+
+        {topWords.length > 0 && (
+          <section className="parent-section">
+            <h3 className="parent-h3">Words they love most</h3>
+            <div className="word-chips">
+              {topWords.map((w) => (
+                <span key={w} className="word-chip">
+                  {w}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="parent-section">
+          <h3 className="parent-h3">A tip for today</h3>
+          <p className="parent-tip">
+            Sit together and copy the “Say it together” phrases aloud. Hearing <em>you</em> say
+            “big brown cow” is the most powerful part — the app just gets the conversation started.
+          </p>
+        </section>
+
+        <button className="reset-btn" onClick={resetProgress}>
+          Reset progress
+        </button>
+      </main>
+    </div>
+  )
+}
+
+function Stat({ value, label, big }) {
+  return (
+    <div className={`stat ${big ? 'stat-big' : ''}`}>
+      <div className="stat-value">{value}</div>
+      <div className="stat-label">{label}</div>
+    </div>
+  )
+}

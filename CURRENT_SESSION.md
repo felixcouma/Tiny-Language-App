@@ -1,26 +1,28 @@
 # Current Session Tracking
 
-> Update this before you commit/push so the next device (or session) knows exactly
-> where you left off. See `TINYVVOICE_PROJECT_CONTEXT.md` for full project state.
+> Update this before you commit/push so the next device (or session) knows where
+> you left off. Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Last Session — 2026-06-05
+## Last Session — 2026-06-05 (autonomous overnight build)
 **Device:** Claude Code (web) · **Branch:** `main` · **Live:** https://felixcouma.github.io/Tiny-Language-App/
 
-### What was built
-- Runnable mobile-first MVP: Home (5 living worlds) + Learning screen.
-- v4 Language Ladder phrases per item; audio engine with tone fallback.
-- Imported all source docs into `docs/`.
-- Added living `TINYVVOICE_PROJECT_CONTEXT.md` + cross-device workflow + pre-commit
-  hook that auto-refreshes the context metadata.
+### What was built (v5 — best of v3 + v4)
+- Removed all emoji → **real photographs** (Wikimedia keyless + optional Unsplash/Pexels),
+  with shimmer loading and clean typographic fallbacks.
+- **Spoken words & phrases** via the browser speech engine (real recordings override per item).
+- Two new worlds requested by Dad: **My Body** and **Things I Do** (activities/verbs).
+- **Listening Game** (tap the right photo, confetti) and **Twin Mode** (Audrey & Adriel turns).
+- **Parent Dashboard** (gentle, local-only metrics).
+- Updated PWA icon (no emoji), `.env.example`, docs.
 
 ### Verified
-- `npm run build` ✅ · `npm run preview` serves HTTP 200 ✅
+- `npm run build` ✅ · preview HTTP 200 ✅ · emoji scan: none ✅
 
-### Next steps (pick up here)
-1. Source real assets for the core 10 animals (photos + sounds).
-2. Build Sound Game (listen → tap → celebrate).
-3. Build Twin Mode (Audrey & Adriel turn-taking).
-4. Test on a real phone/tablet with the twins.
+### Review in the morning
+1. Skim photos for friendliness (a few body-part images may be clinical — easy to swap via
+   `image:` on the item, or add a `VITE_UNSPLASH_KEY` for curated photos).
+2. Try Listening Game + Twin Mode on a real device with the twins.
+3. Tell me which to deepen next: real animal-sound files, ABC phonics world, or auto-play mode.
 
 ### Blockers
-- None. Real sound/photo files still need sourcing (see docs/TinyVoice_RealAssetsGuide.md).
+- None. (Sandbox can't fetch images to bundle, so photos load at runtime on-device.)

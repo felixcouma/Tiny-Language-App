@@ -1,68 +1,52 @@
-# TinyVoice Twins 🦁
+# TinyVoice Twins
 
 A sound-first, **mobile-first** early-language app for toddlers — built for
-**Audrey & Adriel**. This is the runnable MVP, implementing the v4 Masterplan's
-"living worlds" on top of the v3 design system.
+**Audrey & Adriel**. Real photographs, spoken words, playful games. Blends the
+v3 design system with the v4 learning framework.
 
-> Full product vision lives in [`docs/`](./docs) (blueprint, wireframes, the
-> 155-word content database, real-assets guide, and the v4 masterplan).
+**▶︎ Live:** https://felixcouma.github.io/Tiny-Language-App/ (open on any phone/tablet/laptop)
 
-## What's in the MVP
+> Full product vision lives in [`docs/`](./docs); current state in
+> [`TINYVVOICE_PROJECT_CONTEXT.md`](./TINYVVOICE_PROJECT_CONTEXT.md).
 
-- **5 living worlds** (v4): 🏠 Home Village · 🦁 Safari Island · 🎨 Rainbow Island ·
-  🔢 Counting Mountain · 🎵 Music Forest
-- **Learning screen** for every item: big visual, the word, IPA phonetics, a
-  warm teaching script, and a large **tap-to-play sound** button
-- **v4 Language Ladder** — each item shows 2-word and 3-word "say it together"
-  phrases (Stage D → E) to push from single words toward sentences
-- **Mobile-first & installable**: phone-width layout, safe-area aware, PWA
-  manifest (add to home screen), `prefers-reduced-motion` respected, 64px+ touch targets
-- **Design tokens** lifted straight from the blueprint (colors, type, spacing, motion)
+## What's inside
 
-## Run it
+- **7 living worlds:** My Body · Things I Do · Home Village · Safari Island ·
+  Rainbow Island · Counting Mountain · Music Forest
+- **Learning screen:** real photo + word + IPA + a big "hear it" button that
+  **speaks the word**, plus v4 **Language Ladder** chips (2-word → 3-word phrases)
+- **Listening Game:** listen → tap the right photo → confetti; wrong taps gently
+  wobble (no penalty)
+- **Twin Mode:** turn-taking that names Audrey & Adriel
+- **Parent Dashboard:** gentle, local-only insight (no scores or pressure)
+- **No emoji** — real photographs throughout, with clean fallbacks
+
+## Run locally
 
 ```bash
 npm install
-npm run dev      # open the printed Local/Network URL on your phone or tablet
+npm run dev      # open the printed Local/Network URL (Network = test on a phone)
+npm run build && npm run preview   # production check
 ```
 
-Build & preview a production bundle:
+## Photos & sound (how it works)
 
-```bash
-npm run build
-npm run preview
-```
-
-## Visuals & sounds (honest status)
-
-- **Visuals are emoji-first** — reliable, offline, and on-brand with the
-  wireframes. Each item also has an optional `image` field + `imageQuery`, so
-  real Unsplash/Pexels photos can be dropped in later (`src/data/content.js`)
-  without touching components.
-- **Sounds**: the app looks for a real recording at `public/sounds/<key>.mp3`
-  and plays a gentle UI tone if none is present yet (it never fakes an animal
-  sound). See [`public/sounds/README.md`](./public/sounds/README.md) and
-  `docs/TinyVoice_RealAssetsGuide.md` for the sourcing workflow.
+- **Photos** load at runtime from **Wikimedia** (free, no key). For curated,
+  hand-picked photos app-wide, copy `.env.example` → `.env` and add a free
+  **Unsplash** or **Pexels** key. Any single image can be overridden by setting
+  `image: '<url>'` on that item in `src/data/content.js`.
+- **Sound** uses the browser's **speech engine** to say words & phrases (perfect
+  for speech development). To use real recorded animal sounds instead, drop
+  `public/sounds/<key>.mp3` files in (see `public/sounds/README.md`); they
+  automatically override speech.
 
 ## Tech
 
-React 18 · Vite · Zustand · CSS animations · HTML5 Audio + Web Audio fallback.
-Kept dependency-light on purpose so it builds and runs fast.
+React 18 · Vite · Zustand · Web Speech API · Web Audio · CSS animations.
+Dependency-light on purpose, mobile-first, PWA-installable, auto-deployed to
+GitHub Pages on every push to `main`.
 
-## Project structure
+## Cross-device
 
-```
-src/
-├── data/content.js      # 5 worlds + items (IPA, scripts, ladder phrases)
-├── lib/audio.js         # real-file-first audio with tone fallback
-├── store.js             # Zustand: screen router + position
-├── screens/
-│   ├── HomeScreen.*      # the 5 living-world cards
-│   └── LearningScreen.*  # the core learn experience
-└── styles/tokens.css     # design system (from the blueprint)
-```
-
-## Not yet built (next candidates)
-
-Sound Game (listen → tap → celebrate), Twin Mode (named turn-taking),
-Parent Dashboard, real photo/sound assets, auto-play world mode.
+Work from any machine: `git pull origin main` → `npm install` → `npm run dev`.
+See [`docs/CROSS_DEVICE_WORKFLOW.md`](./docs/CROSS_DEVICE_WORKFLOW.md).

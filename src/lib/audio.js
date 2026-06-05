@@ -1,17 +1,20 @@
 /*
- * Audio manager for TinyVoice Twins.
+ * Audio for TinyVoice Twins.
  *
- * Priority for every item:
- *   1. Play a real recording at  <base>/sounds/<key>.mp3  (drop-in per RealAssetsGuide)
- *   2. If that file isn't there yet, play a short, pleasant Web Audio tone so a
- *      tap is ALWAYS acknowledged. This is a neutral UI chime — it deliberately
- *      does not imitate an animal, honouring the "no synthetic animal sounds" rule.
+ * This is a speech-development app, so children must HEAR the language. With no
+ * recorded asset files yet, we speak words and phrases with the browser's
+ * SpeechSynthesis engine (offline, on-device, no assets). Priority per item:
  *
- * Audio is unlocked by the first user tap (satisfies mobile autoplay policies).
+ *   1. A real recording at  <base>/sounds/<key>.mp3   (drop in real animal moos etc.)
+ *   2. Spoken audio of the word / teaching phrase via SpeechSynthesis
+ *   3. A soft chime (only for pure tap feedback)
+ *
+ * Everything is unlocked by the first tap (mobile autoplay policy).
  */
 
 const BASE = import.meta.env.BASE_URL || '/'
 
+/* ---------------- Web Audio (chimes / celebration) ---------------- */
 let ctx = null
 function audioCtx() {
   if (!ctx) {
@@ -22,26 +25,11 @@ function audioCtx() {
   return ctx
 }
 
-// Remember which keys have a real file so we don't retry a known-missing 404.
-const realFile = new Map() // key -> boolean
-
-let currentEl = null
-function stopCurrent() {
-  if (currentEl) {
-    currentEl.pause()
-    currentEl.currentTime = 0
-    currentEl = null
-  }
-}
-
-// A gentle two-note chime; frequency is derived from the key so different
-// items feel distinct. Pure sine waves — soft on toddler ears.
-function playChime(key = '') {
+export function playChime(seed = '') {
   const c = audioCtx()
   if (!c) return
   let h = 0
-  for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) % 1000
-  // Map into a friendly pentatonic-ish range (C5..C6)
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) % 1000
   const base = 523.25 * Math.pow(2, (h % 8) / 12)
   const now = c.currentTime
   ;[base, base * 1.25].forEach((freq, i) => {
@@ -49,67 +37,109 @@ function playChime(key = '') {
     const gain = c.createGain()
     osc.type = 'sine'
     osc.frequency.value = freq
-    const t = now + i * 0.12
+    const t = now + i * 0.1
     gain.gain.setValueAtTime(0, t)
-    gain.gain.linearRampToValueAtTime(0.22, t + 0.02)
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.28)
+    gain.gain.linearRampToValueAtTime(0.2, t + 0.02)
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.26)
     osc.connect(gain).connect(c.destination)
     osc.start(t)
-    osc.stop(t + 0.3)
+    osc.stop(t + 0.28)
   })
 }
 
-/**
- * Play the sound for an item.
- * @param {string} key - matches a file at public/sounds/<key>.mp3
- * @returns {Promise<'file'|'chime'>} which source actually played
- */
-export async function playSound(key) {
-  stopCurrent()
-  if (!key) {
-    playChime('')
-    return 'chime'
-  }
-  // Warm up the AudioContext on this user gesture even if we end up using a file.
-  audioCtx()
-
-  if (realFile.get(key) === false) {
-    playChime(key)
-    return 'chime'
-  }
-
-  const el = new Audio(`${BASE}sounds/${key}.mp3`)
-  el.preload = 'auto'
-  currentEl = el
-  try {
-    await el.play()
-    realFile.set(key, true)
-    return 'file'
-  } catch {
-    // No real recording yet (404 / unsupported) — fall back to the chime.
-    realFile.set(key, false)
-    if (currentEl === el) currentEl = null
-    playChime(key)
-    return 'chime'
-  }
-}
-
-// A short celebratory C–E–G arpeggio (blueprint's celebration chime spec).
 export function playCelebration() {
   const c = audioCtx()
   if (!c) return
   const now = c.currentTime
-  ;[523.25, 659.25, 783.99].forEach((freq, i) => {
+  ;[523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
     const osc = c.createOscillator()
     const gain = c.createGain()
     osc.type = 'sine'
     osc.frequency.value = freq
-    const t = now + i * 0.1
+    const t = now + i * 0.09
     gain.gain.setValueAtTime(0, t)
-    gain.gain.linearRampToValueAtTime(0.25, t + 0.02)
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.35)
+    gain.gain.linearRampToValueAtTime(0.22, t + 0.02)
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.4)
     osc.connect(gain).connect(c.destination)
     osc.start(t)
-    osc.stop(t + 0.4)
+    osc.stop(t + 0.42)
   })
+}
+
+/* ---------------- Speech (the spoken words) ---------------- */
+let preferredVoice = null
+function pickVoice() {
+  if (!('speechSynthesis' in window)) return null
+  if (preferredVoice) return preferredVoice
+  const voices = window.speechSynthesis.getVoices() || []
+  // Prefer a warm English voice; fall back to any English, then any voice.
+  const byName = (re) => voices.find((v) => re.test(v.name))
+  preferredVoice =
+    byName(/Samantha|Karen|Moira|Tessa|Google US English|Female/i) ||
+    voices.find((v) => /^en[-_]/i.test(v.lang)) ||
+    voices[0] ||
+    null
+  return preferredVoice
+}
+if ('speechSynthesis' in window) {
+  // Voices load asynchronously on some browsers.
+  window.speechSynthesis.onvoiceschanged = () => {
+    preferredVoice = null
+    pickVoice()
+  }
+}
+
+export function speak(text, { rate = 0.92, pitch = 1.08 } = {}) {
+  if (!text || !('speechSynthesis' in window)) return false
+  try {
+    window.speechSynthesis.cancel() // stop anything already talking
+    const u = new SpeechSynthesisUtterance(text)
+    const v = pickVoice()
+    if (v) u.voice = v
+    u.lang = (v && v.lang) || 'en-US'
+    u.rate = rate
+    u.pitch = pitch
+    window.speechSynthesis.speak(u)
+    return true
+  } catch {
+    return false
+  }
+}
+
+export function stopSpeaking() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel()
+}
+
+/* ---------------- Combined item playback ---------------- */
+const realFile = new Map() // sound key -> boolean (has a real recording)
+let currentEl = null
+
+/**
+ * Play an item's audio: real recording if available, otherwise speak `say`/word.
+ * @param {{sound?:string, say?:string, word?:string}} item
+ */
+export async function playItem(item) {
+  if (!item) return
+  audioCtx() // unlock on this gesture
+  const key = item.sound
+  const phrase = item.say || item.word || ''
+
+  if (key && realFile.get(key) !== false) {
+    if (currentEl) {
+      currentEl.pause()
+      currentEl = null
+    }
+    const el = new Audio(`${BASE}sounds/${key}.mp3`)
+    currentEl = el
+    try {
+      await el.play()
+      realFile.set(key, true)
+      return
+    } catch {
+      realFile.set(key, false)
+      currentEl = null
+      // fall through to speech
+    }
+  }
+  if (!speak(phrase)) playChime(key || phrase)
 }

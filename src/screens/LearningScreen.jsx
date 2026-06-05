@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '../store'
-import { playSound } from '../lib/audio'
+import { playItem, speak } from '../lib/audio'
+import ItemVisual from '../components/ItemVisual.jsx'
 import './LearningScreen.css'
 
 export default function LearningScreen() {
@@ -10,17 +11,18 @@ export default function LearningScreen() {
   const goHome = useStore((s) => s.goHome)
   const next = useStore((s) => s.next)
   const prev = useStore((s) => s.prev)
+  const recordHeard = useStore((s) => s.recordHeard)
 
   if (!world || !item) return null
 
   return (
-    <div className="learn" style={{ '--accent': item.color || world.gradient }}>
+    <div className="learn">
       <header className="learn-header">
         <button className="icon-btn" onClick={goHome} aria-label="Back to home">
-          ◄
+          ‹
         </button>
-        <span className="learn-badge" style={{ background: world.gradient }}>
-          {world.emoji} {world.name}
+        <span className="learn-badge" style={{ background: world.grad }}>
+          {world.name}
         </span>
         <span className="learn-count" aria-hidden="true">
           {itemIndex + 1}/{world.items.length}
@@ -28,119 +30,61 @@ export default function LearningScreen() {
       </header>
 
       <main className="learn-main">
-        <Stage item={item} key={item.word} />
+        <ItemVisual key={item.word} item={item} kind="stage" />
 
         <h2 className="learn-word">{item.word}</h2>
         {item.ipa ? <p className="learn-ipa">{item.ipa}</p> : null}
-        {item.script ? <p className="learn-script">{item.script}</p> : null}
 
-        <PlayButton item={item} />
+        <PlayButton item={item} worldId={world.id} onPlayed={() => recordHeard(item, world.id)} />
 
         <Ladder phrases={item.expand} />
       </main>
 
       <nav className="learn-nav">
         <button className="nav-btn" onClick={prev} aria-label="Previous">
-          ◄ <span className="nav-label">Prev</span>
+          ‹ Prev
         </button>
         <button className="nav-btn nav-next" onClick={next} aria-label="Next">
-          <span className="nav-label">Next</span> ►
+          Next ›
         </button>
       </nav>
     </div>
   )
 }
 
-/* The big visual. Four variants: real photo / emoji, colour swatch, number count. */
-function Stage({ item }) {
-  const [imgOk, setImgOk] = useState(Boolean(item.image))
+function PlayButton({ item, worldId, onPlayed }) {
+  const [pressed, setPressed] = useState(false)
 
-  // Number variant: big numeral + a row of countable objects
-  if (item.numeral != null) {
-    return (
-      <div className="stage" aria-label={`Number ${item.numeral}`}>
-        <div className="stage-numeral">{item.numeral}</div>
-        <div className="stage-count">
-          {Array.from({ length: item.count }).map((_, i) => (
-            <span key={i} aria-hidden="true">
-              {item.countEmoji}
-            </span>
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  // Colour variant: large swatch with the example object on top
-  if (item.swatch) {
-    return (
-      <div
-        className="stage stage-color"
-        style={{ background: item.swatch, borderColor: item.swatch }}
-        aria-label={`${item.word} colour`}
-      >
-        <span className="stage-emoji" aria-hidden="true">
-          {item.emoji}
-        </span>
-      </div>
-    )
-  }
-
-  // Default: real photo if present & loads, otherwise the friendly emoji
-  return (
-    <div className="stage" aria-label={item.word}>
-      {item.image && imgOk ? (
-        <img
-          className="stage-photo"
-          src={item.image}
-          alt={item.word}
-          onError={() => setImgOk(false)}
-        />
-      ) : (
-        <span className="stage-emoji" aria-hidden="true">
-          {item.emoji}
-        </span>
-      )}
-    </div>
-  )
-}
-
-function PlayButton({ item }) {
-  const [pulse, setPulse] = useState(false)
-  const firstPlay = useRef(true)
-
-  // Auto-play the sound when the item appears (blueprint timeline: ~0.3s after
-  // the image). We arrived here via a tap, so audio is already unlocked.
+  // Speak the word shortly after it appears (we arrived via a tap, so audio is unlocked).
   useEffect(() => {
     const t = setTimeout(() => {
-      playSound(item.sound)
-    }, 300)
+      playItem(item)
+      onPlayed()
+    }, 350)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item.sound])
+  }, [item.word])
 
   const handle = () => {
-    firstPlay.current = false
-    setPulse(true)
-    playSound(item.sound)
-    setTimeout(() => setPulse(false), 300)
+    setPressed(true)
+    playItem(item)
+    onPlayed()
+    setTimeout(() => setPressed(false), 300)
   }
 
   return (
     <button
-      className={`play-btn ${pulse ? 'is-pressed' : ''}`}
+      className={`play-btn ${pressed ? 'is-pressed' : ''}`}
       onClick={handle}
-      aria-label={`Play the sound for ${item.word}`}
+      aria-label={`Hear ${item.word}`}
     >
-      <span className="play-icon" aria-hidden="true">
-        🔊
-      </span>
-      <span className="play-label">{item.soundLabel}</span>
+      <span className="play-dot" aria-hidden="true" />
+      <span className="play-label">{item.soundLabel || `Say "${item.word}"`}</span>
     </button>
   )
 }
 
-/* v4 Language Ladder: tappable 2-word and 3-word "say it together" phrases. */
+/* v4 Language Ladder: tap a phrase to hear it spoken (word → sentence). */
 function Ladder({ phrases }) {
   if (!phrases || !phrases.length) return null
   return (
@@ -151,8 +95,8 @@ function Ladder({ phrases }) {
           <button
             key={p}
             className="ladder-chip"
-            style={{ animationDelay: `${i * 60}ms` }}
-            onClick={() => playSound('')}
+            style={{ animationDelay: `${i * 70}ms` }}
+            onClick={() => speak(p)}
           >
             {p}
           </button>

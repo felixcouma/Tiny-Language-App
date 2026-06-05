@@ -1,0 +1,99 @@
+/*
+ * Real-photo resolver. No emoji, ever.
+ *
+ * Provider order:
+ *   1. item.image            — explicit override URL (highest quality control)
+ *   2. Unsplash / Pexels     — IF an API key is set (see .env.example); curated, gorgeous
+ *   3. Wikimedia summary     — keyless, CORS-enabled, friendly representative photo
+ *
+ * Results are cached in localStorage so each item resolves once per device.
+ * If everything fails, returns null and the UI shows a clean typographic card
+ * (never a broken image, never an emoji).
+ */
+
+const LS_KEY = 'tv_img_cache_v1'
+const mem = (() => {
+  try {
+    return JSON.parse(localStorage.getItem(LS_KEY) || '{}')
+  } catch {
+    return {}
+  }
+})()
+
+function remember(key, url) {
+  mem[key] = url
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(mem))
+  } catch {
+    /* storage full / private mode — ignore */
+  }
+}
+
+// Optional keys (Vite exposes import.meta.env.VITE_*). Empty by default.
+const UNSPLASH_KEY = import.meta.env.VITE_UNSPLASH_KEY || ''
+const PEXELS_KEY = import.meta.env.VITE_PEXELS_KEY || ''
+
+// Bump a Wikimedia thumbnail to a crisper width (…/320px-Name.jpg → …/640px-…).
+function upscaleWiki(url) {
+  return url.replace(/\/\d+px-/, '/640px-')
+}
+
+async function fromWikimedia(title) {
+  const res = await fetch(
+    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
+    { headers: { Accept: 'application/json' } },
+  )
+  if (!res.ok) return null
+  const data = await res.json()
+  if (data.type === 'disambiguation') return null
+  const thumb = data.thumbnail && data.thumbnail.source
+  if (thumb) return upscaleWiki(thumb)
+  if (data.originalimage && data.originalimage.source) return data.originalimage.source
+  return null
+}
+
+async function fromUnsplash(query) {
+  const res = await fetch(
+    `https://api.unsplash.com/search/photos?per_page=1&orientation=squarish&content_filter=high&query=${encodeURIComponent(
+      query,
+    )}&client_id=${UNSPLASH_KEY}`,
+  )
+  if (!res.ok) return null
+  const data = await res.json()
+  const first = data.results && data.results[0]
+  return first ? `${first.urls.raw}&w=640&h=640&fit=crop` : null
+}
+
+async function fromPexels(query) {
+  const res = await fetch(
+    `https://api.pexels.com/v1/search?per_page=1&size=medium&query=${encodeURIComponent(query)}`,
+    { headers: { Authorization: PEXELS_KEY } },
+  )
+  if (!res.ok) return null
+  const data = await res.json()
+  const first = data.photos && data.photos[0]
+  return first ? first.src.large : null
+}
+
+/**
+ * Resolve a real photo URL for an item, or null.
+ * @param {{word:string, wiki?:string, image?:string, imageQuery?:string}} item
+ */
+export async function resolveImage(item) {
+  if (item.image) return item.image
+  const query = item.imageQuery || item.wiki || item.word
+  const key = (item.wiki || item.word).toLowerCase()
+
+  if (key in mem) return mem[key] // cached (may be null → typographic card)
+
+  let url = null
+  try {
+    if (UNSPLASH_KEY) url = await fromUnsplash(query)
+    if (!url && PEXELS_KEY) url = await fromPexels(query)
+    if (!url) url = await fromWikimedia(item.wiki || item.word)
+  } catch {
+    url = null
+  }
+  remember(key, url)
+  return url
+}
