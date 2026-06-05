@@ -5,10 +5,11 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-05 01:26 UTC** on branch `claude/eloquent-hamilton-eMHn4`._
+> _Auto-updated on commit — last refreshed **2026-06-05 01:33 UTC** on branch `claude/eloquent-hamilton-eMHn4`._
 
 **Recent commits:**
 
+- `a83b264 Add living PROJECT_CONTEXT, cross-device workflow, and auto-update hook`
 - `4a060c4 Build TinyVoice Twins mobile-first MVP web app`
 - `03e9ed8 Add TinyVoice Twins v4 Masterplan (final doc, 6 of 6)`
 - `5cfab55 Add TinyVoice Twins project documentation (5 of 6 files)`
