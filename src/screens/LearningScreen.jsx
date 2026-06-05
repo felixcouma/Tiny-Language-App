@@ -49,6 +49,8 @@ export default function LearningScreen() {
 
   if (!world || !item) return null
 
+  const wordColor = isLight(item.color) ? '#2C3E50' : item.color
+
   const sayNow = () => {
     playItem(item)
     recordHeard(item, world.id)
@@ -88,8 +90,13 @@ export default function LearningScreen() {
 
       <main className="l2-main">
         <button className="tv-card l2-card" onClick={sayNow} aria-label={`Hear ${item.word}`}>
-          <ItemVisual key={item.word} item={item} kind="stage" />
-          <h2 className="l2-word" style={{ color: item.color }}>
+          <div className="l2-stage-wrap">
+            <ItemVisual key={item.word} item={item} kind="stage" />
+            <span className="card-speaker" aria-hidden="true">
+              <SpeakerIcon size={22} />
+            </span>
+          </div>
+          <h2 className="l2-word" style={{ color: wordColor }}>
             {item.word}
           </h2>
         </button>
@@ -123,6 +130,15 @@ export default function LearningScreen() {
       </nav>
     </div>
   )
+}
+
+// Returns true for very light colours (so the word label stays readable).
+function isLight(hex) {
+  if (!hex || hex[0] !== '#' || hex.length < 7) return false
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.8
 }
 
 /* v4 Language Ladder: tap a phrase to hear it (word → sentence). */

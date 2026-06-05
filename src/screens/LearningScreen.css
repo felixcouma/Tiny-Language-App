@@ -48,9 +48,29 @@
   cursor: pointer;
   animation: fade-scale-in var(--duration-normal) var(--easing-bounce);
 }
+.l2-stage-wrap {
+  position: relative;
+  display: inline-flex;
+}
 .l2-card .visual-stage {
   width: min(72vw, 280px);
   background: linear-gradient(180deg, #eafaff 0%, #ffffff 100%);
+}
+.card-speaker {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffd24d, #ffb01f);
+  border: 3px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse 2.2s var(--easing-out) infinite;
 }
 .l2-word {
   font-size: var(--size-lg);
