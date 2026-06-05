@@ -33,6 +33,7 @@ body {
 .app-shell {
   width: 100%;
   max-width: 480px; /* phone-width column; tablets/desktop letterbox it */
+  height: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -40,7 +41,12 @@ body {
   position: relative;
   padding-top: var(--safe-top);
   padding-bottom: var(--safe-bottom);
-  overflow: hidden;
+  /* Scroll the whole shell if a screen is taller than the viewport (safety net,
+     so content can never be clipped-and-unreachable). Inner areas with
+     min-height:0 still scroll on their own where designed. */
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 button {
