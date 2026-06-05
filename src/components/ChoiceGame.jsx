@@ -3,6 +3,7 @@ import { useStore } from '../store'
 import { playItem, playCelebration, playChime, voice } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
+import { HomeIcon } from './Icons.jsx'
 import './ChoiceGame.css'
 
 const shuffle = (arr) => {
@@ -167,13 +168,13 @@ export default function ChoiceGame({
 function Header({ title, grad, onExit }) {
   return (
     <header className="game-header">
-      <button className="icon-btn" onClick={onExit} aria-label="Back to home">
-        ‹
+      <button className="round-btn" onClick={onExit} aria-label="Back to home">
+        <HomeIcon size={26} />
       </button>
       <span className="learn-badge" style={{ background: grad }}>
         {title}
       </span>
-      <span style={{ minWidth: 40 }} />
+      <span style={{ minWidth: 54 }} />
     </header>
   )
 }

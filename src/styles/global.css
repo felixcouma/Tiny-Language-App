@@ -261,6 +261,11 @@ button {
 }
 .mascot {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+  animation: bob 3.2s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 /* soft translucent content card */
