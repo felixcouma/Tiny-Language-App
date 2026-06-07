@@ -156,6 +156,7 @@ export const useStore = create((set, get) => ({
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),
   openRest: () => set({ screen: 'rest', autoPlay: false }),
+  openChant: () => set({ screen: 'chant', autoPlay: false }),
 
   // ---- grown-up gate ----
   requestGate: (purpose) => set({ gateFor: purpose }),

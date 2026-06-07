@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-07 18:58 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-07 19:02 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `daa864f Feature: parent zone — grown-up gate, screen-time wind-down, richer insight`
 - `99b1f19 Feature: collection / sticker book`
 - `43ee761 Feature: tactile touch-and-discover cards`
 - `40d0bbe Feature: adaptive "Today with Pip" daily path + spaced repetition`
 - `14390da Feature: child profiles + learning stage (store foundation)`
 - `c430527 Make layout responsive for tablets & laptops (up to ~14"), not a phone column`
-- `3038626 Use our voice everywhere; remove the device voice picker`
 <!-- AUTO:END -->
 
 ---

@@ -28,6 +28,7 @@ export default function LearningScreen() {
   const toggleMute = useStore((s) => s.toggleMute)
   const autoPlay = useStore((s) => s.autoPlay)
   const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
+  const openChant = useStore((s) => s.openChant)
   const stage = useStore((s) => s.stage())
 
   // Speak each word as it appears.
@@ -71,6 +72,9 @@ export default function LearningScreen() {
       <header className="l2-top">
         <button className="round-btn" onClick={goHome} aria-label="Home">
           <HomeIcon size={26} />
+        </button>
+        <button className="round-btn l2-sing" onClick={openChant} aria-label="Sing along">
+          ♪
         </button>
         <div className="l2-spacer" />
         <button className="round-btn" onClick={sayNow} aria-label="Say it again">
