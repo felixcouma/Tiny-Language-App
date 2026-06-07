@@ -67,6 +67,14 @@
   margin-bottom: 26px;
 }
 
+.home2-today {
+  width: 100%;
+  min-height: 60px;
+  font-size: 20px;
+  margin-bottom: var(--space-md);
+  background: linear-gradient(180deg, #ffd24d, #ff9a00);
+  box-shadow: 0 5px 0 #d97e00, 0 8px 16px rgba(0, 0, 0, 0.22);
+}
 .home2-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

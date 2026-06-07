@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { useStore } from '../store'
-import { playItem, voice, stopSpeaking } from '../lib/audio'
+import { playItem, stopSpeaking } from '../lib/audio'
 import ItemVisual from '../components/ItemVisual.jsx'
+import Ladder from '../components/Ladder.jsx'
 import Mascot from '../components/Mascot.jsx'
 import {
   HomeIcon,
@@ -140,25 +141,4 @@ function isLight(hex) {
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.8
-}
-
-/* v4 Language Ladder: tap a phrase to hear it (word → sentence).
-   Stage-aware: "first words" shows one gentle 2-word step; "sentences" shows all. */
-function Ladder({ phrases, stage }) {
-  if (!phrases || !phrases.length) return null
-  const shown = stage === 'sentences' ? phrases : phrases.slice(0, 1)
-  return (
-    <div className="l2-ladder">
-      {shown.map((p, i) => (
-        <button
-          key={p}
-          className="ladder-chip"
-          style={{ animationDelay: `${i * 70}ms` }}
-          onClick={() => voice(p)}
-        >
-          {p}
-        </button>
-      ))}
-    </div>
-  )
 }

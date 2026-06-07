@@ -9,6 +9,7 @@ export default function HomeScreen() {
   const openTwin = useStore((s) => s.openTwin)
   const openParent = useStore((s) => s.openParent)
   const openProfiles = useStore((s) => s.openProfiles)
+  const openToday = useStore((s) => s.openToday)
   const child = useStore((s) => s.activeProfile())
 
   return (
@@ -33,6 +34,16 @@ export default function HomeScreen() {
         <div className="speech-bubble">What shall we learn?</div>
         <Mascot size={70} />
       </div>
+
+      <button
+        className="chunky home2-today"
+        onClick={() => {
+          playChime('today')
+          openToday()
+        }}
+      >
+        ▸ Today with Pip
+      </button>
 
       <main className="home2-grid">
         {WORLDS.map((world) => (
