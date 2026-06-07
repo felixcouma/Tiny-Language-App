@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useStore, getWorld } from '../store'
+import { useStore, getWorld, STAGES } from '../store'
 import {
   STORYBOOK_VOICES,
   getStorybookVoice,
@@ -60,6 +60,8 @@ export default function ParentDashboard() {
           </section>
         )}
 
+        <ChildStage />
+
         <StorybookVoicePicker />
 
         <section className="parent-section">
@@ -75,6 +77,39 @@ export default function ParentDashboard() {
         </button>
       </main>
     </div>
+  )
+}
+
+function ChildStage() {
+  const child = useStore((s) => s.activeProfile())
+  const setStage = useStore((s) => s.setStage)
+  const openProfiles = useStore((s) => s.openProfiles)
+  if (!child) return null
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Child &amp; level</h3>
+      <div className="child-row">
+        <span className="child-badge" style={{ background: child.color }}>
+          {child.name[0]?.toUpperCase()}
+        </span>
+        <span className="child-name">{child.name}</span>
+        <button className="child-switch" onClick={openProfiles}>
+          Switch child
+        </button>
+      </div>
+      <div className="voice-options" style={{ marginTop: 'var(--space-sm)' }}>
+        {STAGES.map((st) => (
+          <button
+            key={st.id}
+            className={`voice-option ${child.stage === st.id ? 'is-active' : ''}`}
+            onClick={() => setStage(st.id)}
+          >
+            {st.label}
+            <span className="stage-hint">{st.hint}</span>
+          </button>
+        ))}
+      </div>
+    </section>
   )
 }
 

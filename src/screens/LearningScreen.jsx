@@ -27,6 +27,7 @@ export default function LearningScreen() {
   const toggleMute = useStore((s) => s.toggleMute)
   const autoPlay = useStore((s) => s.autoPlay)
   const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
+  const stage = useStore((s) => s.stage())
 
   // Speak each word as it appears.
   useEffect(() => {
@@ -113,7 +114,7 @@ export default function LearningScreen() {
           </button>
         )}
 
-        <Ladder phrases={item.expand} />
+        <Ladder phrases={item.expand} stage={stage} />
       </main>
 
       <nav className="l2-playbar">
@@ -141,12 +142,14 @@ function isLight(hex) {
   return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.8
 }
 
-/* v4 Language Ladder: tap a phrase to hear it (word → sentence). */
-function Ladder({ phrases }) {
+/* v4 Language Ladder: tap a phrase to hear it (word → sentence).
+   Stage-aware: "first words" shows one gentle 2-word step; "sentences" shows all. */
+function Ladder({ phrases, stage }) {
   if (!phrases || !phrases.length) return null
+  const shown = stage === 'sentences' ? phrases : phrases.slice(0, 1)
   return (
     <div className="l2-ladder">
-      {phrases.map((p, i) => (
+      {shown.map((p, i) => (
         <button
           key={p}
           className="ladder-chip"

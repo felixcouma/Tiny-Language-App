@@ -8,13 +8,22 @@ export default function HomeScreen() {
   const openGame = useStore((s) => s.openGame)
   const openTwin = useStore((s) => s.openTwin)
   const openParent = useStore((s) => s.openParent)
+  const openProfiles = useStore((s) => s.openProfiles)
+  const child = useStore((s) => s.activeProfile())
 
   return (
     <div className="scene home2">
       <div className="scene-globe" />
 
       <header className="home2-top">
-        <h1 className="home2-title">TinyVoice</h1>
+        {child && (
+          <button className="home2-who" onClick={openProfiles} aria-label={`Playing as ${child.name}. Switch child.`}>
+            <span className="home2-avatar" style={{ background: child.color }}>
+              {child.name[0]?.toUpperCase()}
+            </span>
+            <span className="home2-whoname">{child.name}</span>
+          </button>
+        )}
         <button className="round-btn home2-parent" onClick={openParent} aria-label="Parent dashboard">
           •••
         </button>
