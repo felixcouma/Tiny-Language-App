@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const openParent = useStore((s) => s.openParent)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
+  const openCollection = useStore((s) => s.openCollection)
   const child = useStore((s) => s.activeProfile())
 
   return (
@@ -25,9 +26,14 @@ export default function HomeScreen() {
             <span className="home2-whoname">{child.name}</span>
           </button>
         )}
-        <button className="round-btn home2-parent" onClick={openParent} aria-label="Parent dashboard">
-          •••
-        </button>
+        <div className="home2-actions">
+          <button className="round-btn home2-collect" onClick={openCollection} aria-label="My collection">
+            ★
+          </button>
+          <button className="round-btn home2-parent" onClick={openParent} aria-label="Parent dashboard">
+            •••
+          </button>
+        </div>
       </header>
 
       <div className="home2-greet">

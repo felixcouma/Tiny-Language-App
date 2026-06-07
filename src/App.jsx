@@ -6,6 +6,7 @@ import SoundGameScreen from './screens/SoundGameScreen.jsx'
 import TwinModeScreen from './screens/TwinModeScreen.jsx'
 import ParentDashboard from './screens/ParentDashboard.jsx'
 import TodayScreen from './screens/TodayScreen.jsx'
+import CollectionScreen from './screens/CollectionScreen.jsx'
 
 const SCREENS = {
   profiles: ProfilePickerScreen,
@@ -15,6 +16,7 @@ const SCREENS = {
   twin: TwinModeScreen,
   parent: ParentDashboard,
   today: TodayScreen,
+  collection: CollectionScreen,
 }
 
 export default function App() {

@@ -55,6 +55,15 @@
   font-size: 16px;
   letter-spacing: 1px;
 }
+.home2-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+.home2-collect {
+  font-size: 24px;
+  background: linear-gradient(180deg, #ffe27a, #ffc83d);
+  box-shadow: 0 4px 0 #e0951a, 0 6px 12px rgba(0, 0, 0, 0.18);
+}
 
 .home2-greet {
   display: flex;
