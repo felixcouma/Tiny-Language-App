@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-07 04:38 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-07 17:50 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6fd5421 Add real animal sounds: say the word, then play the sound x4`
 - `813f4a3 Fix bundled-image detection: require image content-type, not just 200`
 - `d2dc759 Bump image cache key to v2 so bundled illustrations replace stale Wikimedia cache`
 - `a81c857 Add nano-banana illustrations + warm Gemini TTS voice with parent picker`
 - `60e6aed Body-part image prompts: point at / extend the part for clarity`
 - `706c1e0 Enable bundled illustrations (nano-banana ready) + prompt generator`
-- `98bca54 Add docs/LOCAL_SETUP.md (Windows/macOS local dev + Claude Code handoff)`
 <!-- AUTO:END -->
 
 ---

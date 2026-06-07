@@ -100,8 +100,9 @@ for (const voice of VOICES) {
     const out = path.join(dir, `${key}.mp3`)
     if (!FORCE && existsSync(out)) { results.skipped++; continue }
     try {
-      const a = await tts(apiVoice(voice), text)
-      if (!a) throw new Error('no audio data')
+      let a = await tts(apiVoice(voice), text)
+      if (!a) { await sleep(1500); a = await tts(apiVoice(voice), text) } // one retry on transient empty response
+      if (!a) throw new Error('no audio data (after retry)')
       const mp3 = pcmToMp3(a.pcm, a.rate)
       writeFileSync(out, mp3)
       results.ok++
