@@ -7,6 +7,7 @@ export default function HomeScreen() {
   const openWorld = useStore((s) => s.openWorld)
   const openGame = useStore((s) => s.openGame)
   const openTwin = useStore((s) => s.openTwin)
+  const openPhonics = useStore((s) => s.openPhonics)
   const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
@@ -91,6 +92,15 @@ export default function HomeScreen() {
           }}
         >
           Twin Mode
+        </button>
+        <button
+          className="chunky mode-btn mode-phonics"
+          onClick={() => {
+            playChime('phonics')
+            openPhonics()
+          }}
+        >
+          Letter Sounds
         </button>
       </section>
     </div>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useStore } from '../store'
-import { playItem, stopSpeaking } from '../lib/audio'
+import { playItem, stopSpeaking, voice } from '../lib/audio'
 import TactileStage from '../components/TactileStage.jsx'
 import Ladder from '../components/Ladder.jsx'
 import Mascot from '../components/Mascot.jsx'
@@ -103,6 +103,14 @@ export default function LearningScreen() {
             </h2>
           </button>
         </div>
+
+        <button
+          className="l2-letter"
+          onClick={() => voice(item.word[0])}
+          aria-label={`Starts with ${item.word[0]}`}
+        >
+          starts with <b>{item.word[0].toUpperCase()}</b>
+        </button>
 
         {world.id === 'music-forest' && item.soundLabel && (
           <button className="music-badge" style={{ background: item.color }} onClick={sayNow}>

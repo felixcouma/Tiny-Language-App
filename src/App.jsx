@@ -10,6 +10,7 @@ import TodayScreen from './screens/TodayScreen.jsx'
 import CollectionScreen from './screens/CollectionScreen.jsx'
 import RestScreen from './screens/RestScreen.jsx'
 import ChantScreen from './screens/ChantScreen.jsx'
+import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
 import ParentGate from './components/ParentGate.jsx'
 import { addMinute, isOverLimit } from './lib/screentime'
 
@@ -24,8 +25,11 @@ const SCREENS = {
   collection: CollectionScreen,
   rest: RestScreen,
   chant: ChantScreen,
+  phonics: PhonicsGameScreen,
 }
-const PLAY_SCREENS = new Set(['home', 'learning', 'game', 'twin', 'today', 'collection', 'chant'])
+const PLAY_SCREENS = new Set([
+  'home', 'learning', 'game', 'twin', 'today', 'collection', 'chant', 'phonics',
+])
 
 export default function App() {
   const screen = useStore((s) => s.screen)

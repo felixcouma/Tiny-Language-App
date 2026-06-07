@@ -83,6 +83,23 @@
   border: none;
   padding: 0;
 }
+.l2-letter {
+  margin-top: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-gray);
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+.l2-letter b {
+  color: var(--accent-purple);
+  font-size: 16px;
+}
+.l2-letter:active {
+  transform: scale(0.95);
+}
 .l2-word {
   font-size: var(--size-lg);
   margin: var(--space-md) 0 4px;

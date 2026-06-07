@@ -152,6 +152,7 @@ export const useStore = create((set, get) => ({
   openWorld: (worldId) => set({ screen: 'learning', worldId, itemIndex: 0, autoPlay: false }),
   openGame: () => set({ screen: 'game' }),
   openTwin: () => set({ screen: 'twin' }),
+  openPhonics: () => set({ screen: 'phonics' }),
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),

@@ -36,6 +36,8 @@ export default function ChoiceGame({
   choices = 4,
   buildPrompt,
   players = null,
+  pickDistractors = null, // (target, pool, count) => items
+  promptBadge = null, // (target) => node, shown in the prompt area
 }) {
   const goHome = useStore((s) => s.goHome)
   const recordGame = useStore((s) => s.recordGame)
@@ -54,7 +56,9 @@ export default function ChoiceGame({
   const deal = useCallback(
     (roundIdx) => {
       const t = pool[Math.floor(Math.random() * pool.length)]
-      const distractors = shuffle(pool.filter((p) => p.word !== t.word)).slice(0, choices - 1)
+      const distractors = pickDistractors
+        ? pickDistractors(t, pool, choices - 1)
+        : shuffle(pool.filter((p) => p.word !== t.word)).slice(0, choices - 1)
       setTarget(t)
       setTiles(shuffle([t, ...distractors]))
       setWrongWord(null)
@@ -63,7 +67,7 @@ export default function ChoiceGame({
       const namePart = players ? players[roundIdx % players.length] : null
       setTimeout(() => voiceSeq([namePart, buildPrompt(t, { round: roundIdx })]), 450)
     },
-    [pool, choices, buildPrompt, players],
+    [pool, choices, buildPrompt, players, pickDistractors],
   )
 
   useEffect(() => {
@@ -132,6 +136,7 @@ export default function ChoiceGame({
       <Confetti fireKey={confettiKey} />
 
       <div className="game-prompt">
+        {promptBadge && target && promptBadge(target)}
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
