@@ -5,6 +5,23 @@
 
 ## Last Session — 2026-06-07 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
+### 🚀 MVP feature batch — 7 features (all shipped, each verified, 0 console errors)
+1. **Child profiles + stage** — "Who's playing?" launcher, per-child progress
+   (migrates old data), First-words/Little-sentences level (`store.js`).
+2. **Adaptive "Today with Pip"** — daily session mixing new + spaced-repetition
+   review, stage-sized (`lib/today.js`, `TodayScreen`).
+3. **Tactile cards** — tap → bounce + sparkle burst (`TactileStage`).
+4. **Collection / sticker book** — every word heard becomes a collectible friend
+   (`CollectionScreen`); ★ on Home.
+5. **Parent zone** — sum gate, daily screen-time + calm "rest" wind-down with a
+   gated "a little more", richer insight (words mastered / to discover).
+6. **Sing-along** — rhythmic chant per world reusing word clips + sounds (`ChantScreen`).
+7. **Offline PWA** (`vite-plugin-pwa` SW: precache shell, lazy-cache images/audio)
+   **+ phonics** ("Letter Sounds" game + first-letter chip on cards).
+
+New deps: `vite-plugin-pwa` (dev). Spaced repetition uses `progress.lastSeen`;
+sticker book uses `progress.collected`; mastery = heard ≥ 4×.
+
 ### Built — real illustrations, warm spoken voice, and real animal sounds
 - **53 cartoon illustrations** (`public/images/<key>.png`) via nano-banana (Gemini image).
   The app (`src/lib/images.js → fromLocal`) prefers these over Wikimedia. **My Body (13)**
