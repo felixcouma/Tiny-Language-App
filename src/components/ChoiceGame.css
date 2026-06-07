@@ -168,3 +168,18 @@
   border-color: #fff;
   box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
+
+/* ---- Tablet / laptop: keep the tap tiles a comfortable size, centred ---- */
+@media (min-width: 700px) {
+  .choice-grid {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .choice-grid {
+    max-width: 680px;
+  }
+}

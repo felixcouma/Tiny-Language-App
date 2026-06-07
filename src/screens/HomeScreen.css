@@ -103,3 +103,37 @@
   background: linear-gradient(180deg, #ff9a3d, #ff6a00);
   box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
+
+/* ---- Tablet / laptop: use the wider shell instead of a phone column ---- */
+@media (min-width: 700px) {
+  .home2 {
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+  .home2-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .world-card {
+    min-height: 120px;
+  }
+  .home2-modes {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media (min-width: 1024px) {
+  .home2-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-lg);
+  }
+  .world-card {
+    min-height: 132px;
+  }
+  .world-name {
+    font-size: 21px;
+  }
+  .world-tagline {
+    font-size: 14px;
+  }
+}

@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-07 18:01 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-07 18:16 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `3038626 Use our voice everywhere; remove the device voice picker`
 - `8918467 Complete Aoede storybook voice (89/89); extend Leda/Sulafat`
 - `6fd5421 Add real animal sounds: say the word, then play the sound x4`
 - `813f4a3 Fix bundled-image detection: require image content-type, not just 200`
 - `d2dc759 Bump image cache key to v2 so bundled illustrations replace stale Wikimedia cache`
 - `a81c857 Add nano-banana illustrations + warm Gemini TTS voice with parent picker`
-- `60e6aed Body-part image prompts: point at / extend the part for clarity`
 <!-- AUTO:END -->
 
 ---

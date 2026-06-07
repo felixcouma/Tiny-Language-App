@@ -158,3 +158,24 @@
   padding: 14px 22px;
   min-width: 190px;
 }
+
+/* ---- Tablet / laptop: let the photo + ladder grow with the screen ---- */
+@media (min-width: 700px) {
+  .l2-card {
+    max-width: 440px;
+  }
+  .l2-card .visual-stage {
+    width: min(58vw, 380px);
+  }
+  .l2-ladder {
+    max-width: 540px;
+  }
+}
+@media (min-width: 1024px) {
+  .l2-card {
+    max-width: 480px;
+  }
+  .l2-card .visual-stage {
+    width: 420px;
+  }
+}

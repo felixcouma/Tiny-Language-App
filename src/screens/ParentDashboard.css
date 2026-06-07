@@ -177,3 +177,23 @@
 .reset-btn:active {
   transform: scale(0.98);
 }
+
+/* ---- Tablet / laptop: centre the panel and spread the grids ---- */
+@media (min-width: 700px) {
+  .parent-main {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  .stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .voice-options {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .voice-option {
+    flex: 1 1 200px;
+  }
+}
