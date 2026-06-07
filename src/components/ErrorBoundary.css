@@ -1,0 +1,30 @@
+.errbox {
+  flex: 1;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  text-align: center;
+  padding: var(--space-xl);
+  background: var(--bg-cream);
+}
+.errbox-title {
+  font-size: var(--size-lg);
+  color: var(--text-dark);
+  margin: var(--space-sm) 0 0;
+}
+.errbox-sub {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-gray);
+  margin: 0 0 var(--space-lg);
+}
+.errbox-btn {
+  min-height: 56px;
+  padding: 0 32px;
+  font-size: 18px;
+  background: linear-gradient(180deg, #ffd24d, #ffb01f);
+  box-shadow: 0 5px 0 #d97e00, 0 8px 14px rgba(0, 0, 0, 0.2);
+}
