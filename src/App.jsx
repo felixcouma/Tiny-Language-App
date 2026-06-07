@@ -12,6 +12,7 @@ import RestScreen from './screens/RestScreen.jsx'
 import ChantScreen from './screens/ChantScreen.jsx'
 import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
 import ParentGate from './components/ParentGate.jsx'
+import InstallHint from './components/InstallHint.jsx'
 import { addMinute, isOverLimit } from './lib/screentime'
 
 const SCREENS = {
@@ -62,6 +63,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <Screen />
+      {key === 'home' && <InstallHint />}
       {gateFor && <ParentGate title={gateTitle} onPass={passGate} onCancel={closeGate} />}
     </div>
   )
