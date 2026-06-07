@@ -38,7 +38,20 @@
   sulafat: do-brushing, home family words, cow,duck,pig,horse,chicken,bird,fish,lion, most colours,
   number-1/2/4/5/6. App works now (warm voice where present, device voice for the rest).
 
+### 🎙️ Device voice → our voice everywhere (in progress)
+- Code shipped: items fall back to the **default (Aoede)** voice when the chosen voice lacks a
+  clip (no device voice for words); the **device voice picker was removed**; dynamic text
+  (`voice()`/`voiceSeq()`) plays pre-rendered **phrase clips** in our voice, with the device
+  engine only as a dormant fallback until coverage is complete.
+- **491 phrase clips** to generate into `public/sounds/phrases/<slug>.mp3` (slug must match
+  `src/lib/audio.js`): ladder/expand phrases + game/twin prompts + "Yes!/Try again" + twin names
+  + finish line. Quota-limited per model/day — run repeatedly until done:
+  ```bash
+  GEMINI_API_KEY=… PACE_MS=6500 node scripts/gen-phrases.mjs
+  GEMINI_API_KEY=… PACE_MS=6500 TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-phrases.mjs
+  ```
+  Until all 491 exist, untapped phrases still use the device voice (graceful, no silence).
+
 ### Next
-- Finish remaining Leda/Sulafat clips (above).
+- Finish remaining Leda/Sulafat clips + the 491 phrase clips (above).
 - Optional: swap pig/chicken animal sounds (currently CC BY-SA) for non-SA if desired.
-- Ladder **phrases** still use device voice (`voice()` in `LearningScreen`).

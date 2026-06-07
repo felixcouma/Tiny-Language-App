@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
-import { playItem, playCelebration, playChime, voice } from '../lib/audio'
+import { playItem, playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import { HomeIcon } from './Icons.jsx'
@@ -60,8 +60,8 @@ export default function ChoiceGame({
       setWrongWord(null)
       setRightWord(null)
       locked.current = false
-      const intro = players ? `${players[roundIdx % players.length]}, ` : ''
-      setTimeout(() => voice(intro + buildPrompt(t, { round: roundIdx })), 450)
+      const namePart = players ? players[roundIdx % players.length] : null
+      setTimeout(() => voiceSeq([namePart, buildPrompt(t, { round: roundIdx })]), 450)
     },
     [pool, choices, buildPrompt, players],
   )
@@ -135,7 +135,7 @@ export default function ChoiceGame({
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
-          onClick={() => target && voice((player ? `${player}, ` : '') + buildPrompt(target, { round }))}
+          onClick={() => target && voiceSeq([player, buildPrompt(target, { round })])}
         >
           Listen again
         </button>

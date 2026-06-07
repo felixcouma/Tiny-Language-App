@@ -15,6 +15,15 @@ import { premiumEnabled, premiumSpeak, stopPremium } from './tts'
 
 const BASE = import.meta.env.BASE_URL || '/'
 
+// Stable, filesystem-safe key for a piece of spoken text. MUST match
+// scripts/gen-phrases.mjs so pre-rendered clips line up.
+export const slugify = (t) =>
+  String(t || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+const phraseUrl = (text) => `${BASE}sounds/phrases/${slugify(text)}.mp3`
+
 /* ---------------- mute ---------------- */
 let muted = (() => {
   try {
@@ -191,11 +200,20 @@ function stopAll() {
  */
 export async function voice(text) {
   if (muted || !text) return
-  if (premiumEnabled()) {
-    const ok = await premiumSpeak(text)
-    if (ok) return
+  audioCtx()
+  // Our default (Aoede) voice via a pre-rendered phrase clip, when present.
+  if (await playClip(phraseUrl(text))) return
+  if (premiumEnabled() && (await premiumSpeak(text))) return
+  await speakAwait(text) // dormant device fallback until every phrase has a clip
+}
+
+// Speak several parts in sequence in our voice (e.g. a twin name then the
+// prompt: "Audrey," → "find the dog!"). Each part plays its own clip.
+export async function voiceSeq(parts) {
+  for (const p of parts) {
+    if (muted) return
+    if (p) await voice(p)
   }
-  speak(text)
 }
 
 /* ---------------- Storybook voice (bundled premium recordings) ---------------- */
@@ -285,16 +303,15 @@ function speakAwait(text) {
   })
 }
 
-// Say the item's word/phrase in the best available voice, resolving when done.
+// Say the item's word/phrase in our voice, resolving when done. Order:
+// chosen storybook voice → default voice → phrase clip → premium → device.
 async function sayWord(key, phrase) {
   if (key) {
-    const url = `${BASE}sounds/${storyVoice}/${key}.mp3`
-    if (await playClip(url)) return
+    if (await playClip(`${BASE}sounds/${storyVoice}/${key}.mp3`)) return
+    if (storyVoice !== DEFAULT_STORYBOOK_VOICE && (await playClip(`${BASE}sounds/${DEFAULT_STORYBOOK_VOICE}/${key}.mp3`))) return
   }
-  if (premiumEnabled()) {
-    const ok = await premiumSpeak(phrase)
-    if (ok) return
-  }
+  if (phrase && (await playClip(phraseUrl(phrase)))) return
+  if (premiumEnabled() && (await premiumSpeak(phrase))) return
   if (!(await speakAwait(phrase))) playChime(key || phrase)
 }
 
