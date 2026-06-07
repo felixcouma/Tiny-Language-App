@@ -224,18 +224,78 @@ export function setStorybookVoice(id) {
   }
 }
 
+/* ---------------- Real animal sound effects (voice-independent) ---------------- */
+// Items with a real recorded sound at public/sounds/fx/<key>.mp3 (the file already
+// bakes a coherent 3–4x repeat). The flow is: say the word, THEN play the sound.
+const FX_KEYS = new Set([
+  'dog', 'cat', 'cow', 'sheep', 'bird', 'frog', 'monkey', 'lion', 'bear', 'duck',
+  'zebra', 'horse', 'pig', 'chicken', 'elephant', 'bee',
+])
+const missingFile = new Set() // urls known to be absent (avoid retrying)
+
 /* ---------------- Combined item playback ---------------- */
-const realFile = new Map() // cache keyed by `${voice}/${key}` → bundled file present?
 let currentEl = null
 
-function playBundled(voice, key) {
-  if (currentEl) {
-    currentEl.pause()
-    currentEl = null
+// Play an audio file; resolve(true) when it finishes, resolve(false) if it can't
+// load/decode (e.g. a missing file served as the SPA index.html, or 404).
+function playClip(url) {
+  return new Promise((resolve) => {
+    if (missingFile.has(url)) return resolve(false)
+    if (currentEl) {
+      currentEl.pause()
+      currentEl = null
+    }
+    const el = new Audio(url)
+    currentEl = el
+    let settled = false
+    const ok = () => {
+      if (!settled) {
+        settled = true
+        resolve(true)
+      }
+    }
+    const bad = () => {
+      if (!settled) {
+        settled = true
+        missingFile.add(url)
+        if (currentEl === el) currentEl = null
+        resolve(false)
+      }
+    }
+    el.addEventListener('ended', ok, { once: true })
+    el.addEventListener('error', bad, { once: true })
+    el.play().catch(bad)
+  })
+}
+
+// Speak text via the device engine, resolving when it finishes. Polling
+// speechSynthesis.speaking is the most cross-browser-reliable "ended" signal.
+function speakAwait(text) {
+  return new Promise((resolve) => {
+    if (!speak(text)) return resolve(false)
+    const sp = window.speechSynthesis
+    const start = Date.now()
+    const t = setInterval(() => {
+      const ended = Date.now() - start > 400 && !sp.speaking
+      if (ended || muted || Date.now() - start > 12000) {
+        clearInterval(t)
+        resolve(true)
+      }
+    }, 120)
+  })
+}
+
+// Say the item's word/phrase in the best available voice, resolving when done.
+async function sayWord(key, phrase) {
+  if (key) {
+    const url = `${BASE}sounds/${storyVoice}/${key}.mp3`
+    if (await playClip(url)) return
   }
-  const el = new Audio(`${BASE}sounds/${voice}/${key}.mp3`)
-  currentEl = el
-  return el
+  if (premiumEnabled()) {
+    const ok = await premiumSpeak(phrase)
+    if (ok) return
+  }
+  if (!(await speakAwait(phrase))) playChime(key || phrase)
 }
 
 export async function playItem(item) {
@@ -244,38 +304,20 @@ export async function playItem(item) {
   const key = item.sound
   const phrase = item.say || item.word || ''
 
-  if (key) {
-    const cacheKey = `${storyVoice}/${key}`
-    if (realFile.get(cacheKey) !== false) {
-      const el = playBundled(storyVoice, key)
-      try {
-        await el.play()
-        realFile.set(cacheKey, true)
-        return
-      } catch {
-        realFile.set(cacheKey, false)
-        currentEl = null
-      }
-    }
+  // 1) Say the word/phrase (warm bundled voice → premium → device).
+  await sayWord(key, phrase)
+
+  // 2) For animals, follow with the real recorded sound (baked 3–4x repeat).
+  if (!muted && key && FX_KEYS.has(key)) {
+    await playClip(`${BASE}sounds/fx/${key}.mp3`)
   }
-  if (premiumEnabled()) {
-    const ok = await premiumSpeak(phrase)
-    if (ok) return
-  }
-  if (!speak(phrase)) playChime(key || phrase)
 }
 
 /** Play a short sample in a given storybook voice (for the parent picker). */
 export async function playStorybookSample(voiceId = storyVoice) {
   if (muted) return false
   audioCtx()
-  const el = playBundled(voiceId, 'body-head')
-  try {
-    await el.play()
-    return true
-  } catch {
-    currentEl = null
-    speak('My head! This is my head. Pat your head!')
-    return false
-  }
+  const ok = await playClip(`${BASE}sounds/${voiceId}/body-head.mp3`)
+  if (!ok) speak('My head! This is my head. Pat your head!')
+  return ok
 }
