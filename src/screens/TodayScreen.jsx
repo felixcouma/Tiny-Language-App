@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { playItem, playCelebration, stopSpeaking, voice } from '../lib/audio'
 import { buildTodaySession } from '../lib/today'
-import ItemVisual from '../components/ItemVisual.jsx'
+import TactileStage from '../components/TactileStage.jsx'
 import Ladder from '../components/Ladder.jsx'
 import Mascot from '../components/Mascot.jsx'
-import { HomeIcon, SpeakerIcon, ArrowRightIcon } from '../components/Icons.jsx'
+import { HomeIcon, ArrowRightIcon } from '../components/Icons.jsx'
 import './Today.css'
 
 export default function TodayScreen() {
@@ -102,17 +102,14 @@ export default function TodayScreen() {
       </div>
 
       <main className="today-main">
-        <button className="tv-card today-card" onClick={sayNow} aria-label={`Hear ${item.word}`}>
-          <div className="today-stage-wrap">
-            <ItemVisual key={item.word} item={item} kind="stage" />
-            <span className="card-speaker" aria-hidden="true">
-              <SpeakerIcon size={22} />
-            </span>
-          </div>
-          <h2 className="l2-word" style={{ color: wordColor }}>
-            {item.word}
-          </h2>
-        </button>
+        <div className="tv-card today-card">
+          <TactileStage item={item} onTap={sayNow} />
+          <button className="l2-word-btn" onClick={sayNow} aria-label={`Hear ${item.word}`}>
+            <h2 className="l2-word" style={{ color: wordColor }}>
+              {item.word}
+            </h2>
+          </button>
+        </div>
         <Ladder phrases={item.expand} stage={stage} />
       </main>
 

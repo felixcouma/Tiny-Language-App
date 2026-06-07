@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useStore } from '../store'
 import { playItem, stopSpeaking } from '../lib/audio'
-import ItemVisual from '../components/ItemVisual.jsx'
+import TactileStage from '../components/TactileStage.jsx'
 import Ladder from '../components/Ladder.jsx'
 import Mascot from '../components/Mascot.jsx'
 import {
@@ -91,17 +91,14 @@ export default function LearningScreen() {
       </div>
 
       <main className="l2-main">
-        <button className="tv-card l2-card" onClick={sayNow} aria-label={`Hear ${item.word}`}>
-          <div className="l2-stage-wrap">
-            <ItemVisual key={item.word} item={item} kind="stage" />
-            <span className="card-speaker" aria-hidden="true">
-              <SpeakerIcon size={22} />
-            </span>
-          </div>
-          <h2 className="l2-word" style={{ color: wordColor }}>
-            {item.word}
-          </h2>
-        </button>
+        <div className="tv-card l2-card">
+          <TactileStage item={item} onTap={sayNow} />
+          <button className="l2-word-btn" onClick={sayNow} aria-label={`Hear ${item.word}`}>
+            <h2 className="l2-word" style={{ color: wordColor }}>
+              {item.word}
+            </h2>
+          </button>
+        </div>
 
         {world.id === 'music-forest' && item.soundLabel && (
           <button className="music-badge" style={{ background: item.color }} onClick={sayNow}>

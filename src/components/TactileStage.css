@@ -1,0 +1,47 @@
+.tactile-wrap {
+  position: relative;
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+.tactile-visual {
+  display: inline-flex;
+}
+.sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 25%, #ffd700 45%, #ffb01f 65%, transparent 72%);
+  opacity: 0;
+  animation: sparkle-out 0.62s var(--easing-out) forwards;
+  animation-delay: var(--d);
+}
+@keyframes sparkle-out {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-8px) scale(0.3);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateY(-78px) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sparkle {
+    display: none;
+  }
+}
