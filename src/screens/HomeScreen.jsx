@@ -7,7 +7,7 @@ export default function HomeScreen() {
   const openWorld = useStore((s) => s.openWorld)
   const openGame = useStore((s) => s.openGame)
   const openTwin = useStore((s) => s.openTwin)
-  const openParent = useStore((s) => s.openParent)
+  const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
   const openCollection = useStore((s) => s.openCollection)
@@ -30,7 +30,11 @@ export default function HomeScreen() {
           <button className="round-btn home2-collect" onClick={openCollection} aria-label="My collection">
             ★
           </button>
-          <button className="round-btn home2-parent" onClick={openParent} aria-label="Parent dashboard">
+          <button
+            className="round-btn home2-parent"
+            onClick={() => requestGate('parent')}
+            aria-label="Parent dashboard"
+          >
             •••
           </button>
         </div>

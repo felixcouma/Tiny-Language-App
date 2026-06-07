@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { WORLDS, getWorld } from './data/content'
 import { isMuted, setMuted } from './lib/audio'
+import { grantMinutes } from './lib/screentime'
 
 /* ---- Profiles + per-child progress (localStorage). Gentle, no scores. ---- */
 const PROFILES_KEY = 'tv_profiles_v1'
@@ -87,6 +88,7 @@ export const useStore = create((set, get) => ({
   profiles: initialProfiles,
   activeProfileId: initialActive,
   progress: initialActive ? loadProgressFor(initialActive) : emptyProgress(),
+  gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
 
   // ---- derived ----
   activeProfile: () => get().profiles.find((p) => p.id === get().activeProfileId) || null,
@@ -153,6 +155,20 @@ export const useStore = create((set, get) => ({
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),
+  openRest: () => set({ screen: 'rest', autoPlay: false }),
+
+  // ---- grown-up gate ----
+  requestGate: (purpose) => set({ gateFor: purpose }),
+  closeGate: () => set({ gateFor: null }),
+  passGate: () =>
+    set((s) => {
+      if (s.gateFor === 'parent') return { gateFor: null, screen: 'parent' }
+      if (s.gateFor === 'more') {
+        grantMinutes(10)
+        return { gateFor: null, screen: 'home' }
+      }
+      return { gateFor: null }
+    }),
 
   next: () => {
     const w = getWorld(get().worldId)

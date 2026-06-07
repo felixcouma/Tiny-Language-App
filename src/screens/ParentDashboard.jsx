@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useStore, getWorld, STAGES } from '../store'
+import { useStore, getWorld, STAGES, WORLDS } from '../store'
 import {
   STORYBOOK_VOICES,
   getStorybookVoice,
   setStorybookVoice,
   playStorybookSample,
 } from '../lib/audio'
+import { MASTERED_AT } from '../lib/today'
+import { getLimit, setLimit, getUsedToday, LIMIT_OPTIONS } from '../lib/screentime'
 import './ParentDashboard.css'
+
+const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
 
 export default function ParentDashboard() {
   const goHome = useStore((s) => s.goHome)
@@ -14,6 +18,8 @@ export default function ParentDashboard() {
   const resetProgress = useStore((s) => s.resetProgress)
 
   const uniqueWords = Object.keys(p.seen || {}).length
+  const mastered = Object.values(p.seen || {}).filter((c) => c >= MASTERED_AT).length
+  const toDiscover = Math.max(0, TOTAL_WORDS - uniqueWords)
   const favWorldId = Object.entries(p.byWorld || {}).sort((a, b) => b[1] - a[1])[0]?.[0]
   const favWorld = favWorldId ? getWorld(favWorldId)?.name : '—'
   const topWords = Object.entries(p.seen || {})
@@ -39,13 +45,22 @@ export default function ParentDashboard() {
         </p>
 
         <div className="stat-grid">
-          <Stat big value={p.wordsHeard || 0} label="words heard" />
           <Stat big value={uniqueWords} label="different words" />
+          <Stat big value={mastered} label="words mastered" />
+          <Stat value={p.wordsHeard || 0} label="words heard" />
           <Stat value={favWorld} label="favourite world" />
           <Stat value={days} label={days === 1 ? 'day of play' : 'days of play'} />
-          <Stat value={p.gamesPlayed || 0} label="game taps" />
           <Stat value={accuracy == null ? '—' : `${accuracy}%`} label="found first try" />
         </div>
+        <p className="parent-next">
+          {toDiscover > 0 ? (
+            <>
+              <b>{toDiscover}</b> new words still to discover together.
+            </>
+          ) : (
+            <>Every word discovered — wonderful! Keep revisiting to master them.</>
+          )}
+        </p>
 
         {topWords.length > 0 && (
           <section className="parent-section">
@@ -62,6 +77,8 @@ export default function ParentDashboard() {
 
         <ChildStage />
 
+        <ScreenTime />
+
         <StorybookVoicePicker />
 
         <section className="parent-section">
@@ -77,6 +94,35 @@ export default function ParentDashboard() {
         </button>
       </main>
     </div>
+  )
+}
+
+function ScreenTime() {
+  const [limit, setLimitState] = useState(getLimit())
+  const used = getUsedToday()
+  const choose = (min) => {
+    setLimit(min)
+    setLimitState(min)
+  }
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Daily play time</h3>
+      <p className="voice-hint">
+        A gentle limit — when it&rsquo;s used up, Pip suggests a rest.{' '}
+        {limit > 0 ? `${used} of ${limit} min used today.` : 'No limit set.'}
+      </p>
+      <div className="limit-options">
+        {LIMIT_OPTIONS.map((min) => (
+          <button
+            key={min}
+            className={`voice-option ${limit === min ? 'is-active' : ''}`}
+            onClick={() => choose(min)}
+          >
+            {min === 0 ? 'Off' : `${min} min`}
+          </button>
+        ))}
+      </div>
+    </section>
   )
 }
 

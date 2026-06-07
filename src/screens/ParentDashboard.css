@@ -66,6 +66,27 @@
   margin-top: 4px;
 }
 
+.parent-next {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-gray);
+  text-align: center;
+  margin: var(--space-md) 0 0;
+}
+.parent-next b {
+  color: var(--primary-magenta);
+  font-size: 16px;
+}
+.limit-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+.limit-options .voice-option {
+  flex: 1 1 60px;
+  text-align: center;
+  min-height: 48px;
+}
 .parent-section {
   margin-top: var(--space-xl);
 }
