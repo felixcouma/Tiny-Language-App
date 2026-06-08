@@ -13,6 +13,7 @@ import ChantScreen from './screens/ChantScreen.jsx'
 import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
 import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
+import Onboarding from './components/Onboarding.jsx'
 import { addMinute, isOverLimit } from './lib/screentime'
 
 const SCREENS = {
@@ -36,6 +37,7 @@ export default function App() {
   const screen = useStore((s) => s.screen)
   const activeProfileId = useStore((s) => s.activeProfileId)
   const gateFor = useStore((s) => s.gateFor)
+  const onboarded = useStore((s) => s.onboarded)
   const passGate = useStore((s) => s.passGate)
   const closeGate = useStore((s) => s.closeGate)
   const openRest = useStore((s) => s.openRest)
@@ -63,7 +65,8 @@ export default function App() {
   return (
     <div className="app-shell">
       <Screen />
-      {key === 'home' && <InstallHint />}
+      {key === 'home' && activeProfileId && !onboarded && <Onboarding />}
+      {key === 'home' && onboarded && <InstallHint />}
       {gateFor && <ParentGate title={gateTitle} onPass={passGate} onCancel={closeGate} />}
     </div>
   )

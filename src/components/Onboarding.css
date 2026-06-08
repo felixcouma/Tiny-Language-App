@@ -1,0 +1,61 @@
+.onb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #8ad6ef 0%, #b9e7f6 55%, #d9f3fb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  z-index: 45;
+  animation: fade-scale-in var(--duration-normal) var(--easing-out);
+}
+.onb-card {
+  width: 100%;
+  max-width: 340px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 28px;
+  padding: var(--space-xl) var(--space-lg);
+  text-align: center;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+}
+.onb-title {
+  font-size: var(--size-lg);
+  color: var(--text-dark);
+  margin: var(--space-md) 0 var(--space-sm);
+}
+.onb-body {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-gray);
+  line-height: 1.5;
+  margin: 0 0 var(--space-lg);
+}
+.onb-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+}
+.onb-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-light);
+}
+.onb-dot.on {
+  background: linear-gradient(135deg, #ff8c00, #ff1493);
+  transform: scale(1.2);
+}
+.onb-next {
+  width: 100%;
+  min-height: 56px;
+  font-size: 19px;
+}
+.onb-skip {
+  margin-top: var(--space-sm);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-gray);
+  background: none;
+  border: none;
+}

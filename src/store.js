@@ -89,6 +89,7 @@ export const useStore = create((set, get) => ({
   activeProfileId: initialActive,
   progress: initialActive ? loadProgressFor(initialActive) : emptyProgress(),
   gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
+  onboarded: loadJSON('tv_onboarded', false),
 
   // ---- derived ----
   activeProfile: () => get().profiles.find((p) => p.id === get().activeProfileId) || null,
@@ -158,6 +159,11 @@ export const useStore = create((set, get) => ({
   openCollection: () => set({ screen: 'collection' }),
   openRest: () => set({ screen: 'rest', autoPlay: false }),
   openChant: () => set({ screen: 'chant', autoPlay: false }),
+
+  finishOnboarding: () => {
+    saveJSON('tv_onboarded', true)
+    set({ onboarded: true })
+  },
 
   // ---- grown-up gate ----
   requestGate: (purpose) => set({ gateFor: purpose }),
