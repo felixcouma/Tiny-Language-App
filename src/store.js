@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { WORLDS, getWorld } from './data/content'
 import { isMuted, setMuted } from './lib/audio'
-import { grantMinutes } from './lib/screentime'
+import { snooze } from './lib/screentime'
 
 /* ---- Profiles + per-child progress (localStorage). Gentle, no scores. ---- */
 const PROFILES_KEY = 'tv_profiles_v1'
@@ -14,8 +14,8 @@ export const STAGES = [
   { id: 'sentences', label: 'Little sentences', hint: 'Ages 3–4 · short phrases' },
 ]
 const DEFAULT_PROFILES = [
-  { id: 'audrey', name: 'Audrey', color: '#FF1493', stage: 'first' },
-  { id: 'adriel', name: 'Adriel', color: '#1E90FF', stage: 'first' },
+  { id: 'audrey', name: 'Audrey', color: '#FF1493', stage: 'first', limit: 0, bedtime: null },
+  { id: 'adriel', name: 'Adriel', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null },
 ]
 
 function loadJSON(key, fallback) {
@@ -114,6 +114,8 @@ export const useStore = create((set, get) => ({
       name: name.trim() || 'Friend',
       color: COLORS[profs.length % COLORS.length],
       stage: 'first',
+      limit: 0,
+      bedtime: null,
     }
     const next = [...profs, prof]
     saveJSON(PROFILES_KEY, next)
@@ -136,6 +138,18 @@ export const useStore = create((set, get) => ({
   setStage: (stage) =>
     set((s) => {
       const profiles = s.profiles.map((p) => (p.id === s.activeProfileId ? { ...p, stage } : p))
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+  setLimit: (limit) =>
+    set((s) => {
+      const profiles = s.profiles.map((p) => (p.id === s.activeProfileId ? { ...p, limit } : p))
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+  setBedtime: (bedtime) =>
+    set((s) => {
+      const profiles = s.profiles.map((p) => (p.id === s.activeProfileId ? { ...p, bedtime } : p))
       saveJSON(PROFILES_KEY, profiles)
       return { profiles }
     }),
@@ -173,7 +187,7 @@ export const useStore = create((set, get) => ({
     set((s) => {
       if (s.gateFor === 'parent') return { gateFor: null, screen: 'parent' }
       if (s.gateFor === 'more') {
-        grantMinutes(10)
+        snooze(10)
         return { gateFor: null, screen: 'home' }
       }
       return { gateFor: null }

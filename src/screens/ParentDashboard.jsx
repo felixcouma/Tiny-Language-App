@@ -7,7 +7,7 @@ import {
   playStorybookSample,
 } from '../lib/audio'
 import { MASTERED_AT } from '../lib/today'
-import { getLimit, setLimit, getUsedToday, LIMIT_OPTIONS } from '../lib/screentime'
+import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -98,27 +98,43 @@ export default function ParentDashboard() {
 }
 
 function ScreenTime() {
-  const [limit, setLimitState] = useState(getLimit())
-  const used = getUsedToday()
-  const choose = (min) => {
-    setLimit(min)
-    setLimitState(min)
-  }
+  const child = useStore((s) => s.activeProfile())
+  const setLimit = useStore((s) => s.setLimit)
+  const setBedtime = useStore((s) => s.setBedtime)
+  if (!child) return null
+  const limit = child.limit || 0
+  const used = getUsedToday(child.id)
+  const bedFrom = child.bedtime?.from ?? null
   return (
     <section className="parent-section">
       <h3 className="parent-h3">Daily play time</h3>
       <p className="voice-hint">
-        A gentle limit — when it&rsquo;s used up, Pip suggests a rest.{' '}
-        {limit > 0 ? `${used} of ${limit} min used today.` : 'No limit set.'}
+        For {child.name} — when it&rsquo;s used up, Pip suggests a rest.{' '}
+        {limit > 0 ? `${used} of ${limit} min today.` : 'No limit set.'}
       </p>
       <div className="limit-options">
         {LIMIT_OPTIONS.map((min) => (
           <button
             key={min}
             className={`voice-option ${limit === min ? 'is-active' : ''}`}
-            onClick={() => choose(min)}
+            onClick={() => setLimit(min)}
           >
             {min === 0 ? 'Off' : `${min} min`}
+          </button>
+        ))}
+      </div>
+      <h3 className="parent-h3" style={{ marginTop: 'var(--space-md)' }}>
+        Quiet hours
+      </h3>
+      <p className="voice-hint">A calm wind-down from bedtime until the morning.</p>
+      <div className="limit-options">
+        {BEDTIME_OPTIONS.map((o) => (
+          <button
+            key={o.id}
+            className={`voice-option ${bedFrom === o.from ? 'is-active' : ''}`}
+            onClick={() => setBedtime(o.from == null ? null : { from: o.from, to: 7 })}
+          >
+            {o.label}
           </button>
         ))}
       </div>

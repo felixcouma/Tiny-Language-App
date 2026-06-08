@@ -15,7 +15,7 @@ import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import CollectToast from './components/CollectToast.jsx'
-import { addMinute, isOverLimit } from './lib/screentime'
+import { addMinute, isRestTime } from './lib/screentime'
 
 const SCREENS = {
   profiles: ProfilePickerScreen,
@@ -34,6 +34,12 @@ const PLAY_SCREENS = new Set([
   'home', 'learning', 'game', 'twin', 'today', 'collection', 'chant', 'phonics',
 ])
 
+// Should the active child wind down now? (their limit reached or quiet hours)
+function restCheck(st) {
+  const prof = st.profiles.find((p) => p.id === st.activeProfileId)
+  return !!prof && isRestTime(st.activeProfileId, prof.limit || 0, prof.bedtime)
+}
+
 export default function App() {
   const screen = useStore((s) => s.screen)
   const activeProfileId = useStore((s) => s.activeProfileId)
@@ -43,20 +49,21 @@ export default function App() {
   const closeGate = useStore((s) => s.closeGate)
   const openRest = useStore((s) => s.openRest)
 
-  // Screen-time: tick a minute while a child plays; wind down when over budget.
+  // Per-child screen-time: tick a minute while a child plays; wind down when
+  // over their budget or during their quiet hours (bedtime).
   useEffect(() => {
     const id = setInterval(() => {
       const st = useStore.getState()
       if (!st.activeProfileId || !PLAY_SCREENS.has(st.screen)) return
-      addMinute()
-      if (isOverLimit()) openRest()
+      addMinute(st.activeProfileId)
+      if (restCheck(st)) openRest()
     }, 60000)
     return () => clearInterval(id)
   }, [openRest])
 
-  // Wind down immediately if (re)entering play while already over budget.
+  // Wind down immediately if (re)entering play while already over budget / quiet.
   useEffect(() => {
-    if (activeProfileId && PLAY_SCREENS.has(screen) && isOverLimit()) openRest()
+    if (activeProfileId && PLAY_SCREENS.has(screen) && restCheck(useStore.getState())) openRest()
   }, [screen, activeProfileId, openRest])
 
   const key = screen === 'profiles' || !activeProfileId ? 'profiles' : screen
