@@ -11,9 +11,10 @@
  * (never a broken image, never an emoji).
  */
 
-// v2: invalidate old caches that may hold Wikimedia URLs/nulls so the new
-// bundled illustrations in public/images/ are picked up by returning visitors.
-const LS_KEY = 'tv_img_cache_v2'
+// v3: bump again after converting the bundled illustrations to WebP and deleting
+// the PNGs, so returning visitors re-resolve to the .webp (their cached .png
+// URLs would now 404 and fall back to the typographic card).
+const LS_KEY = 'tv_img_cache_v3'
 const mem = (() => {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}')
