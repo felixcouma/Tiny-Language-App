@@ -26,9 +26,11 @@ export function buildTodaySession(progress = {}, stage = 'first') {
   const items = allItems()
 
   const fresh = shuffle(items.filter((it) => !seen[it.word]))
-  // Review pool: heard-but-not-mastered first, oldest-seen first (spaced repetition).
+  // Review pool: every seen word is eligible (so advanced children always have
+  // review), but the sort surfaces least-practised → least-recent first, so
+  // mastered words naturally fall to the back (spaced repetition).
   const review = items
-    .filter((it) => seen[it.word] && (seen[it.word] < MASTERED_AT || true))
+    .filter((it) => seen[it.word])
     .sort((a, b) => {
       const ma = seen[a.word] || 0
       const mb = seen[b.word] || 0

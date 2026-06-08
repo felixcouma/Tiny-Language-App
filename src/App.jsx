@@ -14,6 +14,7 @@ import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
 import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
+import CollectToast from './components/CollectToast.jsx'
 import { addMinute, isOverLimit } from './lib/screentime'
 
 const SCREENS = {
@@ -65,6 +66,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <Screen />
+      <CollectToast />
       {key === 'home' && activeProfileId && !onboarded && <Onboarding />}
       {key === 'home' && onboarded && <InstallHint />}
       {gateFor && <ParentGate title={gateTitle} onPass={passGate} onCancel={closeGate} />}

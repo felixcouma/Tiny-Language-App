@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-08 02:40 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-08 02:45 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `8f6a775 Feature: first-run onboarding (3 gentle Pip steps, once per device)`
 - `c498e50 Feature: real PWA install assets (installs cleanly on iOS/Android)`
 - `980ae37 Feature: app-wide error boundary (friendly recover, no white screen)`
 - `eb4fbd7 Update session notes: 7-feature MVP batch`
 - `24951b7 Feature: offline PWA + first-letters phonics bridge`
 - `6b999cb Feature: sing-along (chant) mode`
-- `daa864f Feature: parent zone — grown-up gate, screen-time wind-down, richer insight`
 <!-- AUTO:END -->
 
 ---

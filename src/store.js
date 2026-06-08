@@ -90,6 +90,7 @@ export const useStore = create((set, get) => ({
   progress: initialActive ? loadProgressFor(initialActive) : emptyProgress(),
   gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
   onboarded: loadJSON('tv_onboarded', false),
+  lastCollected: null, // { item, id } — drives the "new friend!" toast
 
   // ---- derived ----
   activeProfile: () => get().profiles.find((p) => p.id === get().activeProfileId) || null,
@@ -191,6 +192,7 @@ export const useStore = create((set, get) => ({
   recordHeard: (item, worldId) =>
     set((s) => {
       if (!s.activeProfileId) return {}
+      const isNew = !s.progress.collected?.[item.word]
       const p = { ...s.progress }
       p.wordsHeard += 1
       p.seen = { ...p.seen, [item.word]: (p.seen[item.word] || 0) + 1 }
@@ -199,7 +201,10 @@ export const useStore = create((set, get) => ({
       if (worldId) p.byWorld = { ...p.byWorld, [worldId]: (p.byWorld[worldId] || 0) + 1 }
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
-      return { progress: p }
+      return {
+        progress: p,
+        ...(isNew ? { lastCollected: { item, id: (s.lastCollected?.id || 0) + 1 } } : {}),
+      }
     }),
   recordGame: (wasCorrect) =>
     set((s) => {

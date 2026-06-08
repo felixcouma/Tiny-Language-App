@@ -80,7 +80,7 @@ async function fromPexels(query) {
 // Bundled illustration shipped in public/images/<key>.<ext> (e.g. from nano-banana).
 // This is the highest-quality, on-brand, offline source when present.
 const BASE = import.meta.env.BASE_URL || '/'
-const LOCAL_EXTS = ['png', 'webp', 'jpg']
+const LOCAL_EXTS = ['webp', 'png', 'jpg'] // prefer optimized WebP when present
 async function fromLocal(key) {
   if (!key) return null
   for (const ext of LOCAL_EXTS) {
