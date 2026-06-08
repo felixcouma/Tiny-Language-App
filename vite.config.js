@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt', // surface "new version ready" instead of silently lagging
       includeAssets: ['icon.svg', 'manifest.webmanifest'],
       manifest: false, // use the existing public/manifest.webmanifest
       workbox: {

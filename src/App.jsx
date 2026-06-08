@@ -15,6 +15,7 @@ import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import CollectToast from './components/CollectToast.jsx'
+import UpdatePrompt from './components/UpdatePrompt.jsx'
 import { addMinute, isRestTime } from './lib/screentime'
 
 const SCREENS = {
@@ -76,6 +77,7 @@ export default function App() {
   return (
     <div className="app-shell">
       <Screen />
+      <UpdatePrompt />
       <CollectToast />
       {key === 'home' && activeProfileId && !onboarded && <Onboarding />}
       {key === 'home' && onboarded && <InstallHint />}
