@@ -8,6 +8,7 @@ import {
 } from '../lib/audio'
 import { MASTERED_AT } from '../lib/today'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
+import { PHRASE_LEVELS } from '../data/phraseContent'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -76,6 +77,8 @@ export default function ParentDashboard() {
         )}
 
         <ChildStage />
+
+        <SpeechLevel />
 
         <ScreenTime />
 
@@ -171,6 +174,44 @@ function ChildStage() {
           </button>
         ))}
       </div>
+    </section>
+  )
+}
+
+function SpeechLevel() {
+  const child = useStore((s) => s.activeProfile())
+  const setPhraseLevel = useStore((s) => s.setPhraseLevel)
+  const phrases = useStore((s) => s.progress.phrases) || {}
+  if (!child) return null
+  const level = child.phraseLevel || 1
+  const phrasesExplored = Object.keys(phrases).length
+
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Speech practice level</h3>
+      <p className="voice-hint">
+        For {child.name} — sets what “{level >= 2 ? 'Phrase Builder' : 'Word Practice'}” on
+        the home screen shows. Advance levels when your speech therapist agrees.
+      </p>
+      <div className="voice-options">
+        {PHRASE_LEVELS.map((l) => (
+          <button
+            key={l.level}
+            className={`voice-option ${level === l.level ? 'is-active' : ''}`}
+            onClick={() => !l.soon && setPhraseLevel(l.level)}
+            disabled={l.soon}
+            aria-disabled={l.soon}
+          >
+            {l.label}
+            <span className="stage-hint">{l.hint}</span>
+          </button>
+        ))}
+      </div>
+      {phrasesExplored > 0 && (
+        <p className="voice-hint" style={{ marginTop: 'var(--space-sm)' }}>
+          {phrasesExplored} {phrasesExplored === 1 ? 'phrase' : 'phrases'} explored so far.
+        </p>
+      )}
     </section>
   )
 }

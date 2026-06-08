@@ -5,6 +5,32 @@
 
 ## Last Session — 2026-06-08 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
+### 🗣️ Speech-therapy practice — Levels 1 & 2 (built, verified, 0 console errors)
+A therapist-aligned, progressive phrase-building tool for the twins (Adriel building
+vocabulary, Audrey on phrases). Sound-first: tap a word/phrase → hear it in our warm
+voice (device voice is the graceful fallback until clips are pre-rendered).
+- **`src/data/phraseContent.js`** — therapist core vocab from `VOCABULARY_CORE_200_WORDS.md`
+  in 3 frequency tiers (Tier 1/2/3), grouped by category; `wordsForLevel`,
+  `categoriesForLevel`, 16 hand-curated natural `LEVEL2_PAIRS` (e.g. "Go in", "Eat food"),
+  `PHRASE_LEVELS` (L3 reserved/“coming soon”), `DEFAULT_PHRASE_LEVEL` (adriel 1 / audrey 2).
+- **`src/screens/PhraseScreen.jsx` (+ .css)** — one screen, mode by `phraseLevel`:
+  - **Level 1 — Word Practice**: category chips + big tap-to-hear word card + prev/next;
+    auto-says each word on focus. Pool grows with level (Tier 1 → +2 → +3).
+  - **Level 2 — Phrase Builder**: two tappable word cubes (`Go` + `Out`) with tap-flash,
+    then a phrase box “hear them together” (celebration chime) + prev/next pair.
+- **Store**: per-child `phraseLevel` (1/2/3) with migration for existing installs;
+  `setPhraseLevel`, `openPhrase`; progress now tracks `recordPracticeWord` (counts toward
+  words-heard/mastery, no sticker toast) + `recordPhrase` (phrase → count).
+- **Home**: new chunky button labelled by level (“Word Practice” / “Phrase Builder”).
+- **Parent Dashboard**: “Speech practice level” picker (L1/L2, L3 disabled-soon) + a
+  “N phrases explored” line. Advance levels on therapist guidance.
+- Stack note: the design docs mention Tailwind/Framer; this app uses plain CSS + tokens,
+  so the screen matches the existing app style (chunky shadows, `.scene`, Icons.jsx, Pip).
+- **Next for this feature**: pre-render the Level-1 words + the 16 phrases as Aoede clips
+  (add them to `scripts/gen-phrases.mjs` pool) so they don't use the device voice; Level 3
+  (3-word builder) + Grid Vocabulary mode are documented for later.
+
+
 ### ✨ Polish batch — 5 more (all shipped, verified, 0 console errors)
 8. **Error boundary** — friendly "Oops, start again" instead of a white screen.
 9. **Real install assets** — PNG icons (192/512/maskable) + apple-touch-icon

@@ -8,6 +8,7 @@ export default function HomeScreen() {
   const openGame = useStore((s) => s.openGame)
   const openTwin = useStore((s) => s.openTwin)
   const openPhonics = useStore((s) => s.openPhonics)
+  const openPhrase = useStore((s) => s.openPhrase)
   const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
@@ -54,6 +55,16 @@ export default function HomeScreen() {
         }}
       >
         ▸ Today with Pip
+      </button>
+
+      <button
+        className="chunky home2-speech"
+        onClick={() => {
+          playChime('phrase')
+          openPhrase()
+        }}
+      >
+        {(child?.phraseLevel || 1) >= 2 ? 'Phrase Builder' : 'Word Practice'}
       </button>
 
       <main className="home2-grid">

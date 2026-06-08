@@ -158,6 +158,13 @@
   background: var(--bg-lavender);
   color: var(--accent-purple);
 }
+.voice-option:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+.voice-option:disabled:active {
+  transform: none;
+}
 .stage-hint {
   display: block;
   font-size: 12px;

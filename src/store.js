@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { WORLDS, getWorld } from './data/content'
+import { DEFAULT_PHRASE_LEVEL } from './data/phraseContent'
 import { isMuted, setMuted } from './lib/audio'
 import { snooze } from './lib/screentime'
 
@@ -24,11 +25,11 @@ export const initialsOf = (name) =>
 
 // A neutral "no-twin" profile so the app can be used without choosing Audrey or
 // Adriel. The twins are optional personalization you toggle into.
-const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, guest: true }
+const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true }
 const TWIN_INITIALS = { audrey: 'AJ', adriel: 'AG' } // Audrey Joster / Adriel Genoh
 const DEFAULT_PROFILES = [
-  { id: 'audrey', name: 'Audrey', initials: 'AJ', color: '#FF1493', stage: 'first', limit: 0, bedtime: null },
-  { id: 'adriel', name: 'Adriel', initials: 'AG', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null },
+  { id: 'audrey', name: 'Audrey', initials: 'AJ', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 2 },
+  { id: 'adriel', name: 'Adriel', initials: 'AG', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1 },
 ]
 
 function loadJSON(key, fallback) {
@@ -58,13 +59,19 @@ function loadProfiles() {
     profs = [{ ...GUEST }, ...profs] // ensure existing installs gain "Everyone"
     changed = true
   }
-  // Ensure the twins have disambiguating two-letter initials.
+  // Ensure the twins have disambiguating two-letter initials, and every profile
+  // has a speech-practice level (existing installs predate `phraseLevel`).
   profs = profs.map((p) => {
+    let next = p
     if (TWIN_INITIALS[p.id] && p.initials !== TWIN_INITIALS[p.id]) {
+      next = { ...next, initials: TWIN_INITIALS[p.id] }
       changed = true
-      return { ...p, initials: TWIN_INITIALS[p.id] }
     }
-    return p
+    if (next.phraseLevel == null) {
+      next = { ...next, phraseLevel: DEFAULT_PHRASE_LEVEL[p.id] || 1 }
+      changed = true
+    }
+    return next
   })
   if (changed) saveJSON(PROFILES_KEY, profs)
   return profs
@@ -78,6 +85,7 @@ const emptyProgress = () => ({
   gamesPlayed: 0,
   correct: 0,
   collected: {}, // word -> true (sticker book)
+  phrases: {}, // phrase -> count (Level 2 speech practice)
   firstUse: Date.now(),
   lastUse: Date.now(),
 })
@@ -144,6 +152,7 @@ export const useStore = create((set, get) => ({
       stage: 'first',
       limit: 0,
       bedtime: null,
+      phraseLevel: 1,
     }
     const next = [...profs, prof]
     saveJSON(PROFILES_KEY, next)
@@ -181,6 +190,14 @@ export const useStore = create((set, get) => ({
       saveJSON(PROFILES_KEY, profiles)
       return { profiles }
     }),
+  setPhraseLevel: (phraseLevel) =>
+    set((s) => {
+      const profiles = s.profiles.map((p) =>
+        p.id === s.activeProfileId ? { ...p, phraseLevel } : p
+      )
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
 
   toggleMute: () =>
     set((s) => {
@@ -197,6 +214,7 @@ export const useStore = create((set, get) => ({
   openGame: () => set({ screen: 'game' }),
   openTwin: () => set({ screen: 'twin' }),
   openPhonics: () => set({ screen: 'phonics' }),
+  openPhrase: () => set({ screen: 'phrase', autoPlay: false }),
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),
@@ -254,6 +272,29 @@ export const useStore = create((set, get) => ({
       const p = { ...s.progress }
       p.gamesPlayed += 1
       if (wasCorrect) p.correct += 1
+      p.lastUse = Date.now()
+      saveJSON(progKey(s.activeProfileId), p)
+      return { progress: p }
+    }),
+  // Speech practice: a single word was tapped & heard. Counts toward "words heard"
+  // / mastery without the sticker-book collection toast (therapy words have no card).
+  recordPracticeWord: (word) =>
+    set((s) => {
+      if (!s.activeProfileId || !word) return {}
+      const p = { ...s.progress }
+      p.wordsHeard += 1
+      p.seen = { ...p.seen, [word]: (p.seen[word] || 0) + 1 }
+      p.lastSeen = { ...p.lastSeen, [word]: Date.now() }
+      p.lastUse = Date.now()
+      saveJSON(progKey(s.activeProfileId), p)
+      return { progress: p }
+    }),
+  // Speech practice: a 2-word phrase was heard together.
+  recordPhrase: (phrase) =>
+    set((s) => {
+      if (!s.activeProfileId || !phrase) return {}
+      const p = { ...s.progress }
+      p.phrases = { ...p.phrases, [phrase]: (p.phrases[phrase] || 0) + 1 }
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return { progress: p }
