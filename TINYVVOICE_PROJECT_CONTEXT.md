@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-08 20:37 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-08 20:59 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6d31649 Add speech-therapy Word & Phrase practice (Levels 1 & 2)`
 - `f362536 Session notes: phrases 169/491; phrases-first plan for next reset (no Pro TTS)`
 - `2e7d96f Generate phrase clips (169/491) + more voice clips; add quota-abort to TTS scripts`
 - `7d5f372 Add CLAUDE.md — auto-loaded working notes (commands, architecture, conventions, asset pipeline, gotchas)`
 - `4884f2b Add "new version ready" update prompt (no more cache-lag surprises)`
 - `8299baf Show two-letter initials so the twins are distinguishable`
-- `2ff5c15 Add "Everyone" — use the app without picking a twin`
 <!-- AUTO:END -->
 
 ---

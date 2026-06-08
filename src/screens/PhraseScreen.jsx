@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useStore } from '../store'
 import { voice, playCelebration, stopSpeaking } from '../lib/audio'
 import {
   wordsForLevel,
   categoriesForLevel,
-  LEVEL2_PAIRS,
+  PHRASES,
+  PHRASE_SIZES,
 } from '../data/phraseContent'
 import {
   HomeIcon,
@@ -39,7 +40,7 @@ export default function PhraseScreen() {
         <span className="ph-spacer" />
       </header>
 
-      {level >= 2 ? <PhraseMode /> : <WordMode level={level} />}
+      {level >= 2 ? <PhraseMode level={level} /> : <WordMode level={level} />}
     </div>
   )
 }
@@ -122,73 +123,93 @@ function WordMode({ level }) {
   )
 }
 
-/* ------------------- Level 2: two-word phrase recognition ------------------ */
-function PhraseMode() {
+/* -------------- Levels 2 & 3: phrase recognition (2- or 3-word) ------------- */
+function PhraseMode({ level }) {
   const recordWord = useStore((s) => s.recordPracticeWord)
   const recordPhrase = useStore((s) => s.recordPhrase)
   const muted = useStore((s) => s.muted)
 
+  const [size, setSize] = useState(level >= 3 ? 3 : 2) // 2- or 3-word phrases
+  const set = PHRASES[size]
   const [i, setI] = useState(0)
-  const [tapped, setTapped] = useState(null) // which single word is flashing
-  const [heard, setHeard] = useState(false) // phrase has been played at least once
-  const pair = LEVEL2_PAIRS[i]
+  const [tappedIdx, setTappedIdx] = useState(null) // which cube is flashing
+  const [heard, setHeard] = useState(false) // phrase played at least once
+  const entry = set[i]
 
-  const sayWord = (w) => {
+  const pickSize = (n) => {
+    stopSpeaking()
+    setSize(n)
+    setI(0)
+    setHeard(false)
+    setTappedIdx(null)
+  }
+  const sayWord = (w, idx) => {
     stopSpeaking()
     voice(w)
     recordWord(w)
-    setTapped(w)
-    setTimeout(() => setTapped((cur) => (cur === w ? null : cur)), 700)
+    setTappedIdx(idx)
+    setTimeout(() => setTappedIdx((cur) => (cur === idx ? null : cur)), 700)
   }
-
   const sayPhrase = () => {
     stopSpeaking()
-    voice(pair.phrase)
-    recordPhrase(pair.phrase)
+    voice(entry.phrase)
+    recordPhrase(entry.phrase)
     setHeard(true)
     if (!muted) playCelebration()
   }
-
   const go = (delta) => {
     stopSpeaking()
     setHeard(false)
-    setTapped(null)
-    setI((n) => (n + delta + LEVEL2_PAIRS.length) % LEVEL2_PAIRS.length)
+    setTappedIdx(null)
+    setI((n) => (n + delta + set.length) % set.length)
   }
 
   return (
     <main className="ph-main">
+      <div className="ph-toggle" role="tablist" aria-label="Phrase length">
+        {PHRASE_SIZES.map((n) => (
+          <button
+            key={n}
+            className={`ph-seg ${size === n ? 'is-active' : ''}`}
+            onClick={() => pickSize(n)}
+            role="tab"
+            aria-selected={size === n}
+          >
+            {n} words
+          </button>
+        ))}
+      </div>
+
       <div className="ph-greet">
         <span className="speech-bubble">Tap each word…</span>
         <Mascot size={56} />
       </div>
 
-      <div className="ph-pair">
-        <button
-          className={`ph-cube ${tapped === pair.a ? 'just-tapped' : ''}`}
-          onClick={() => sayWord(pair.a)}
-          aria-label={`Hear ${pair.a}`}
-        >
-          {pair.a}
-        </button>
-        <span className="ph-plus" aria-hidden="true">
-          +
-        </span>
-        <button
-          className={`ph-cube ${tapped === pair.b ? 'just-tapped' : ''}`}
-          onClick={() => sayWord(pair.b)}
-          aria-label={`Hear ${pair.b}`}
-        >
-          {pair.b}
-        </button>
+      <div className={`ph-pair words-${entry.words.length}`}>
+        {entry.words.map((w, idx) => (
+          <Fragment key={idx}>
+            {idx > 0 && (
+              <span className="ph-plus" aria-hidden="true">
+                +
+              </span>
+            )}
+            <button
+              className={`ph-cube ${tappedIdx === idx ? 'just-tapped' : ''}`}
+              onClick={() => sayWord(w, idx)}
+              aria-label={`Hear ${w}`}
+            >
+              {w}
+            </button>
+          </Fragment>
+        ))}
       </div>
 
       <button
         className={`ph-phrase ${heard ? 'is-heard' : ''}`}
         onClick={sayPhrase}
-        aria-label={`Hear the phrase ${pair.phrase}`}
+        aria-label={`Hear the phrase ${entry.phrase}`}
       >
-        <span className="ph-phrase-text">{pair.phrase}</span>
+        <span className="ph-phrase-text">{entry.phrase}</span>
         <span className="ph-hear">
           <SpeakerIcon size={24} /> hear them together
         </span>
@@ -199,7 +220,7 @@ function PhraseMode() {
           <ArrowLeftIcon size={26} />
         </button>
         <span className="ph-count">
-          {i + 1} / {LEVEL2_PAIRS.length}
+          {i + 1} / {set.length}
         </span>
         <button className="chunky arrow" onClick={() => go(1)} aria-label="Next phrase">
           <ArrowRightIcon size={26} />

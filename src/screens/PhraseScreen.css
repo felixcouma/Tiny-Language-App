@@ -105,7 +105,28 @@
   color: #6b7a8d;
 }
 
-/* ---- Level 2: two cubes + phrase ---- */
+/* ---- Level 2/3: phrase-length toggle ---- */
+.ph-toggle {
+  display: inline-flex;
+  padding: 4px;
+  gap: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+}
+.ph-seg {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 15px;
+  color: #fff;
+}
+.ph-seg.is-active {
+  background: #fff;
+  color: #5a3fd0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- Level 2/3: word cubes + phrase ---- */
 .ph-greet {
   display: flex;
   align-items: flex-end;
@@ -117,9 +138,13 @@
 }
 .ph-pair {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
+}
+.ph-pair.words-3 {
+  gap: 8px;
 }
 .ph-cube {
   width: 128px;
@@ -133,9 +158,20 @@
   box-shadow: 0 6px 0 #2f6a96, 0 10px 18px rgba(0, 0, 0, 0.2);
   transition: transform var(--duration-quick) var(--easing-out);
 }
+/* cubes are children 1, 3, 5 ('+' separators sit between them) */
 .ph-cube:nth-child(3) {
   background: linear-gradient(180deg, #ff9a3d, #ff6a00);
   box-shadow: 0 6px 0 #d35600, 0 10px 18px rgba(0, 0, 0, 0.2);
+}
+.ph-cube:nth-child(5) {
+  background: linear-gradient(180deg, #5ec47a, #36a35a);
+  box-shadow: 0 6px 0 #2a8048, 0 10px 18px rgba(0, 0, 0, 0.2);
+}
+.ph-pair.words-3 .ph-cube {
+  width: 92px;
+  height: 92px;
+  font-size: 22px;
+  border-radius: 18px;
 }
 .ph-cube:active {
   transform: translateY(3px);
@@ -148,6 +184,9 @@
   font-weight: 800;
   color: #fff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.ph-pair.words-3 .ph-plus {
+  font-size: 22px;
 }
 
 .ph-phrase {

@@ -21,32 +21,38 @@ const keyOf = (w) =>
   String(w || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
 
 // ---- Tiers, grouped by category (a parent/therapist sees the structure). -----
+// The complete VOCABULARY_CORE_200_WORDS set — every word appears exactly once.
 const TIER1 = {
-  'Doing words': ['Go', 'Play', 'Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Run', 'Sit', 'Look', 'Sing'],
+  'Doing words': ['Go', 'Play', 'Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Run', 'Sit', 'Stand', 'Look', 'Sing'],
   'Where words': ['In', 'On', 'Out', 'Up', 'Down', 'Here', 'There', 'Home'],
   Things: ['Ball', 'Toy', 'Food', 'Water', 'Cup', 'Shoe', 'Book', 'Car', 'Door', 'Bed'],
   Animals: ['Dog', 'Cat'],
-  People: ['Mama', 'Dada', 'Baby', 'Me', 'You'],
-  Feelings: ['Happy', 'Sad', 'More', 'Yes', 'No', 'Tired', 'Hurt'],
+  People: ['Mama', 'Dada', 'Baby', 'Me', 'You', 'Bye', 'Friend'],
+  Feelings: ['Happy', 'Sad', 'More', 'Yes', 'No', 'All done', 'Tired', 'Hurt'],
   Describing: ['Big', 'Small', 'Hot', 'Cold'],
 }
 const TIER2 = {
-  'Doing words': ['Kick', 'Throw', 'Catch', 'Jump', 'Dance', 'Laugh', 'Cry', 'Hug', 'Clap', 'Push', 'Pull', 'Drink', 'Pour'],
+  'Doing words': ['Kick', 'Throw', 'Catch', 'Jump', 'Dance', 'Laugh', 'Cry', 'Hug', 'Kiss', 'Clap', 'Splash', 'Climb', 'Slide', 'Push', 'Pull', 'Pick', 'Drop', 'Pour', 'Drink', 'Blow', 'Read'],
   Food: ['Apple', 'Banana', 'Bread', 'Cheese', 'Milk', 'Juice', 'Snack', 'Cookie'],
+  Eating: ['Plate', 'Spoon', 'Fork', 'Bowl'],
+  Clothes: ['Shirt', 'Pants', 'Hat', 'Socks'],
   Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly'],
-  Things: ['Plate', 'Spoon', 'Bowl', 'Shirt', 'Pants', 'Hat', 'Socks', 'Chair', 'Table', 'Light'],
-  Toys: ['Block', 'Train', 'Truck', 'Doll', 'Balloon'],
+  'Around home': ['Chair', 'Table', 'Sofa', 'Window', 'Light', 'Stairs', 'Rug', 'Pillow'],
+  Toys: ['Block', 'Train', 'Truck', 'Doll', 'Puzzle', 'Swing', 'Balloon', 'Music'],
   Animals: ['Bird', 'Fish', 'Cow', 'Duck', 'Pig', 'Sheep', 'Horse'],
-  Colours: ['Red', 'Blue', 'Yellow', 'Green'],
+  Colours: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  Numbers: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'],
 }
 const TIER3 = {
-  'Doing words': ['Hide', 'Find', 'Open', 'Close', 'Ride', 'Roll', 'Wave', 'Shake'],
-  Nature: ['Tree', 'Flower', 'Sun', 'Moon', 'Star', 'Rain', 'Snow'],
-  'Going places': ['Bus', 'Plane', 'Boat', 'Bike'],
-  Animals: ['Lion', 'Monkey', 'Elephant', 'Bunny', 'Turtle'],
-  Numbers: ['One', 'Two', 'Three', 'Four', 'Five'],
-  Describing: ['Soft', 'Wet', 'Clean', 'Fast', 'Slow', 'Good'],
-  'Where words': ['Under', 'Behind', 'Far', 'Close'],
+  'Doing words': ['Peek', 'Hide', 'Find', 'Open', 'Close', 'Turn', 'Spin', 'Stretch', 'Bend', 'Ride', 'Roll', 'Skip', 'Hop', 'Wave', 'Shake'],
+  Feelings: ['Excited', 'Scared', 'Angry', 'Silly', 'Quiet'],
+  'Where words': ['Under', 'Behind', 'Between', 'Next to', 'Far'],
+  Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Bad', 'Old', 'New'],
+  Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock'],
+  'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter'],
+  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle'],
+  School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape'],
+  Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'When', 'After'],
 }
 
 function buildTier(groups, tier) {
@@ -68,31 +74,53 @@ export const categoriesForLevel = (level) => {
   return out
 }
 
-// ---- Level 2: hand-curated natural 2-word phrases (all words drawn from above).
-export const LEVEL2_PAIRS = [
-  ['Go', 'In'],
-  ['Go', 'Out'],
-  ['Go', 'Up'],
-  ['Come', 'Here'],
-  ['Sit', 'Down'],
-  ['Eat', 'Food'],
-  ['Drink', 'Milk'],
-  ['Play', 'Ball'],
-  ['Kick', 'Ball'],
-  ['Throw', 'Ball'],
-  ['Read', 'Book'],
-  ['Open', 'Door'],
-  ['Hug', 'Baby'],
-  ['More', 'Juice'],
-  ['Big', 'Dog'],
-  ['Hot', 'Food'],
-].map(([a, b]) => ({ a, b, phrase: `${a} ${b}` }))
+// ---- Levels 2 & 3: hand-curated natural phrases (every word drawn from above).
+// Title-cased so the cubes read cleanly; the child can toggle 2 ↔ 3 words in-app.
+const TWO_WORD = [
+  // action + direction
+  'Go In', 'Go Out', 'Go Up', 'Come Here', 'Sit Down', 'Stand Up', 'Jump Up',
+  'Look Up', 'Look Out', 'Climb Up', 'Run Out',
+  // action + object
+  'Eat Food', 'Eat Apple', 'Eat Banana', 'Drink Milk', 'Drink Juice', 'Drink Water',
+  'Play Ball', 'Kick Ball', 'Throw Ball', 'Catch Ball', 'Read Book', 'Open Door',
+  'Close Door', 'Push Car', 'Pull Train', 'Hug Baby', 'Hug Mama',
+  // describing + thing
+  'Big Dog', 'Big Ball', 'Small Cat', 'Small Ball', 'Hot Food', 'Cold Milk', 'Cold Water',
+  // more + thing
+  'More Food', 'More Milk', 'More Juice', 'More Ball',
+  // colour + thing
+  'Red Ball', 'Blue Car', 'Yellow Duck', 'Green Ball',
+  // social
+  'Bye Bye',
+]
 
-// Levels offered in the Parent Dashboard. Level 3 is reserved (selectable once built).
+const THREE_WORD = [
+  // action + where + thing
+  'Sit On Chair', 'Jump On Bed', 'Climb Up Stairs', 'Go In Car',
+  // action + thing + direction
+  'Throw Ball Up', 'Kick Ball Out', 'Roll Ball Down', 'Push Car Up',
+  // action + describing + thing
+  'Eat Big Apple', 'Eat Red Apple', 'Drink Cold Milk', 'Kick Big Ball', 'Throw Small Ball',
+  // action + more + thing
+  'Eat More Food', 'Drink More Milk', 'Eat More Cookie',
+  // who + action + thing
+  'Mama Hug Baby', 'Baby Eat Food', 'Baby Drink Milk', 'Dog Eat Food', 'Cat Play Ball',
+  'Baby Go Up', 'Baby Sit Down',
+  // describing + colour + thing
+  'Big Red Ball', 'Small Blue Car', 'Big Yellow Duck',
+]
+
+const toEntries = (list) => list.map((phrase) => ({ words: phrase.split(' '), phrase }))
+
+// Phrases keyed by word-count. The Phrase Builder toggles between these.
+export const PHRASES = { 2: toEntries(TWO_WORD), 3: toEntries(THREE_WORD) }
+export const PHRASE_SIZES = [2, 3]
+
+// Levels offered in the Parent Dashboard.
 export const PHRASE_LEVELS = [
   { level: 1, label: 'Level 1 · Single words', hint: 'Tap a word, hear it. Building vocabulary.' },
-  { level: 2, label: 'Level 2 · Two-word phrases', hint: 'Tap two words, then hear them together.' },
-  { level: 3, label: 'Level 3 · Sentences', hint: 'Three-word phrases — coming soon.', soon: true },
+  { level: 2, label: 'Level 2 · Two-word phrases', hint: 'Tap each word, then hear them together.' },
+  { level: 3, label: 'Level 3 · Three-word phrases', hint: 'Short sentences — opens straight to 3-word phrases.' },
 ]
 
 // Sensible per-child starting levels (Adriel building vocabulary, Audrey on phrases).
