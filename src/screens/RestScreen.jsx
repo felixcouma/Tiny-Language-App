@@ -6,7 +6,7 @@ import './Rest.css'
 
 /* Calm wind-down when the daily screen-time budget is used up. */
 export default function RestScreen() {
-  const openProfiles = useStore((s) => s.openProfiles)
+  const goHome = useStore((s) => s.goHome)
   const requestGate = useStore((s) => s.requestGate)
   const child = useStore((s) => s.activeProfile())
 
@@ -25,8 +25,8 @@ export default function RestScreen() {
           Great playing today{child ? `, ${child.name}` : ''}. Pip needs a nap — see you soon.
         </p>
         <div className="rest-actions">
-          <button className="chunky rest-cta" onClick={openProfiles}>
-            All done
+          <button className="chunky rest-cta" onClick={goHome}>
+            Home
           </button>
           <button className="rest-more" onClick={() => requestGate('more')}>
             Grown-up: a little more
