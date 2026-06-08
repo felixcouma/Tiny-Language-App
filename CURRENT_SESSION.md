@@ -56,31 +56,23 @@ sticker book uses `progress.collected`; mastery = heard ≥ 4×.
   (gitignored, sources are local). One-time deps:
   `npm install @google/genai @breezystack/lamejs ffmpeg-static --no-save`.
 
-### ⚠️ Voice clips — Aoede DONE, finish Leda/Sulafat next day (free)
-- Counts: **aoede 89/89 ✓ · leda 76/89 · sulafat 61/89.** Both flash TTS models are at their
-  per-model 100/day cap today.
-- After the daily reset, run (resumable, fills only missing):
+### 🎙️ TTS audio — PHRASES FIRST, then voice (free flash models only; NO paid Pro)
+- Counts: **phrases 169/491**; voice **aoede 89/89 · leda 87/89 · sulafat 71/89**.
+- Both free flash TTS models (`gemini-2.5-flash-preview-tts`, `gemini-3.1-flash-tts-preview`)
+  hit their per-model ~100/day cap today. **Do not use `gemini-2.5-pro-preview-tts` (paid/pricier).**
+  Credit: ~$5.35 balance at start of today; today's gen ≈ ~$2 (within budget).
+- **Next reset — do PHRASES first, then the last voice clips.** Resumable (skip-existing); the
+  scripts now stop promptly at the daily cap:
   ```bash
-  GEMINI_API_KEY=… PACE_MS=6500 node scripts/gen-audio.mjs
-  GEMINI_API_KEY=… PACE_MS=6500 TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-audio.mjs
+  K=$(tr -d '\r\n' < scripts/gemini.key.local)
+  GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-phrases.mjs                                   # phrases (priority)
+  GEMINI_API_KEY=$K PACE_MS=6500 TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-phrases.mjs
+  GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-audio.mjs --voices leda,sulafat               # then voice (leda 2, sulafat 18)
+  GEMINI_API_KEY=$K PACE_MS=6500 TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-audio.mjs --voices leda,sulafat
   ```
-  Remaining — leda: dog,cat,duck,pig,color-orange,color-purple,number-3/5/7/10/12/14/16.
-  sulafat: do-brushing, home family words, cow,duck,pig,horse,chicken,bird,fish,lion, most colours,
-  number-1/2/4/5/6. App works now (warm voice where present, device voice for the rest).
-
-### 🎙️ Device voice → our voice everywhere (in progress)
-- Code shipped: items fall back to the **default (Aoede)** voice when the chosen voice lacks a
-  clip (no device voice for words); the **device voice picker was removed**; dynamic text
-  (`voice()`/`voiceSeq()`) plays pre-rendered **phrase clips** in our voice, with the device
-  engine only as a dormant fallback until coverage is complete.
-- **491 phrase clips** to generate into `public/sounds/phrases/<slug>.mp3` (slug must match
-  `src/lib/audio.js`): ladder/expand phrases + game/twin prompts + "Yes!/Try again" + twin names
-  + finish line. Quota-limited per model/day — run repeatedly until done:
-  ```bash
-  GEMINI_API_KEY=… PACE_MS=6500 node scripts/gen-phrases.mjs
-  GEMINI_API_KEY=… PACE_MS=6500 TTS_MODEL=gemini-3.1-flash-tts-preview node scripts/gen-phrases.mjs
-  ```
-  Until all 491 exist, untapped phrases still use the device voice (graceful, no silence).
+  ~322 phrases remain; ~180/day across both free models ≈ ~2 more days. Commit + push the new
+  clips each day. The phrase system + per-voice→Aoede fallback are already shipped, so until all
+  exist, untapped phrases fall back to the device voice (graceful, no silence).
 
 ### Next
 - Finish remaining Leda/Sulafat clips + the 491 phrase clips (above).
