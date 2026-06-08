@@ -3,7 +3,20 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Last Session — 2026-06-07 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
+## Last Session — 2026-06-08 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
+
+### ✨ Polish batch — 5 more (all shipped, verified, 0 console errors)
+8. **Error boundary** — friendly "Oops, start again" instead of a white screen.
+9. **Real install assets** — PNG icons (192/512/maskable) + apple-touch-icon
+   rasterized from the SVG; manifest + index.html; dismissible Add-to-Home hint.
+   (Installs cleanly on iOS/Android now.)
+10. **First-run onboarding** — 3 gentle Pip steps, once per device (`tv_onboarded`).
+11. **New-friend celebration** — sticker toast + Pip + chime on first collect.
+12. **Per-child screen-time + quiet hours** — limit & bedtime live on each profile;
+    wind-down per active child; "a little more" snoozes 10 min.
+
+Also merged in (parallel work): **WebP illustrations** (52 MB → 0.8 MB, cache key
+v3, webp-first), plus review fixes (game accuracy, Twin 3-col, chant no-inflate).
 
 ### 🚀 MVP feature batch — 7 features (all shipped, each verified, 0 console errors)
 1. **Child profiles + stage** — "Who's playing?" launcher, per-child progress

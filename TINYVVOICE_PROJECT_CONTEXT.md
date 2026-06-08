@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-08 03:31 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-08 04:35 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `d874da8 Feature: per-child screen-time + quiet hours (bedtime)`
 - `c8da734 Optimize illustrations to WebP (~52MB -> 0.8MB)`
 - `0a1fcd2 Merge branch 'main' of https://github.com/felixcouma/Tiny-Language-App`
 - `8f6a775 Feature: first-run onboarding (3 gentle Pip steps, once per device)`
 - `44ad6e4 Fix review findings: game accuracy, Twin grid, review filter, chant inflation`
 - `c498e50 Feature: real PWA install assets (installs cleanly on iOS/Android)`
-- `980ae37 Feature: app-wide error boundary (friendly recover, no white screen)`
 <!-- AUTO:END -->
 
 ---
