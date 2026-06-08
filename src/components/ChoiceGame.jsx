@@ -50,6 +50,7 @@ export default function ChoiceGame({
   const [confettiKey, setConfettiKey] = useState(null)
   const [done, setDone] = useState(false)
   const locked = useRef(false)
+  const answered = useRef(false) // record at most one outcome per round (true "first try")
 
   const player = players ? players[round % players.length] : null
 
@@ -64,6 +65,7 @@ export default function ChoiceGame({
       setWrongWord(null)
       setRightWord(null)
       locked.current = false
+      answered.current = false
       const namePart = players ? players[roundIdx % players.length] : null
       setTimeout(() => voiceSeq([namePart, buildPrompt(t, { round: roundIdx })]), 450)
     },
@@ -77,13 +79,19 @@ export default function ChoiceGame({
 
   const onPick = (item) => {
     if (locked.current) return
-    if (item.word === target.word) {
+    const correct = item.word === target.word
+    // Record the round's outcome once, on the FIRST tap, so the parent
+    // dashboard's "found first try" reflects reality (not one row per wrong tap).
+    if (!answered.current) {
+      answered.current = true
+      recordGame(correct)
+    }
+    if (correct) {
       locked.current = true
       setRightWord(item.word)
       setConfettiKey(Date.now())
       playCelebration()
       setTimeout(() => playItem({ say: `Yes! ${target.word}!`, word: target.word }), 250)
-      recordGame(true)
       const nextRound = round + 1
       setTimeout(() => {
         if (nextRound >= rounds) {
@@ -97,7 +105,6 @@ export default function ChoiceGame({
     } else {
       setWrongWord(item.word)
       playChime(item.word)
-      recordGame(false)
       setTimeout(() => voice(`Try again. Find the ${target.word.toLowerCase()}.`), 200)
       setTimeout(() => setWrongWord(null), 600)
     }
@@ -146,7 +153,7 @@ export default function ChoiceGame({
         </button>
       </div>
 
-      <div className="choice-grid" style={{ gridTemplateColumns: `repeat(${choices === 2 ? 2 : 2}, 1fr)` }}>
+      <div className="choice-grid" style={{ gridTemplateColumns: `repeat(${choices === 3 ? 3 : 2}, 1fr)` }}>
         {tiles.map((item) => (
           <button
             key={item.word}

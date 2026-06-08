@@ -19,13 +19,19 @@ export default function ChantScreen() {
   const [i, setI] = useState(0)
   const [playing, setPlaying] = useState(true)
   const cardRef = useRef(null)
+  // The sing-along loops forever; only count each word once per session so
+  // repetition doesn't inflate mastery/the sticker book.
+  const heardRef = useRef(new Set())
 
   const item = world?.items[i]
 
   useEffect(() => {
     if (!playing || !item) return
     playItem(item)
-    recordHeard(item, world.id)
+    if (!heardRef.current.has(item.word)) {
+      heardRef.current.add(item.word)
+      recordHeard(item, world.id)
+    }
     cardRef.current?.animate(
       [
         { transform: 'scale(0.9)' },
@@ -48,6 +54,7 @@ export default function ChantScreen() {
   }
   const restart = () => {
     stopSpeaking()
+    heardRef.current = new Set()
     setI(0)
     setPlaying(true)
   }
