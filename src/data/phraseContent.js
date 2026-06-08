@@ -64,10 +64,20 @@ function buildTier(groups, tier) {
 // Every word, with { word, key, category, tier }.
 export const WORDS = [...buildTier(TIER1, 1), ...buildTier(TIER2, 2), ...buildTier(TIER3, 3)]
 
-// Words available to a child at a given practice level (higher = more vocabulary).
-export const wordsForLevel = (level) => WORDS.filter((w) => w.tier <= Math.max(1, level))
+// All category labels across the whole bank, in first-seen order (core first).
+export const CATEGORIES = (() => {
+  const out = []
+  for (const w of WORDS) if (!out.includes(w.category)) out.push(w.category)
+  return out
+})()
 
-// Distinct category labels, in first-seen order, for the words available at a level.
+// Every word in a category (across all tiers) — Word Practice & the Word Board pull
+// from the FULL bank so each category is rich, regardless of the child's level.
+export const wordsInCategory = (cat) => WORDS.filter((w) => w.category === cat)
+
+// (Kept for reference) words/categories scoped to a tier level. Practice now uses
+// the full bank above; the tier just orders the source arrays (core words first).
+export const wordsForLevel = (level) => WORDS.filter((w) => w.tier <= Math.max(1, level))
 export const categoriesForLevel = (level) => {
   const out = []
   for (const w of wordsForLevel(level)) if (!out.includes(w.category)) out.push(w.category)

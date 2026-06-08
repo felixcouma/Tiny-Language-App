@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useStore } from '../store'
 import { voice, stopSpeaking } from '../lib/audio'
-import { wordsForLevel, categoriesForLevel } from '../data/phraseContent'
+import { WORDS, CATEGORIES, wordsInCategory } from '../data/phraseContent'
 import { HomeIcon, ReplayIcon } from '../components/Icons.jsx'
 import './GridScreen.css'
 
@@ -23,24 +23,20 @@ const sample = (arr, n, exclude = new Set()) => {
 
 export default function GridScreen() {
   const child = useStore((s) => s.activeProfile())
-  const level = child?.phraseLevel || 1
   const goHome = useStore((s) => s.goHome)
   const recordWord = useStore((s) => s.recordPracticeWord)
 
-  const allCats = useMemo(() => categoriesForLevel(level), [level])
+  const allCats = CATEGORIES
   const [cat, setCat] = useState('All')
-  const pool = useMemo(
-    () => (cat === 'All' ? wordsForLevel(level) : wordsForLevel(level).filter((w) => w.category === cat)),
-    [level, cat]
-  )
+  const pool = useMemo(() => (cat === 'All' ? WORDS : wordsInCategory(cat)), [cat])
 
-  const [board, setBoard] = useState(() => sample(pool, BOARD))
+  const [board, setBoard] = useState(() => sample(WORDS, BOARD))
   const [hi, setHi] = useState(null) // highlighted word
 
   const rebuild = (nextCat) => {
     stopSpeaking()
     const c = nextCat ?? cat
-    const src = c === 'All' ? wordsForLevel(level) : wordsForLevel(level).filter((w) => w.category === c)
+    const src = c === 'All' ? WORDS : wordsInCategory(c)
     setBoard(sample(src, BOARD))
     setHi(null)
   }

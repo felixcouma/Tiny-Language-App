@@ -16,7 +16,9 @@ voice (device voice is the graceful fallback until clips are pre-rendered).
   active), `DEFAULT_PHRASE_LEVEL` (adriel 1 / audrey 2).
 - **`src/screens/PhraseScreen.jsx` (+ .css)** — one screen, mode by `phraseLevel`:
   - **Level 1 — Word Practice**: category chips + big tap-to-hear word card + prev/next;
-    auto-says each word on focus. Pool grows with level (Tier 1 → +2 → +3).
+    auto-says each word on focus. Pulls from the **full 209-word bank** grouped by the 19
+    categories (NOT tier-gated) — e.g. Doing words 48, Animals 15, Describing 17 — so any
+    child gets plenty of practice words. Level controls mode (words vs phrases), not breadth.
   - **Level 2/3 — Phrase Builder**: an in-screen **2-words ↔ 3-words toggle**; N tappable
     word cubes (blue/orange/green) with tap-flash + "+" separators, then a phrase box
     “hear them together” (celebration chime) + prev/next. Level 3 opens straight to 3-word.

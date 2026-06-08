@@ -2,8 +2,8 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useStore } from '../store'
 import { voice, playCelebration, stopSpeaking } from '../lib/audio'
 import {
-  wordsForLevel,
-  categoriesForLevel,
+  CATEGORIES,
+  wordsInCategory,
   PHRASES,
   PHRASE_SIZES,
   isPhraseReady,
@@ -47,25 +47,22 @@ export default function PhraseScreen() {
       {mode === 'phrase' ? (
         <PhraseMode level={level} onWords={() => setMode('word')} />
       ) : (
-        <WordMode level={level} onPhrases={() => setMode('phrase')} />
+        <WordMode onPhrases={() => setMode('phrase')} />
       )}
     </div>
   )
 }
 
 /* ------------------------- Level 1: single words ------------------------- */
-function WordMode({ level, onPhrases }) {
+function WordMode({ onPhrases }) {
   const recordWord = useStore((s) => s.recordPracticeWord)
   const muted = useStore((s) => s.muted)
   const seen = useStore((s) => s.progress.seen) || {}
   const ready = useStore((s) => isPhraseReady(s.progress))
 
-  const categories = useMemo(() => categoriesForLevel(level), [level])
+  const categories = CATEGORIES
   const [cat, setCat] = useState(categories[0])
-  const words = useMemo(
-    () => wordsForLevel(level).filter((w) => w.category === cat),
-    [level, cat]
-  )
+  const words = useMemo(() => wordsInCategory(cat), [cat])
   const [i, setI] = useState(0)
   const word = words[i]?.word
   const heardCount = word ? seen[word] || 0 : 0
