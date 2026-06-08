@@ -13,12 +13,22 @@ export const STAGES = [
   { id: 'first', label: 'First words', hint: 'Ages 1–2 · single words' },
   { id: 'sentences', label: 'Little sentences', hint: 'Ages 3–4 · short phrases' },
 ]
+// Two-letter avatar initials from a "First Last" name (falls back to one letter).
+export const initialsOf = (name) =>
+  (name || '')
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() || '')
+    .join('') || 'F'
+
 // A neutral "no-twin" profile so the app can be used without choosing Audrey or
 // Adriel. The twins are optional personalization you toggle into.
 const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, guest: true }
+const TWIN_INITIALS = { audrey: 'AJ', adriel: 'AG' } // Audrey Joster / Adriel Genoh
 const DEFAULT_PROFILES = [
-  { id: 'audrey', name: 'Audrey', color: '#FF1493', stage: 'first', limit: 0, bedtime: null },
-  { id: 'adriel', name: 'Adriel', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null },
+  { id: 'audrey', name: 'Audrey', initials: 'AJ', color: '#FF1493', stage: 'first', limit: 0, bedtime: null },
+  { id: 'adriel', name: 'Adriel', initials: 'AG', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null },
 ]
 
 function loadJSON(key, fallback) {
@@ -39,14 +49,24 @@ function saveJSON(key, v) {
 
 function loadProfiles() {
   let profs = loadJSON(PROFILES_KEY, null)
+  let changed = false
   if (!Array.isArray(profs) || !profs.length) {
     profs = [{ ...GUEST }, ...DEFAULT_PROFILES.map((p) => ({ ...p }))]
-    saveJSON(PROFILES_KEY, profs)
-  } else if (!profs.some((p) => p.id === 'guest')) {
-    // Ensure existing installs gain the no-twin "Everyone" option.
-    profs = [{ ...GUEST }, ...profs]
-    saveJSON(PROFILES_KEY, profs)
+    changed = true
   }
+  if (!profs.some((p) => p.id === 'guest')) {
+    profs = [{ ...GUEST }, ...profs] // ensure existing installs gain "Everyone"
+    changed = true
+  }
+  // Ensure the twins have disambiguating two-letter initials.
+  profs = profs.map((p) => {
+    if (TWIN_INITIALS[p.id] && p.initials !== TWIN_INITIALS[p.id]) {
+      changed = true
+      return { ...p, initials: TWIN_INITIALS[p.id] }
+    }
+    return p
+  })
+  if (changed) saveJSON(PROFILES_KEY, profs)
   return profs
 }
 
@@ -119,6 +139,7 @@ export const useStore = create((set, get) => ({
     const prof = {
       id: slugId(name) + (profs.some((p) => p.id === slugId(name)) ? `-${profs.length}` : ''),
       name: name.trim() || 'Friend',
+      initials: initialsOf(name),
       color: COLORS[profs.length % COLORS.length],
       stage: 'first',
       limit: 0,

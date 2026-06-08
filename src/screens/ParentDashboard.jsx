@@ -152,7 +152,7 @@ function ChildStage() {
       <h3 className="parent-h3">Child &amp; level</h3>
       <div className="child-row">
         <span className="child-badge" style={{ background: child.color }}>
-          {child.name[0]?.toUpperCase()}
+          {child.initials || child.name[0]?.toUpperCase()}
         </span>
         <span className="child-name">{child.name}</span>
         <button className="child-switch" onClick={openProfiles}>

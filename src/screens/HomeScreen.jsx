@@ -22,7 +22,7 @@ export default function HomeScreen() {
         {child && (
           <button className="home2-who" onClick={openProfiles} aria-label={`Playing as ${child.name}. Switch child.`}>
             <span className="home2-avatar" style={{ background: child.color }}>
-              {child.name[0]?.toUpperCase()}
+              {child.initials || child.name[0]?.toUpperCase()}
             </span>
             <span className="home2-whoname">{child.name}</span>
           </button>
