@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-08 17:41 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-08 17:47 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `4884f2b Add "new version ready" update prompt (no more cache-lag surprises)`
 - `8299baf Show two-letter initials so the twins are distinguishable`
 - `2ff5c15 Add "Everyone" — use the app without picking a twin`
 - `2fa1770 Add direct Home option to the rest/wind-down screen`
 - `5acb465 Fix: universal Home — launch to Home when a child is remembered; Home button on picker`
 - `31d4110 Update session notes: 5-feature polish batch + WebP merge`
-- `d874da8 Feature: per-child screen-time + quiet hours (bedtime)`
 <!-- AUTO:END -->
 
 ---
