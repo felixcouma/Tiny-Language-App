@@ -13,6 +13,9 @@ export const STAGES = [
   { id: 'first', label: 'First words', hint: 'Ages 1–2 · single words' },
   { id: 'sentences', label: 'Little sentences', hint: 'Ages 3–4 · short phrases' },
 ]
+// A neutral "no-twin" profile so the app can be used without choosing Audrey or
+// Adriel. The twins are optional personalization you toggle into.
+const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, guest: true }
 const DEFAULT_PROFILES = [
   { id: 'audrey', name: 'Audrey', color: '#FF1493', stage: 'first', limit: 0, bedtime: null },
   { id: 'adriel', name: 'Adriel', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null },
@@ -37,7 +40,11 @@ function saveJSON(key, v) {
 function loadProfiles() {
   let profs = loadJSON(PROFILES_KEY, null)
   if (!Array.isArray(profs) || !profs.length) {
-    profs = DEFAULT_PROFILES.map((p) => ({ ...p }))
+    profs = [{ ...GUEST }, ...DEFAULT_PROFILES.map((p) => ({ ...p }))]
+    saveJSON(PROFILES_KEY, profs)
+  } else if (!profs.some((p) => p.id === 'guest')) {
+    // Ensure existing installs gain the no-twin "Everyone" option.
+    profs = [{ ...GUEST }, ...profs]
     saveJSON(PROFILES_KEY, profs)
   }
   return profs

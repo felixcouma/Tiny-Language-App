@@ -39,7 +39,7 @@ export default function ProfilePickerScreen() {
           {profiles.map((p) => (
             <button key={p.id} className="pick-card" onClick={() => setActiveProfile(p.id)}>
               <span className="pick-avatar" style={{ background: p.color }}>
-                {p.name[0]?.toUpperCase()}
+                {p.guest ? <HomeIcon size={38} /> : p.name[0]?.toUpperCase()}
               </span>
               <span className="pick-name">{p.name}</span>
             </button>
