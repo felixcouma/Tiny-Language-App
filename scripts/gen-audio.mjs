@@ -91,7 +91,10 @@ async function tts(voiceName, text) {
 const results = { ok: 0, skipped: 0, failed: [] }
 console.log(`voices=[${VOICES.join(', ')}] model=${MODEL} items=${items.length}`)
 
+let capHits = 0 // consecutive daily-quota errors -> stop instead of burning time on 429s
+let stop = false
 for (const voice of VOICES) {
+  if (stop) break
   const dir = path.join(SOUNDS, voice)
   mkdirSync(dir, { recursive: true })
   console.log(`\n--- voice: ${voice} ---`)
@@ -106,12 +109,23 @@ for (const voice of VOICES) {
       const mp3 = pcmToMp3(a.pcm, a.rate)
       writeFileSync(out, mp3)
       results.ok++
+      capHits = 0
       console.log(`  (${i + 1}/${items.length}) ✓ ${voice}/${key}.mp3 — "${word}" (${Math.round(mp3.length / 1024)} KB)`)
     } catch (e) {
-      results.failed.push({ voice, key, err: String(e.message || e).slice(0, 140) })
-      console.log(`  (${i + 1}/${items.length}) ✗ ${voice}/${key} — ${String(e.message || e).slice(0, 140)}`)
+      const msg = String(e.message || e)
+      results.failed.push({ voice, key, err: msg.slice(0, 140) })
+      console.log(`  (${i + 1}/${items.length}) ✗ ${voice}/${key} — ${msg.slice(0, 140)}`)
+      if (/429|RESOURCE_EXHAUSTED|exceeded your current quota|per_model_per_day/i.test(msg)) {
+        if (++capHits >= 4) {
+          console.log('\nDaily quota reached — stopping. Re-run after reset, or set TTS_MODEL to another model.')
+          stop = true
+          break
+        }
+      } else {
+        capHits = 0
+      }
     }
-    await sleep(500)
+    await sleep(PACE_MS)
   }
 }
 
