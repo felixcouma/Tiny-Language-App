@@ -215,6 +215,7 @@ export const useStore = create((set, get) => ({
   openTwin: () => set({ screen: 'twin' }),
   openPhonics: () => set({ screen: 'phonics' }),
   openPhrase: () => set({ screen: 'phrase', autoPlay: false }),
+  openGrid: () => set({ screen: 'grid', autoPlay: false }),
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),

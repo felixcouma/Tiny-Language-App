@@ -125,3 +125,10 @@ export const PHRASE_LEVELS = [
 
 // Sensible per-child starting levels (Adriel building vocabulary, Audrey on phrases).
 export const DEFAULT_PHRASE_LEVEL = { adriel: 1, audrey: 2 }
+
+// Readiness: a child becomes "ready for phrases" once they've heard a working
+// vocabulary of distinct words. We only SUGGEST advancing — the parent/therapist
+// confirms (no silent auto-promotion), matching the no-pressure therapy approach.
+export const PHRASE_READY_AT = 25
+export const distinctWordsHeard = (progress) => Object.keys(progress?.seen || {}).length
+export const isPhraseReady = (progress) => distinctWordsHeard(progress) >= PHRASE_READY_AT

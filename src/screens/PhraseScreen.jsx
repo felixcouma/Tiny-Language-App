@@ -6,6 +6,7 @@ import {
   categoriesForLevel,
   PHRASES,
   PHRASE_SIZES,
+  isPhraseReady,
 } from '../data/phraseContent'
 import {
   HomeIcon,
@@ -23,6 +24,9 @@ export default function PhraseScreen() {
   const child = useStore((s) => s.activeProfile())
   const level = child?.phraseLevel || 1
   const goHome = useStore((s) => s.goHome)
+  // The saved level sets the default, but either mode can be reached in-session
+  // (a ready Level-1 child can try phrases; anyone can drop back to single words).
+  const [mode, setMode] = useState(level >= 2 ? 'phrase' : 'word')
 
   return (
     <div className="scene phrase">
@@ -33,22 +37,28 @@ export default function PhraseScreen() {
         </button>
         <div className="ph-title">
           <span className="ph-title-main">
-            {level >= 2 ? 'Phrase Builder' : 'Word Practice'}
+            {mode === 'phrase' ? 'Phrase Builder' : 'Word Practice'}
           </span>
           {child && <span className="ph-title-sub">for {child.name}</span>}
         </div>
         <span className="ph-spacer" />
       </header>
 
-      {level >= 2 ? <PhraseMode level={level} /> : <WordMode level={level} />}
+      {mode === 'phrase' ? (
+        <PhraseMode level={level} onWords={() => setMode('word')} />
+      ) : (
+        <WordMode level={level} onPhrases={() => setMode('phrase')} />
+      )}
     </div>
   )
 }
 
 /* ------------------------- Level 1: single words ------------------------- */
-function WordMode({ level }) {
+function WordMode({ level, onPhrases }) {
   const recordWord = useStore((s) => s.recordPracticeWord)
   const muted = useStore((s) => s.muted)
+  const seen = useStore((s) => s.progress.seen) || {}
+  const ready = useStore((s) => isPhraseReady(s.progress))
 
   const categories = useMemo(() => categoriesForLevel(level), [level])
   const [cat, setCat] = useState(categories[0])
@@ -58,6 +68,8 @@ function WordMode({ level }) {
   )
   const [i, setI] = useState(0)
   const word = words[i]?.word
+  const heardCount = word ? seen[word] || 0 : 0
+  const firstLetter = word ? word.replace(/[^A-Za-z]/, '')[0] || word[0] : ''
 
   const say = (w) => {
     if (!w) return
@@ -85,6 +97,11 @@ function WordMode({ level }) {
 
   return (
     <main className="ph-main">
+      <div className="ph-greet">
+        <span className="speech-bubble">Tap to hear…</span>
+        <Mascot size={52} />
+      </div>
+
       <div className="ph-cats" role="tablist" aria-label="Word groups">
         {categories.map((c) => (
           <button
@@ -102,11 +119,26 @@ function WordMode({ level }) {
         onClick={() => say(word)}
         aria-label={`Hear ${word}`}
       >
+        {heardCount > 0 && (
+          <span className="ph-heard" aria-label={`Heard ${heardCount} times`}>
+            ✓ heard
+          </span>
+        )}
         <span className="ph-word">{word}</span>
         <span className="ph-hear">
           <SpeakerIcon size={26} /> tap to hear
         </span>
       </button>
+
+      {firstLetter && (
+        <button
+          className="ph-letter"
+          onClick={() => voice(firstLetter)}
+          aria-label={`Starts with ${firstLetter}`}
+        >
+          starts with <b>{firstLetter.toUpperCase()}</b>
+        </button>
+      )}
 
       <nav className="ph-nav">
         <button className="chunky arrow" onClick={() => go(-1)} aria-label="Previous word">
@@ -119,12 +151,18 @@ function WordMode({ level }) {
           <ArrowRightIcon size={26} />
         </button>
       </nav>
+
+      {ready && (
+        <button className="ph-tryphrases" onClick={onPhrases}>
+          Ready for phrases? Try the Phrase Builder →
+        </button>
+      )}
     </main>
   )
 }
 
 /* -------------- Levels 2 & 3: phrase recognition (2- or 3-word) ------------- */
-function PhraseMode({ level }) {
+function PhraseMode({ level, onWords }) {
   const recordWord = useStore((s) => s.recordPracticeWord)
   const recordPhrase = useStore((s) => s.recordPhrase)
   const muted = useStore((s) => s.muted)
@@ -226,6 +264,10 @@ function PhraseMode({ level }) {
           <ArrowRightIcon size={26} />
         </button>
       </nav>
+
+      <button className="ph-towords" onClick={onWords}>
+        ← Back to single words
+      </button>
     </main>
   )
 }

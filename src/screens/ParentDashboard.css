@@ -165,6 +165,32 @@
 .voice-option:disabled:active {
   transform: none;
 }
+.phrase-suggest {
+  margin: var(--space-sm) 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-lavender);
+  border: 2px solid var(--accent-purple);
+}
+.phrase-suggest-text {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  line-height: 1.4;
+}
+.phrase-suggest-btn {
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--accent-purple);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+.phrase-suggest-btn:active {
+  transform: scale(0.98);
+}
 .stage-hint {
   display: block;
   font-size: 12px;

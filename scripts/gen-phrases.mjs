@@ -16,6 +16,7 @@ import { writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { WORLDS } from '../src/data/content.js'
+import { WORDS, PHRASES } from '../src/data/phraseContent.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const OUT = path.join(__dirname, '..', 'public', 'sounds', 'phrases')
@@ -50,6 +51,10 @@ function gamePrompts(item) {
 // Collect unique texts, keyed by slug.
 const bySlug = new Map()
 const add = (t) => { const s = slugify(t); if (s && !bySlug.has(s)) bySlug.set(s, t) }
+// Speech-therapy practice vocab FIRST (the active feature): single words + phrases.
+for (const w of WORDS) add(w.word)
+for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.phrase)
+// Then the learning-world dynamic phrases.
 for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach(add)
 for (const world of WORLDS) {
   if (!POOL_IDS.includes(world.id)) continue

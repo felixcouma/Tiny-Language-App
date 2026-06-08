@@ -24,8 +24,25 @@ voice (device voice is the graceful fallback until clips are pre-rendered).
   `setPhraseLevel`, `openPhrase`; progress now tracks `recordPracticeWord` (counts toward
   words-heard/mastery, no sticker toast) + `recordPhrase` (phrase → count).
 - **Home**: new chunky button labelled by level (“Word Practice” / “Phrase Builder”).
-- **Parent Dashboard**: “Speech practice level” picker (L1/L2/L3, all active) + a
-  “N phrases explored” line. Advance levels on therapist guidance.
+- **Grid Vocabulary / Word Board** (`src/screens/GridScreen.jsx` + .css) — a
+  therapist-style AAC board: 3×3 of tappable word cells (tap = hear + highlight),
+  a per-cell **↻ refresh** that rotates in a fresh word once a child "gets" it,
+  a **New words** shuffle, and a category filter. Reached from Home → **Word Board**
+  (games row, paired with Letter Sounds). `store.openGrid`, screen `grid`.
+- **Readiness progression** (`isPhraseReady`, `PHRASE_READY_AT = 25`) — once a child
+  has heard 25+ distinct words, Word Practice shows a gentle "Ready for phrases? Try the
+  Phrase Builder →" link, and the Parent Dashboard surfaces a "Move to Level 2" suggestion.
+  **Never auto-switches** — the grown-up/therapist confirms. New children start in Word
+  Practice; the twins keep their defaults (Adriel L1 / Audrey L2).
+- **In-session mode switch** — Phrase Builder has "← Back to single words"; Word Practice
+  can jump to phrases when ready. So **Everyone/guest** (and any profile) can reach every
+  mode; the parent can also set Everyone's level directly in the dashboard.
+- **Word Practice enriched** — Pip greeting bubble, a "starts with X" letter chip (taps to
+  hear the letter), and a "✓ heard" badge once a word has been heard before.
+- **Parent Dashboard**: “Speech practice level” picker (L1/L2/L3, all active), the
+  readiness suggestion, and a "N different words · N phrases explored" line.
+- **TTS pipeline**: the 209 words + 70 phrases are now wired into `scripts/gen-phrases.mjs`
+  (prioritised first). Generated `go`/`eat` today; rest resume on the next free-quota reset.
 - Stack note: the design docs mention Tailwind/Framer; this app uses plain CSS + tokens,
   so the screen matches the existing app style (chunky shadows, `.scene`, Icons.jsx, Pip).
 - **Next for this feature**: pre-render the Level-1 words + the 16 phrases as Aoede clips

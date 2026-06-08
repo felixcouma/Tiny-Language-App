@@ -12,6 +12,7 @@ import RestScreen from './screens/RestScreen.jsx'
 import ChantScreen from './screens/ChantScreen.jsx'
 import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
 import PhraseScreen from './screens/PhraseScreen.jsx'
+import GridScreen from './screens/GridScreen.jsx'
 import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
@@ -32,12 +33,13 @@ const SCREENS = {
   chant: ChantScreen,
   phonics: PhonicsGameScreen,
   phrase: PhraseScreen,
+  grid: GridScreen,
 }
 // Screens where active play accrues time / can trigger the wind-down. The Home
 // hub is intentionally NOT here, so "Home" is always a safe neutral landing —
 // the wind-down re-engages only when the child starts playing again.
 const PLAY_SCREENS = new Set([
-  'learning', 'game', 'twin', 'today', 'collection', 'chant', 'phonics', 'phrase',
+  'learning', 'game', 'twin', 'today', 'collection', 'chant', 'phonics', 'phrase', 'grid',
 ])
 
 // Should the active child wind down now? (their limit reached or quiet hours)

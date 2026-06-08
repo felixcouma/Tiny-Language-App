@@ -158,8 +158,11 @@
   background: linear-gradient(180deg, #ff9a3d, #ff6a00);
   box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
+.mode-grid {
+  background: linear-gradient(180deg, #2bb3a3, #169187);
+  box-shadow: 0 5px 0 #0f6f67, 0 8px 14px rgba(0, 0, 0, 0.2);
+}
 .mode-phonics {
-  grid-column: 1 / -1;
   background: linear-gradient(180deg, #b06bf0, #8a3fd0);
   box-shadow: 0 5px 0 #6c2bb0, 0 8px 14px rgba(0, 0, 0, 0.2);
 }

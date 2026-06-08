@@ -8,7 +8,7 @@ import {
 } from '../lib/audio'
 import { MASTERED_AT } from '../lib/today'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
-import { PHRASE_LEVELS } from '../data/phraseContent'
+import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard } from '../data/phraseContent'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -182,9 +182,13 @@ function SpeechLevel() {
   const child = useStore((s) => s.activeProfile())
   const setPhraseLevel = useStore((s) => s.setPhraseLevel)
   const phrases = useStore((s) => s.progress.phrases) || {}
+  const wordsHeard = useStore((s) => distinctWordsHeard(s.progress))
   if (!child) return null
   const level = child.phraseLevel || 1
   const phrasesExplored = Object.keys(phrases).length
+  // Gentle, parent-confirmed progression: suggest Phrase Builder once they have a
+  // working vocabulary. We never switch automatically — the grown-up decides.
+  const suggestPhrases = level === 1 && wordsHeard >= PHRASE_READY_AT
 
   return (
     <section className="parent-section">
@@ -193,6 +197,19 @@ function SpeechLevel() {
         For {child.name} — sets what “{level >= 2 ? 'Phrase Builder' : 'Word Practice'}” on
         the home screen shows. Advance levels when your speech therapist agrees.
       </p>
+
+      {suggestPhrases && (
+        <div className="phrase-suggest">
+          <p className="phrase-suggest-text">
+            {child.name} has heard <b>{wordsHeard}</b> different words — a lovely vocabulary
+            base. When your therapist agrees, they may be ready for two-word phrases.
+          </p>
+          <button className="phrase-suggest-btn" onClick={() => setPhraseLevel(2)}>
+            Move to Level 2 · Phrase Builder
+          </button>
+        </div>
+      )}
+
       <div className="voice-options">
         {PHRASE_LEVELS.map((l) => (
           <button
@@ -207,11 +224,11 @@ function SpeechLevel() {
           </button>
         ))}
       </div>
-      {phrasesExplored > 0 && (
-        <p className="voice-hint" style={{ marginTop: 'var(--space-sm)' }}>
-          {phrasesExplored} {phrasesExplored === 1 ? 'phrase' : 'phrases'} explored so far.
-        </p>
-      )}
+
+      <p className="voice-hint" style={{ marginTop: 'var(--space-sm)' }}>
+        {child.name} has heard {wordsHeard} different words
+        {phrasesExplored > 0 && ` · ${phrasesExplored} ${phrasesExplored === 1 ? 'phrase' : 'phrases'} explored`}.
+      </p>
     </section>
   )
 }
