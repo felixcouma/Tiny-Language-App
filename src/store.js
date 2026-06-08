@@ -78,8 +78,8 @@ const initialProfiles = loadProfiles()
 const initialActive = loadJSON(ACTIVE_KEY, null)
 
 export const useStore = create((set, get) => ({
-  // start by asking who is playing
-  screen: 'profiles', // profiles | home | learning | game | twin | parent | today | collection
+  // Land on Home if a child is already chosen; only ask "who's playing?" on first run.
+  screen: initialActive ? 'home' : 'profiles',
   worldId: null,
   itemIndex: 0,
   muted: isMuted(),
