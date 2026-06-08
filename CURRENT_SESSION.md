@@ -26,11 +26,13 @@ voice (device voice is the graceful fallback until clips are pre-rendered).
   `setPhraseLevel`, `openPhrase`; progress now tracks `recordPracticeWord` (counts toward
   words-heard/mastery, no sticker toast) + `recordPhrase` (phrase → count).
 - **Home**: new chunky button labelled by level (“Word Practice” / “Phrase Builder”).
-- **Grid Vocabulary / Word Board** (`src/screens/GridScreen.jsx` + .css) — a
-  therapist-style AAC board: 3×3 of tappable word cells (tap = hear + highlight),
-  a per-cell **↻ refresh** that rotates in a fresh word once a child "gets" it,
-  a **New words** shuffle, and a category filter. Reached from Home → **Word Board**
-  (games row, paired with Letter Sounds). `store.openGrid`, screen `grid`.
+- **Word Board** (`src/screens/GridScreen.jsx` + .css) — a real therapist-style **AAC
+  communication board** modelled on the reference photo: clean **white lattice** of
+  picture+word cells, a blue **"Vocab" header**, a **message strip** (tap cells → words
+  build up → tap the strip to speak the whole message → **CLEAR**), and a scrollable
+  category filter. Cells show our **real WebP symbols** where a word maps to one (~40 of
+  209: animals, body, objects, colours, numbers); others are clean text — like a sparse
+  AAC board. Pulls the full bank. Reached from Home → **Word Board**. `store.openGrid`.
 - **Readiness progression** (`isPhraseReady`, `PHRASE_READY_AT = 25`) — once a child
   has heard 25+ distinct words, Word Practice shows a gentle "Ready for phrases? Try the
   Phrase Builder →" link, and the Parent Dashboard surfaces a "Move to Level 2" suggestion.

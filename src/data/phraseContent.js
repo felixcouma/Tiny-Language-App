@@ -15,6 +15,8 @@
  * "Eat ball") — the focus is combining KNOWN words, not new vocabulary.
  */
 
+import { WORLDS } from './content.js'
+
 // Filesystem-safe key — matches slugify() in src/lib/audio.js so any future
 // pre-rendered clip (public/sounds/phrases/<slug>.mp3) lines up automatically.
 const keyOf = (w) =>
@@ -74,6 +76,19 @@ export const CATEGORIES = (() => {
 // Every word in a category (across all tiers) — Word Practice & the Word Board pull
 // from the FULL bank so each category is rich, regardless of the child's level.
 export const wordsInCategory = (cat) => WORDS.filter((w) => w.category === cat)
+
+// Real illustration (public/images/<key>.webp) for a word, when one exists in the
+// learning-world content. Reuses our actual WebP art — never a synthetic placeholder;
+// words without a match simply render as text (like a sparse AAC board).
+const WORD_IMAGE = (() => {
+  const m = {}
+  for (const world of WORLDS) for (const it of world.items) {
+    const k = keyOf(it.word)
+    if (k && it.sound && !(k in m)) m[k] = it.sound
+  }
+  return m
+})()
+export const imageKeyFor = (word) => WORD_IMAGE[keyOf(word)] || null
 
 // (Kept for reference) words/categories scoped to a tier level. Practice now uses
 // the full bank above; the tier just orders the source arrays (core words first).

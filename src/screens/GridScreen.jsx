@@ -1,19 +1,21 @@
 import { useMemo, useState } from 'react'
 import { useStore } from '../store'
-import { voice, stopSpeaking } from '../lib/audio'
-import { WORDS, CATEGORIES, wordsInCategory } from '../data/phraseContent'
+import { voice, voiceSeq, stopSpeaking } from '../lib/audio'
+import { WORDS, CATEGORIES, wordsInCategory, imageKeyFor } from '../data/phraseContent'
 import { HomeIcon, ReplayIcon } from '../components/Icons.jsx'
 import './GridScreen.css'
 
-// Grid Vocabulary — a therapist-style AAC board. A board of tappable words; tap to
-// hear one, refresh a single cell (↻) once a child "gets" it so fresh vocabulary
-// rotates in, or shuffle the whole board. Filter by category to focus a session.
-const BOARD = 9 // 3 × 3 cells
-const PALETTE = ['#3d7fb0', '#ff6a00', '#36a35a', '#8a3fd0', '#d6336c', '#0c8599', '#e8590c', '#5f3dc4']
-const colorFor = (cats, cat) => PALETTE[Math.max(0, cats.indexOf(cat)) % PALETTE.length]
+const BASE = import.meta.env.BASE_URL || '/'
 
-const sample = (arr, n, exclude = new Set()) => {
-  const pool = arr.filter((w) => !exclude.has(w.word))
+// Word Board — a therapist-style AAC vocabulary board. A clean white lattice of
+// picture+word cells; tap a cell to hear the word and add it to the message strip,
+// then tap the strip to speak the whole message. CLEAR empties it. A category
+// filter swaps the vocabulary set; "new words" reshuffles. Pulls the full bank.
+const BOARD = 20 // cells shown at once (lattice fills more on wider screens)
+const MAX_MSG = 8
+
+const sample = (arr, n) => {
+  const pool = [...arr]
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[pool[i], pool[j]] = [pool[j], pool[i]]
@@ -25,19 +27,18 @@ export default function GridScreen() {
   const child = useStore((s) => s.activeProfile())
   const goHome = useStore((s) => s.goHome)
   const recordWord = useStore((s) => s.recordPracticeWord)
+  const recordPhrase = useStore((s) => s.recordPhrase)
 
-  const allCats = CATEGORIES
   const [cat, setCat] = useState('All')
   const pool = useMemo(() => (cat === 'All' ? WORDS : wordsInCategory(cat)), [cat])
-
   const [board, setBoard] = useState(() => sample(WORDS, BOARD))
-  const [hi, setHi] = useState(null) // highlighted word
+  const [hi, setHi] = useState(null)
+  const [message, setMessage] = useState([])
 
   const rebuild = (nextCat) => {
     stopSpeaking()
     const c = nextCat ?? cat
-    const src = c === 'All' ? WORDS : wordsInCategory(c)
-    setBoard(sample(src, BOARD))
+    setBoard(sample(c === 'All' ? WORDS : wordsInCategory(c), BOARD))
     setHi(null)
   }
   const pickCat = (c) => {
@@ -49,36 +50,58 @@ export default function GridScreen() {
     voice(w.word)
     recordWord(w.word)
     setHi(w.word)
-    setTimeout(() => setHi((cur) => (cur === w.word ? null : cur)), 700)
+    setTimeout(() => setHi((cur) => (cur === w.word ? null : cur)), 600)
+    setMessage((m) => (m.length >= MAX_MSG ? m : [...m, w.word]))
   }
-  const refreshCell = (idx) => {
-    const exclude = new Set(board.map((w) => w.word))
-    const [fresh] = sample(pool, 1, exclude)
-    if (!fresh) return
-    setBoard((b) => b.map((w, i) => (i === idx ? fresh : w)))
+  const sayMessage = () => {
+    if (!message.length) return
+    stopSpeaking()
+    voiceSeq(message)
+    if (message.length > 1) recordPhrase(message.join(' '))
+  }
+  const clear = () => {
+    stopSpeaking()
+    setMessage([])
   }
 
   return (
-    <div className="scene grid-scene">
-      <div className="scene-globe" />
-      <header className="gv-top">
-        <button className="round-btn" onClick={goHome} aria-label="Home">
-          <HomeIcon size={26} />
+    <div className="wb">
+      <header className="wb-bar">
+        <button className="wb-bar-btn" onClick={goHome} aria-label="Home">
+          <HomeIcon size={22} />
         </button>
-        <div className="gv-title">
-          <span className="gv-title-main">Word Board</span>
-          {child && <span className="gv-title-sub">for {child.name}</span>}
-        </div>
-        <button className="round-btn" onClick={() => rebuild()} aria-label="New words">
-          <ReplayIcon size={24} />
+        <span className="wb-bar-title">Vocab{child ? ` · ${child.name}` : ''}</span>
+        <button className="wb-bar-btn" onClick={() => rebuild()} aria-label="New words">
+          <ReplayIcon size={20} />
         </button>
       </header>
 
-      <div className="gv-cats" role="tablist" aria-label="Word groups">
-        {['All', ...allCats].map((c) => (
+      <div className="wb-strip">
+        <button
+          className="wb-strip-msg"
+          onClick={sayMessage}
+          aria-label={message.length ? `Say ${message.join(' ')}` : 'Message bar'}
+        >
+          {message.length ? (
+            message.map((m, i) => (
+              <span key={i} className="wb-chip">
+                {m}
+              </span>
+            ))
+          ) : (
+            <span className="wb-strip-empty">Tap words to build a message…</span>
+          )}
+        </button>
+        <button className="wb-clear" onClick={clear} disabled={!message.length}>
+          CLEAR
+        </button>
+      </div>
+
+      <div className="wb-cats" role="tablist" aria-label="Word groups">
+        {['All', ...CATEGORIES].map((c) => (
           <button
             key={c}
-            className={`gv-cat ${c === cat ? 'is-active' : ''}`}
+            className={`wb-cat ${c === cat ? 'is-active' : ''}`}
             onClick={() => pickCat(c)}
           >
             {c}
@@ -86,28 +109,34 @@ export default function GridScreen() {
         ))}
       </div>
 
-      <main className="gv-board">
-        {board.map((w, idx) => (
-          <div
-            key={`${w.word}-${idx}`}
-            className={`gv-cell ${hi === w.word ? 'is-hi' : ''}`}
-            style={{ '--cell': colorFor(allCats, w.category) }}
-          >
-            <button className="gv-cell-tap" onClick={() => tap(w)} aria-label={`Hear ${w.word}`}>
-              {w.word}
-            </button>
+      <main className="wb-board">
+        {board.map((w, idx) => {
+          const img = imageKeyFor(w.word)
+          return (
             <button
-              className="gv-cell-refresh"
-              onClick={() => refreshCell(idx)}
-              aria-label={`New word in place of ${w.word}`}
+              key={`${w.word}-${idx}`}
+              className={`wb-cell ${hi === w.word ? 'is-hi' : ''}`}
+              onClick={() => tap(w)}
+              aria-label={`Add ${w.word}`}
             >
-              <ReplayIcon size={16} />
+              {img ? (
+                <img
+                  className="wb-cell-img"
+                  src={`${BASE}images/${img}.webp`}
+                  alt=""
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+              ) : (
+                <span className="wb-cell-spacer" aria-hidden="true" />
+              )}
+              <span className="wb-cell-word">{w.word}</span>
             </button>
-          </div>
-        ))}
+          )
+        })}
       </main>
-
-      <p className="gv-hint">Tap a word to hear it · tap ↻ on a cell for a fresh word</p>
     </div>
   )
 }

@@ -1,135 +1,173 @@
-.grid-scene {
-  padding: var(--space-md) var(--space-md) calc(var(--space-md) + var(--safe-bottom));
+/* Word Board — a clean AAC vocabulary board (white lattice, picture+word cells). */
+.wb {
+  width: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
-}
-.grid-scene > *:not(.scene-globe) {
-  position: relative;
-  z-index: 1;
-}
-.grid-scene .scene-globe {
-  position: absolute;
-  z-index: 0;
-}
-
-.gv-top {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-.gv-title {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.1;
-}
-.gv-title-main {
-  font-size: 20px;
-  color: #fff;
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-.gv-title-sub {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.gv-cats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin: var(--space-md) 0;
-}
-.gv-cat {
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  color: var(--text-dark);
-  background: rgba(255, 255, 255, 0.82);
-  border: 2px solid rgba(255, 255, 255, 0.6);
-}
-.gv-cat.is-active {
   background: #fff;
-  border-color: #5a3fd0;
-  color: #5a3fd0;
 }
 
-.gv-board {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-sm);
-  align-content: center;
-}
-.gv-cell {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  border-radius: 18px;
-  border: 3px solid #fff;
-  background: var(--cell, #3d7fb0);
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.16), 0 8px 14px rgba(0, 0, 0, 0.18);
-  animation: fade-scale-in var(--duration-normal) var(--easing-bounce) both;
-}
-.gv-cell.is-hi {
-  animation: tap-pop 0.6s var(--easing-out);
-}
-.gv-cell-tap {
-  position: absolute;
-  inset: 0;
+/* header bar */
+.wb-bar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border-radius: 15px;
-  color: #fff;
-  font-size: 21px;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #2f6fb0, #245c95);
+}
+.wb-bar-title {
+  font-size: 17px;
   font-weight: 800;
-  text-align: center;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
-  word-break: break-word;
+  color: #fff;
+  letter-spacing: 0.3px;
 }
-.gv-cell-tap:active {
-  transform: scale(0.96);
-}
-.gv-cell-refresh {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 26px;
-  height: 26px;
+.wb-bar-btn {
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 10px;
   color: #fff;
-  background: rgba(0, 0, 0, 0.22);
+  background: rgba(255, 255, 255, 0.16);
 }
-.gv-cell-refresh:active {
-  transform: scale(0.9);
+.wb-bar-btn:active {
+  transform: scale(0.94);
 }
 
-.gv-hint {
-  text-align: center;
-  font-size: 13px;
+/* message strip (tap words → build a message → tap to speak) */
+.wb-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 2px solid #e3e6ea;
+  background: #f7f9fb;
+}
+.wb-strip-msg {
+  flex: 1;
+  min-height: 52px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 2px solid #d5dae0;
+  background: #fff;
+  text-align: left;
+}
+.wb-chip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  background: #2f6fb0;
+}
+.wb-strip-empty {
+  font-size: 14px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  margin: var(--space-sm) 0 0;
+  color: #9aa6b2;
+}
+.wb-clear {
+  align-self: stretch;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #c0392b;
+  background: #fff;
+  border: 2px solid #e3b3ad;
+}
+.wb-clear:disabled {
+  opacity: 0.45;
+}
+.wb-clear:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* category filter */
+.wb-cats {
+  display: flex;
+  gap: 6px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-bottom: 2px solid #eef1f4;
+}
+.wb-cat {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4a5763;
+  background: #eef1f4;
+}
+.wb-cat.is-active {
+  color: #fff;
+  background: #2f6fb0;
+}
+
+/* the lattice board */
+.wb-board {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid #d8dde2;
+  border-left: 1px solid #d8dde2;
+  align-content: start;
+}
+.wb-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 96px;
+  padding: 8px 4px;
+  border-right: 1px solid #d8dde2;
+  border-bottom: 1px solid #d8dde2;
+  background: #fff;
+  color: #2c3e50;
+}
+.wb-cell.is-hi {
+  background: #dff0ff;
+}
+.wb-cell:active {
+  background: #eef6ff;
+}
+.wb-cell-img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+.wb-cell-spacer {
+  height: 6px;
+}
+.wb-cell-word {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  word-break: break-word;
 }
 
 @media (min-width: 700px) {
-  .grid-scene {
-    padding-left: var(--space-lg);
-    padding-right: var(--space-lg);
+  .wb-board {
+    grid-template-columns: repeat(6, 1fr);
   }
-  .gv-board {
-    gap: var(--space-md);
-    max-width: 620px;
-    margin: 0 auto;
+  .wb-cell {
+    min-height: 120px;
   }
-  .gv-cell-tap {
-    font-size: 26px;
+  .wb-cell-img {
+    width: 64px;
+    height: 64px;
+  }
+  .wb-cell-word {
+    font-size: 18px;
   }
 }
