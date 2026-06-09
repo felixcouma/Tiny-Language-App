@@ -28,6 +28,14 @@ node scripts/optimize-images.mjs --replace            # PNG -> WebP, remove PNGs
 git add public/images/*.webp && git commit && git push
 ```
 
+## 1b. Re-record clips whose TEXT changed (deleted → now device-voice, correct text)
+When a `say` line changes, its old pre-rendered clip is stale (plays the OLD words). We
+deleted those so the device voice reads the CURRENT text; `gen-audio.mjs` will re-record
+them (warm voice) automatically since they're now missing. Affected:
+- **Counting** `number-1..20` (×3 voices) — new "Five silly monkeys!" wording + correct count.
+- **Family** `home-sister/brother/grandma/grandpa` (×3 voices) — new "My sister! I love…" lines.
+Run after a TTS reset: `GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-audio.mjs` (skips existing).
+
 ## 2. TTS phrase + voice clips — resumes on daily quota reset
 - Phrase clips ~356/763 done; ~407 phrase + 20 voice (Leda 2 / Sulafat 18) remain.
 - ~200/day across the two free flash models → ~2–3 more mornings. Commands in this file's
