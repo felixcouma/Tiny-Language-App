@@ -1,11 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useStore } from '../store'
-import { voice, voiceSeq, stopSpeaking, slugify } from '../lib/audio'
-import { WORDS, CATEGORIES, wordsInCategory, imageKeyFor } from '../data/phraseContent'
+import { voice, voiceSeq, stopSpeaking } from '../lib/audio'
+import { WORDS, CATEGORIES, wordsInCategory } from '../data/phraseContent'
 import { HomeIcon } from '../components/Icons.jsx'
+import WordPic from '../components/WordPic.jsx'
 import './GridScreen.css'
-
-const BASE = import.meta.env.BASE_URL || '/'
 
 // Word Board — a therapist-style AAC communication board. It starts BLANK; tapping
 // an empty cell reveals a random word from the chosen category (or any, on "All"),
@@ -20,10 +19,6 @@ const pickRandom = (pool, taken) => {
   if (!avail.length) return null
   return avail[Math.floor(Math.random() * avail.length)]
 }
-
-// Image candidate for a word: a content illustration if mapped, else a symbol named
-// by slug (e.g. images/go.webp). Missing files just fail to load and we hide the img.
-const imageSrc = (word) => `${BASE}images/${imageKeyFor(word) || slugify(word)}.webp`
 
 export default function GridScreen() {
   const child = useStore((s) => s.activeProfile())
@@ -133,20 +128,7 @@ export default function GridScreen() {
             onClick={() => tap(idx)}
             aria-label={cell ? `Say ${cell.word}` : 'Find a word'}
           >
-            {cell && (
-              <>
-                <img
-                  className="wb-cell-img"
-                  src={imageSrc(cell.word)}
-                  alt=""
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.visibility = 'hidden'
-                  }}
-                />
-                <span className="wb-cell-word">{cell.word}</span>
-              </>
-            )}
+            {cell && <WordPic key={cell.word} word={cell.word} variant="cell" />}
           </button>
         ))}
       </main>

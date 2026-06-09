@@ -11,7 +11,9 @@ Reduced 25 → 18 for FREE first:
   Morning/Afternoon→sun. Add more aliases in `WORD_ALIAS` (src/data/phraseContent.js) when a
   comparable image already exists — gen-symbols then skips them automatically.
 
-Still genuinely missing art (show as text until generated — fine, like a sparse AAC board):
+Words without a picture now render as a **bold coloured word tile that fills the cell**
+(via `components/WordPic.jsx`) — consistent and readable, not bare. Generating real art for
+the concrete ones is still nice-to-have:
 - **Concrete objects (12)** — the ONLY pending image work: `Plane, Boat, Bike, Motorcycle,
   Helicopter, Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`
 - **Abstract (6)** — ✅ DECIDED: leave as text permanently (no image): `Want, Where, Today,

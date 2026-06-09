@@ -24,6 +24,7 @@ import {
   ArrowRightIcon,
 } from '../components/Icons.jsx'
 import Mascot from '../components/Mascot.jsx'
+import WordPic from '../components/WordPic.jsx'
 import './PhraseScreen.css'
 
 // Word & Phrase practice — a calm speech-therapy tool. Tap a word (or a phrase),
@@ -252,15 +253,7 @@ function PhraseMode({ level, onWords }) {
               onClick={() => sayWord(w, idx)}
               aria-label={`Hear ${w}`}
             >
-              <img
-                key={w}
-                className="ph-cube-img"
-                src={wordImg(w)}
-                alt=""
-                loading="lazy"
-                onError={hideOnError}
-              />
-              <span className="ph-cube-word">{w}</span>
+              <WordPic key={w} word={w} variant="cube" />
             </button>
           </Fragment>
         ))}

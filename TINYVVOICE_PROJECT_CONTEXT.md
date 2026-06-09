@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-09 18:41 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-09 18:56 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `1602481 Decide: 6 abstract words stay text-only; 12 concrete are the only pending images`
 - `2f84068 Reuse bank images + local digit cards for numbers (25 -> 18 gaps, free)`
 - `72c2063 Therapy pass 2: de-colour Safari ladders, enrich counting, add new phrase patterns`
 - `065eae5 Fill 101 word images; show pictures in Word Practice & Phrase Builder`
 - `1645a35 Therapy fixes: correct action game grammar, improve family + 3-word phrases`
 - `3fabe87 Tablet/mobile: make every page hand-scrollable; broaden image generator`
-- `54668db Add 3 more phrase clips from end-of-day TTS trickle (356/763)`
 <!-- AUTO:END -->
 
 ---
