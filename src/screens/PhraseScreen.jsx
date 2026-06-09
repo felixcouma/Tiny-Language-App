@@ -7,7 +7,16 @@ import {
   PHRASES,
   PHRASE_SIZES,
   isPhraseReady,
+  imageKeyFor,
 } from '../data/phraseContent'
+import { slugify } from '../lib/audio'
+
+const BASE = import.meta.env.BASE_URL || '/'
+// A word's picture (content illustration or generated symbol); hidden if absent.
+const wordImg = (word) => `${BASE}images/${imageKeyFor(word) || slugify(word)}.webp`
+const hideOnError = (e) => {
+  e.currentTarget.style.display = 'none'
+}
 import {
   HomeIcon,
   SpeakerIcon,
@@ -121,6 +130,16 @@ function WordMode({ onPhrases }) {
             ✓ heard
           </span>
         )}
+        {word && (
+          <img
+            key={word}
+            className="ph-word-img"
+            src={wordImg(word)}
+            alt=""
+            loading="lazy"
+            onError={hideOnError}
+          />
+        )}
         <span className="ph-word">{word}</span>
         <span className="ph-hear">
           <SpeakerIcon size={26} /> tap to hear
@@ -233,7 +252,15 @@ function PhraseMode({ level, onWords }) {
               onClick={() => sayWord(w, idx)}
               aria-label={`Hear ${w}`}
             >
-              {w}
+              <img
+                key={w}
+                className="ph-cube-img"
+                src={wordImg(w)}
+                alt=""
+                loading="lazy"
+                onError={hideOnError}
+              />
+              <span className="ph-cube-word">{w}</span>
             </button>
           </Fragment>
         ))}

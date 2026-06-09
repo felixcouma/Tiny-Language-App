@@ -144,10 +144,14 @@ sticker book uses `progress.collected`; mastery = heard ≥ 4×.
 - New script generates **AAC-style symbol icons** (nano-banana) for the therapy
   **verbs + prepositions** our content art doesn't cover → `public/images/<slug>.png`
   → WebP via `optimize-images.mjs`. The board shows them automatically.
-- **All 61 verb + preposition icons generated & live** (toddler doing the action for verbs;
-  ball+box / bold arrow for prepositions). public/images now has 114 WebP (53 + 61). The
-  spending cap was raised; a few transient 503s were retried successfully.
-- Word Board is now **24 cells (4×6)** so the page fills evenly.
+- **Word images for the full bank** — `gen-symbols.mjs` now covers ALL board words (nouns,
+  feelings, colours, numbers, nature, vehicles, school, time…), writing to the exact key the
+  board resolves (`imageKeyFor||slug`). **~162 of 209 words now have art** (public/images = 215
+  WebP). **23 remain** (Nine, Ten, vehicles, school, time words) — blocked: **prepayment credits
+  depleted**; top up Gemini credits then re-run `gen-symbols.mjs` (resumable) + optimize.
+- **Pictures added to therapy screens** — Word Practice card shows the word's picture above the
+  big word; Phrase Builder cubes show each word's picture (white inset on the coloured cube).
+- Word Board is **24 cells (4×6)**; cell images flex to fill the boxes.
 
 ### Next
 - Finish remaining Leda/Sulafat clips + the 491 phrase clips (above).
