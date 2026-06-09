@@ -27,12 +27,14 @@ voice (device voice is the graceful fallback until clips are pre-rendered).
   words-heard/mastery, no sticker toast) + `recordPhrase` (phrase → count).
 - **Home**: new chunky button labelled by level (“Word Practice” / “Phrase Builder”).
 - **Word Board** (`src/screens/GridScreen.jsx` + .css) — a real therapist-style **AAC
-  communication board** modelled on the reference photo: clean **white lattice** of
-  picture+word cells, a blue **"Vocab" header**, a **message strip** (tap cells → words
-  build up → tap the strip to speak the whole message → **CLEAR**), and a scrollable
-  category filter. Cells show our **real WebP symbols** where a word maps to one (~40 of
-  209: animals, body, objects, colours, numbers); others are clean text — like a sparse
-  AAC board. Pulls the full bank. Reached from Home → **Word Board**. `store.openGrid`.
+  communication board** modelled on the reference photo: clean **white lattice** filling
+  the screen, blue **"Vocab" header**, a **message strip** + **CLEAR**, scrollable category
+  filter. **Blank-reveal model**: the board starts empty; tapping a blank cell reveals a
+  **random** word from the chosen category (or any on "All"), speaks it, and adds it to the
+  message strip (no board dupes). Tapping a filled cell repeats it; tapping the strip speaks
+  the whole message. **CLEAR empties the message AND blanks the board** (category switch also
+  blanks it). Cells show a symbol from `images/<contentKey|slug>.webp` when present (real
+  WebP art / generated icons), else clean text. Reached from Home → **Word Board**.
 - **Readiness progression** (`isPhraseReady`, `PHRASE_READY_AT = 25`) — once a child
   has heard 25+ distinct words, Word Practice shows a gentle "Ready for phrases? Try the
   Phrase Builder →" link, and the Parent Dashboard surfaces a "Move to Level 2" suggestion.

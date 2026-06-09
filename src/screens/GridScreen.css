@@ -112,14 +112,14 @@
   background: #2f6fb0;
 }
 
-/* the lattice board */
+/* the lattice board (fills the height; rows stretch evenly) */
 .wb-board {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 1fr;
   border-top: 1px solid #d8dde2;
   border-left: 1px solid #d8dde2;
-  align-content: start;
 }
 .wb-cell {
   display: flex;
@@ -127,12 +127,21 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  min-height: 96px;
-  padding: 8px 4px;
+  min-height: 84px;
+  padding: 6px 4px;
   border-right: 1px solid #d8dde2;
   border-bottom: 1px solid #d8dde2;
   background: #fff;
   color: #2c3e50;
+}
+.wb-cell.is-blank {
+  background: #fcfdfe;
+}
+.wb-cell.is-blank:active {
+  background: #eef6ff;
+}
+.wb-cell.is-filled {
+  animation: fade-scale-in var(--duration-quick) var(--easing-out) both;
 }
 .wb-cell.is-hi {
   background: #dff0ff;
@@ -144,9 +153,6 @@
   width: 52px;
   height: 52px;
   object-fit: contain;
-}
-.wb-cell-spacer {
-  height: 6px;
 }
 .wb-cell-word {
   font-size: 16px;

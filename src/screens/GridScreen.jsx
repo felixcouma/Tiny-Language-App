@@ -1,27 +1,29 @@
 import { useMemo, useState } from 'react'
 import { useStore } from '../store'
-import { voice, voiceSeq, stopSpeaking } from '../lib/audio'
+import { voice, voiceSeq, stopSpeaking, slugify } from '../lib/audio'
 import { WORDS, CATEGORIES, wordsInCategory, imageKeyFor } from '../data/phraseContent'
-import { HomeIcon, ReplayIcon } from '../components/Icons.jsx'
+import { HomeIcon } from '../components/Icons.jsx'
 import './GridScreen.css'
 
 const BASE = import.meta.env.BASE_URL || '/'
 
-// Word Board — a therapist-style AAC vocabulary board. A clean white lattice of
-// picture+word cells; tap a cell to hear the word and add it to the message strip,
-// then tap the strip to speak the whole message. CLEAR empties it. A category
-// filter swaps the vocabulary set; "new words" reshuffles. Pulls the full bank.
-const BOARD = 20 // cells shown at once (lattice fills more on wider screens)
+// Word Board — a therapist-style AAC communication board. It starts BLANK; tapping
+// an empty cell reveals a random word from the chosen category (or any, on "All"),
+// speaks it, and adds it to the message strip. Tapping a filled cell repeats it.
+// CLEAR empties the message AND blanks the whole board. Picture symbols come from our
+// real WebP art (content images, or generated symbol icons named by slug).
+const BOARD = 20
 const MAX_MSG = 8
 
-const sample = (arr, n) => {
-  const pool = [...arr]
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[pool[i], pool[j]] = [pool[j], pool[i]]
-  }
-  return pool.slice(0, n)
+const pickRandom = (pool, taken) => {
+  const avail = pool.filter((w) => !taken.has(w.word))
+  if (!avail.length) return null
+  return avail[Math.floor(Math.random() * avail.length)]
 }
+
+// Image candidate for a word: a content illustration if mapped, else a symbol named
+// by slug (e.g. images/go.webp). Missing files just fail to load and we hide the img.
+const imageSrc = (word) => `${BASE}images/${imageKeyFor(word) || slugify(word)}.webp`
 
 export default function GridScreen() {
   const child = useStore((s) => s.activeProfile())
@@ -31,37 +33,53 @@ export default function GridScreen() {
 
   const [cat, setCat] = useState('All')
   const pool = useMemo(() => (cat === 'All' ? WORDS : wordsInCategory(cat)), [cat])
-  const [board, setBoard] = useState(() => sample(WORDS, BOARD))
+  const [board, setBoard] = useState(() => Array(BOARD).fill(null)) // null = blank
   const [hi, setHi] = useState(null)
   const [message, setMessage] = useState([])
 
-  const rebuild = (nextCat) => {
+  const blankBoard = () => setBoard(Array(BOARD).fill(null))
+
+  const say = (word) => {
     stopSpeaking()
-    const c = nextCat ?? cat
-    setBoard(sample(c === 'All' ? WORDS : wordsInCategory(c), BOARD))
+    voice(word)
+    recordWord(word)
+    setHi(word)
+    setTimeout(() => setHi((cur) => (cur === word ? null : cur)), 600)
+    setMessage((m) => (m.length >= MAX_MSG ? m : [...m, word]))
+  }
+
+  const tap = (idx) => {
+    const cell = board[idx]
+    if (cell) {
+      say(cell.word)
+      return
+    }
+    const taken = new Set(board.filter(Boolean).map((w) => w.word))
+    const fresh = pickRandom(pool, taken)
+    if (!fresh) return
+    setBoard((b) => b.map((c, i) => (i === idx ? fresh : c)))
+    say(fresh.word)
+  }
+
+  const pickCat = (c) => {
+    stopSpeaking()
+    setCat(c)
+    blankBoard() // new set → fresh blank board to reveal from
     setHi(null)
   }
-  const pickCat = (c) => {
-    setCat(c)
-    rebuild(c)
-  }
-  const tap = (w) => {
-    stopSpeaking()
-    voice(w.word)
-    recordWord(w.word)
-    setHi(w.word)
-    setTimeout(() => setHi((cur) => (cur === w.word ? null : cur)), 600)
-    setMessage((m) => (m.length >= MAX_MSG ? m : [...m, w.word]))
-  }
+
   const sayMessage = () => {
     if (!message.length) return
     stopSpeaking()
     voiceSeq(message)
     if (message.length > 1) recordPhrase(message.join(' '))
   }
+
   const clear = () => {
     stopSpeaking()
     setMessage([])
+    blankBoard() // CLEAR resets the message AND the board
+    setHi(null)
   }
 
   return (
@@ -71,9 +89,7 @@ export default function GridScreen() {
           <HomeIcon size={22} />
         </button>
         <span className="wb-bar-title">Vocab{child ? ` · ${child.name}` : ''}</span>
-        <button className="wb-bar-btn" onClick={() => rebuild()} aria-label="New words">
-          <ReplayIcon size={20} />
-        </button>
+        <span className="wb-bar-btn wb-bar-spacer" aria-hidden="true" />
       </header>
 
       <div className="wb-strip">
@@ -89,10 +105,10 @@ export default function GridScreen() {
               </span>
             ))
           ) : (
-            <span className="wb-strip-empty">Tap words to build a message…</span>
+            <span className="wb-strip-empty">Tap a box to find a word…</span>
           )}
         </button>
-        <button className="wb-clear" onClick={clear} disabled={!message.length}>
+        <button className="wb-clear" onClick={clear} disabled={!message.length && board.every((c) => !c)}>
           CLEAR
         </button>
       </div>
@@ -110,32 +126,29 @@ export default function GridScreen() {
       </div>
 
       <main className="wb-board">
-        {board.map((w, idx) => {
-          const img = imageKeyFor(w.word)
-          return (
-            <button
-              key={`${w.word}-${idx}`}
-              className={`wb-cell ${hi === w.word ? 'is-hi' : ''}`}
-              onClick={() => tap(w)}
-              aria-label={`Add ${w.word}`}
-            >
-              {img ? (
+        {board.map((cell, idx) => (
+          <button
+            key={idx}
+            className={`wb-cell ${cell ? 'is-filled' : 'is-blank'} ${cell && hi === cell.word ? 'is-hi' : ''}`}
+            onClick={() => tap(idx)}
+            aria-label={cell ? `Say ${cell.word}` : 'Find a word'}
+          >
+            {cell && (
+              <>
                 <img
                   className="wb-cell-img"
-                  src={`${BASE}images/${img}.webp`}
+                  src={imageSrc(cell.word)}
                   alt=""
                   loading="lazy"
                   onError={(e) => {
-                    e.currentTarget.style.display = 'none'
+                    e.currentTarget.style.visibility = 'hidden'
                   }}
                 />
-              ) : (
-                <span className="wb-cell-spacer" aria-hidden="true" />
-              )}
-              <span className="wb-cell-word">{w.word}</span>
-            </button>
-          )
-        })}
+                <span className="wb-cell-word">{cell.word}</span>
+              </>
+            )}
+          </button>
+        ))}
       </main>
     </div>
   )
