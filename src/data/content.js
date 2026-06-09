@@ -90,26 +90,26 @@ const A = (word, wiki, ipa, soundLabel, script, expand) => ({
   sound: word.toLowerCase(), expand,
 })
 const animals = [
-  A('Dog', 'Dog', '/dɔg/', 'Woof woof', 'The dog! Listen… woof, woof!', ['Brown dog', 'Big dog', 'The dog runs']),
-  A('Cat', 'Cat', '/kæt/', 'Meow', 'The cat! Listen… meow, meow!', ['Soft cat', 'Little cat', 'The cat sleeps']),
-  A('Cow', 'Cattle', '/kaʊ/', 'Moooo', 'The cow! Listen… mooooo!', ['Brown cow', 'Big cow', 'The cow eats grass']),
-  A('Duck', 'Duck', '/dʌk/', 'Quack', 'The duck! Listen… quack, quack!', ['Yellow duck', 'Little duck', 'The duck swims']),
-  A('Pig', 'Pig', '/pɪg/', 'Oink', 'The pig! Listen… oink, oink!', ['Pink pig', 'Fat pig', 'The pig is pink']),
-  A('Horse', 'Horse', '/hɔrs/', 'Neigh', 'The horse! Listen… neighhh!', ['Brown horse', 'Big horse', 'The horse runs fast']),
-  A('Sheep', 'Sheep', '/ʃip/', 'Baa', 'The sheep! Listen… baa, baa!', ['White sheep', 'Soft sheep', 'The sheep is soft']),
-  A('Chicken', 'Chicken', '/ˈtʃɪkɪn/', 'Cluck', 'The chicken! Listen… cluck, cluck!', ['Red chicken', 'Little chicken', 'The chicken pecks']),
-  A('Bird', 'Bird', '/bɜrd/', 'Tweet', 'The bird! Listen… tweet, tweet!', ['Blue bird', 'Tiny bird', 'The bird can fly']),
-  A('Fish', 'Fish', '/fɪʃ/', 'Blub', 'The fish! Listen… blub, blub!', ['Orange fish', 'Little fish', 'The fish swims']),
-  A('Lion', 'Lion', '/ˈlaɪən/', 'Roar', 'The lion! Hear the big roar… roar!', ['Big lion', 'Gold lion', 'The lion roars']),
-  A('Monkey', 'Monkey', '/ˈmʌŋki/', 'Ooh ooh', 'The monkey! Listen… ooh ooh ah ah!', ['Brown monkey', 'Funny monkey', 'The monkey climbs']),
-  A('Elephant', 'Elephant', '/ˈɛləfənt/', 'Trumpet', 'The elephant! So big! Trumpet sound!', ['Big elephant', 'Gray elephant', 'The elephant is huge']),
-  A('Bear', 'Bear', '/bɛr/', 'Growl', 'The bear! Listen… grrrowl!', ['Brown bear', 'Big bear', 'The bear sleeps']),
-  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['White rabbit', 'Soft rabbit', 'The rabbit hops']),
-  A('Frog', 'Frog', '/frɑg/', 'Croak', 'The frog! Listen… croak, croak!', ['Green frog', 'Little frog', 'The frog jumps']),
-  A('Bee', 'Bee', '/bi/', 'Buzz', 'The bee! Listen… buzz, buzz!', ['Yellow bee', 'Tiny bee', 'The bee flies']),
-  A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty fluttering wings!', ['Pretty butterfly', 'Blue butterfly', 'The butterfly flies']),
-  A('Turtle', 'Turtle', '/ˈtɜrtəl/', 'Slow friend', 'The turtle! Slow and steady.', ['Green turtle', 'Slow turtle', 'The turtle walks slow']),
-  A('Zebra', 'Zebra', '/ˈzɛbrə/', 'Neigh', 'The zebra! Black and white stripes!', ['Striped zebra', 'Big zebra', 'The zebra has stripes']),
+  A('Dog', 'Dog', '/dɔg/', 'Woof woof', 'The dog! Listen… woof, woof!', ['Big dog', 'Dog runs', 'The dog runs fast']),
+  A('Cat', 'Cat', '/kæt/', 'Meow', 'The cat! Listen… meow, meow!', ['Soft cat', 'Cat sleeps', 'The cat is sleeping']),
+  A('Cow', 'Cattle', '/kaʊ/', 'Moooo', 'The cow! Listen… mooooo!', ['Big cow', 'Cow eats', 'The cow eats grass']),
+  A('Duck', 'Duck', '/dʌk/', 'Quack', 'The duck! Listen… quack, quack!', ['Little duck', 'Duck swims', 'The duck swims']),
+  A('Pig', 'Pig', '/pɪg/', 'Oink', 'The pig! Listen… oink, oink!', ['Big pig', 'Pig oinks', 'The pig says oink']),
+  A('Horse', 'Horse', '/hɔrs/', 'Neigh', 'The horse! Listen… neighhh!', ['Big horse', 'Horse runs', 'The horse runs fast']),
+  A('Sheep', 'Sheep', '/ʃip/', 'Baa', 'The sheep! Listen… baa, baa!', ['Soft sheep', 'Sheep baas', 'The sheep says baa']),
+  A('Chicken', 'Chicken', '/ˈtʃɪkɪn/', 'Cluck', 'The chicken! Listen… cluck, cluck!', ['Little chicken', 'Chicken pecks', 'The chicken pecks corn']),
+  A('Bird', 'Bird', '/bɜrd/', 'Tweet', 'The bird! Listen… tweet, tweet!', ['Tiny bird', 'Bird flies', 'The bird can fly']),
+  A('Fish', 'Fish', '/fɪʃ/', 'Blub', 'The fish! Listen… blub, blub!', ['Little fish', 'Fish swims', 'The fish swims fast']),
+  A('Lion', 'Lion', '/ˈlaɪən/', 'Roar', 'The lion! Hear the big roar… roar!', ['Big lion', 'Lion roars', 'The lion roars loud']),
+  A('Monkey', 'Monkey', '/ˈmʌŋki/', 'Ooh ooh', 'The monkey! Listen… ooh ooh ah ah!', ['Funny monkey', 'Monkey climbs', 'The monkey climbs high']),
+  A('Elephant', 'Elephant', '/ˈɛləfənt/', 'Trumpet', 'The elephant! So big! Trumpet sound!', ['Big elephant', 'Elephant stomps', 'The elephant is huge']),
+  A('Bear', 'Bear', '/bɛr/', 'Growl', 'The bear! Listen… grrrowl!', ['Big bear', 'Bear sleeps', 'The bear is sleeping']),
+  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['Soft rabbit', 'Rabbit hops', 'The rabbit hops away']),
+  A('Frog', 'Frog', '/frɑg/', 'Croak', 'The frog! Listen… croak, croak!', ['Little frog', 'Frog jumps', 'The frog jumps high']),
+  A('Bee', 'Bee', '/bi/', 'Buzz', 'The bee! Listen… buzz, buzz!', ['Tiny bee', 'Bee flies', 'The bee buzzes']),
+  A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty fluttering wings!', ['Pretty butterfly', 'Butterfly flies', 'The butterfly flutters']),
+  A('Turtle', 'Turtle', '/ˈtɜrtəl/', 'Slow friend', 'The turtle! Slow and steady.', ['Slow turtle', 'Turtle walks', 'The turtle walks slow']),
+  A('Zebra', 'Zebra', '/ˈzɛbrə/', 'Neigh', 'The zebra! Black and white stripes!', ['Big zebra', 'Zebra runs', 'The zebra has stripes']),
 ]
 
 // ---------- RAINBOW ISLAND (colours — swatches) ----------
@@ -143,11 +143,13 @@ const numbers = NUM.map((word, i) => {
   const seq = n <= 10
     ? Array.from({ length: n }, (_, k) => k + 1).join(', ')
     : `1, 2, 3 … ${n}`
+  const lower = word.toLowerCase()
   return {
     word, numeral: n, count: n, ipa: NUM_IPA[i], color: CAT.count.color,
     sound: `number-${n}`,
     say: `${word}! Count with me… ${seq}. ${word} ${COUNT_NOUN[i]}!`,
-    expand: [`${n} ${COUNT_NOUN[i]}`, `Count to ${n}`, `I see ${n}`],
+    // Enriched ladder (number word, not the digit): "Five monkeys" · "Count to five" · "I see five".
+    expand: [`${word} ${COUNT_NOUN[i]}`, `Count to ${lower}`, `I see ${lower}`],
   }
 })
 

@@ -92,45 +92,45 @@ Source: `src/data/content.js` (each item `say` + `expand`).
 
 ### Safari Island — `safari-island` (20)
 - **Dog** — "The dog! Listen… woof, woof!"
-  - ladder: "Brown dog" · "Big dog" · "The dog runs"
+  - ladder: "Big dog" · "Dog runs" · "The dog runs fast"
 - **Cat** — "The cat! Listen… meow, meow!"
-  - ladder: "Soft cat" · "Little cat" · "The cat sleeps"
+  - ladder: "Soft cat" · "Cat sleeps" · "The cat is sleeping"
 - **Cow** — "The cow! Listen… mooooo!"
-  - ladder: "Brown cow" · "Big cow" · "The cow eats grass"
+  - ladder: "Big cow" · "Cow eats" · "The cow eats grass"
 - **Duck** — "The duck! Listen… quack, quack!"
-  - ladder: "Yellow duck" · "Little duck" · "The duck swims"
+  - ladder: "Little duck" · "Duck swims" · "The duck swims"
 - **Pig** — "The pig! Listen… oink, oink!"
-  - ladder: "Pink pig" · "Fat pig" · "The pig is pink"
+  - ladder: "Big pig" · "Pig oinks" · "The pig says oink"
 - **Horse** — "The horse! Listen… neighhh!"
-  - ladder: "Brown horse" · "Big horse" · "The horse runs fast"
+  - ladder: "Big horse" · "Horse runs" · "The horse runs fast"
 - **Sheep** — "The sheep! Listen… baa, baa!"
-  - ladder: "White sheep" · "Soft sheep" · "The sheep is soft"
+  - ladder: "Soft sheep" · "Sheep baas" · "The sheep says baa"
 - **Chicken** — "The chicken! Listen… cluck, cluck!"
-  - ladder: "Red chicken" · "Little chicken" · "The chicken pecks"
+  - ladder: "Little chicken" · "Chicken pecks" · "The chicken pecks corn"
 - **Bird** — "The bird! Listen… tweet, tweet!"
-  - ladder: "Blue bird" · "Tiny bird" · "The bird can fly"
+  - ladder: "Tiny bird" · "Bird flies" · "The bird can fly"
 - **Fish** — "The fish! Listen… blub, blub!"
-  - ladder: "Orange fish" · "Little fish" · "The fish swims"
+  - ladder: "Little fish" · "Fish swims" · "The fish swims fast"
 - **Lion** — "The lion! Hear the big roar… roar!"
-  - ladder: "Big lion" · "Gold lion" · "The lion roars"
+  - ladder: "Big lion" · "Lion roars" · "The lion roars loud"
 - **Monkey** — "The monkey! Listen… ooh ooh ah ah!"
-  - ladder: "Brown monkey" · "Funny monkey" · "The monkey climbs"
+  - ladder: "Funny monkey" · "Monkey climbs" · "The monkey climbs high"
 - **Elephant** — "The elephant! So big! Trumpet sound!"
-  - ladder: "Big elephant" · "Gray elephant" · "The elephant is huge"
+  - ladder: "Big elephant" · "Elephant stomps" · "The elephant is huge"
 - **Bear** — "The bear! Listen… grrrowl!"
-  - ladder: "Brown bear" · "Big bear" · "The bear sleeps"
+  - ladder: "Big bear" · "Bear sleeps" · "The bear is sleeping"
 - **Rabbit** — "The rabbit! Hop, hop, hop!"
-  - ladder: "White rabbit" · "Soft rabbit" · "The rabbit hops"
+  - ladder: "Soft rabbit" · "Rabbit hops" · "The rabbit hops away"
 - **Frog** — "The frog! Listen… croak, croak!"
-  - ladder: "Green frog" · "Little frog" · "The frog jumps"
+  - ladder: "Little frog" · "Frog jumps" · "The frog jumps high"
 - **Bee** — "The bee! Listen… buzz, buzz!"
-  - ladder: "Yellow bee" · "Tiny bee" · "The bee flies"
+  - ladder: "Tiny bee" · "Bee flies" · "The bee buzzes"
 - **Butterfly** — "The butterfly! Pretty fluttering wings!"
-  - ladder: "Pretty butterfly" · "Blue butterfly" · "The butterfly flies"
+  - ladder: "Pretty butterfly" · "Butterfly flies" · "The butterfly flutters"
 - **Turtle** — "The turtle! Slow and steady."
-  - ladder: "Green turtle" · "Slow turtle" · "The turtle walks slow"
+  - ladder: "Slow turtle" · "Turtle walks" · "The turtle walks slow"
 - **Zebra** — "The zebra! Black and white stripes!"
-  - ladder: "Striped zebra" · "Big zebra" · "The zebra has stripes"
+  - ladder: "Big zebra" · "Zebra runs" · "The zebra has stripes"
 
 ### Rainbow Island — `rainbow-island` (10)
 - **Red** — "Red! Like a red apple."
@@ -156,45 +156,45 @@ Source: `src/data/content.js` (each item `say` + `expand`).
 
 ### Counting Mountain — `counting-mountain` (20)
 - **One** — "One! Count with me… 1. One red apple!"
-  - ladder: "1 red apple" · "Count to 1" · "I see 1"
+  - ladder: "One red apple" · "Count to one" · "I see one"
 - **Two** — "Two! Count with me… 1, 2. Two yellow bananas!"
-  - ladder: "2 yellow bananas" · "Count to 2" · "I see 2"
+  - ladder: "Two yellow bananas" · "Count to two" · "I see two"
 - **Three** — "Three! Count with me… 1, 2, 3. Three happy puppies!"
-  - ladder: "3 happy puppies" · "Count to 3" · "I see 3"
+  - ladder: "Three happy puppies" · "Count to three" · "I see three"
 - **Four** — "Four! Count with me… 1, 2, 3, 4. Four green frogs!"
-  - ladder: "4 green frogs" · "Count to 4" · "I see 4"
+  - ladder: "Four green frogs" · "Count to four" · "I see four"
 - **Five** — "Five! Count with me… 1, 2, 3, 4, 5. Five silly monkeys!"
-  - ladder: "5 silly monkeys" · "Count to 5" · "I see 5"
+  - ladder: "Five silly monkeys" · "Count to five" · "I see five"
 - **Six** — "Six! Count with me… 1, 2, 3, 4, 5, 6. Six bright balloons!"
-  - ladder: "6 bright balloons" · "Count to 6" · "I see 6"
+  - ladder: "Six bright balloons" · "Count to six" · "I see six"
 - **Seven** — "Seven! Count with me… 1, 2, 3, 4, 5, 6, 7. Seven shiny stars!"
-  - ladder: "7 shiny stars" · "Count to 7" · "I see 7"
+  - ladder: "Seven shiny stars" · "Count to seven" · "I see seven"
 - **Eight** — "Eight! Count with me… 1, 2, 3, 4, 5, 6, 7, 8. Eight spotted ladybugs!"
-  - ladder: "8 spotted ladybugs" · "Count to 8" · "I see 8"
+  - ladder: "Eight spotted ladybugs" · "Count to eight" · "I see eight"
 - **Nine** — "Nine! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9. Nine orange carrots!"
-  - ladder: "9 orange carrots" · "Count to 9" · "I see 9"
+  - ladder: "Nine orange carrots" · "Count to nine" · "I see nine"
 - **Ten** — "Ten! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. Ten tiny toes!"
-  - ladder: "10 tiny toes" · "Count to 10" · "I see 10"
+  - ladder: "Ten tiny toes" · "Count to ten" · "I see ten"
 - **Eleven** — "Eleven! Count with me… 1, 2, 3 … 11. Eleven pretty butterflies!"
-  - ladder: "11 pretty butterflies" · "Count to 11" · "I see 11"
+  - ladder: "Eleven pretty butterflies" · "Count to eleven" · "I see eleven"
 - **Twelve** — "Twelve! Count with me… 1, 2, 3 … 12. Twelve fluffy bunnies!"
-  - ladder: "12 fluffy bunnies" · "Count to 12" · "I see 12"
+  - ladder: "Twelve fluffy bunnies" · "Count to twelve" · "I see twelve"
 - **Thirteen** — "Thirteen! Count with me… 1, 2, 3 … 13. Thirteen sparkly buttons!"
-  - ladder: "13 sparkly buttons" · "Count to 13" · "I see 13"
+  - ladder: "Thirteen sparkly buttons" · "Count to thirteen" · "I see thirteen"
 - **Fourteen** — "Fourteen! Count with me… 1, 2, 3 … 14. Fourteen busy ants!"
-  - ladder: "14 busy ants" · "Count to 14" · "I see 14"
+  - ladder: "Fourteen busy ants" · "Count to fourteen" · "I see fourteen"
 - **Fifteen** — "Fifteen! Count with me… 1, 2, 3 … 15. Fifteen soft clouds!"
-  - ladder: "15 soft clouds" · "Count to 15" · "I see 15"
+  - ladder: "Fifteen soft clouds" · "Count to fifteen" · "I see fifteen"
 - **Sixteen** — "Sixteen! Count with me… 1, 2, 3 … 16. Sixteen rolling wheels!"
-  - ladder: "16 rolling wheels" · "Count to 16" · "I see 16"
+  - ladder: "Sixteen rolling wheels" · "Count to sixteen" · "I see sixteen"
 - **Seventeen** — "Seventeen! Count with me… 1, 2, 3 … 17. Seventeen singing birds!"
-  - ladder: "17 singing birds" · "Count to 17" · "I see 17"
+  - ladder: "Seventeen singing birds" · "Count to seventeen" · "I see seventeen"
 - **Eighteen** — "Eighteen! Count with me… 1, 2, 3 … 18. Eighteen tasty cookies!"
-  - ladder: "18 tasty cookies" · "Count to 18" · "I see 18"
+  - ladder: "Eighteen tasty cookies" · "Count to eighteen" · "I see eighteen"
 - **Nineteen** — "Nineteen! Count with me… 1, 2, 3 … 19. Nineteen cheerful flowers!"
-  - ladder: "19 cheerful flowers" · "Count to 19" · "I see 19"
+  - ladder: "Nineteen cheerful flowers" · "Count to nineteen" · "I see nineteen"
 - **Twenty** — "Twenty! Count with me… 1, 2, 3 … 20. Twenty dancing raindrops!"
-  - ladder: "20 dancing raindrops" · "Count to 20" · "I see 20"
+  - ladder: "Twenty dancing raindrops" · "Count to twenty" · "I see twenty"
 
 ### Music Forest — `music-forest` (8)
 - **Cow** — "Listen… mooooo! Who says moo? The cow!"
@@ -273,7 +273,7 @@ Source: `SoundGame` / `TwinMode` / `ChoiceGame` templates (mirrored in `scripts/
 ## Speech-therapy vocabulary
 Source: `src/data/phraseContent.js`.
 
-### Single words (209) — by category
+### Single words (211) — by category
 - **Doing words**: Go, Play, Eat, Sleep, Stop, Help, Come, Run, Sit, Stand, Look, Sing, Kick, Throw, Catch, Jump, Dance, Laugh, Cry, Hug, Kiss, Clap, Splash, Climb, Slide, Push, Pull, Pick, Drop, Pour, Drink, Blow, Read, Peek, Hide, Find, Open, Close, Turn, Spin, Stretch, Bend, Ride, Roll, Skip, Hop, Wave, Shake
 - **Where words**: In, On, Out, Up, Down, Here, There, Home, Under, Behind, Between, Next to, Far
 - **Things**: Ball, Toy, Food, Water, Cup, Shoe, Book, Car, Door, Bed
@@ -289,13 +289,14 @@ Source: `src/data/phraseContent.js`.
 - **Toys**: Block, Train, Truck, Doll, Puzzle, Swing, Balloon, Music
 - **Colours**: Red, Blue, Yellow, Green, Purple, Orange
 - **Numbers**: One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+- **Asking words**: Want, Where
 - **Nature**: Tree, Flower, Grass, Sun, Moon, Star, Rain, Snow, Cloud, Rock
 - **Going places**: Bus, Plane, Boat, Bike, Motorcycle, Helicopter
 - **School**: Pencil, Paper, Crayon, Scissors, Glue, Shape
 - **Time**: Day, Night, Morning, Afternoon, Today, Now, When, After
 
-### Two-word phrases (44)
-"Go In" · "Go Out" · "Go Up" · "Come Here" · "Sit Down" · "Stand Up" · "Jump Up" · "Look Up" · "Look Out" · "Climb Up" · "Run Out" · "Eat Food" · "Eat Apple" · "Eat Banana" · "Drink Milk" · "Drink Juice" · "Drink Water" · "Play Ball" · "Kick Ball" · "Throw Ball" · "Catch Ball" · "Read Book" · "Open Door" · "Close Door" · "Push Car" · "Pull Train" · "Hug Baby" · "Hug Mama" · "Big Dog" · "Big Ball" · "Small Cat" · "Small Ball" · "Hot Food" · "Cold Milk" · "Cold Water" · "More Food" · "More Milk" · "More Juice" · "More Ball" · "Red Ball" · "Blue Car" · "Yellow Duck" · "Green Ball" · "Bye Bye"
+### Two-word phrases (54)
+"Go In" · "Go Out" · "Go Up" · "Come Here" · "Sit Down" · "Stand Up" · "Jump Up" · "Look Up" · "Look Out" · "Climb Up" · "Run Out" · "Eat Food" · "Eat Apple" · "Eat Banana" · "Drink Milk" · "Drink Juice" · "Drink Water" · "Play Ball" · "Kick Ball" · "Throw Ball" · "Catch Ball" · "Read Book" · "Open Door" · "Close Door" · "Push Car" · "Pull Train" · "Hug Baby" · "Hug Mama" · "Big Dog" · "Big Ball" · "Small Cat" · "Small Ball" · "Hot Food" · "Cold Milk" · "Cold Water" · "More Food" · "More Milk" · "More Juice" · "More Ball" · "Red Ball" · "Blue Car" · "Yellow Duck" · "Green Ball" · "Want Ball" · "Want Milk" · "More Apple" · "More Cookie" · "No Ball" · "No More" · "No Bed" · "Look Dog" · "Look Cat" · "Look Baby" · "Bye Bye"
 
-### Three-word phrases (26)
-"Sit On Chair" · "Jump On Bed" · "Climb Up Stairs" · "Go In Car" · "Throw Ball Up" · "Kick Ball Out" · "Roll Ball Down" · "Push Car Up" · "Eat Big Apple" · "Eat Red Apple" · "Drink Cold Milk" · "Kick Big Ball" · "Throw Small Ball" · "Eat More Food" · "Drink More Milk" · "Eat More Cookie" · "Mama Hug Baby" · "Baby Eat Food" · "Baby Drink Milk" · "Dog Eat Food" · "Cat Play Ball" · "Baby Go Up" · "Baby Sit Down" · "Throw Big Ball" · "Push Blue Car" · "Ride Fast Bike"
+### Three-word phrases (32)
+"Sit On Chair" · "Jump On Bed" · "Climb Up Stairs" · "Go In Car" · "Throw Ball Up" · "Kick Ball Out" · "Roll Ball Down" · "Push Car Up" · "Eat Big Apple" · "Eat Red Apple" · "Drink Cold Milk" · "Kick Big Ball" · "Throw Small Ball" · "Eat More Food" · "Drink More Milk" · "Eat More Cookie" · "Mama Hug Baby" · "Baby Eat Food" · "Baby Drink Milk" · "Dog Eat Food" · "Cat Play Ball" · "Baby Go Up" · "Baby Sit Down" · "Throw Big Ball" · "Push Blue Car" · "Ride Fast Bike" · "Want More Milk" · "Want More Food" · "No More Milk" · "No More Ball" · "Where Ball Go" · "Where Mama Go"

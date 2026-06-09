@@ -5,6 +5,16 @@
 
 ## Last Session — 2026-06-08 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
+### 🗣️ Therapy-doc pass 2 (2026-06-09)
+- **Safari ladders** de-coloured: "Brown dog" → "Big dog · Dog runs · The dog runs fast"
+  (animal + verb morphology, all 20).
+- **Counting ladders** enriched with number-word form + varied nouns: "Five silly monkeys ·
+  Count to five · I see five" (kept varied nouns per request, not apples-only).
+- **New phrase patterns** added: requesting ("Want Ball", "Want More Milk"), refusing
+  ("No Ball", "No More Milk"), joint attention ("Look Dog"), questions ("Where Ball Go").
+  Two new words (Want, Where). Phrase banks now 54 two-word / 32 three-word; 211 words.
+- See **`docs/LEFT_TO_DO.md`** — 25 remaining vocab images (credits depleted) + clip backlog.
+
 ### 🌙 Overnight 2026-06-09 (autonomous) — observations from testing
 - **Auto Play timing fixed** — `LearningScreen` + `ChantScreen` now advance only AFTER the
   clip (word + animal sound) finishes playing, not on a fixed timer that cut audio short.

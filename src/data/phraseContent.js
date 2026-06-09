@@ -44,6 +44,7 @@ const TIER2 = {
   Animals: ['Bird', 'Fish', 'Cow', 'Duck', 'Pig', 'Sheep', 'Horse'],
   Colours: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   Numbers: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'],
+  'Asking words': ['Want', 'Where'], // enable requesting + question phrases
 }
 const TIER3 = {
   'Doing words': ['Peek', 'Hide', 'Find', 'Open', 'Close', 'Turn', 'Spin', 'Stretch', 'Bend', 'Ride', 'Roll', 'Skip', 'Hop', 'Wave', 'Shake'],
@@ -115,6 +116,12 @@ const TWO_WORD = [
   'More Food', 'More Milk', 'More Juice', 'More Ball',
   // colour + thing
   'Red Ball', 'Blue Car', 'Yellow Duck', 'Green Ball',
+  // requesting (functional — high therapy value)
+  'Want Ball', 'Want Milk', 'More Apple', 'More Cookie',
+  // saying no / refusing
+  'No Ball', 'No More', 'No Bed',
+  // joint attention (look together)
+  'Look Dog', 'Look Cat', 'Look Baby',
   // social
   'Bye Bye',
 ]
@@ -133,6 +140,12 @@ const THREE_WORD = [
   'Baby Go Up', 'Baby Sit Down',
   // action + describing + thing (was pure descriptors — added a verb for therapy value)
   'Throw Big Ball', 'Push Blue Car', 'Ride Fast Bike',
+  // requesting more (functional)
+  'Want More Milk', 'Want More Food',
+  // refusing
+  'No More Milk', 'No More Ball',
+  // asking where (question formation)
+  'Where Ball Go', 'Where Mama Go',
 ]
 
 const toEntries = (list) => list.map((phrase) => ({ words: phrase.split(' '), phrase }))
