@@ -12,9 +12,10 @@ Reduced 25 → 18 for FREE first:
   comparable image already exists — gen-symbols then skips them automatically.
 
 Still genuinely missing art (show as text until generated — fine, like a sparse AAC board):
-- **Concrete objects (12)** — worth generating: `Plane, Boat, Bike, Motorcycle, Helicopter,
-  Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`
-- **Abstract (6)** — hard to picture, likely leave as text: `Want, Where, Today, Now, When, After`
+- **Concrete objects (12)** — the ONLY pending image work: `Plane, Boat, Bike, Motorcycle,
+  Helicopter, Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`
+- **Abstract (6)** — ✅ DECIDED: leave as text permanently (no image): `Want, Where, Today,
+  Now, When, After`
 
 **When Gemini credits are topped up** (≈ $0.50 for the 12 concrete words; was blocked with
 "prepayment credits are depleted"), run — resumable, skips everything already present:
