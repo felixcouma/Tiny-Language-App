@@ -288,9 +288,9 @@ function playClip(url) {
 
 // Speak text via the device engine, resolving when it finishes. Polling
 // speechSynthesis.speaking is the most cross-browser-reliable "ended" signal.
-function speakAwait(text) {
+function speakAwait(text, opts) {
   return new Promise((resolve) => {
-    if (!speak(text)) return resolve(false)
+    if (!speak(text, opts)) return resolve(false)
     const sp = window.speechSynthesis
     const start = Date.now()
     const t = setInterval(() => {
@@ -305,14 +305,15 @@ function speakAwait(text) {
 
 // Say the item's word/phrase in our voice, resolving when done. Order:
 // chosen storybook voice → default voice → phrase clip → premium → device.
-async function sayWord(key, phrase) {
+async function sayWord(key, phrase, opts) {
   if (key) {
     if (await playClip(`${BASE}sounds/${storyVoice}/${key}.mp3`)) return
     if (storyVoice !== DEFAULT_STORYBOOK_VOICE && (await playClip(`${BASE}sounds/${DEFAULT_STORYBOOK_VOICE}/${key}.mp3`))) return
   }
   if (phrase && (await playClip(phraseUrl(phrase)))) return
   if (premiumEnabled() && (await premiumSpeak(phrase))) return
-  if (!(await speakAwait(phrase))) playChime(key || phrase)
+  // opts (e.g. a slower rate for counting) only applies to the device-voice fallback.
+  if (!(await speakAwait(phrase, opts))) playChime(key || phrase)
 }
 
 export async function playItem(item) {
@@ -321,8 +322,12 @@ export async function playItem(item) {
   const key = item.sound
   const phrase = item.say || item.word || ''
 
+  // Counting cards read slower & sing-song so toddlers can count along (device
+  // voice only; the warm pre-rendered clip already has this pacing baked in).
+  const opts = item.numeral != null ? { rate: 0.72 } : undefined
+
   // 1) Say the word/phrase (warm bundled voice → premium → device).
-  await sayWord(key, phrase)
+  await sayWord(key, phrase, opts)
 
   // 2) For animals, follow with the real recorded sound (baked 3–4x repeat).
   if (!muted && key && FX_KEYS.has(key)) {
