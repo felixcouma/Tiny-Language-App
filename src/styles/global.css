@@ -160,12 +160,16 @@ button {
 /* ===================== Cartoon "scene" theme ===================== */
 .scene {
   position: relative;
-  flex: 1;
+  /* grow with content (don't shrink) so a tall page extends the scrollable
+     app-shell instead of being clipped — hand-scroll works on every screen,
+     which matters on shorter tablet/landscape viewports. */
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   min-height: 100%;
   background: linear-gradient(180deg, #8ad6ef 0%, #b9e7f6 55%, #d9f3fb 100%);
-  overflow: hidden;
+  /* note: NOT overflow:hidden — that would clip overflowing content. The
+     decorative globe clips itself (see .scene-globe) so nothing leaks. */
 }
 /* twinkling stars */
 .scene::before {
@@ -189,8 +193,17 @@ button {
   0%, 100% { opacity: 0.45; }
   50% { opacity: 0.9; }
 }
-/* cartoon globe peeking at the bottom */
+/* cartoon globe peeking at the bottom — a self-clipping decorative layer that
+   fills the scene and clips the globe shape, so it never adds scrollable height. */
 .scene-globe {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.scene-globe::before {
+  content: '';
   position: absolute;
   left: 50%;
   bottom: -48%;
@@ -204,8 +217,6 @@ button {
     radial-gradient(closest-side at 86% 70%, #8ed27c 0 12%, transparent 13%),
     linear-gradient(180deg, #58c0ea, #39a8dc);
   box-shadow: 0 -6px 30px rgba(0, 0, 0, 0.08);
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* shared small header button + badge (games, parent) */
