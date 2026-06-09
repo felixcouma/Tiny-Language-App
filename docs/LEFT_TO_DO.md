@@ -3,19 +3,24 @@
 > Tracked backlog of things deliberately deferred (mostly blocked on credits/quota).
 > When ready, do the steps below and commit.
 
-## 1. Remaining Word Board / vocabulary images (25) — BLOCKED: Gemini credits depleted
-Image generation stopped with **"Your prepayment credits are depleted."** These 25 words
-still show as text-only on the Word Board / Word Practice / Phrase cubes (they hide their
-image gracefully until art exists):
+## 1. Remaining vocabulary images (18) — only these still need nano
+Reduced 25 → 18 for FREE first:
+- **Numbers 1–10**: generated locally as coloured digit+dot cards (`scripts/gen-numbers.mjs`,
+  uses sharp — no API). Re-run anytime: `node scripts/gen-numbers.mjs`.
+- **Reused from the bank** (alias in `imageKeyFor`): Bunny→rabbit, Day→sun, Night→moon,
+  Morning/Afternoon→sun. Add more aliases in `WORD_ALIAS` (src/data/phraseContent.js) when a
+  comparable image already exists — gen-symbols then skips them automatically.
 
-`Nine, Ten, Want, Where, Plane, Boat, Bike, Motorcycle, Helicopter, Mouse, Bunny, Pencil,
-Paper, Crayon, Scissors, Glue, Shape, Day, Night, Morning, Afternoon, Today, Now, When, After`
+Still genuinely missing art (show as text until generated — fine, like a sparse AAC board):
+- **Concrete objects (12)** — worth generating: `Plane, Boat, Bike, Motorcycle, Helicopter,
+  Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`
+- **Abstract (6)** — hard to picture, likely leave as text: `Want, Where, Today, Now, When, After`
 
-**When credits are topped up** (≈ $1 for these 25, image model ~$0.039 each; image RPD is
-1,000–2,000/day so no rate concern), run — it's resumable and skips the ~162 already done:
+**When Gemini credits are topped up** (≈ $0.50 for the 12 concrete words; was blocked with
+"prepayment credits are depleted"), run — resumable, skips everything already present:
 ```bash
 K=$(tr -d '\r\n' < scripts/gemini.key.local)
-GEMINI_API_KEY=$K node scripts/gen-symbols.mjs        # generates only the missing ones
+GEMINI_API_KEY=$K node scripts/gen-symbols.mjs        # only the missing ones
 node scripts/optimize-images.mjs --replace            # PNG -> WebP, remove PNGs
 git add public/images/*.webp && git commit && git push
 ```

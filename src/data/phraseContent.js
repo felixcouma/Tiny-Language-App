@@ -89,7 +89,17 @@ const WORD_IMAGE = (() => {
   }
   return m
 })()
-export const imageKeyFor = (word) => WORD_IMAGE[keyOf(word)] || null
+// Reuse a comparable image already in the bank instead of generating a new one
+// (synonyms / close concepts). Values are existing image keys that have a .webp.
+const WORD_ALIAS = {
+  bunny: 'rabbit', // same animal
+  day: 'sun',
+  night: 'moon',
+  morning: 'sun',
+  afternoon: 'sun',
+}
+// Resolve a word to an existing image key: exact content image → alias → none.
+export const imageKeyFor = (word) => WORD_IMAGE[keyOf(word)] || WORD_ALIAS[keyOf(word)] || null
 
 // (Kept for reference) words/categories scoped to a tier level. Practice now uses
 // the full bank above; the tier just orders the source arrays (core words first).
