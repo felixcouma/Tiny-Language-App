@@ -12,7 +12,7 @@ const BASE = import.meta.env.BASE_URL || '/'
 // speaks it, and adds it to the message strip. Tapping a filled cell repeats it.
 // CLEAR empties the message AND blanks the whole board. Picture symbols come from our
 // real WebP art (content images, or generated symbol icons named by slug).
-const BOARD = 20
+const BOARD = 24 // 4 cols × 6 rows — fills the screen evenly
 const MAX_MSG = 8
 
 const pickRandom = (pool, taken) => {

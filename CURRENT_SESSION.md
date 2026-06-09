@@ -129,15 +129,11 @@ sticker book uses `progress.collected`; mastery = heard ≥ 4×.
 - New script generates **AAC-style symbol icons** (nano-banana) for the therapy
   **verbs + prepositions** our content art doesn't cover → `public/images/<slug>.png`
   → WebP via `optimize-images.mjs`. The board shows them automatically.
-- **6 generated & live**: `go, run, jump, in, on, up` (style validated — toddler doing the
-  action for verbs; ball+box / bold arrow for prepositions).
-- **~49 remaining BLOCKED**: the Gemini **image API monthly spending cap** was hit
-  ("exceeded its monthly spending cap"). This is the paid image model's billing cap (NOT the
-  daily TTS quota). To finish: raise the cap in Google AI Studio billing (or wait for the
-  monthly reset), then re-run `GEMINI_API_KEY=… node scripts/gen-symbols.mjs` (resumable —
-  skips the 6 done) and `node scripts/optimize-images.mjs --replace`.
+- **All 61 verb + preposition icons generated & live** (toddler doing the action for verbs;
+  ball+box / bold arrow for prepositions). public/images now has 114 WebP (53 + 61). The
+  spending cap was raised; a few transient 503s were retried successfully.
+- Word Board is now **24 cells (4×6)** so the page fills evenly.
 
 ### Next
 - Finish remaining Leda/Sulafat clips + the 491 phrase clips (above).
-- Finish the remaining ~49 Word Board symbol icons once the image cap resets/raises.
 - Optional: swap pig/chicken animal sounds (currently CC BY-SA) for non-SA if desired.
