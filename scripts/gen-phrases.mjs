@@ -41,10 +41,19 @@ const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
 function gamePrompts(item) {
   const w = item.word.toLowerCase()
   const out = []
-  out.push(item.soundLabel ? `Listen… ${item.soundLabel}! Where is the ${w}?` : `Can you find the ${w}?`)
-  out.push(item.soundLabel ? `find the ${w} — listen, ${item.soundLabel}!` : `find the ${w}!`)
+  if (item.soundLabel) {
+    out.push(`Listen… ${item.soundLabel}! Where is the ${w}?`)
+    out.push(`find the ${w} — listen, ${item.soundLabel}!`)
+  } else if (item.action) {
+    // Actions can't be "found" — ask which picture shows the action.
+    out.push(`Which one is ${w}?`)
+    out.push(`which one is ${w}?`)
+  } else {
+    out.push(`Can you find the ${w}?`)
+    out.push(`find the ${w}!`)
+  }
   out.push(`Yes! ${item.word}!`)
-  out.push(`Try again. Find the ${w}.`)
+  out.push(item.action ? `Try again. Which one is ${w}?` : `Try again. Find the ${w}.`)
   return out
 }
 

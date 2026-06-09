@@ -105,7 +105,10 @@ export default function ChoiceGame({
     } else {
       setWrongWord(item.word)
       playChime(item.word)
-      setTimeout(() => voice(`Try again. Find the ${target.word.toLowerCase()}.`), 200)
+      const retry = target.action
+        ? `Try again. Which one is ${target.word.toLowerCase()}?`
+        : `Try again. Find the ${target.word.toLowerCase()}.`
+      setTimeout(() => voice(retry), 200)
       setTimeout(() => setWrongWord(null), 600)
     }
   }

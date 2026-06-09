@@ -10,6 +10,7 @@ const POOL = WORLDS.filter((w) =>
 
 function buildPrompt(item) {
   if (item.soundLabel) return `find the ${item.word.toLowerCase()} — listen, ${item.soundLabel}!`
+  if (item.action) return `which one is ${item.word.toLowerCase()}?`
   return `find the ${item.word.toLowerCase()}!`
 }
 

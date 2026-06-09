@@ -131,8 +131,8 @@ const THREE_WORD = [
   // who + action + thing
   'Mama Hug Baby', 'Baby Eat Food', 'Baby Drink Milk', 'Dog Eat Food', 'Cat Play Ball',
   'Baby Go Up', 'Baby Sit Down',
-  // describing + colour + thing
-  'Big Red Ball', 'Small Blue Car', 'Big Yellow Duck',
+  // action + describing + thing (was pure descriptors — added a verb for therapy value)
+  'Throw Big Ball', 'Push Blue Car', 'Ride Fast Bike',
 ]
 
 const toEntries = (list) => list.map((phrase) => ({ words: phrase.split(' '), phrase }))

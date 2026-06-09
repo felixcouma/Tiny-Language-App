@@ -59,16 +59,16 @@ const doing = [
   { word: 'Hugging', wiki: 'Hug', say: 'Hugging! A big, warm squeeze!', expand: ['Big hug', 'Hug me', 'I hug my mommy'] },
   { word: 'Dancing', wiki: 'Dance', say: 'Dancing! Wiggle and twirl!', expand: ['I dance', 'Dance with me', 'I love to dance'] },
   { word: 'Brushing teeth', wiki: 'Tooth brushing', say: 'Brushing teeth! Brush, brush, brush!', expand: ['Brush teeth', 'Clean teeth', 'I brush my teeth'] },
-].map((x) => ({ ...x, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
+].map((x) => ({ ...x, action: true, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
 
 // ---------- HOME VILLAGE (family + objects) ----------
 const family = [
   { word: 'Mommy', say: 'Mommy! I love you, Mommy.', expand: ['Hi Mommy', 'Love Mommy', 'I love my Mommy'] },
   { word: 'Daddy', say: 'Daddy! I love you, Daddy.', expand: ['Hi Daddy', 'Love Daddy', 'I love my Daddy'] },
-  { word: 'Sister', say: 'Sister! My sister.', expand: ['My sister', 'Hi sister', 'I play with sister'] },
-  { word: 'Brother', say: 'Brother! My brother.', expand: ['My brother', 'Hi brother', 'I play with brother'] },
-  { word: 'Grandma', say: 'Grandma! Hi, Grandma!', expand: ['Hi Grandma', 'Love Grandma', 'I hug my Grandma'] },
-  { word: 'Grandpa', say: 'Grandpa! Hi, Grandpa!', expand: ['Hi Grandpa', 'Love Grandpa', 'I hug my Grandpa'] },
+  { word: 'Sister', say: 'My sister! I love my sister.', expand: ['My sister', 'Play sister', 'I play with sister'] },
+  { word: 'Brother', say: 'My brother! I love my brother.', expand: ['My brother', 'Play brother', 'I play with brother'] },
+  { word: 'Grandma', say: 'Grandma! I hug my Grandma.', expand: ['Hug Grandma', 'Love Grandma', 'I hug my Grandma'] },
+  { word: 'Grandpa', say: 'Grandpa is here! Hi, Grandpa!', expand: ['Grandpa here', 'Hi Grandpa', 'I see my Grandpa'] },
 ].map((x) => ({ ...x, color: CAT.home.color, portrait: true, sound: `home-${x.word.toLowerCase()}` }))
 
 const objects = [
