@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import { playItem, stopSpeaking, voice } from '../lib/audio'
 import TactileStage from '../components/TactileStage.jsx'
@@ -30,25 +30,34 @@ export default function LearningScreen() {
   const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
   const openChant = useStore((s) => s.openChant)
   const stage = useStore((s) => s.stage())
+  // Tracks which word's audio has finished, so Auto Play waits for the full clip
+  // (word + animal sound) before advancing instead of cutting it off.
+  const [playedWord, setPlayedWord] = useState(null)
 
-  // Speak each word as it appears.
+  // Speak each word as it appears; mark it played once its audio finishes.
   useEffect(() => {
     if (!item) return
-    const t = setTimeout(() => {
-      playItem(item)
+    let cancelled = false
+    const t = setTimeout(async () => {
       recordHeard(item, world.id)
+      await playItem(item)
+      if (!cancelled) setPlayedWord(item.word)
     }, 350)
-    return () => clearTimeout(t)
+    return () => {
+      cancelled = true
+      clearTimeout(t)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item && item.word])
 
-  // Auto-play: gently advance through the world.
+  // Auto-play: advance only AFTER the current word's audio has finished, plus a
+  // short gentle gap — so the sound is never cut short.
   useEffect(() => {
-    if (!autoPlay || !item) return
-    const t = setTimeout(() => next(), 3600)
+    if (!autoPlay || !item || playedWord !== item.word) return
+    const t = setTimeout(() => next(), 900)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoPlay, item && item.word])
+  }, [autoPlay, playedWord, item && item.word])
 
   if (!world || !item) return null
 
@@ -60,8 +69,9 @@ export default function LearningScreen() {
   }
 
   const onAutoPlay = () => {
-    if (!autoPlay) sayNow() // start speaking immediately
-    else stopSpeaking()
+    // No immediate replay — the word is already spoken when it appears, and
+    // auto-advance waits for the clip to finish, so toggling never cuts audio.
+    if (autoPlay) stopSpeaking()
     toggleAutoPlay()
   }
 

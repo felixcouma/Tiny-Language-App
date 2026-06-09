@@ -133,13 +133,21 @@ const colors = [
 // ---------- COUNTING MOUNTAIN (1–20, with quantity dots) ----------
 const NUM = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen', 'Twenty']
 const NUM_IPA = ['/wʌn/', '/tu/', '/θri/', '/fɔr/', '/faɪv/', '/sɪks/', '/ˈsɛvən/', '/eɪt/', '/naɪn/', '/tɛn/', '/ɪˈlɛvən/', '/twɛlv/', '/ˈθɜrˈtin/', '/ˈfɔrˈtin/', '/ˈfɪfˈtin/', '/ˈsɪksˈtin/', '/ˈsɛvənˈtin/', '/ˈeɪˈtin/', '/ˈnaɪnˈtin/', '/ˈtwɛnti/']
+// Each number gets a concrete, countable thing (correct singular/plural) and a
+// full count up to ten — far warmer than "N things!". The short noun phrase also
+// seeds the expand ladder so "I see five monkeys" feels real.
+const COUNT_NOUN = ['red apple', 'yellow bananas', 'happy puppies', 'green frogs', 'silly monkeys', 'bright balloons', 'shiny stars', 'spotted ladybugs', 'orange carrots', 'tiny toes', 'pretty butterflies', 'fluffy bunnies', 'sparkly buttons', 'busy ants', 'soft clouds', 'rolling wheels', 'singing birds', 'tasty cookies', 'cheerful flowers', 'dancing raindrops']
 const numbers = NUM.map((word, i) => {
   const n = i + 1
+  // Count fully to ten; for 11–20, count "1, 2, 3 … N" so it stays short.
+  const seq = n <= 10
+    ? Array.from({ length: n }, (_, k) => k + 1).join(', ')
+    : `1, 2, 3 … ${n}`
   return {
     word, numeral: n, count: n, ipa: NUM_IPA[i], color: CAT.count.color,
     sound: `number-${n}`,
-    say: `${word}! Count with me… ${Array.from({ length: Math.min(n, 5) }, (_, k) => k + 1).join(', ')}${n > 5 ? '…' : ''}. ${n} ${n === 1 ? 'thing' : 'things'}!`,
-    expand: [`${word} ball`, `Find ${n}`, `I see ${n}`],
+    say: `${word}! Count with me… ${seq}. ${word} ${COUNT_NOUN[i]}!`,
+    expand: [`${n} ${COUNT_NOUN[i]}`, `Count to ${n}`, `I see ${n}`],
   }
 })
 

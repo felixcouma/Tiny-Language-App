@@ -5,6 +5,21 @@
 
 ## Last Session — 2026-06-08 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
+### 🌙 Overnight 2026-06-09 (autonomous) — observations from testing
+- **Auto Play timing fixed** — `LearningScreen` + `ChantScreen` now advance only AFTER the
+  clip (word + animal sound) finishes playing, not on a fixed timer that cut audio short.
+  (Learning: waits for `playItem()` to resolve + 900ms; Chant: + 700ms; play button no
+  longer re-triggers a clip that then gets cut.)
+- **Word Board images fill the cells** — `.wb-cell-img` now flexes to fill the box (was 52px).
+- **Smart counting** (`content.js`) — replaced "N things!" with concrete, correctly-pluralised
+  nouns + a full count to ten (Haiku-assisted): "One red apple!", "Five silly monkeys!",
+  "Ten tiny toes!", "Twenty dancing raindrops!". Expand ladders use the noun too.
+- **Phrase review doc** — `docs/PHRASES_REVIEW.md` (via `scripts/list-phrases.mjs`) lists every
+  spoken line by source so wording can be polished in one pass.
+- **TTS**: ran today's batch (quota reset) → **+182 clips**; phrase clips now **353/763**.
+- **Deferred (needs phrase clips first)**: Music Forest is still bare — richer sound-play +
+  phonics to come once the desired sound-profile clips exist.
+
 ### 🗣️ Speech-therapy practice — Levels 1 & 2 (built, verified, 0 console errors)
 A therapist-aligned, progressive phrase-building tool for the twins (Adriel building
 vocabulary, Audrey on phrases). Sound-first: tap a word/phrase → hear it in our warm

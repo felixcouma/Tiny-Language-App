@@ -5,7 +5,7 @@ import ItemVisual from '../components/ItemVisual.jsx'
 import { HomeIcon, PlayIcon, StopIcon, ReplayIcon } from '../components/Icons.jsx'
 import './Chant.css'
 
-const BEAT_MS = 2400
+const GAP_MS = 700 // gentle pause between words, AFTER each clip finishes
 
 /* Sing-along: a rhythmic playthrough of a world's words, reusing the warm word
    clips + animal sounds with a strong visual beat. A song "moment" with no new
@@ -27,7 +27,8 @@ export default function ChantScreen() {
 
   useEffect(() => {
     if (!playing || !item) return
-    playItem(item)
+    let cancelled = false
+    let t
     if (!heardRef.current.has(item.word)) {
       heardRef.current.add(item.word)
       recordHeard(item, world.id)
@@ -40,8 +41,14 @@ export default function ChantScreen() {
       ],
       { duration: 520, easing: 'cubic-bezier(0.34,1.56,0.64,1)' },
     )
-    const t = setTimeout(() => setI((p) => (p + 1) % world.items.length), BEAT_MS)
-    return () => clearTimeout(t)
+    // Advance only once the clip (word + animal sound) has fully played.
+    playItem(item).then(() => {
+      if (!cancelled) t = setTimeout(() => setI((p) => (p + 1) % world.items.length), GAP_MS)
+    })
+    return () => {
+      cancelled = true
+      clearTimeout(t)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i, playing])
 
