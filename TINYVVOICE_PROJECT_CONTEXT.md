@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-09 17:08 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-09 17:18 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `7ce3cfa Fix Auto Play timing, fill Word Board images, smart counting, +182 clips`
 - `fae0820 Add all 61 verb/preposition symbol icons; Word Board to 24 cells`
 - `230e560 Add AAC symbol-icon generator + first 6 verb/preposition icons`
 - `b09730e Word Board: blank-reveal model + full-height lattice`
 - `4040eb6 Redesign Word Board as an AAC communication board + bigger boxes`
 - `59ae283 Word Practice & Word Board use the full word bank (not tier-gated)`
-- `9483248 Add Word Board (AAC grid), readiness progression, richer Word Practice`
 <!-- AUTO:END -->
 
 ---
