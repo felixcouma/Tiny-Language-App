@@ -9,13 +9,18 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      registerType: 'prompt', // surface "new version ready" instead of silently lagging
+      // Auto-apply new deploys (skipWaiting + clientsClaim below) so users don't get
+      // stuck on a cached old version — a plain refresh wasn't enough with 'prompt'.
+      registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'manifest.webmanifest'],
       manifest: false, // use the existing public/manifest.webmanifest
       workbox: {
         // Precache only the small app shell; images & audio cache lazily at runtime.
         globPatterns: ['**/*.{js,css,html,svg}'],
         navigateFallback: 'index.html',
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.includes('/images/'),
