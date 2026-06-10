@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-10 21:48 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-10 21:58 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `e538a12 Counting 11-20: count fully (1…N), not "1, 2, 3 … N"`
 - `b52fffc Leak-proof regen: all counting + Twin name clips (Adriel/Audrey)`
 - `863f7b7 Word Board: add "Find" word-focus mode + zebra B&W image`
 - `c2e0547 Fix TTS style-prompt leak + rotating praise + content text fixes`
 - `f7d31a5 Add the last 12 concrete-object images (Vertex AI on the GCP credit)`
 - `9655869 Docs: mark warm-voice audio complete; note images can use the GCP credit`
-- `7525ad8 Prune 32 orphaned phrase clips (old reworded ladders/family/colour lines)`
 <!-- AUTO:END -->
 
 ---

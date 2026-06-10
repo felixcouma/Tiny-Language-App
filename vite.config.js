@@ -21,22 +21,27 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         cleanupOutdatedCaches: true,
+        // StaleWhileRevalidate (not CacheFirst): clips/images still load instantly
+        // from cache, but a fresh copy is fetched in the background, so when we
+        // re-record a clip at the SAME url the cache self-heals on the next play.
+        // The -v2 cache names force a one-time purge of the old (leaked) clips that
+        // CacheFirst had pinned. Bumping the suffix again is the lever if ever needed.
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.includes('/images/'),
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'tv-images',
-              expiration: { maxEntries: 220, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheName: 'tv-images-v2',
+              expiration: { maxEntries: 240, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
           {
             urlPattern: ({ url }) => url.pathname.includes('/sounds/'),
-            handler: 'CacheFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'tv-sounds',
-              expiration: { maxEntries: 700, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheName: 'tv-sounds-v2',
+              expiration: { maxEntries: 900, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
