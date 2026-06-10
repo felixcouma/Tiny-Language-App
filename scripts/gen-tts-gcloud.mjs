@@ -25,7 +25,7 @@ import { GoogleAuth } from 'google-auth-library'
 import { writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { WORLDS } from '../src/data/content.js'
+import { WORLDS, PRAISE } from '../src/data/content.js'
 import { WORDS, PHRASES } from '../src/data/phraseContent.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -35,6 +35,7 @@ const args = process.argv.slice(2)
 const FORCE = args.includes('--force')
 const KIND = args.includes('--kind') ? args[args.indexOf('--kind') + 1] : 'voices'
 const ONLY = args.includes('--only') ? args[args.indexOf('--only') + 1] : null
+const MATCH = args.includes('--match') ? args[args.indexOf('--match') + 1] : null // substring filter on key
 const LIMIT = args.includes('--limit') ? Number(args[args.indexOf('--limit') + 1]) : 0
 const VOICES = (args.includes('--voices') ? args[args.indexOf('--voices') + 1] : 'aoede,leda,sulafat')
   .split(',').map((v) => v.trim()).filter(Boolean)
@@ -49,15 +50,10 @@ const apiVoice = (v) => v.charAt(0).toUpperCase() + v.slice(1)
 // Free Chirp 3 HD stand-ins, one per persona folder (used only when MODE=chirp).
 const CHIRP_VOICE = { aoede: 'en-US-Chirp3-HD-Aoede', leda: 'en-US-Chirp3-HD-Leda', sulafat: 'en-US-Chirp3-HD-Sulafat' }
 
-const STYLE =
-  'Read this warmly, slowly and cheerfully, like a kind teacher reading to a happy ' +
-  'toddler. Gentle, clear and playful.'
-// Counting cards get an extra sing-song, count-along pace (matches the app's
-// slower device-voice fallback for number cards).
-const countingStyle = (key) =>
-  /^number-/.test(key)
-    ? STYLE + ' Count the numbers slowly and playfully, pausing between each one so a child can count along.'
-    : STYLE
+// NO style prompt. The Gemini-TTS `input.prompt` is a delivery instruction that is
+// supposed to be silent, but it bled into the spoken audio (heard on the counting
+// cards and in Twin Mode). The Aoede/Leda/Sulafat voices are warm by default, so we
+// send ONLY the text — guaranteeing nothing can be vocalised. (See docs/Observations.md.)
 
 const slugify = (t) =>
   String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
@@ -111,6 +107,7 @@ function phraseRows() {
     for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach(add)
   }
   ;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach(add)
+  PRAISE.forEach(add) // rotating praise words spoken on a correct answer
   return [...bySlug.values()]
 }
 
@@ -124,8 +121,8 @@ async function synth(voiceFolder, text, key) {
     MODE === 'chirp'
       ? { languageCode: 'en-US', name: CHIRP_VOICE[voiceFolder] || CHIRP_VOICE.aoede }
       : { languageCode: 'en-US', name: apiVoice(voiceFolder), model_name: MODEL }
-  // Chirp voices don't take a style prompt; only Gemini-TTS does.
-  const input = MODE === 'chirp' ? { text } : { prompt: countingStyle(key), text }
+  // Text only — no style prompt (it leaked into the audio). Warmth is inherent to the voice.
+  const input = { text }
   const resp = await client.request({
     url: ENDPOINT,
     method: 'POST',
@@ -137,6 +134,7 @@ async function synth(voiceFolder, text, key) {
 
 /* ---- run ---- */
 let items = KIND === 'phrases' ? phraseRows() : voiceRows()
+if (MATCH) items = items.filter((it) => it.key.includes(MATCH)) // --match number- : targeted (re)gen
 if (LIMIT) items = items.slice(0, LIMIT) // --limit N: generate only the first N (for a quick test)
 const folders = KIND === 'phrases' ? ['phrases'] : VOICES
 console.log(`kind=${KIND} mode=${MODE} model=${MODEL} folders=[${folders.join(', ')}] items=${items.length}`)

@@ -47,7 +47,7 @@ const body = [
 
 // ---------- THINGS I DO (activities / verbs) ----------
 const doing = [
-  { word: 'Washing hands', wiki: 'Hand washing', say: 'Washing hands! Wash, wash, scrub, scrub!', expand: ['Wash hands', 'I wash', 'I wash my hands'] },
+  { word: 'Washing hands', wiki: 'Hand washing', say: 'Washing hands! I wash my hands. Scrub, scrub!', expand: ['Wash hands', 'I wash', 'I wash my hands'] },
   { word: 'Eating', wiki: 'Eating', say: 'Eating! Yum, yum, yum!', expand: ['I eat', 'Eat food', 'I eat my food'] },
   { word: 'Drinking', wiki: 'Drinking', say: 'Drinking! Glug, glug, glug!', expand: ['I drink', 'Drink milk', 'I drink my milk'] },
   { word: 'Sleeping', wiki: 'Sleep', say: 'Sleeping! Shhh… night night.', expand: ['I sleep', 'Go sleep', 'I go to sleep'] },
@@ -66,7 +66,7 @@ const family = [
   { word: 'Mommy', say: 'Mommy! I love you, Mommy.', expand: ['Hi Mommy', 'Love Mommy', 'I love my Mommy'] },
   { word: 'Daddy', say: 'Daddy! I love you, Daddy.', expand: ['Hi Daddy', 'Love Daddy', 'I love my Daddy'] },
   { word: 'Sister', say: 'My sister! I love my sister.', expand: ['My sister', 'Play sister', 'I play with sister'] },
-  { word: 'Brother', say: 'My brother! I love my brother.', expand: ['My brother', 'Play brother', 'I play with brother'] },
+  { word: 'Brother', say: 'My brother! I play with my brother.', expand: ['My brother', 'Play brother', 'I play with brother'] },
   { word: 'Grandma', say: 'Grandma! I hug my Grandma.', expand: ['Hug Grandma', 'Love Grandma', 'I hug my Grandma'] },
   { word: 'Grandpa', say: 'Grandpa is here! Hi, Grandpa!', expand: ['Grandpa here', 'Hi Grandpa', 'I see my Grandpa'] },
 ].map((x) => ({ ...x, color: CAT.home.color, portrait: true, sound: `home-${x.word.toLowerCase()}` }))
@@ -104,7 +104,7 @@ const animals = [
   A('Monkey', 'Monkey', '/ˈmʌŋki/', 'Ooh ooh', 'The monkey! Listen… ooh ooh ah ah!', ['Funny monkey', 'Monkey climbs', 'The monkey climbs high']),
   A('Elephant', 'Elephant', '/ˈɛləfənt/', 'Trumpet', 'The elephant! So big! Trumpet sound!', ['Big elephant', 'Elephant stomps', 'The elephant is huge']),
   A('Bear', 'Bear', '/bɛr/', 'Growl', 'The bear! Listen… grrrowl!', ['Big bear', 'Bear sleeps', 'The bear is sleeping']),
-  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['Soft rabbit', 'Rabbit hops', 'The rabbit hops away']),
+  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['Fast rabbit', 'Rabbit hops', 'The rabbit hops away']),
   A('Frog', 'Frog', '/frɑg/', 'Croak', 'The frog! Listen… croak, croak!', ['Little frog', 'Frog jumps', 'The frog jumps high']),
   A('Bee', 'Bee', '/bi/', 'Buzz', 'The bee! Listen… buzz, buzz!', ['Tiny bee', 'Bee flies', 'The bee buzzes']),
   A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty fluttering wings!', ['Pretty butterfly', 'Butterfly flies', 'The butterfly flutters']),
@@ -121,7 +121,7 @@ const colors = [
   C('Red', '#FF3333', '/rɛd/', 'a red apple', ['Red apple', 'Red ball', 'The apple is red']),
   C('Blue', '#1E90FF', '/blu/', 'the blue sky', ['Blue ball', 'Blue cup', 'The sky is blue']),
   C('Yellow', '#FFD700', '/ˈjɛloʊ/', 'the yellow sun', ['Yellow sun', 'Yellow duck', 'The sun is yellow']),
-  C('Green', '#32CD32', '/grin/', 'green grass', ['Green frog', 'Green leaf', 'The grass is green']),
+  C('Green', '#32CD32', '/grin/', 'green grass', ['Green grass', 'Green leaf', 'The grass is green']),
   C('Orange', '#FF8C00', '/ˈɔrɪndʒ/', 'an orange', ['Orange ball', 'Orange fish', 'I like orange']),
   C('Purple', '#9D4EDD', '/ˈpɜrpəl/', 'purple grapes', ['Purple grape', 'Purple cup', 'Grapes are purple']),
   C('Pink', '#FF69B4', '/pɪŋk/', 'a pink flower', ['Pink flower', 'Pink shoe', 'The flower is pink']),
@@ -180,6 +180,10 @@ export const WORLDS = [
 ]
 
 export const getWorld = (id) => WORLDS.find((w) => w.id === id)
+
+// Warm praise spoken on a correct answer — rotated so it never feels repetitive
+// (played as its own clip, then the word). Pre-rendered like every other phrase.
+export const PRAISE = ['Yay!', 'Awesome!', 'Good job!', 'Amazing!', 'Spectacular!', 'Wonderful!', 'Hooray!']
 
 // Pools for the games (items that have a resolvable photo make the best choices).
 export const photoWorlds = ['my-body', 'things-i-do', 'safari-island', 'home-village']

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
-import { playItem, playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
+import { PRAISE } from '../data/content'
+import { playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import { HomeIcon } from './Icons.jsx'
@@ -51,6 +52,7 @@ export default function ChoiceGame({
   const [done, setDone] = useState(false)
   const locked = useRef(false)
   const answered = useRef(false) // record at most one outcome per round (true "first try")
+  const praiseIdx = useRef(Math.floor(Math.random() * PRAISE.length)) // rotate praise, varied start
 
   const player = players ? players[round % players.length] : null
 
@@ -91,7 +93,9 @@ export default function ChoiceGame({
       setRightWord(item.word)
       setConfettiKey(Date.now())
       playCelebration()
-      setTimeout(() => playItem({ say: `Yes! ${target.word}!`, word: target.word }), 250)
+      // Rotating warm praise ("Awesome!" …) then the word — both pre-rendered clips.
+      const praise = PRAISE[praiseIdx.current++ % PRAISE.length]
+      setTimeout(() => voiceSeq([praise, `${target.word}!`]), 250)
       const nextRound = round + 1
       setTimeout(() => {
         if (nextRound >= rounds) {
