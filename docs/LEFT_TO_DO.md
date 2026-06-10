@@ -11,11 +11,12 @@ Reduced 25 → 18 for FREE first:
   Morning/Afternoon→sun. Add more aliases in `WORD_ALIAS` (src/data/phraseContent.js) when a
   comparable image already exists — gen-symbols then skips them automatically.
 
-Words without a picture now render as a **bold coloured word tile that fills the cell**
-(via `components/WordPic.jsx`) — consistent and readable, not bare. Generating real art for
-the concrete ones is still nice-to-have:
-- **Concrete objects (12)** — the ONLY pending image work: `Plane, Boat, Bike, Motorcycle,
-  Helicopter, Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`
+Words without a picture render as a **bold coloured word tile that fills the cell**
+(via `components/WordPic.jsx`) — consistent and readable.
+- **Concrete objects (12)** — ✅ DONE (2026-06-10, via Vertex AI on the GCP credit): `Plane,
+  Boat, Bike, Motorcycle, Helicopter, Mouse, Pencil, Paper, Crayon, Scissors, Glue, Shape`.
+  All 12 verified loading in-app. `gen-symbols.mjs` now supports Vertex (`VERTEX_PROJECT` +
+  `GOOGLE_APPLICATION_CREDENTIALS`) — see `docs/TTS_GCLOUD_SETUP.md` for the auth.
 - **Abstract (6)** — ✅ DECIDED: leave as text permanently (no image): `Want, Where, Today,
   Now, When, After`
 

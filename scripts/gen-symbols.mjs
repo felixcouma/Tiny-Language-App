@@ -28,8 +28,14 @@ const FORCE = args.includes('--force')
 const ONLY = args.includes('--only') ? args[args.indexOf('--only') + 1] : null
 const LIMIT = args.includes('--limit') ? Number(args[args.indexOf('--limit') + 1]) : null
 
+// Auth: either an AI-Studio API key, OR Vertex AI (service-account ADC) when
+// VERTEX_PROJECT is set — the latter bills the GCP credit instead of AI-Studio
+// prepayment credits. For Vertex, also set GOOGLE_APPLICATION_CREDENTIALS.
+const VERTEX_PROJECT = process.env.VERTEX_PROJECT || ''
+const USE_VERTEX = !!VERTEX_PROJECT
+const VERTEX_LOCATION = process.env.VERTEX_LOCATION || 'global'
 const KEY = process.env.GEMINI_API_KEY || process.env.NANOBANANA_GEMINI_API_KEY || process.env.NANOBANANA_API_KEY
-if (!KEY) { console.error('No API key. Set GEMINI_API_KEY.'); process.exit(1) }
+if (!USE_VERTEX && !KEY) { console.error('No auth. Set GEMINI_API_KEY, or VERTEX_PROJECT (+ GOOGLE_APPLICATION_CREDENTIALS).'); process.exit(1) }
 
 const MODEL_CANDIDATES = process.env.NANOBANANA_MODEL
   ? [process.env.NANOBANANA_MODEL]
@@ -140,7 +146,10 @@ function subjectFor(word) {
   return SUBJECT[word] || `a clear simple cartoon symbol clearly representing "${word}"`
 }
 
-const ai = new GoogleGenAI({ apiKey: KEY })
+const ai = USE_VERTEX
+  ? new GoogleGenAI({ vertexai: true, project: VERTEX_PROJECT, location: VERTEX_LOCATION })
+  : new GoogleGenAI({ apiKey: KEY })
+console.log(USE_VERTEX ? `auth: Vertex AI (project ${VERTEX_PROJECT}, ${VERTEX_LOCATION})` : 'auth: AI Studio API key')
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const extractImage = (resp) => (resp?.candidates?.[0]?.content?.parts || []).find((p) => p.inlineData?.data)?.inlineData?.data || null
 
