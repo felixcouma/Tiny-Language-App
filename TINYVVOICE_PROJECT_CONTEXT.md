@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-10 19:44 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-10 19:45 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `7525ad8 Prune 32 orphaned phrase clips (old reworded ladders/family/colour lines)`
 - `b3ad3be Add full warm-voice audio via Google Cloud TTS (Aoede/Leda/Sulafat complete)`
 - `fc7f542 Keep the screen awake while the app is open (Screen Wake Lock)`
 - `e2e8a73 Slow the device voice on counting cards (sing-song pace toddlers count along to)`
 - `c9bf260 Remove stale counting + family audio clips so speech matches the new text`
 - `c6a65c4 PWA: auto-update service worker so users stop getting a stale cached version`
-- `4673fd1 Bold coloured word tiles fill cells/cubes when a picture is missing`
 <!-- AUTO:END -->
 
 ---

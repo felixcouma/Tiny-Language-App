@@ -28,35 +28,23 @@ node scripts/optimize-images.mjs --replace            # PNG -> WebP, remove PNGs
 git add public/images/*.webp && git commit && git push
 ```
 
-## 1b. Re-record clips whose TEXT changed (deleted → now device-voice, correct text)
-When a `say` line changes, its old pre-rendered clip is stale (plays the OLD words). We
-deleted those so the device voice reads the CURRENT text; `gen-audio.mjs` will re-record
-them (warm voice) automatically since they're now missing. `gen-audio.mjs` now floats
-these `number-*` / `home-*` keys to the FRONT (priority sort) so they regenerate first.
-Affected:
-- **Counting** `number-1..20` (×3 voices) — new "Five silly monkeys!" wording + correct count.
-- **Family** `home-sister/brother/grandma/grandpa` (×3 voices) — new "My sister! I love…" lines.
-Run after credits are topped up: `GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-audio.mjs` (skips existing).
+> **OPPORTUNITY (2026-06-10):** the project now has a **$300 Google Cloud credit** (the same one
+> used for the audio). The nano-banana image model is also reachable through **Vertex AI** on
+> that project, so the 12 concrete images could be unblocked *now* without restoring AI-Studio
+> credits — by adapting `gen-symbols.mjs` to the Vertex image endpoint + the service-account
+> auth from `docs/TTS_GCLOUD_SETUP.md` (Vertex needs the `aiplatform.googleapis.com` API,
+> already enabled). ~$0.50 of the credit. Not yet done.
 
-> **BLOCKER (2026-06-10):** TTS is NOT gated by the free daily quota right now — both flash
-> models (`gemini-2.5-flash-preview-tts` and `gemini-3.1-flash-tts-preview`) return
-> `429 "Your prepayment credits are depleted."` This is the SAME account-level credit block
-> that stopped image gen — a daily reset will not clear it. Top up Gemini prepayment credits
-> at https://ai.studio/projects, then run the priority batch above. The whole TTS backlog
-> (§2) is blocked behind this, not behind the per-day cap.
->
-> **Alternative backend (no AI Studio credits needed):** generate the SAME Aoede/Leda/Sulafat
-> voices via **Google Cloud TTS** — separate billing (a new GCP project's $300 trial covers
-> the whole backlog). See `docs/TTS_GCLOUD_SETUP.md` and `scripts/gen-tts-gcloud.mjs`
-> (`node scripts/gen-tts-gcloud.mjs` for voice clips, `--kind phrases` for the phrase backlog).
-
-## 2. TTS phrase + voice clips — resumes on daily quota reset
-- Phrase clips ~356/763 done; ~407 phrase + 20 voice (Leda 2 / Sulafat 18) remain.
-- ~200/day across the two free flash models → ~2–3 more mornings. Commands in this file's
-  sibling notes / `CURRENT_SESSION.md`. The 8am cloud reminder prompts the next batch.
-- NOTE: several game-prompt clips changed (action wording "Which one is eating?") and the
-  Safari ladders / counting ladders / family lines changed — their old clips are now
-  orphaned and the new text will regenerate (device-voice fallback until then).
+## 1b / 2. Warm-voice audio — ✅ COMPLETE (2026-06-10, via Google Cloud TTS)
+AI Studio prepayment credits were depleted, so the whole backlog was generated through
+**Google Cloud TTS** instead (same Aoede/Leda/Sulafat Gemini-TTS voices, separate billing on
+the project's $300 trial). All clips verified playing in-app (Playwright). Done:
+- **All 3 voices 89/89** · **counting `number-1..20` 20/20** + **family re-records 4/4**
+  (correct text + slower count-along pace) · **phrases 773** (orphans pruned).
+- Tooling: `scripts/gen-tts-gcloud.mjs` (ADC auth, `--kind phrases`, counting/family priority),
+  `docs/TTS_GCLOUD_SETUP.md`, `scripts/clean-orphan-clips.mjs`. The old AI-Studio scripts
+  (`gen-audio.mjs`/`gen-phrases.mjs`) still work if credits are ever restored.
+- The 8am cloud reminder routine is now **disabled** (backlog cleared).
 
 ## 3. Optional / future
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.
