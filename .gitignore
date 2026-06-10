@@ -6,3 +6,5 @@ dist-ssr
 npm-debug.log*
 .vite
 .verify-shots
+# Google Cloud service-account key (local secret — never commit)
+scripts/gcloud-sa-key.json

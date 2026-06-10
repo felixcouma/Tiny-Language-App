@@ -44,6 +44,11 @@ Run after credits are topped up: `GEMINI_API_KEY=$K PACE_MS=6500 node scripts/ge
 > that stopped image gen — a daily reset will not clear it. Top up Gemini prepayment credits
 > at https://ai.studio/projects, then run the priority batch above. The whole TTS backlog
 > (§2) is blocked behind this, not behind the per-day cap.
+>
+> **Alternative backend (no AI Studio credits needed):** generate the SAME Aoede/Leda/Sulafat
+> voices via **Google Cloud TTS** — separate billing (a new GCP project's $300 trial covers
+> the whole backlog). See `docs/TTS_GCLOUD_SETUP.md` and `scripts/gen-tts-gcloud.mjs`
+> (`node scripts/gen-tts-gcloud.mjs` for voice clips, `--kind phrases` for the phrase backlog).
 
 ## 2. TTS phrase + voice clips — resumes on daily quota reset
 - Phrase clips ~356/763 done; ~407 phrase + 20 voice (Leda 2 / Sulafat 18) remain.
