@@ -131,6 +131,7 @@ const SUBJECT = {
   Motorcycle: 'a cute motorcycle', Helicopter: 'a cute helicopter',
   // animals
   Mouse: 'a cute little grey mouse', Bunny: 'a cute fluffy bunny rabbit',
+  Zebra: 'a cute zebra with bold BLACK AND WHITE stripes only — no other colours on its body, white body with black stripes',
   // school
   Pencil: 'a yellow pencil', Paper: 'a blank sheet of paper', Crayon: 'a colourful crayon', Scissors: 'child-safe scissors',
   Glue: 'a glue stick', Shape: 'a colourful circle, square and triangle together',
@@ -169,8 +170,11 @@ async function pickModel(prompt) {
   return null
 }
 
-// Target: every word whose resolved board image is missing.
-let items = WORDS.map((w) => ({ word: w.word, key: outKey(w.word), subject: subjectFor(w.word) }))
+// Target: every word whose resolved board image is missing, plus any EXTRA_WORDS
+// (comma-separated) — e.g. safari animals that live in content.js, not the WORDS
+// vocab (Zebra, Snake, Owl…). Their subjects come from the SUBJECT map.
+const EXTRA = (process.env.EXTRA_WORDS || '').split(',').map((s) => s.trim()).filter(Boolean)
+let items = [...WORDS.map((w) => w.word), ...EXTRA].map((word) => ({ word, key: outKey(word), subject: subjectFor(word) }))
 const seen = new Set()
 items = items.filter((r) => (seen.has(r.key) ? false : seen.add(r.key)))
 if (ONLY) { const set = new Set(ONLY.split(',').map((s) => slug(s.trim()))); items = items.filter((r) => set.has(slug(r.word)) || set.has(r.key)) }

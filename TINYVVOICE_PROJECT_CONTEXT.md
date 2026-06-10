@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-10 21:19 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-10 21:25 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `c2e0547 Fix TTS style-prompt leak + rotating praise + content text fixes`
 - `f7d31a5 Add the last 12 concrete-object images (Vertex AI on the GCP credit)`
 - `9655869 Docs: mark warm-voice audio complete; note images can use the GCP credit`
 - `7525ad8 Prune 32 orphaned phrase clips (old reworded ladders/family/colour lines)`
 - `b3ad3be Add full warm-voice audio via Google Cloud TTS (Aoede/Leda/Sulafat complete)`
 - `fc7f542 Keep the screen awake while the app is open (Screen Wake Lock)`
-- `e2e8a73 Slow the device voice on counting cards (sing-song pace toddlers count along to)`
 <!-- AUTO:END -->
 
 ---
