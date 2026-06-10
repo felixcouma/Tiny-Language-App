@@ -47,6 +47,13 @@ for (const world of WORLDS) {
 }
 ;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
 PRAISE.forEach((t) => validPhrases.add(slugify(t))) // rotating praise clips (correct-answer feedback)
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((t) => validPhrases.add(slugify(t))) // letter buttons
+for (const world of WORLDS) { // phonics "which one starts with X?" prompts
+  if (!POOL_IDS.includes(world.id)) continue
+  for (const item of world.items) if (!item.portrait) {
+    validPhrases.add(slugify(`Which one starts with ${item.word[0].toUpperCase()}? Find the ${item.word.toLowerCase()}!`))
+  }
+}
 
 /* valid voice keys (must match gen-audio.mjs): item.sound for any item with spoken text */
 const validVoice = new Set()

@@ -108,6 +108,15 @@ function phraseRows() {
   }
   ;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach(add)
   PRAISE.forEach(add) // rotating praise words spoken on a correct answer
+  // Single letters (Learning + Word Practice "starts with X" buttons play voice(letter)).
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(add)
+  // Phonics prompts ("Which one starts with D? Find the dog!") — mirror PhonicsGameScreen.
+  for (const world of WORLDS) {
+    if (!POOL_IDS.includes(world.id)) continue
+    for (const item of world.items) if (!item.portrait) {
+      add(`Which one starts with ${item.word[0].toUpperCase()}? Find the ${item.word.toLowerCase()}!`)
+    }
+  }
   return [...bySlug.values()]
 }
 

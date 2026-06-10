@@ -132,6 +132,11 @@ const SUBJECT = {
   // animals
   Mouse: 'a cute little grey mouse', Bunny: 'a cute fluffy bunny rabbit',
   Zebra: 'a cute zebra with bold BLACK AND WHITE stripes only — no other colours on its body, white body with black stripes',
+  Snake: 'a cute friendly green snake curled in a smiling S shape',
+  Owl: 'a cute round brown owl with big friendly eyes',
+  Wolf: 'a cute fluffy grey wolf sitting, friendly and gentle',
+  Goose: 'a cute white goose with an orange beak',
+  Crow: 'a cute glossy black crow bird',
   // school
   Pencil: 'a yellow pencil', Paper: 'a blank sheet of paper', Crayon: 'a colourful crayon', Scissors: 'child-safe scissors',
   Glue: 'a glue stick', Shape: 'a colourful circle, square and triangle together',

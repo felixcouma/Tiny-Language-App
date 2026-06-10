@@ -47,6 +47,28 @@ the project's $300 trial). All clips verified playing in-app (Playwright). Done:
   (`gen-audio.mjs`/`gen-phrases.mjs`) still work if credits are ever restored.
 - The 8am cloud reminder routine is now **disabled** (backlog cleared).
 
-## 3. Optional / future
+## 3. Full per-voice switching (backlog — only if it won't exceed the $300 credit)
+The voice toggle currently switches the **item words** (sayWord → `sounds/<voice>/<key>.mp3`)
+but NOT the shared prompts/praise/ladders, which all play from the Aoede-only `sounds/phrases/`
+folder. Aoede is enforced as the default everywhere and the robotic device voice has been
+removed (chime fallback). To make switching to Leda/Sulafat change **everything**:
+- Generate Leda + Sulafat copies of all ~800 phrase clips into `sounds/<voice>/phrases/`
+  (~1,600 clips, ~$3–5 credit, ~15 MB). Extend `gen-tts-gcloud.mjs` to write per-voice phrase
+  folders (the synth already takes a voice; just change the phrases output path + loop voices).
+- Make `voice()` in `src/lib/audio.js` voice-aware: try `sounds/<storyVoice>/phrases/<slug>.mp3`
+  first, fall back to `sounds/phrases/<slug>.mp3` (Aoede default), then chime.
+- Check the remaining GCP credit first (Billing → Credits) so we stay inside the free $300.
+
+## 4. Animal sound effects (new safari animals + duck) — needs ear-verification
+The 5 new animals (Snake/Owl/Wolf/Goose/Crow) ship with images + warm spoken sound-labels
+("Listen… hiss!"), but have **no real FX recording** yet, and the **duck quack still sounds like
+a chick**. Real animal sounds aren't TTS — they're CC audio that must be auditioned (Claude can't
+hear). Source CC0/CC-BY clips (Wikimedia Commons / freesound), trim to ~1–2s, and drop at
+`public/sounds/fx/<key>.mp3`, credited in `public/sounds/CREDITS.md`. The keys
+(snake/owl/wolf/goose/crow) are **already wired** into `FX_KEYS` (`src/lib/audio.js`) — a missing
+file just 404s harmlessly, so dropping the real files in is all that's needed. Also replace the
+`public/sounds/fx/duck.mp3` quack.
+
+## 5. Optional / future
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.
 - **Grid Vocabulary**: could grow the board size / add a "mastered → retire word" mode.

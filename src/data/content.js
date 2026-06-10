@@ -110,6 +110,11 @@ const animals = [
   A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty fluttering wings!', ['Pretty butterfly', 'Butterfly flies', 'The butterfly flutters']),
   A('Turtle', 'Turtle', '/ˈtɜrtəl/', 'Slow friend', 'The turtle! Slow and steady.', ['Slow turtle', 'Turtle walks', 'The turtle walks slow']),
   A('Zebra', 'Zebra', '/ˈzɛbrə/', 'Neigh', 'The zebra! Black and white stripes!', ['Big zebra', 'Zebra runs', 'The zebra has stripes']),
+  A('Snake', 'Snake', '/sneɪk/', 'Hiss', 'The snake! Listen… hiss, hissss!', ['Long snake', 'Snake slides', 'The snake slides slow']),
+  A('Owl', 'Owl', '/aʊl/', 'Hoot', 'The owl! Listen… hoot, hoot!', ['Wise owl', 'Owl hoots', 'The owl hoots at night']),
+  A('Wolf', 'Wolf', '/wʊlf/', 'Howl', 'The wolf! Listen… ah-wooooo!', ['Big wolf', 'Wolf howls', 'The wolf howls at the moon']),
+  A('Goose', 'Goose', '/ɡus/', 'Honk', 'The goose! Listen… honk, honk!', ['Big goose', 'Goose honks', 'The goose says honk']),
+  A('Crow', 'Crow', '/kroʊ/', 'Caw', 'The crow! Listen… caw, caw!', ['Black crow', 'Crow caws', 'The crow says caw']),
 ]
 
 // ---------- RAINBOW ISLAND (colours — swatches) ----------
@@ -172,7 +177,7 @@ export const WORLDS = [
   { id: 'my-body', name: 'My Body', tagline: 'Head to toes', ...CAT.body, items: body },
   { id: 'things-i-do', name: 'Things I Do', tagline: 'Wash, eat, play', ...CAT.doing, items: doing },
   { id: 'home-village', name: 'Home Village', tagline: 'People & things', ...CAT.home, items: home },
-  { id: 'safari-island', name: 'Safari Island', tagline: '20 animal friends', ...CAT.safari, items: animals },
+  { id: 'safari-island', name: 'Safari Island', tagline: '25 animal friends', ...CAT.safari, items: animals },
   { id: 'rainbow-island', name: 'Rainbow Island', tagline: 'Colours everywhere', ...CAT.rainbow, items: colors },
   { id: 'counting-mountain', name: 'Counting Mountain', tagline: 'Count 1 to 20', ...CAT.count, items: numbers },
   { id: 'music-forest', name: 'Music Forest', tagline: 'Listen — who is it?', ...CAT.music, items: music },

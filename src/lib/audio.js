@@ -204,7 +204,7 @@ export async function voice(text) {
   // Our default (Aoede) voice via a pre-rendered phrase clip, when present.
   if (await playClip(phraseUrl(text))) return
   if (premiumEnabled() && (await premiumSpeak(text))) return
-  await speakAwait(text) // dormant device fallback until every phrase has a clip
+  playChime(text) // never the robotic device voice — a soft chime if a clip is missing
 }
 
 // Speak several parts in sequence in our voice (e.g. a twin name then the
@@ -248,6 +248,7 @@ export function setStorybookVoice(id) {
 const FX_KEYS = new Set([
   'dog', 'cat', 'cow', 'sheep', 'bird', 'frog', 'monkey', 'lion', 'bear', 'duck',
   'zebra', 'horse', 'pig', 'chicken', 'elephant', 'bee',
+  'snake', 'owl', 'wolf', 'goose', 'crow',
 ])
 const missingFile = new Set() // urls known to be absent (avoid retrying)
 
@@ -304,16 +305,16 @@ function speakAwait(text, opts) {
 }
 
 // Say the item's word/phrase in our voice, resolving when done. Order:
-// chosen storybook voice → default voice → phrase clip → premium → device.
-async function sayWord(key, phrase, opts) {
+// chosen storybook voice → default (Aoede) voice → phrase clip → premium → chime.
+// Never the robotic device voice.
+async function sayWord(key, phrase) {
   if (key) {
     if (await playClip(`${BASE}sounds/${storyVoice}/${key}.mp3`)) return
     if (storyVoice !== DEFAULT_STORYBOOK_VOICE && (await playClip(`${BASE}sounds/${DEFAULT_STORYBOOK_VOICE}/${key}.mp3`))) return
   }
   if (phrase && (await playClip(phraseUrl(phrase)))) return
   if (premiumEnabled() && (await premiumSpeak(phrase))) return
-  // opts (e.g. a slower rate for counting) only applies to the device-voice fallback.
-  if (!(await speakAwait(phrase, opts))) playChime(key || phrase)
+  playChime(key || phrase) // a soft chime if no warm clip exists — no device voice
 }
 
 export async function playItem(item) {
@@ -322,12 +323,8 @@ export async function playItem(item) {
   const key = item.sound
   const phrase = item.say || item.word || ''
 
-  // Counting cards read slower & sing-song so toddlers can count along (device
-  // voice only; the warm pre-rendered clip already has this pacing baked in).
-  const opts = item.numeral != null ? { rate: 0.72 } : undefined
-
-  // 1) Say the word/phrase (warm bundled voice → premium → device).
-  await sayWord(key, phrase, opts)
+  // 1) Say the word/phrase (warm bundled voice → premium → chime; never device voice).
+  await sayWord(key, phrase)
 
   // 2) For animals, follow with the real recorded sound (baked 3–4x repeat).
   if (!muted && key && FX_KEYS.has(key)) {
