@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-09 23:27 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-10 17:00 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `e2e8a73 Slow the device voice on counting cards (sing-song pace toddlers count along to)`
 - `c9bf260 Remove stale counting + family audio clips so speech matches the new text`
 - `c6a65c4 PWA: auto-update service worker so users stop getting a stale cached version`
 - `4673fd1 Bold coloured word tiles fill cells/cubes when a picture is missing`
 - `1602481 Decide: 6 abstract words stay text-only; 12 concrete are the only pending images`
 - `2f84068 Reuse bank images + local digit cards for numbers (25 -> 18 gaps, free)`
-- `72c2063 Therapy pass 2: de-colour Safari ladders, enrich counting, add new phrase patterns`
 <!-- AUTO:END -->
 
 ---

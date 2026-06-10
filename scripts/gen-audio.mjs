@@ -56,6 +56,11 @@ for (const world of WORLDS) {
 let items = [...rows.values()]
 if (ONLY) items = items.filter((r) => r.key === ONLY)
 
+// Re-records take priority: float the deleted counting (number-*) and family
+// (home-*) clips to the front so they regenerate before the quota runs out.
+const PRIORITY = /^(number-|home-)/
+items.sort((a, b) => (PRIORITY.test(b.key) ? 1 : 0) - (PRIORITY.test(a.key) ? 1 : 0))
+
 const ai = new GoogleGenAI({ apiKey: KEY })
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 

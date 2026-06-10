@@ -31,10 +31,19 @@ git add public/images/*.webp && git commit && git push
 ## 1b. Re-record clips whose TEXT changed (deleted → now device-voice, correct text)
 When a `say` line changes, its old pre-rendered clip is stale (plays the OLD words). We
 deleted those so the device voice reads the CURRENT text; `gen-audio.mjs` will re-record
-them (warm voice) automatically since they're now missing. Affected:
+them (warm voice) automatically since they're now missing. `gen-audio.mjs` now floats
+these `number-*` / `home-*` keys to the FRONT (priority sort) so they regenerate first.
+Affected:
 - **Counting** `number-1..20` (×3 voices) — new "Five silly monkeys!" wording + correct count.
 - **Family** `home-sister/brother/grandma/grandpa` (×3 voices) — new "My sister! I love…" lines.
-Run after a TTS reset: `GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-audio.mjs` (skips existing).
+Run after credits are topped up: `GEMINI_API_KEY=$K PACE_MS=6500 node scripts/gen-audio.mjs` (skips existing).
+
+> **BLOCKER (2026-06-10):** TTS is NOT gated by the free daily quota right now — both flash
+> models (`gemini-2.5-flash-preview-tts` and `gemini-3.1-flash-tts-preview`) return
+> `429 "Your prepayment credits are depleted."` This is the SAME account-level credit block
+> that stopped image gen — a daily reset will not clear it. Top up Gemini prepayment credits
+> at https://ai.studio/projects, then run the priority batch above. The whole TTS backlog
+> (§2) is blocked behind this, not behind the per-day cap.
 
 ## 2. TTS phrase + voice clips — resumes on daily quota reset
 - Phrase clips ~356/763 done; ~407 phrase + 20 voice (Leda 2 / Sulafat 18) remain.

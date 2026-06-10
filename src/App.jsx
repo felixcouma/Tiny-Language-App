@@ -19,6 +19,7 @@ import Onboarding from './components/Onboarding.jsx'
 import CollectToast from './components/CollectToast.jsx'
 import UpdatePrompt from './components/UpdatePrompt.jsx'
 import { addMinute, isRestTime } from './lib/screentime'
+import { useWakeLock } from './lib/useWakeLock'
 
 const SCREENS = {
   profiles: ProfilePickerScreen,
@@ -56,6 +57,9 @@ export default function App() {
   const passGate = useStore((s) => s.passGate)
   const closeGate = useStore((s) => s.closeGate)
   const openRest = useStore((s) => s.openRest)
+
+  // Hold the display on while the app is open (re-acquired on tab focus).
+  useWakeLock()
 
   // Per-child screen-time: tick a minute while a child plays; wind down when
   // over their budget or during their quiet hours (bedtime).
