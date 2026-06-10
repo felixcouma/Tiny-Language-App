@@ -10,7 +10,7 @@
 import { readdirSync, unlinkSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { WORLDS } from '../src/data/content.js'
+import { WORLDS, PRAISE } from '../src/data/content.js'
 import { WORDS, PHRASES } from '../src/data/phraseContent.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -46,6 +46,7 @@ for (const world of WORLDS) {
   for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach((t) => validPhrases.add(slugify(t)))
 }
 ;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
+PRAISE.forEach((t) => validPhrases.add(slugify(t))) // rotating praise clips (correct-answer feedback)
 
 /* valid voice keys (must match gen-audio.mjs): item.sound for any item with spoken text */
 const validVoice = new Set()
