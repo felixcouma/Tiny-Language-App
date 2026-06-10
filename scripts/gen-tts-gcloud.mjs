@@ -70,7 +70,7 @@ function voiceRows() {
     }
   }
   let items = [...rows.values()]
-  if (ONLY) items = items.filter((r) => r.key === ONLY)
+  if (ONLY) { const set = new Set(ONLY.split(',').map((s) => s.trim())); items = items.filter((r) => set.has(r.key)) }
   // Re-records first: counting (number-*) + family (home-*).
   const PRIORITY = /^(number-|home-)/
   items.sort((a, b) => (PRIORITY.test(b.key) ? 1 : 0) - (PRIORITY.test(a.key) ? 1 : 0))

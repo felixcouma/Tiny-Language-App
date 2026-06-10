@@ -139,10 +139,9 @@ const NUM_IPA = ['/wʌn/', '/tu/', '/θri/', '/fɔr/', '/faɪv/', '/sɪks/', '/�
 const COUNT_NOUN = ['red apple', 'yellow bananas', 'happy puppies', 'green frogs', 'silly monkeys', 'bright balloons', 'shiny stars', 'spotted ladybugs', 'orange carrots', 'tiny toes', 'pretty butterflies', 'fluffy bunnies', 'sparkly buttons', 'busy ants', 'soft clouds', 'rolling wheels', 'singing birds', 'tasty cookies', 'cheerful flowers', 'dancing raindrops']
 const numbers = NUM.map((word, i) => {
   const n = i + 1
-  // Count fully to ten; for 11–20, count "1, 2, 3 … N" so it stays short.
-  const seq = n <= 10
-    ? Array.from({ length: n }, (_, k) => k + 1).join(', ')
-    : `1, 2, 3 … ${n}`
+  // Count fully all the way up (1…N) for every number — children count along, so
+  // 11–20 must say every number, not skip with "1, 2, 3 … N".
+  const seq = Array.from({ length: n }, (_, k) => k + 1).join(', ')
   const lower = word.toLowerCase()
   return {
     word, numeral: n, count: n, ipa: NUM_IPA[i], color: CAT.count.color,
