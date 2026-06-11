@@ -38,6 +38,15 @@ export default function GridScreen() {
   const [cat, setCat] = useState('All')
   const pool = useMemo(() => (cat === 'All' ? WORDS : wordsInCategory(cat)), [cat])
 
+  // Focus words of the week (grown-up-set): in Find mode the target rotates through
+  // THESE instead of the random category pool, turning Find into targeted homework.
+  const focus = useStore((s) => s.activeProfile()?.focusWords || [])
+  const focusPool = useMemo(
+    () => focus.map((fw) => WORDS.find((w) => w.word === fw)).filter(Boolean),
+    [focus]
+  )
+  const findPool = mode === 'find' && focusPool.length ? focusPool : pool
+
   // Board mode
   const [board, setBoard] = useState(() => Array(BOARD).fill(null))
   const [hi, setHi] = useState(null)
@@ -75,7 +84,7 @@ export default function GridScreen() {
 
   // ---- Find mode: announce a new target word & drop it in a random cell ----
   const newTarget = (avoidWord) => {
-    const next = pickRandom(pool, avoidWord ? new Set([avoidWord]) : new Set()) || pool[0]
+    const next = pickRandom(findPool, avoidWord ? new Set([avoidWord]) : new Set()) || findPool[0]
     setTarget(next)
     setFinds(0)
     setTargetCell(randCell(null))
@@ -83,11 +92,11 @@ export default function GridScreen() {
     if (next) voice(next.word) // tell the child what to look for
   }
 
-  // Entering Find (or changing the category while in Find) starts a fresh word.
+  // Entering Find (changing the category, or new focus words) starts a fresh word.
   useEffect(() => {
     if (mode === 'find') newTarget()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, cat])
+  }, [mode, cat, focus.join(',')])
 
   const onFindTap = (idx) => {
     if (!target) return
@@ -182,7 +191,7 @@ export default function GridScreen() {
             onClick={() => target && voice(target.word)}
             aria-label={target ? `Find ${target.word}. Tap to hear it again.` : 'Find a word'}
           >
-            <span className="wb-find-label">Find</span>
+            <span className="wb-find-label">{focusPool.length ? '★ This week · Find' : 'Find'}</span>
             <span className="wb-find-target">{target ? target.word : '…'}</span>
           </button>
           <div className="wb-find-progress" aria-label={`${finds} of ${FIND_GOAL} found`}>

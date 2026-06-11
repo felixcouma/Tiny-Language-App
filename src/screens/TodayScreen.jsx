@@ -15,7 +15,12 @@ export default function TodayScreen() {
   const child = useStore((s) => s.activeProfile())
   const recordHeard = useStore((s) => s.recordHeard)
 
-  const build = () => buildTodaySession(useStore.getState().progress, useStore.getState().stage())
+  const build = () =>
+    buildTodaySession(
+      useStore.getState().progress,
+      useStore.getState().stage(),
+      useStore.getState().focusWords()
+    )
   const [queue, setQueue] = useState(build)
   const [idx, setIdx] = useState(0)
   const item = queue[idx]

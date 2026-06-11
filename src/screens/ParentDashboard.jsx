@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useStore, getWorld, STAGES, WORLDS } from '../store'
+import { useMemo, useState } from 'react'
+import { useStore, getWorld, STAGES, WORLDS, FOCUS_MAX } from '../store'
 import {
   STORYBOOK_VOICES,
   getStorybookVoice,
@@ -8,7 +8,7 @@ import {
 } from '../lib/audio'
 import { masteredCount } from '../lib/mastery'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
-import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard } from '../data/phraseContent'
+import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard, CATEGORIES, wordsInCategory } from '../data/phraseContent'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -79,6 +79,8 @@ export default function ParentDashboard() {
         <ChildStage />
 
         <SpeechLevel />
+
+        <FocusWords />
 
         <ScreenTime />
 
@@ -229,6 +231,78 @@ function SpeechLevel() {
         {child.name} has heard {wordsHeard} different words
         {phrasesExplored > 0 && ` · ${phrasesExplored} ${phrasesExplored === 1 ? 'phrase' : 'phrases'} explored`}.
       </p>
+    </section>
+  )
+}
+
+function FocusWords() {
+  const child = useStore((s) => s.activeProfile())
+  const toggle = useStore((s) => s.toggleFocusWord)
+  const clear = useStore((s) => s.clearFocusWords)
+  const [cat, setCat] = useState(CATEGORIES[0])
+  const words = useMemo(() => wordsInCategory(cat), [cat])
+  if (!child) return null
+  const focus = child.focusWords || []
+  const atCap = focus.length >= FOCUS_MAX
+
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Focus words this week</h3>
+      <p className="voice-hint">
+        Pin up to {FOCUS_MAX} words for {child.name} to practise — lovely for therapy homework.
+        They lead the Word Board&rsquo;s <b>Find</b> game and Today with Pip.
+      </p>
+
+      <div className="focus-current">
+        {focus.length ? (
+          focus.map((w) => (
+            <button
+              key={w}
+              className="focus-chip is-on"
+              onClick={() => toggle(w)}
+              aria-label={`Remove ${w}`}
+            >
+              ★ {w} <span className="focus-x" aria-hidden="true">×</span>
+            </button>
+          ))
+        ) : (
+          <span className="voice-hint">None yet — tap words below to pin them.</span>
+        )}
+        {focus.length > 0 && (
+          <button className="focus-clear" onClick={clear}>
+            Clear
+          </button>
+        )}
+      </div>
+
+      <div className="focus-cats" role="tablist" aria-label="Word groups">
+        {CATEGORIES.map((c) => (
+          <button
+            key={c}
+            className={`focus-cat ${c === cat ? 'is-active' : ''}`}
+            onClick={() => setCat(c)}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      <div className="focus-picker">
+        {words.map((w) => {
+          const on = focus.includes(w.word)
+          return (
+            <button
+              key={w.word}
+              className={`focus-pick ${on ? 'is-on' : ''}`}
+              onClick={() => toggle(w.word)}
+              disabled={!on && atCap}
+              aria-pressed={on}
+            >
+              {w.word}
+            </button>
+          )
+        })}
+      </div>
     </section>
   )
 }

@@ -14,6 +14,8 @@ export const STAGES = [
   { id: 'first', label: 'First words', hint: 'Ages 1–2 · single words' },
   { id: 'sentences', label: 'Little sentences', hint: 'Ages 3–4 · short phrases' },
 ]
+// Most "focus words of the week" a grown-up can pin per child (therapy homework).
+export const FOCUS_MAX = 3
 // Two-letter avatar initials from a "First Last" name (falls back to one letter).
 export const initialsOf = (name) =>
   (name || '')
@@ -154,6 +156,7 @@ export const useStore = create((set, get) => ({
       limit: 0,
       bedtime: null,
       phraseLevel: 1,
+      focusWords: [],
     }
     const next = [...profs, prof]
     saveJSON(PROFILES_KEY, next)
@@ -195,6 +198,35 @@ export const useStore = create((set, get) => ({
     set((s) => {
       const profiles = s.profiles.map((p) =>
         p.id === s.activeProfileId ? { ...p, phraseLevel } : p
+      )
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+
+  // ---- Focus words of the week (caregiver/SLP-set practice targets) ----
+  // Up to FOCUS_MAX words a grown-up pins for this child; the app surfaces them
+  // first in the Word Board's Find game and in Today with Pip. Per-child, no scores.
+  focusWords: () => get().activeProfile()?.focusWords || [],
+  toggleFocusWord: (word) =>
+    set((s) => {
+      if (!word) return {}
+      const profiles = s.profiles.map((p) => {
+        if (p.id !== s.activeProfileId) return p
+        const cur = p.focusWords || []
+        const next = cur.includes(word)
+          ? cur.filter((w) => w !== word)
+          : cur.length >= FOCUS_MAX
+            ? cur // already at the cap — ignore (UI also disables it)
+            : [...cur, word]
+        return { ...p, focusWords: next }
+      })
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+  clearFocusWords: () =>
+    set((s) => {
+      const profiles = s.profiles.map((p) =>
+        p.id === s.activeProfileId ? { ...p, focusWords: [] } : p
       )
       saveJSON(PROFILES_KEY, profiles)
       return { profiles }

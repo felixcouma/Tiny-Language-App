@@ -272,6 +272,92 @@
   transform: scale(0.98);
 }
 
+/* ---- Focus words of the week ---- */
+.focus-current {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: var(--space-sm) 0;
+}
+.focus-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  color: #8a6d00;
+  background: #fff3cf;
+  border-radius: 999px;
+  padding: 7px 12px;
+  box-shadow: 0 1px 0 rgba(184, 134, 11, 0.25);
+}
+.focus-chip .focus-x {
+  opacity: 0.6;
+  font-weight: 800;
+}
+.focus-clear {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #98a2b3;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: underline;
+  padding: 4px 6px;
+}
+.focus-cats {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.focus-cat {
+  flex: 0 0 auto;
+  border: 1px solid #e6e8ee;
+  background: #fff;
+  color: #475467;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.focus-cat.is-active {
+  background: #1e90ff;
+  border-color: #1e90ff;
+  color: #fff;
+}
+.focus-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: var(--space-sm);
+}
+.focus-pick {
+  border: 1px solid #e6e8ee;
+  background: #fff;
+  color: #2c3e50;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.focus-pick.is-on {
+  background: #fff3cf;
+  border-color: #f0c54b;
+  color: #8a6d00;
+}
+.focus-pick:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 /* ---- Tablet / laptop: centre the panel and spread the grids ---- */
 @media (min-width: 700px) {
   .parent-main {

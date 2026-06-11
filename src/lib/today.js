@@ -20,7 +20,7 @@ function shuffle(arr) {
   return a
 }
 
-export function buildTodaySession(progress = {}, stage = 'first') {
+export function buildTodaySession(progress = {}, stage = 'first', focusWords = []) {
   const seen = progress.seen || {}
   const lastSeen = progress.lastSeen || {}
   const items = allItems()
@@ -51,5 +51,18 @@ export function buildTodaySession(progress = {}, stage = 'first') {
     const extra = [...fresh, ...review].filter((it) => !used.has(it.word)).slice(0, want - session.length)
     session = [...session, ...extra]
   }
-  return shuffle(session).slice(0, want)
+  session = shuffle(session).slice(0, want)
+
+  // Focus words of the week lead the session (grown-up-set practice targets), so
+  // they're always seen first. Any focus word with a matching learning item is
+  // hoisted to the front; the rest of the session fills in behind it.
+  if (focusWords.length) {
+    const want2 = new Set(focusWords.map((w) => String(w).toLowerCase()))
+    const lead = items.filter((it) => want2.has(it.word.toLowerCase()))
+    if (lead.length) {
+      const leadWords = new Set(lead.map((it) => it.word))
+      session = [...lead, ...session.filter((it) => !leadWords.has(it.word))].slice(0, Math.max(want, lead.length))
+    }
+  }
+  return session
 }
