@@ -166,6 +166,10 @@
   background: linear-gradient(180deg, #b06bf0, #8a3fd0);
   box-shadow: 0 5px 0 #6c2bb0, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
+.mode-echo {
+  background: linear-gradient(180deg, #ff9a52, #ff6f3c);
+  box-shadow: 0 5px 0 #d9531f, 0 8px 14px rgba(0, 0, 0, 0.2);
+}
 
 /* ---- Tablet / laptop: use the wider shell instead of a phone column ---- */
 @media (min-width: 700px) {

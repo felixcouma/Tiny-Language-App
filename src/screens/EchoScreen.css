@@ -1,0 +1,117 @@
+.echo {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--space-md);
+  gap: var(--space-sm);
+}
+.echo-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.echo-progress {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.echo-pip {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.14);
+}
+.echo-pip.on { background: #32cd32; }
+.echo-pip.now { background: #1e90ff; transform: scale(1.25); }
+
+.echo-bubble-row {
+  display: flex;
+  justify-content: center;
+}
+
+.echo-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+.echo-card {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  border-radius: 28px;
+  padding: var(--space-md);
+  width: min(78vw, 320px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.08), 0 18px 30px rgba(0, 0, 0, 0.16);
+  transition: transform var(--duration-normal) var(--easing-bounce);
+}
+.echo-card.yourturn { transform: scale(1.02); }
+.echo-card.cheer { transform: scale(1.05); }
+.echo-word {
+  font-size: 34px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* "Your turn" — a calm pulsing ring around the card (no mic, just an invitation). */
+.echo-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 34px;
+  border: 4px solid #1e90ff;
+  opacity: 0;
+  animation: echo-pulse 1.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes echo-pulse {
+  0% { transform: scale(0.96); opacity: 0.7; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+
+.echo-replay,
+.echo-said {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.echo-said {
+  background: #32cd32;
+  color: #fff;
+}
+
+/* Done */
+.echo-done {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-sm);
+}
+.echo-done-title {
+  font-size: 26px;
+  color: #2c3e50;
+}
+.echo-done-sub { color: #5b6b7b; }
+.echo-done-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+.echo-home { background: #eef1f5; color: #2c3e50; }
+
+@media (prefers-reduced-motion: reduce) {
+  .echo-ring { animation: none; opacity: 0.5; }
+}

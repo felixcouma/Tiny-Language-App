@@ -250,6 +250,7 @@ export const useStore = create((set, get) => ({
   openPhrase: () => set({ screen: 'phrase', autoPlay: false }),
   openGrid: () => set({ screen: 'grid', autoPlay: false }),
   openAbc: () => set({ screen: 'abc', autoPlay: false }),
+  openEcho: () => set({ screen: 'echo', autoPlay: false }),
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),
