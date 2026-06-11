@@ -47,24 +47,20 @@ the project's $300 trial). All clips verified playing in-app (Playwright). Done:
   (`gen-audio.mjs`/`gen-phrases.mjs`) still work if credits are ever restored.
 - The 8am cloud reminder routine is now **disabled** (backlog cleared).
 
-## 3. Full per-voice switching — ✅ CODE DONE · ⏳ clips generating
-`voice()` is now voice-aware (`sounds/<storyVoice>/phrases/<slug>.mp3` → Aoede `sounds/phrases/`
-→ chime) and `gen-tts-gcloud.mjs` writes per-voice phrase folders. The Leda + Sulafat phrase
-clips (~1,600) are **generating in the background** (self-pacing through the Vertex per-minute
-quota, ~3 h). When the batch completes: `npm run build`, commit `public/sounds/leda|sulafat`, push.
-Until then, switching to Leda/Sulafat gracefully falls back to Aoede for any not-yet-made clip.
+## 3. Full per-voice switching — ✅ COMPLETE (2026-06-11)
+`voice()` is voice-aware (`sounds/<storyVoice>/phrases/<slug>.mp3` → Aoede `sounds/phrases/`
+→ chime) and `gen-tts-gcloud.mjs` writes per-voice phrase folders. **All three voices now have
+full phrase coverage: Aoede 899 · Leda 899 · Sulafat 899** (generated via Google Cloud TTS,
+self-paced through the Vertex per-minute quota; the runs were killed externally a few times and
+resumed — the generator skips clips already on disk). The voice toggle in the Parent view now
+switches *every* spoken line to the chosen voice. Committed `public/sounds/leda` + `sulafat`.
 
-## 3b. ABC Songs audio — ⏳ QUEUED (generate after §3 completes)
-The **Alphabet Friends** feature is built and live (screen/grid/store/router/Home button), but the
-26 warm letter-song clips aren't generated yet — queued so they don't fight §3 for the TTS quota.
-Run after the per-voice batch finishes:
-```bash
-export GOOGLE_APPLICATION_CREDENTIALS="$(pwd)/scripts/gcloud-sa-key.json"; export VERTEX_PROJECT=gen-lang-client-0993546173
-node scripts/gen-tts-gcloud.mjs --kind abc-songs   # → public/sounds/abc-songs/<a..z>.mp3 (26 clips)
-```
-Until then, tapping a letter plays a soft chime (no robotic voice). Nice-to-have polish: real WebP
-pictures for the 16 letter-words without one (egg, goat, house, ice-cream, jellyfish, kite, milk,
-nest, orange, queen, tiger, umbrella, violin, whale, xylophone, yo-yo) — currently WordPic tiles.
+## 3b. ABC Songs audio — ✅ COMPLETE (2026-06-11)
+The **Alphabet Friends** feature is built and live, and the **26 warm letter-song clips** are now
+generated (Aoede, `public/sounds/abc-songs/<a..z>.mp3`) — tapping a letter plays its letter-song
+instead of a chime. The 16 letter-word pictures were also added earlier (commit `8e4f04f`), so
+every letter shows a real WebP picture. Regenerate anytime with
+`node scripts/gen-tts-gcloud.mjs --kind abc-songs`.
 
 ## 4. Animal sound effects (new safari animals + duck) — needs ear-verification
 The 5 new animals (Snake/Owl/Wolf/Goose/Crow) ship with images + warm spoken sound-labels
