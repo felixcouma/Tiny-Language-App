@@ -5,23 +5,23 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-11 03:55 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-11 04:05 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6a4a462 Docs: correct context-doc audio/image facts to current pipeline`
 - `82b0de8 Docs: update CURRENT_SESSION + context for the 2026-06-10 session`
 - `228e3e7 5 new safari animals + remove robotic device voice everywhere`
 - `cced461 Counting 11-20 full-count clips + self-healing PWA cache for clips/images`
 - `e538a12 Counting 11-20: count fully (1…N), not "1, 2, 3 … N"`
 - `b52fffc Leak-proof regen: all counting + Twin name clips (Adriel/Audrey)`
-- `863f7b7 Word Board: add "Find" word-focus mode + zebra B&W image`
 <!-- AUTO:END -->
 
 ---
 
 ## 📦 LIVE BUILD STATUS — v5 ("best of v3 + v4")
 
-**Stack:** React 18 · Vite · Zustand · CSS animations · Web Speech (spoken words) · Web Audio
+**Stack:** React 18 · Vite · Zustand · vite-plugin-pwa (Workbox, StaleWhileRevalidate) · warm Gemini-TTS clips · Web Audio
 **Branch:** `main` · **Live:** https://felixcouma.github.io/Tiny-Language-App/
 **Runs with:** `npm install && npm run dev`  ·  Build verified ✅  ·  Auto-deploys to Pages on push ✅
 
@@ -31,10 +31,10 @@ sections (Build Status, Next Steps) are updated by hand each push.
   buttons (matches the reference kids-app style). Learning screen + games themed.
 - **Auto Play** mode (auto-advances & speaks through a world) · **Mute** toggle (persisted) ·
   **Storybook voice picker** in the Parent view (Aoede default · Leda · Sulafat warm clips).
-- **Premium natural voice ready (ElevenLabs)** — `src/lib/tts.js` + Cloudflare Worker
-  (`infra/tts-worker.js`) keep the API key secret; cached per device; falls back to device
-  voice. **To activate:** deploy the Worker and set repo Variable `VITE_TTS_PROXY_URL`
-  (guide: `docs/PREMIUM_VOICE_SETUP.md`). Decision: premium voice + real photos in cartoon frame.
+- **Dormant alt-voice hook (ElevenLabs)** — `src/lib/tts.js` + a Cloudflare Worker
+  (`infra/tts-worker.js`) can proxy a premium cloud voice if `VITE_TTS_PROXY_URL` is set
+  (guide: `docs/PREMIUM_VOICE_SETUP.md`). **Not in use** — the bundled Gemini-TTS clips are the
+  warm voice; this is an optional fallback path only.
 - **No emoji — real WebP illustrations.** Each item shows a bundled `public/images/<key>.webp`
   (AAC-style art, many generated via the Gemini/Vertex image model — see `scripts/gen-symbols.mjs`).
   `src/lib/images.js` resolves local WebP → Unsplash/Pexels/Wikimedia as a fallback; missing
@@ -48,46 +48,59 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **7 living worlds** — incl. the two parent-requested favourites:
   **My Body** (13 parts) and **Things I Do** (12 activities/verbs) + Home Village (family+objects),
   Safari Island (25 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
-- **Learning screen** — real-photo stage, word, IPA, big "hear it" button (auto-speaks on arrival),
-  and v4 **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
-- **Listening Game** (v3) — listen → tap the right photo from 4 → confetti + celebration; wrong
-  taps gently wobble and invite a retry (no penalty, no scores).
-- **Twin Mode** (v4) — turn-taking rounds that name **Audrey & Adriel** ("Audrey, find the dog!").
-- **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy),
-  stored locally; reset button. No scores/badges/pressure.
-- **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, `prefers-reduced-motion`.
+- **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
+  and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
+- **Listening Game** & **Twin Mode** — listen → tap the right picture; Twin Mode does turn-taking
+  rounds naming **Audrey & Adriel**. Rotating warm praise; gentle wobble on a miss (no scores).
+- **Word Practice / Phrase Builder** — per-child stage (`phraseLevel`): tap words, or build 2-/3-word
+  phrases (`src/data/phraseContent.js`, `PhraseScreen`). Readiness graduates a child from words →
+  phrases at ~25 distinct words.
+- **Word Board (AAC)** — therapist-style communication board with a message strip, plus a **Find**
+  word-focus mode (one target hops cell-to-cell, advances after 5 finds) for early trackers (`GridScreen`).
+- **Letter Sounds** (phonics), **Chant** (sing-along), **Today with Pip** (adaptive session),
+  **Collection** (gentle word collecting), **Rest / screen-time** (per-child limit + quiet hours).
+- **Multi-child profiles** — per-child progress, stage, voice, screen-time & bedtime (a no-twin
+  "Everyone" guest profile + the AJ/AG twins), all in localStorage.
+- **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy);
+  reset button. No scores/badges/pressure.
+- **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
+  service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
-### 🚧 Not yet built (next candidates)
-- Real recorded **animal sounds** in `public/sounds/` (currently spoken via speech engine).
-- Curated photos via an Unsplash key (wire is ready; just add `VITE_UNSPLASH_KEY`).
-- Auto-play "story" mode; swipe navigation; ABC phonics world (v3) if wanted.
-- Per-item photo overrides for any Wikimedia image you want to swap.
+### 🚧 Backlog (see `docs/LEFT_TO_DO.md`)
+- **Full per-voice switching** (§3) — generate Leda/Sulafat copies of the ~800 phrase clips so the
+  voice toggle changes *everything* (Aoede is already the enforced default). ~$3–5 of the GCP credit.
+- **Real animal FX recordings + duck-quack fix** (§4) — the 5 new animals (Snake/Owl/Wolf/Goose/Crow)
+  currently use spoken sound-labels; real CC `fx/<key>.mp3` clips need ear-auditioning. Keys are pre-wired.
+- **Music Forest** build-out (richer sound-play). Optional: Word Board "mastered → retire word" mode.
 
 ### 🗂️ Code map
 ```
 src/
-├── data/content.js          # 7 worlds + items (wiki title, say text, IPA, ladder phrases)
-├── lib/images.js            # real-photo resolver (Wikimedia / Unsplash / Pexels) + cache
-├── lib/audio.js             # speech (words/phrases) + chime + celebration; real-file aware
-├── store.js                 # Zustand: screen router, position, localStorage progress
-├── components/ItemVisual.*   # photo / swatch / number / portrait visual (+ fallback)
-├── components/ChoiceGame.*   # shared listen-and-tap engine (Sound Game + Twin Mode)
-├── components/Confetti.*     # celebration confetti
-└── screens/                 # Home, Learning, SoundGame, TwinMode, ParentDashboard
+├── data/content.js        # 7 worlds / 102 items (say text, IPA, ladder phrases, PRAISE)
+├── data/phraseContent.js  # speech-therapy vocab (209 words / tiers / categories) + phrase banks
+├── lib/audio.js           # warm voice-clip playback (sayWord/voice/voiceSeq/playItem) + chime/celebration
+├── lib/images.js          # local-WebP-first resolver (→ Unsplash/Pexels/Wikimedia) + cache
+├── lib/                   # tts.js (dormant premium hook) · today.js · screentime.js · useWakeLock.js
+├── store.js               # Zustand: router, profiles, progress, stage, gate, screen-time
+├── components/            # WordPic, TactileStage, Ladder, Mascot(Pip), Confetti, ChoiceGame,
+│                          # Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary
+└── screens/               # ProfilePicker, Home, Learning, Today, Collection, Parent, SoundGame,
+                           # TwinMode, Phonics, Phrase, Grid (Word Board), Chant, Rest
 public/
-├── manifest.webmanifest · icon.svg (no emoji)
-└── sounds/README.md          # drop real recordings here to override speech
-docs/                         # all source documents (blueprint, wireframes, csv, v4, workflow)
-.env.example                  # optional photo API keys
+├── images/<key>.webp      # bundled illustrations + generated AAC symbols
+└── sounds/<voice>/<key>.mp3 · sounds/phrases/<slug>.mp3 · sounds/fx/<key>.mp3 (+ CREDITS.md)
+scripts/                   # gen-tts-gcloud · gen-symbols · optimize-images · clean-orphan-clips · check-content
+docs/                      # LEFT_TO_DO · TTS_GCLOUD_SETUP · Observations · blueprints + workflow
 ```
 
-### ⚠️ Notes for review (morning)
-- Photos come from Wikimedia article images chosen via each item's `wiki` title. Most are
-  clear & friendly; a few (e.g. some body parts) may be clinical. **Skim once** — any photo can
-  be swapped by setting `image: '<url>'` on that item in `content.js`, or add an Unsplash key
-  for curated results app-wide.
+### ⚠️ Notes
+- Pictures are bundled `public/images/<key>.webp` (illustrations / generated symbols); a word with
+  no picture shows a bold coloured **WordPic** tile. Swap any picture by replacing its `.webp`
+  (or add a key in `WORD_ALIAS`/`imageKeyFor` to reuse one already in the bank).
 - Audio is bundled warm Gemini-TTS clips (consistent on every device); a missing clip falls back
-  to a soft chime, never the robotic device voice.
+  to a soft chime, never the robotic device voice. Re-record via `scripts/gen-tts-gcloud.mjs`.
+- `npm run check` guards content integrity (7 worlds / item shapes / counting / colours / game pool);
+  it runs automatically on `npm run build`.
 
 ---
 
@@ -128,8 +141,10 @@ git add . && git commit -m "what changed" && git push origin main   # auto-deplo
 4. Toddler-safe  5. Twin-focused turn-taking  6. Speech progression  7. Parent partnership
 
 ## 📑 DOCUMENT INDEX (`docs/`)
-MasterBlueprint · WireframeSystem · RealAssetsGuide · ContentDatabase.csv ·
-Twins_v4_Masterplan · DOCUMENTATION_UPDATE_SUMMARY · CROSS_DEVICE_WORKFLOW
+**Current:** `LEFT_TO_DO` (backlog) · `TTS_GCLOUD_SETUP` (voice pipeline) · `Observations` ·
+`CROSS_DEVICE_WORKFLOW` · `PHRASES_REVIEW` (spoken-line audit, regen via `scripts/list-phrases.mjs`).
+**Origins:** MasterBlueprint · WireframeSystem · RealAssetsGuide · ContentDatabase.csv · Twins_v4_Masterplan.
+> Handoff state lives in `CURRENT_SESSION.md` (update before each push).
 
 ---
 
@@ -138,5 +153,6 @@ Open the live link on a phone/tablet, or run locally:
 ```bash
 npm install && npm run dev   # then open the printed Local/Network URL
 ```
-Tap a world → hear the word spoken + see a real photo → tap "Say it together" phrases →
-try the Listening Game and Twin Mode → the ••• button (top-right of Home) opens the Parent view.
+Tap a world → hear the word in the warm voice + see its picture → tap the Ladder phrases →
+try the Listening Game, Twin Mode, Word Practice, Word Board (+ Find mode) and Letter Sounds →
+the ••• button (top-right of Home) opens the Parent view (voice picker, screen-time, insights).
