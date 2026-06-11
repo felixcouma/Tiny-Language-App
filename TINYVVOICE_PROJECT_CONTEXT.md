@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-11 04:17 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-11 04:28 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `1be155a CLAUDE.md: update architecture + asset pipeline to current state`
 - `a4442d9 Phrases review: clinically-framed spoken-language inventory for SLP review`
 - `b297399 Docs: full refresh of the context doc to current state`
 - `6a4a462 Docs: correct context-doc audio/image facts to current pipeline`
 - `82b0de8 Docs: update CURRENT_SESSION + context for the 2026-06-10 session`
 - `228e3e7 5 new safari animals + remove robotic device voice everywhere`
-- `cced461 Counting 11-20 full-count clips + self-healing PWA cache for clips/images`
 <!-- AUTO:END -->
 
 ---

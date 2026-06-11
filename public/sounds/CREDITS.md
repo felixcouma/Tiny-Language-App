@@ -14,6 +14,12 @@ Animal sound effects used in TinyVoice Twins (`public/sounds/fx/`).
 
 ## Adobe
 
-Remaining animal sounds (dog, cat, cow, sheep, bird, frog, monkey, lion, bear, duck, zebra)
-are from Adobe stock audio, used under the project owner’s Adobe license, trimmed and
-re-encoded for the app.
+Remaining animal sounds (dog, cow, bird, monkey, lion, bear, zebra) are from Adobe stock
+audio, used under the project owner’s Adobe license, trimmed and re-encoded for the app.
+
+## Project-owner provided (2026-06-10)
+
+Replaced/added by the project owner (trimmed to ~1.5–3.5 s, fade-out, mono 24 kHz):
+**cat, frog, sheep, horse, duck** (upgraded) and **crow, goose, wolf** (new safari animals).
+The duck now plays a real quack (previously sounded like a chick).
+> _Source / licence to be confirmed by the project owner._
