@@ -82,6 +82,27 @@ export default function App() {
     if (activeProfileId && PLAY_SCREENS.has(screen) && restCheck(useStore.getState())) openRest()
   }, [screen, activeProfileId, openRest])
 
+  // Browser Back should return to Home from any sub-screen — never silently leave
+  // the app (the old behavior on desktop). We "arm" one history entry the first time
+  // a child enters a sub-screen; a Back press pops it and we route to Home instead.
+  // From Home/Profiles, Back is allowed to leave (that's the natural exit).
+  const isSubScreen = !!activeProfileId && screen !== 'home' && screen !== 'profiles'
+  useEffect(() => {
+    if (isSubScreen && window.history.state?.tv !== 'trap') {
+      window.history.pushState({ tv: 'trap' }, '')
+    }
+  }, [isSubScreen])
+  useEffect(() => {
+    const onPop = () => {
+      const st = useStore.getState()
+      if (st.activeProfileId && st.screen !== 'home' && st.screen !== 'profiles') {
+        st.goHome() // Back from a sub-screen → the Home dashboard, not out of the app
+      }
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
   const key = screen === 'profiles' || !activeProfileId ? 'profiles' : screen
   const Screen = SCREENS[key] || HomeScreen
   const gateTitle = gateFor === 'more' ? 'A little more time?' : 'For grown-ups'
