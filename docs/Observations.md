@@ -32,8 +32,19 @@ For Adriel's user the Word Board enhancement should have current state and also 
 2. **Tablet — a stray touch minimizes the app; needs explicit window controls.** Right now
    any touch can minimize/exit the screen, which a child triggers by accident. The app
    should have a deliberate **minimize button and a close button** (proper window controls)
-   so it doesn't minimize on a random touch. (Likely PWA fullscreen / touch-handling
-   behavior — confirm how it's being installed/run on the tablet.)
+   so it doesn't minimize on a random touch.
+   **RESOLUTION (2026-06-11): not an app fix — it's OS behavior.** A website/PWA cannot draw
+   OS minimize/close buttons or quit itself (no web API), and "any touch minimizes" is the
+   tablet's gesture navigation, not app code. The real fix is **Android Screen Pinning**.
+   Steps for the **Samsung Galaxy Tab S9 FE+** (One UI 6):
+   - Install the app first: Chrome → open the live URL → ⋮ → *Add to Home screen / Install app*
+     → launch from the new icon (runs full-screen, no address bar).
+   - Enable pinning: **Settings → Security and privacy → Other security settings → Pin windows**
+     → On, and turn on **"Ask for PIN/pattern before unpinning."**
+   - Pin each session: open the app → **Recents** → tap the app's icon on its card → **Pin this app**.
+   - Unpin (grown-up): swipe up & hold (gesture nav) or hold **Back + Recents**, then enter PIN.
+   - Extras: Do Not Disturb on, rotation locked. Alternative: **Samsung Kids** sandbox.
+   (The Back→Home fix in #4 already prevents accidental *Back*-exits within the app.)
 
 3. **Alphabet Friends — add an Auto Play button.** Like the Learning screen's Auto Play,
    ABC Songs should have an autoplay that advances through the letters A→Z on its own
