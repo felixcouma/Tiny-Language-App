@@ -27,6 +27,7 @@ import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { WORLDS, PRAISE } from '../src/data/content.js'
 import { WORDS, PHRASES } from '../src/data/phraseContent.js'
+import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SOUNDS = path.join(__dirname, '..', 'public', 'sounds')
@@ -120,6 +121,13 @@ function phraseRows() {
   return [...bySlug.values()]
 }
 
+/* ---- ABC song rows (one warm clip per letter) ---- */
+function abcRows() {
+  let rows = ABC_SONGS.map((s) => ({ key: abcKey(s.letter), text: s.lyric }))
+  if (ONLY) { const set = new Set(ONLY.split(',').map((x) => x.trim().toLowerCase())); rows = rows.filter((r) => set.has(r.key)) }
+  return rows
+}
+
 /* ---- Cloud TTS call ---- */
 const auth = new GoogleAuth({ scopes: 'https://www.googleapis.com/auth/cloud-platform' })
 let client
@@ -142,17 +150,22 @@ async function synth(voiceFolder, text, key) {
 }
 
 /* ---- run ---- */
-let items = KIND === 'phrases' ? phraseRows() : voiceRows()
+let items = KIND === 'phrases' ? phraseRows() : KIND === 'abc-songs' ? abcRows() : voiceRows()
 if (MATCH) items = items.filter((it) => it.key.includes(MATCH)) // --match number- : targeted (re)gen
 if (LIMIT) items = items.slice(0, LIMIT) // --limit N: generate only the first N (for a quick test)
-const folders = KIND === 'phrases' ? ['phrases'] : VOICES
-console.log(`kind=${KIND} mode=${MODE} model=${MODEL} folders=[${folders.join(', ')}] items=${items.length}`)
+// For phrases, Aoede lives in the flat sounds/phrases/ (the app default); the other voices get
+// sounds/<voice>/phrases/ so the voice toggle can switch the WHOLE UI. Voice clips: sounds/<voice>/.
+const targets =
+  KIND === 'abc-songs' ? [{ folder: 'abc-songs', voice: 'aoede' }] // one warm clip per letter
+  : KIND === 'phrases' ? VOICES.map((v) => ({ folder: v === 'aoede' ? 'phrases' : `${v}/phrases`, voice: v }))
+  : VOICES.map((v) => ({ folder: v, voice: v }))
+console.log(`kind=${KIND} mode=${MODE} model=${MODEL} folders=[${targets.map((t) => t.folder).join(', ')}] items=${items.length}`)
 
 client = await auth.getClient()
 const res = { ok: 0, skipped: 0, failed: [] }
 let billHits = 0
 let stop = false
-for (const folder of folders) {
+for (const { folder, voice } of targets) {
   if (stop) break
   const dir = path.join(SOUNDS, folder)
   mkdirSync(dir, { recursive: true })
@@ -162,9 +175,8 @@ for (const folder of folders) {
     const out = path.join(dir, `${key}.mp3`)
     if (!FORCE && existsSync(out)) { res.skipped++; continue }
     try {
-      // For the phrases folder the persona is always Aoede.
-      let mp3 = await synth(folder === 'phrases' ? 'aoede' : folder, text, key)
-      if (!mp3) { await sleep(1200); mp3 = await synth(folder === 'phrases' ? 'aoede' : folder, text, key) }
+      let mp3 = await synth(voice, text, key)
+      if (!mp3) { await sleep(1200); mp3 = await synth(voice, text, key) }
       if (!mp3) throw new Error('no audioContent (after retry)')
       writeFileSync(out, mp3)
       res.ok++
@@ -172,18 +184,20 @@ for (const folder of folders) {
       console.log(`  (${i + 1}/${items.length}) ✓ ${folder}/${key}.mp3 (${Math.round(mp3.length / 1024)} KB)`)
     } catch (e) {
       const msg = String(e?.response?.data?.error?.message || e?.message || e)
+      const fatal = /billing|credits|PERMISSION_DENIED|403|has not been used|disabled/i.test(msg)
+      const perMinute = !fatal && /RESOURCE_EXHAUSTED|429|quota|per_minute|per-minute/i.test(msg)
+      if (perMinute) {
+        // Per-minute quota: wait for the window to reset and RETRY the same item, so one run
+        // self-paces through the whole set. Bail only if it never recovers (likely a daily cap).
+        if (++billHits > 14) { console.log('\nQuota not recovering (~8 min) — likely a daily cap. Stopping.'); stop = true; break }
+        console.log(`  …per-minute quota, waiting 35s and retrying (${billHits})`)
+        await sleep(35000)
+        i-- // retry this same item
+        continue
+      }
       res.failed.push({ folder, key, err: msg.slice(0, 160) })
       console.log(`  (${i + 1}/${items.length}) ✗ ${folder}/${key} — ${msg.slice(0, 160)}`)
-      // Billing/quota/permission problems won't fix themselves mid-run — bail early.
-      if (/billing|PERMISSION_DENIED|quota|RESOURCE_EXHAUSTED|403|429|credits/i.test(msg)) {
-        if (++billHits >= 3) {
-          console.log('\nStopping — looks like a billing / quota / permission problem. See docs/TTS_GCLOUD_SETUP.md.')
-          stop = true
-          break
-        }
-      } else {
-        billHits = 0
-      }
+      if (fatal) { console.log('\nStopping — billing / permission / API-disabled. See docs/TTS_GCLOUD_SETUP.md.'); stop = true; break }
     }
     await sleep(PACE_MS)
   }

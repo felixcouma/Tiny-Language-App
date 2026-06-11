@@ -201,10 +201,13 @@ function stopAll() {
 export async function voice(text) {
   if (muted || !text) return
   audioCtx()
-  // Our default (Aoede) voice via a pre-rendered phrase clip, when present.
+  // Chosen storybook voice's phrase clip (`sounds/<voice>/phrases/`) → Aoede default
+  // (`sounds/phrases/`) → soft chime. Never the robotic device voice.
+  if (storyVoice !== DEFAULT_STORYBOOK_VOICE &&
+      (await playClip(`${BASE}sounds/${storyVoice}/phrases/${slugify(text)}.mp3`))) return
   if (await playClip(phraseUrl(text))) return
   if (premiumEnabled() && (await premiumSpeak(text))) return
-  playChime(text) // never the robotic device voice — a soft chime if a clip is missing
+  playChime(text) // a soft chime if a clip is missing
 }
 
 // Speak several parts in sequence in our voice (e.g. a twin name then the
@@ -330,6 +333,15 @@ export async function playItem(item) {
   if (!muted && key && FX_KEYS.has(key)) {
     await playClip(`${BASE}sounds/fx/${key}.mp3`)
   }
+}
+
+/** Play an ABC-song clip (public/sounds/abc-songs/<letter>.mp3); resolves when done.
+ *  Falls back to a soft chime until the clip is generated — never the device voice. */
+export async function playAbcSong(letter) {
+  if (muted || !letter) return
+  audioCtx()
+  if (await playClip(`${BASE}sounds/abc-songs/${String(letter).toLowerCase()}.mp3`)) return
+  playChime(letter)
 }
 
 /** Play a short sample in a given storybook voice (for the parent picker). */

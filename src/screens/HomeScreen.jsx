@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const openPhonics = useStore((s) => s.openPhonics)
   const openPhrase = useStore((s) => s.openPhrase)
   const openGrid = useStore((s) => s.openGrid)
+  const openAbc = useStore((s) => s.openAbc)
   const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
@@ -122,6 +123,15 @@ export default function HomeScreen() {
           }}
         >
           Letter Sounds
+        </button>
+        <button
+          className="chunky mode-btn mode-abc"
+          onClick={() => {
+            playChime('abc')
+            openAbc()
+          }}
+        >
+          ABC Songs
         </button>
       </section>
     </div>

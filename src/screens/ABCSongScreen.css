@@ -1,0 +1,138 @@
+/* Alphabet Friends — warm phonics songs. Music-green theme; toddler-safe. */
+.abc {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #fffdf8;
+}
+
+.abc-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: 10px 12px;
+  background: linear-gradient(180deg, #32cd32, #28a428);
+}
+.abc-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+.abc-bar-spacer {
+  width: 40px;
+}
+
+/* big "now playing" card */
+.abc-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 6px;
+}
+.abc-greet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.abc-letter {
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 800;
+  color: #2e9b2e;
+  text-shadow: 0 4px 12px rgba(50, 205, 50, 0.2);
+}
+.abc-letter.is-playing {
+  animation: abc-pop 0.6s ease-in-out infinite;
+}
+@keyframes abc-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+.abc-pic {
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.abc-word {
+  font-size: 22px;
+  font-weight: 800;
+  color: #2c3e50;
+  text-align: center;
+}
+.abc-play {
+  margin-top: 2px;
+  min-width: 220px;
+  background: linear-gradient(135deg, #1e90ff, #87ceeb);
+  color: #fff;
+}
+.abc-play.is-playing {
+  opacity: 0.85;
+}
+.abc-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 2px;
+}
+.abc-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: #8b9098;
+  min-width: 56px;
+  text-align: center;
+}
+
+/* A–Z grid */
+.abc-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  padding: 12px;
+  align-content: start;
+}
+.abc-cell {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #2e9b2e;
+  background: #eefaee;
+  border: 2px solid #d6efd6;
+  border-radius: 14px;
+  position: relative;
+}
+.abc-cell.is-active {
+  color: #fff;
+  background: #32cd32;
+  border-color: #28a428;
+}
+.abc-cell:active {
+  transform: scale(0.94);
+}
+/* a little star once a letter is "mastered" (heard 4+ times) */
+.abc-cell.is-mastered::after {
+  content: '★';
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  font-size: 11px;
+  color: #f4b740;
+}
+
+@media (min-width: 700px) {
+  .abc-grid {
+    grid-template-columns: repeat(9, 1fr);
+  }
+  .abc-letter {
+    font-size: 120px;
+  }
+}

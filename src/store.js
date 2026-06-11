@@ -86,6 +86,7 @@ const emptyProgress = () => ({
   correct: 0,
   collected: {}, // word -> true (sticker book)
   phrases: {}, // phrase -> count (Level 2 speech practice)
+  abcSeen: {}, // letter -> count (ABC Songs; "mastered" = count >= 4)
   firstUse: Date.now(),
   lastUse: Date.now(),
 })
@@ -216,6 +217,7 @@ export const useStore = create((set, get) => ({
   openPhonics: () => set({ screen: 'phonics' }),
   openPhrase: () => set({ screen: 'phrase', autoPlay: false }),
   openGrid: () => set({ screen: 'grid', autoPlay: false }),
+  openAbc: () => set({ screen: 'abc', autoPlay: false }),
   openParent: () => set({ screen: 'parent' }),
   openToday: () => set({ screen: 'today', autoPlay: false }),
   openCollection: () => set({ screen: 'collection' }),
@@ -286,6 +288,16 @@ export const useStore = create((set, get) => ({
       p.wordsHeard += 1
       p.seen = { ...p.seen, [word]: (p.seen[word] || 0) + 1 }
       p.lastSeen = { ...p.lastSeen, [word]: Date.now() }
+      p.lastUse = Date.now()
+      saveJSON(progKey(s.activeProfileId), p)
+      return { progress: p }
+    }),
+  // ABC Songs: a letter song was heard (counts toward "mastered" at 4+).
+  recordABCLetter: (letter) =>
+    set((s) => {
+      if (!s.activeProfileId || !letter) return {}
+      const p = { ...s.progress }
+      p.abcSeen = { ...p.abcSeen, [letter]: (p.abcSeen?.[letter] || 0) + 1 }
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return { progress: p }
