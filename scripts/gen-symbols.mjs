@@ -137,6 +137,15 @@ const SUBJECT = {
   Wolf: 'a cute fluffy grey wolf sitting, friendly and gentle',
   Goose: 'a cute white goose with an orange beak',
   Crow: 'a cute glossy black crow bird',
+  // ABC Songs words (Alphabet Friends)
+  Egg: 'a single smooth white egg', Goat: 'a cute white goat with little horns',
+  House: 'a single cute cartoon house with a red roof', 'Ice cream': 'a cute ice cream cone with a pink scoop',
+  Jellyfish: 'a cute pink jellyfish with trailing tentacles', Kite: 'a colourful diamond kite with a tail, flying',
+  Milk: 'a tall glass of white milk', Nest: "a cute bird's nest with a few little eggs",
+  Queen: 'a cute friendly queen wearing a golden crown',
+  Tiger: 'a cute orange tiger with black stripes', Umbrella: 'a colourful open umbrella',
+  Violin: 'a cute brown violin with a bow', Whale: 'a cute blue whale spouting water',
+  Xylophone: 'a colourful toy xylophone with rainbow bars', 'Yo-yo': 'a cute red yo-yo on a string',
   // school
   Pencil: 'a yellow pencil', Paper: 'a blank sheet of paper', Crayon: 'a colourful crayon', Scissors: 'child-safe scissors',
   Glue: 'a glue stick', Shape: 'a colourful circle, square and triangle together',
