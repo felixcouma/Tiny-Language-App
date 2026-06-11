@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-11 03:53 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-11 03:55 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `82b0de8 Docs: update CURRENT_SESSION + context for the 2026-06-10 session`
 - `228e3e7 5 new safari animals + remove robotic device voice everywhere`
 - `cced461 Counting 11-20 full-count clips + self-healing PWA cache for clips/images`
 - `e538a12 Counting 11-20: count fully (1…N), not "1, 2, 3 … N"`
 - `b52fffc Leak-proof regen: all counting + Twin name clips (Adriel/Audrey)`
 - `863f7b7 Word Board: add "Find" word-focus mode + zebra B&W image`
-- `c2e0547 Fix TTS style-prompt leak + rotating praise + content text fixes`
 <!-- AUTO:END -->
 
 ---
@@ -30,18 +30,21 @@ sections (Build Status, Next Steps) are updated by hand each push.
   speech bubble, big translucent card, chunky **Auto Play** + arrow buttons, round home/replay/mute
   buttons (matches the reference kids-app style). Learning screen + games themed.
 - **Auto Play** mode (auto-advances & speaks through a world) · **Mute** toggle (persisted) ·
-  **Voice picker** in the Parent view (choose the device's friendliest voice; playful cadence).
+  **Storybook voice picker** in the Parent view (Aoede default · Leda · Sulafat warm clips).
 - **Premium natural voice ready (ElevenLabs)** — `src/lib/tts.js` + Cloudflare Worker
   (`infra/tts-worker.js`) keep the API key secret; cached per device; falls back to device
   voice. **To activate:** deploy the Worker and set repo Variable `VITE_TTS_PROXY_URL`
   (guide: `docs/PREMIUM_VOICE_SETUP.md`). Decision: premium voice + real photos in cartoon frame.
-- **No emoji — real photographs.** `src/lib/images.js` resolves a real, friendly photo
-  per item at runtime from **Wikimedia** (keyless, CORS-ok) with optional **Unsplash/Pexels**
-  keys (`.env`). Loading shimmer + clean **typographic fallback** card (never broken, never emoji).
-  Family members use a deliberate typographic card (no stranger photos).
-- **Spoken language (the mission).** `src/lib/audio.js` speaks every word & phrase via the
-  browser speech engine, so children HEAR the language. Prefers a real recording at
-  `public/sounds/<key>.mp3` if present (drop in animal sounds anytime).
+- **No emoji — real WebP illustrations.** Each item shows a bundled `public/images/<key>.webp`
+  (AAC-style art, many generated via the Gemini/Vertex image model — see `scripts/gen-symbols.mjs`).
+  `src/lib/images.js` resolves local WebP → Unsplash/Pexels/Wikimedia as a fallback; missing
+  pictures render a bold coloured **WordPic** tile (`src/components/WordPic.jsx`), never broken.
+- **Spoken language (the mission).** Every word & phrase plays a **warm pre-rendered voice clip**
+  (Gemini-TTS via Google Cloud, 3 voices: Aoede default · Leda · Sulafat, picked in the Parent
+  view). `src/lib/audio.js`: `sayWord()` for item words (`sounds/<voice>/<key>.mp3`), `voice()`
+  for phrases (`sounds/phrases/<slug>.mp3`), `fx/<key>.mp3` for real animal sounds. **No robotic
+  device voice** — a missing clip falls back to a soft chime. Re-record clips with
+  `scripts/gen-tts-gcloud.mjs` (see `docs/TTS_GCLOUD_SETUP.md`).
 - **7 living worlds** — incl. the two parent-requested favourites:
   **My Body** (13 parts) and **Things I Do** (12 activities/verbs) + Home Village (family+objects),
   Safari Island (25 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
@@ -83,7 +86,8 @@ docs/                         # all source documents (blueprint, wireframes, csv
   clear & friendly; a few (e.g. some body parts) may be clinical. **Skim once** — any photo can
   be swapped by setting `image: '<url>'` on that item in `content.js`, or add an Unsplash key
   for curated results app-wide.
-- Audio is the browser's speech voice (varies by device). Real recordings override it per item.
+- Audio is bundled warm Gemini-TTS clips (consistent on every device); a missing clip falls back
+  to a soft chime, never the robotic device voice.
 
 ---
 
