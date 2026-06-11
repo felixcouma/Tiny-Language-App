@@ -17,3 +17,30 @@ Things I do- Wash hand- Change to I wash my hands
 Confetti phrase should Yaaaay, Awesome, Good Job, Amazing, Spectacular or similar words and rotating, not all at once
 
 For Adriel's user the Word Board enhancement should have current state and also be able to toggle to word focus-(One word appears on screen-on click, it reads it out-disappears and reappear on another cell in the screen-so he can track and find it-after say 5 successful finds it moved to a different word, when he wants he can toggle back to current state .
+
+---
+
+## 2026-06-11 — Tablet & desktop layout / navigation (new batch)
+
+1. **Tablet — games overflow / require scrolling.** On a tablet the game screens
+   (Listening Game / Twin Mode / Letter Sounds / Phrases) overflow the viewport, so the
+   child has to scroll to see everything. A toddler shouldn't ever need to scroll — the
+   screen should **fully fit the tablet screen, no overflow, no scroll**. Make the game
+   layouts fit the viewport height responsively at tablet sizes (cards/options scale to
+   fit, not push past the fold).
+
+2. **Tablet — a stray touch minimizes the app; needs explicit window controls.** Right now
+   any touch can minimize/exit the screen, which a child triggers by accident. The app
+   should have a deliberate **minimize button and a close button** (proper window controls)
+   so it doesn't minimize on a random touch. (Likely PWA fullscreen / touch-handling
+   behavior — confirm how it's being installed/run on the tablet.)
+
+3. **Alphabet Friends — add an Auto Play button.** Like the Learning screen's Auto Play,
+   ABC Songs should have an autoplay that advances through the letters A→Z on its own
+   (play each letter song, then move to the next), so the child can just listen along.
+
+4. **Desktop — Back exits the whole app instead of returning home.** On desktop, a back
+   action (browser Back) completely leaves the app. Back should **always return to the
+   Home dashboard** from any screen, and only exit when it's the back arrow **from the
+   dashboard/Home itself**. (Wire the SPA into browser history so Back navigates between
+   screens → Home rather than unloading the site.)

@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-11 19:19 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-11 21:21 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `fb68543 "Say It With Me" — no-mic echo / vocalization practice`
 - `7fafb4e Focus words of the week (caregiver/SLP-set practice targets)`
 - `23d06b4 Add single-source mastery selector (src/lib/mastery.js)`
 - `1fee6f8 Docs: mark per-voice switching (§3) + ABC Songs audio (§3b) complete`
 - `59f62f7 Per-voice Sulafat phrase clips (899) — full per-voice switching complete`
 - `85b1106 Per-voice Leda phrase clips (899) + ABC song clips (26)`
-- `8e4f04f ABC Songs: real pictures for the remaining letter-words`
 <!-- AUTO:END -->
 
 ---
