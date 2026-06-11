@@ -65,14 +65,28 @@
   color: #2c3e50;
   text-align: center;
 }
-.abc-play {
+.abc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
   margin-top: 2px;
-  min-width: 220px;
+}
+.abc-play {
+  min-width: 180px;
   background: linear-gradient(135deg, #1e90ff, #87ceeb);
   color: #fff;
 }
 .abc-play.is-playing {
   opacity: 0.85;
+}
+.abc-auto {
+  min-width: 150px;
+  background: linear-gradient(135deg, #ff9a3d, #ff6a00);
+  color: #fff;
+}
+.abc-auto.is-on {
+  background: linear-gradient(135deg, #ff6b6b, #e23b3b);
 }
 .abc-nav {
   display: flex;
