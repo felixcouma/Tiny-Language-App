@@ -25,6 +25,7 @@ import {
 } from '../components/Icons.jsx'
 import Mascot from '../components/Mascot.jsx'
 import WordPic from '../components/WordPic.jsx'
+import { masteryLevel } from '../lib/mastery'
 import './PhraseScreen.css'
 
 // Word & Phrase practice — a calm speech-therapy tool. Tap a word (or a phrase),
@@ -75,7 +76,7 @@ function WordMode({ onPhrases }) {
   const words = useMemo(() => wordsInCategory(cat), [cat])
   const [i, setI] = useState(0)
   const word = words[i]?.word
-  const heardCount = word ? seen[word] || 0 : 0
+  const level = word ? masteryLevel({ seen }, word) : 0 // 0 new · 1 practising · 2 mastered
   const firstLetter = word ? word.replace(/[^A-Za-z]/, '')[0] || word[0] : ''
 
   const say = (w) => {
@@ -126,9 +127,12 @@ function WordMode({ onPhrases }) {
         onClick={() => say(word)}
         aria-label={`Hear ${word}`}
       >
-        {heardCount > 0 && (
-          <span className="ph-heard" aria-label={`Heard ${heardCount} times`}>
-            ✓ heard
+        {level > 0 && (
+          <span
+            className={`ph-heard ${level === 2 ? 'is-mastered' : ''}`}
+            aria-label={level === 2 ? 'Mastered' : 'Heard before'}
+          >
+            {level === 2 ? '★ got it!' : '✓ heard'}
           </span>
         )}
         {word && (

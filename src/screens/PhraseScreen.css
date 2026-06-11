@@ -96,6 +96,14 @@
   font-weight: 700;
   color: #36a35a;
 }
+/* Mastered (heard 4+ times) — a warm gold badge, gently celebratory. */
+.ph-heard.is-mastered {
+  color: #b8860b;
+  background: #fff6da;
+  border-radius: 999px;
+  padding: 3px 9px;
+  box-shadow: 0 1px 0 rgba(184, 134, 11, 0.25);
+}
 .ph-letter {
   font-size: 15px;
   color: #fff;

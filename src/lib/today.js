@@ -4,6 +4,10 @@
  * sized by the child's stage. Pure + deterministic given inputs (except shuffle).
  */
 import { WORLDS } from '../data/content'
+// Mastery lives in one place (src/lib/mastery.js). Re-exported here so the existing
+// `../lib/today` importers (Parent Dashboard, ABC Songs) keep working unchanged.
+import { MASTERED_AT, isMastered } from './mastery'
+export { MASTERED_AT, isMastered }
 
 const allItems = () => WORLDS.flatMap((w) => w.items.map((it) => ({ ...it, worldId: w.id })))
 
@@ -15,10 +19,6 @@ function shuffle(arr) {
   }
   return a
 }
-
-// A word counts as "mastered" once it's been heard a few times.
-export const MASTERED_AT = 4
-export const isMastered = (progress, word) => (progress?.seen?.[word] || 0) >= MASTERED_AT
 
 export function buildTodaySession(progress = {}, stage = 'first') {
   const seen = progress.seen || {}

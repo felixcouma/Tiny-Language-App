@@ -6,7 +6,7 @@ import {
   setStorybookVoice,
   playStorybookSample,
 } from '../lib/audio'
-import { MASTERED_AT } from '../lib/today'
+import { masteredCount } from '../lib/mastery'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
 import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard } from '../data/phraseContent'
 import './ParentDashboard.css'
@@ -19,7 +19,7 @@ export default function ParentDashboard() {
   const resetProgress = useStore((s) => s.resetProgress)
 
   const uniqueWords = Object.keys(p.seen || {}).length
-  const mastered = Object.values(p.seen || {}).filter((c) => c >= MASTERED_AT).length
+  const mastered = masteredCount(p)
   const toDiscover = Math.max(0, TOTAL_WORDS - uniqueWords)
   const favWorldId = Object.entries(p.byWorld || {}).sort((a, b) => b[1] - a[1])[0]?.[0]
   const favWorld = favWorldId ? getWorld(favWorldId)?.name : '—'

@@ -5,9 +5,8 @@ import { playAbcSong, stopSpeaking } from '../lib/audio'
 import { HomeIcon } from '../components/Icons.jsx'
 import WordPic from '../components/WordPic.jsx'
 import Mascot from '../components/Mascot.jsx'
+import { isLetterMastered } from '../lib/mastery'
 import './ABCSongScreen.css'
-
-const MASTERED_AT = 4 // heard 4+ times → a little star on the letter
 
 // Alphabet Friends — tap a letter to hear its warm phonics song (the sound + a word,
 // not the letter name). The big card shows the current letter + its picture; the A–Z
@@ -66,7 +65,7 @@ export default function ABCSongScreen() {
         {ABC_SONGS.map((s, i) => (
           <button
             key={s.letter}
-            className={`abc-cell ${i === idx ? 'is-active' : ''} ${(abcSeen[s.letter] || 0) >= MASTERED_AT ? 'is-mastered' : ''}`}
+            className={`abc-cell ${i === idx ? 'is-active' : ''} ${isLetterMastered({ abcSeen }, s.letter) ? 'is-mastered' : ''}`}
             onClick={() => play(i)}
             aria-label={`${s.letter}, is for ${s.word}`}
           >
