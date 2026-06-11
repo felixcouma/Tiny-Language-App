@@ -3,6 +3,49 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
+## Latest Session — 2026-06-10 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
+
+### 🔊 Voice pipeline migrated to Google Cloud TTS (Vertex)
+AI Studio prepayment credits were depleted, so all warm-voice generation now runs through
+**Google Cloud TTS / Vertex** (same Aoede/Leda/Sulafat Gemini-TTS voices) on the project's
+**$300 trial credit**. Auth = service-account ADC (`scripts/gcloud-sa-key.json`, gitignored).
+New tooling: `scripts/gen-tts-gcloud.mjs` (`--kind voices|phrases`, `--only a,b`, `--match`,
+`--force`); `scripts/gen-symbols.mjs` gained a Vertex mode (`VERTEX_PROJECT` env). Setup:
+`docs/TTS_GCLOUD_SETUP.md`. Warm voice is now **complete** (3 voices, counting, family, ~800
+phrases, A–Z letters, phonics, new animals).
+
+### 🐛 Observations batch (docs/Observations.md) — all fixed & live
+- **TTS style-prompt leak**: the Gemini-TTS `input.prompt` was spoken aloud. Root cause = the
+  extra counting-pace sentence (and name clips). Fix = send **text only, no style prompt**.
+  Detected leaked clips by file size, regenerated only those (counting + names), not all ~1k.
+- **Counting 11–20** now count fully (`1…N`) instead of skipping to the number.
+- **Twin Mode** Adriel name "repeat" = leaked `adriel.mp3` (30 KB → 4 KB), fixed.
+- Content text: Brother "I play with my brother", Wash hands "I wash my hands", Rabbit "Fast
+  rabbit", Green "Green grass". **Rotating praise** on correct answers (Yay/Awesome/…). **Zebra**
+  regenerated black-and-white.
+- **Word Board "Find" mode (Adriel)**: Board↔Find toggle; one target word hops cell to cell,
+  tap to find, advances after 5 finds (`GridScreen.jsx`).
+- **12 concrete images + 5 new Safari animals** (Snake/Owl/Wolf/Goose/Crow → 25 animals) via
+  Vertex. Real FX sound recordings + duck-quack fix are **backlog** (LEFT_TO_DO §4).
+
+### 🤖 Robotic device voice removed everywhere
+`voice()` / `sayWord()` now fall back to a **soft chime, never `speechSynthesis`**. Generated the
+two things that fell through to the device voice: **A–Z letter clips** ("starts with X" buttons)
+and **all phonics prompts**. Verified in-app: 0 device-speech calls. Aoede stays the default;
+**full per-voice switching is backlog** (LEFT_TO_DO §3, run only within the $300 credit).
+
+### 🩹 PWA stale-clip cache fixed (was masking every clip fix)
+`/sounds/` + `/images/` were `CacheFirst`, so a re-recorded clip stayed pinned in the SW cache.
+Switched to **StaleWhileRevalidate** + bumped cache names to `-v2` (`vite.config.js`) — one-time
+purge now, self-healing for future re-records. Also added a **screen wake lock**
+(`src/lib/useWakeLock.js`) so the device doesn't sleep mid-session.
+
+### 📋 Backlog after this session — see `docs/LEFT_TO_DO.md`
+§3 full per-voice switching (~1.6k clips, ~$3–5) · §4 animal FX sounds + duck quack (need
+ear-auditioned CC audio).
+
+---
+
 ## Last Session — 2026-06-08 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
 ### 🗣️ Therapy-doc pass 2 (2026-06-09)

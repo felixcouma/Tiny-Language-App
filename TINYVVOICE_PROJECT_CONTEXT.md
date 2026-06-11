@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-10 22:34 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-11 03:53 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `228e3e7 5 new safari animals + remove robotic device voice everywhere`
 - `cced461 Counting 11-20 full-count clips + self-healing PWA cache for clips/images`
 - `e538a12 Counting 11-20: count fully (1…N), not "1, 2, 3 … N"`
 - `b52fffc Leak-proof regen: all counting + Twin name clips (Adriel/Audrey)`
 - `863f7b7 Word Board: add "Find" word-focus mode + zebra B&W image`
 - `c2e0547 Fix TTS style-prompt leak + rotating praise + content text fixes`
-- `f7d31a5 Add the last 12 concrete-object images (Vertex AI on the GCP credit)`
 <!-- AUTO:END -->
 
 ---
@@ -44,7 +44,7 @@ sections (Build Status, Next Steps) are updated by hand each push.
   `public/sounds/<key>.mp3` if present (drop in animal sounds anytime).
 - **7 living worlds** — incl. the two parent-requested favourites:
   **My Body** (13 parts) and **Things I Do** (12 activities/verbs) + Home Village (family+objects),
-  Safari Island (20 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
+  Safari Island (25 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
 - **Learning screen** — real-photo stage, word, IPA, big "hear it" button (auto-speaks on arrival),
   and v4 **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
 - **Listening Game** (v3) — listen → tap the right photo from 4 → confetti + celebration; wrong
