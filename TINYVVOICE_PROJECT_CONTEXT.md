@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-11 23:50 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-12 16:41 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `f98205b Add live-site verification script (voice switching + clean clips on Pages)`
 - `b47caa9 Leak fix: re-record every leaked clip — 0 leaks across all 3,005 clips`
 - `1517b83 Observations #2: resolved as OS screen-pinning (Samsung Tab S9 FE+ steps)`
 - `088b2b4 Browser Back returns to Home, never leaves the app (Observations #4)`
 - `7a55294 Alphabet Friends: Auto Play (advance A→Z on its own) — Observations #3`
 - `c6d6e07 Games fit the viewport on tablet — no overflow/scroll (Observations #1)`
-- `7e0a944 Observations: tablet overflow/window-controls, ABC autoplay, desktop Back→Home`
 <!-- AUTO:END -->
 
 ---

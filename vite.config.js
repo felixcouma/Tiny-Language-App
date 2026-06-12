@@ -40,7 +40,7 @@ export default defineConfig({
             urlPattern: ({ url }) => url.pathname.includes('/sounds/'),
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'tv-sounds-v2',
+              cacheName: 'tv-sounds-v3', // bumped to force-purge the old (leaked) clips for everyone
               expiration: { maxEntries: 900, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
