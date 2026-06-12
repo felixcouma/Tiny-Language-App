@@ -1,7 +1,8 @@
 /*
- * Headless smoke of "Say It With Me" (Echo) — opens the screen, confirms it moves
- * through Listen → "Now YOU say it!" → celebrate and advances to the next word, with
- * no console errors. Audio is muted so the turn-window resolves fast.
+ * Verify "Say It With Me" (Echo) praise is tied to a real attempt, not a timer
+ * (Observations follow-up): (a) reaching "your turn" does NOT auto-praise or advance
+ * on its own within a few seconds; (b) tapping "I said it!" celebrates and advances.
+ * Muted so the word clip resolves instantly.
  */
 import { chromium } from 'playwright'
 
@@ -15,10 +16,12 @@ const seed = `
     localStorage.setItem('tv_muted', '1');
   } catch {}
 `
+const word = (page) => page.locator('.echo-word').textContent().then((t) => t?.trim())
+const bubble = (page) => page.locator('.echo-bubble-row .speech-bubble').textContent().then((t) => t?.trim())
 
 const run = async () => {
   const browser = await chromium.launch()
-  const ctx = await browser.newContext()
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } })
   await ctx.addInitScript(seed)
   const page = await ctx.newPage()
   const errors = []
@@ -26,32 +29,34 @@ const run = async () => {
   await page.goto(APP, { waitUntil: 'networkidle' })
 
   await page.getByText('Say It With Me', { exact: true }).click()
-  await page.waitForTimeout(400)
-
-  const cardShown = await page.locator('.echo-card').count()
-  const firstWord = (await page.locator('.echo-word').textContent())?.trim()
-
-  // The "your turn" prompt + "I said it!" button appear (no mic — the turn is the win).
+  // Reach "your turn".
   await page.locator('.echo-said').waitFor({ timeout: 4000 })
-  const turnPrompt = (await page.locator('.echo-bubble-row .speech-bubble').textContent())?.trim()
+  const firstWord = await word(page)
+  const turnPrompt = await bubble(page)
 
-  // Let it auto-advance (no click): the no-mic window celebrates and moves on.
+  // (a) No premature praise: wait 4s WITHOUT tapping; still same word, no cheer.
+  await page.waitForTimeout(4000)
+  const stillSameWord = (await word(page)) === firstWord
+  const stillTurn = (await bubble(page))?.toLowerCase().includes('say it')
+  const noPrematureCheer = stillSameWord && stillTurn
+
+  // (b) Tap "I said it!" → celebrate + advance to the next word.
+  await page.locator('.echo-said').click()
   await page.waitForFunction(
     (w) => document.querySelector('.echo-word')?.textContent?.trim() !== w,
     firstWord,
-    { timeout: 8000 }
+    { timeout: 4000 }
   )
-  const secondWord = (await page.locator('.echo-word').textContent())?.trim()
+  const secondWord = await word(page)
   await browser.close()
 
-  const advanced = firstWord && secondWord && firstWord !== secondWord
-  console.log(`card shown        : ${cardShown ? 'yes' : 'NO'}`)
-  console.log(`first word        : ${firstWord}`)
-  console.log(`your-turn prompt  : "${turnPrompt}"  ${/say it/i.test(turnPrompt || '') ? 'OK' : 'FAIL'}`)
-  console.log(`advanced to next  : ${secondWord}  ${advanced ? 'OK' : 'FAIL'}`)
-  console.log(`console errors    : ${errors.length}`)
-  const pass = cardShown && /say it/i.test(turnPrompt || '') && advanced && errors.length === 0
-  console.log(`\n${pass ? '✅ PASS' : '❌ FAIL'} — Say It With Me cycles and advances.`)
+  const advancedOnTap = secondWord && secondWord !== firstWord
+  console.log(`reached "your turn"        : "${turnPrompt}"  ${/say it/i.test(turnPrompt || '') ? 'OK' : 'FAIL'}`)
+  console.log(`no praise without a tap    : ${noPrematureCheer ? 'OK (still waiting on same word after 4s)' : 'FAIL (auto-advanced/praised)'}`)
+  console.log(`tap "I said it!" advances  : ${firstWord} → ${secondWord}  ${advancedOnTap ? 'OK' : 'FAIL'}`)
+  console.log(`console errors             : ${errors.length}`)
+  const pass = /say it/i.test(turnPrompt || '') && noPrematureCheer && advancedOnTap && errors.length === 0
+  console.log(`\n${pass ? '✅ PASS' : '❌ FAIL'} — praise is tied to the "I said it!" tap, not a timer.`)
   process.exit(pass ? 0 : 1)
 }
 run().catch((e) => { console.error(e); process.exit(2) })

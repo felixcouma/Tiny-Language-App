@@ -10,12 +10,17 @@ import { HomeIcon, SpeakerIcon } from '../components/Icons.jsx'
 import './EchoScreen.css'
 
 // Say It With Me — gentle turn-taking vocalization practice (speech-therapy "echo").
-// The app says a word (+ its animal sound), then asks the child to say it back. There
-// is NO microphone and NO detection: the *turn itself* is the win, so every attempt is
-// celebrated and nothing can read as failure — exactly what a non-verbal or speech-
-// delayed toddler needs. (A future opt-in mic could only ADD an "I heard you!" bonus;
-// it must never gate the praise — see the note in `cheer()`.)
-const ECHO_WAIT_MS = 3200 // the "now you say it" window before we celebrate the turn
+// The app says a word (+ its animal sound), then asks the child to say it back.
+//
+// Praise is tied to a REAL attempt: it fires only when the grown-up/child taps
+// "I said it!" — never on a timer — so a "Hooray!" never lands when no word was
+// said. The "your turn" wait is open-ended (Pip just listens, no countdown). If
+// nobody confirms an attempt within PATIENT_MS, we QUIETLY move to the next word
+// with NO celebration — so silence is never punished and never gets fake praise,
+// and the activity never gets stuck. (NO microphone — a future opt-in mic could
+// auto-detect a vocalization to trigger the same praise, but must never withhold
+// it from a quiet attempt.)
+const PATIENT_MS = 9000 // open-ended wait; no "I said it!" → gently advance, no praise
 
 export default function EchoScreen() {
   const goHome = useStore((s) => s.goHome)
@@ -31,8 +36,9 @@ export default function EchoScreen() {
   const [queue, setQueue] = useState(build)
   const [idx, setIdx] = useState(0)
   const [phase, setPhase] = useState('listen') // 'listen' | 'yourturn' | 'cheer'
-  const [fire, setFire] = useState(0)
+  const [fire, setFire] = useState(null) // null → no confetti until a real celebration
   const praiseIdx = useRef(Math.floor(Math.random() * PRAISE.length))
+  const turnHandled = useRef(false) // one outcome per card (a tap-praise or a quiet advance)
   const item = queue[idx]
   const done = idx >= queue.length
 
@@ -41,6 +47,7 @@ export default function EchoScreen() {
     if (!item) return
     let cancelled = false
     setPhase('listen')
+    turnHandled.current = false // fresh card — a new attempt can be confirmed
     const t = setTimeout(async () => {
       recordHeard(item, item.worldId)
       await playItem(item)
@@ -54,28 +61,45 @@ export default function EchoScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idx])
 
-  // No mic: after a gentle pause, celebrate the turn and move on.
+  // Patient fallback ONLY — praise is never auto-fired. If no one confirms an attempt
+  // within PATIENT_MS, quietly advance to the next word (no celebration).
   useEffect(() => {
     if (phase !== 'yourturn') return
-    const t = setTimeout(() => cheer(), ECHO_WAIT_MS)
+    const t = setTimeout(() => gentleNext(), PATIENT_MS)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase, idx])
 
-  // Celebrate the attempt — ALWAYS positive. (Future mic: detection may swap the
-  // praise line for an "I heard you!" bonus, but must never withhold celebration.)
+  // Praise — fires ONLY from the "I said it!" tap, so it always follows a real attempt.
   function cheer() {
-    setPhase((cur) => {
-      if (cur === 'cheer') return cur
-      const praise = PRAISE[praiseIdx.current++ % PRAISE.length]
-      stopSpeaking()
-      voice(praise)
-      playCelebration()
-      setFire((f) => f + 1)
-      setTimeout(() => setIdx((i) => i + 1), 1500)
-      return 'cheer'
-    })
+    if (turnHandled.current) return
+    turnHandled.current = true
+    setPhase('cheer')
+    const praise = PRAISE[praiseIdx.current++ % PRAISE.length]
+    stopSpeaking()
+    voice(praise)
+    playCelebration()
+    setFire((f) => (f || 0) + 1)
+    setTimeout(() => setIdx((i) => i + 1), 1500)
   }
+
+  // Quiet move-on when no attempt was confirmed — NO praise, no failure framing.
+  function gentleNext() {
+    if (turnHandled.current) return
+    turnHandled.current = true
+    stopSpeaking()
+    setPhase('listen')
+    setIdx((i) => i + 1)
+  }
+
+  // A warm confetti + chime to round off the whole session.
+  useEffect(() => {
+    if (done) {
+      playCelebration()
+      setFire((f) => (f || 0) + 1)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done])
 
   const again = () => {
     stopSpeaking()
@@ -132,9 +156,9 @@ export default function EchoScreen() {
           aria-label={`Hear ${item.word} again`}
         >
           <WordPic key={item.word} word={item.word} variant="card" />
-          <span className="echo-word">{item.word}</span>
           {phase === 'yourturn' && <span className="echo-ring" aria-hidden="true" />}
         </button>
+        <span className="echo-word">{item.word}</span>
 
         {phase === 'listen' && (
           <button className="chunky echo-replay" onClick={replay}>
@@ -142,9 +166,15 @@ export default function EchoScreen() {
           </button>
         )}
         {phase === 'yourturn' && (
-          <button className="chunky echo-said" onClick={cheer}>
-            I said it!
-          </button>
+          <div className="echo-turn">
+            <button className="chunky echo-said" onClick={cheer}>
+              I said it!
+            </button>
+            <button className="echo-skip" onClick={gentleNext}>
+              skip
+            </button>
+            <p className="echo-hint">Take your time — tap “I said it!” when they try.</p>
+          </div>
         )}
       </main>
     </div>

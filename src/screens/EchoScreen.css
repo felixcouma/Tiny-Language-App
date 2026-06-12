@@ -41,6 +41,7 @@
 }
 .echo-card {
   position: relative;
+  flex: 0 0 auto; /* never shrink below content (kept the word from spilling onto buttons) */
   border: none;
   cursor: pointer;
   background: #fff;
@@ -86,6 +87,30 @@
 .echo-said {
   background: #32cd32;
   color: #fff;
+}
+.echo-turn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.echo-skip {
+  border: none;
+  background: transparent;
+  color: #9aa7b4;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.echo-hint {
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5b6b7b;
+  text-align: center;
+  max-width: 280px;
 }
 
 /* Done */
