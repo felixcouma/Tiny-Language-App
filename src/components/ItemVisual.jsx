@@ -64,18 +64,38 @@ export default function ItemVisual({ item, kind = 'stage' }) {
   }
 
   if (item.portrait) {
-    return (
-      <div
-        className={`${cls} visual-portrait`}
-        style={{ background: `linear-gradient(135deg, ${item.color} 0%, #ffffff55 160%)` }}
-        aria-label={item.word}
-      >
-        <span className="portrait-word">{item.word}</span>
-      </div>
-    )
+    return <Portrait item={item} cls={cls} />
   }
 
   return <Photo item={item} cls={cls} />
+}
+
+// Family members: show a curated local illustration (public/images/<sound>.webp) when
+// one exists, else a clean typographic card. Deliberately LOCAL-ONLY (never the
+// Wikimedia/stock fallback) so a "Mommy"/"Grandpa" card can only ever be our own
+// friendly art or text — never a stranger's photo.
+const PORTRAIT_BASE = import.meta.env.BASE_URL || '/'
+function Portrait({ item, cls }) {
+  const [failed, setFailed] = useState(false)
+  const tile = (
+    <div
+      className={`${cls} visual-portrait`}
+      style={{ background: `linear-gradient(135deg, ${item.color} 0%, #ffffff55 160%)` }}
+      aria-label={item.word}
+    >
+      <span className="portrait-word">{item.word}</span>
+    </div>
+  )
+  if (failed || !item.sound) return tile
+  return (
+    <div className={`${cls} visual-photo`} aria-label={item.word}>
+      <img
+        src={`${PORTRAIT_BASE}images/${item.sound}.webp`}
+        alt={item.word}
+        onError={() => setFailed(true)}
+      />
+    </div>
+  )
 }
 
 function Photo({ item, cls }) {
