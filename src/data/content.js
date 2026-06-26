@@ -82,7 +82,38 @@ const objects = [
   { word: 'Bath', wiki: 'Bathtub', say: 'A bath! Splash, splash, bubbles!', expand: ['Warm bath', 'Bath time', 'I have a bath'] },
 ].map((x) => ({ ...x, color: CAT.home.color, sound: `home-${x.word.toLowerCase()}` }))
 
-const home = [...family, ...objects]
+// Common foods with "action talk" — the spoken script models a mealtime VERB
+// ("Chew the apple", "Drink your juice", "Let me feed you avocado") so the word is
+// learned in the act of eating/feeding, as the speech therapist recommended. Kept in
+// Home Village (alongside Milk/Cup/Spoon) rather than a new world. Sound key = bare
+// word so the existing apple/banana/juice/bread… images are reused; the two that share
+// a name with a Safari animal (Chicken, Fish) get a `food-` key + a qualified word so
+// they never collide with the animal on the Word Board or in a game round.
+const foods = [
+  { word: 'Apple', wiki: 'Apple', say: 'Apple! Chew the apple. Crunch, crunch!', expand: ['My apple', 'Chew apple', 'I chew the apple'], sound: 'apple' },
+  { word: 'Banana', wiki: 'Banana', say: 'Banana! Eat the yummy banana. Mmm, yummy!', expand: ['My banana', 'Eat banana', 'I eat the yummy banana'], sound: 'banana' },
+  { word: 'Avocado', wiki: 'Avocado', say: 'Avocado! Let me feed you avocado. Soft and yummy!', expand: ['My avocado', 'Eat avocado', 'I eat the avocado'], sound: 'avocado' },
+  { word: 'Broccoli', wiki: 'Broccoli', say: 'Broccoli! Eat the green broccoli. Yum, yum!', expand: ['Green broccoli', 'Eat broccoli', 'I eat my broccoli'], sound: 'broccoli' },
+  { word: 'Cucumber', wiki: 'Cucumber', say: 'Cucumber! Crunch the cucumber. Cool and crunchy!', expand: ['My cucumber', 'Eat cucumber', 'I crunch the cucumber'], sound: 'cucumber' },
+  { word: 'Carrot', wiki: 'Carrot', say: 'Carrot! Chew the carrot. Crunch, crunch!', expand: ['My carrot', 'Eat carrot', 'I chew the carrot'], sound: 'carrot' },
+  { word: 'Rice', wiki: 'Rice', say: 'Rice! Eat the rice. Scoop and eat!', expand: ['My rice', 'Eat rice', 'I eat the rice'], sound: 'rice' },
+  { word: 'Ugali', wiki: 'Ugali', say: 'Ugali! Eat the ugali. Soft and warm!', expand: ['My ugali', 'Eat ugali', 'I eat the ugali'], sound: 'ugali' },
+  { word: 'Bread', wiki: 'Bread', say: 'Bread! Eat the bread. Munch, munch!', expand: ['My bread', 'Eat bread', 'I eat the bread'], sound: 'bread' },
+  { word: 'Egg', wiki: 'Egg as food', say: 'Egg! Eat the egg. Yum, yum!', expand: ['My egg', 'Eat egg', 'I eat the egg'], sound: 'egg' },
+  { word: 'Meat', wiki: 'Meat', say: 'Meat! Eat the meat. Chew, chew!', expand: ['My meat', 'Eat meat', 'I eat the meat'], sound: 'meat' },
+  { word: 'Chicken leg', wiki: 'Fried chicken', say: 'Chicken! Eat the chicken. Yum, yum!', expand: ['My chicken', 'Eat chicken', 'I eat the chicken'], sound: 'food-chicken' },
+  { word: 'Fish fillet', wiki: 'Fish fillet', say: 'Fish! Eat the yummy fish. Mmm!', expand: ['My fish', 'Eat fish', 'I eat the yummy fish'], sound: 'food-fish' },
+  { word: 'French fries', wiki: 'French fries', say: 'Fries! Eat the fries. Dip and munch!', expand: ['My fries', 'Eat fries', 'I eat the fries'], sound: 'fries' },
+  { word: 'Cheese', wiki: 'Cheese', say: 'Cheese! Nibble the cheese. Yummy!', expand: ['My cheese', 'Eat cheese', 'I eat the cheese'], sound: 'cheese' },
+  { word: 'Yoghurt', wiki: 'Yogurt', say: 'Yoghurt! Slurp the yoghurt. Cool and yummy!', expand: ['My yoghurt', 'Eat yoghurt', 'I slurp the yoghurt'], sound: 'yoghurt' },
+  { word: 'Juice', wiki: 'Juice', say: 'Juice! Drink your juice. Glug, glug!', expand: ['My juice', 'Drink juice', 'I drink my juice'], sound: 'juice' },
+  { word: 'Bottle', wiki: 'Baby bottle', say: 'Bottle! Drink your milk. Glug, glug!', expand: ['My bottle', 'Drink milk', 'I drink my milk'], sound: 'bottle' },
+  { word: 'Water', wiki: 'Water', say: 'Water! Drink your water. Gulp, gulp!', expand: ['My water', 'Drink water', 'I drink my water'], sound: 'water' },
+  { word: 'Snack', wiki: 'Snack', say: 'Snack time! Have a yummy snack. Munch, munch!', expand: ['My snack', 'Want snack', 'I want a snack'], sound: 'snack' },
+  { word: 'Cookie', wiki: 'Cookie', say: 'Cookie! Eat the cookie. Nom, nom!', expand: ['My cookie', 'Eat cookie', 'I eat the cookie'], sound: 'cookie' },
+].map((x) => ({ ...x, color: CAT.home.color }))
+
+const home = [...family, ...objects, ...foods]
 
 // ---------- SAFARI ISLAND (20 animals) ----------
 const A = (word, wiki, ipa, soundLabel, script, expand) => ({
@@ -176,7 +207,7 @@ const music = [
 export const WORLDS = [
   { id: 'my-body', name: 'My Body', tagline: 'Head to toes', ...CAT.body, items: body },
   { id: 'things-i-do', name: 'Things I Do', tagline: 'Wash, eat, play', ...CAT.doing, items: doing },
-  { id: 'home-village', name: 'Home Village', tagline: 'People & things', ...CAT.home, items: home },
+  { id: 'home-village', name: 'Home Village', tagline: 'People, food & things', ...CAT.home, items: home },
   { id: 'safari-island', name: 'Safari Island', tagline: '25 animal friends', ...CAT.safari, items: animals },
   { id: 'rainbow-island', name: 'Rainbow Island', tagline: 'Colours everywhere', ...CAT.rainbow, items: colors },
   { id: 'counting-mountain', name: 'Counting Mountain', tagline: 'Count 1 to 20', ...CAT.count, items: numbers },

@@ -35,7 +35,7 @@ const TIER1 = {
 }
 const TIER2 = {
   'Doing words': ['Kick', 'Throw', 'Catch', 'Jump', 'Dance', 'Laugh', 'Cry', 'Hug', 'Kiss', 'Clap', 'Splash', 'Climb', 'Slide', 'Push', 'Pull', 'Pick', 'Drop', 'Pour', 'Drink', 'Blow', 'Read'],
-  Food: ['Apple', 'Banana', 'Bread', 'Cheese', 'Milk', 'Juice', 'Snack', 'Cookie'],
+  Food: ['Apple', 'Banana', 'Bread', 'Cheese', 'Milk', 'Juice', 'Snack', 'Cookie', 'Rice', 'Avocado', 'Broccoli', 'Cucumber', 'Carrot', 'Egg', 'Meat', 'Ugali', 'Fries', 'Yoghurt'],
   Eating: ['Plate', 'Spoon', 'Fork', 'Bowl'],
   Clothes: ['Shirt', 'Pants', 'Hat', 'Socks'],
   Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly'],

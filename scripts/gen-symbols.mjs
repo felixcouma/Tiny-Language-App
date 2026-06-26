@@ -92,6 +92,14 @@ const SUBJECT = {
   Shoe: 'a single cute sneaker shoe', Car: 'a cute little red car', Door: 'a friendly closed wooden door',
   // people
   Mama: 'a kind smiling cartoon mother', Dada: 'a kind smiling cartoon father', Baby: 'a cute smiling baby',
+  // family portraits — deliberately diverse skin tones across the set (brown / black /
+  // white) so the app feels inclusive to every family the therapist shows it to.
+  Mommy: 'a kind smiling cartoon mother with warm light-brown skin and dark hair in a bun, head and shoulders',
+  Daddy: 'a kind smiling cartoon father with dark brown skin, short black hair and a neat beard, head and shoulders',
+  Sister: 'a happy cartoon young girl with light fair skin and blonde pigtails, head and shoulders',
+  Brother: 'a happy cartoon young boy with medium brown skin and short curly black hair, head and shoulders',
+  Grandma: 'a kind smiling elderly cartoon grandmother with light skin, soft grey hair in a bun and round glasses, head and shoulders',
+  Grandpa: 'a kind smiling elderly cartoon grandfather with warm brown skin, short grey hair and glasses, head and shoulders',
   Me: 'a cartoon child pointing to themselves with both hands', You: 'a cartoon child pointing forward at the viewer',
   Bye: 'a cartoon child waving goodbye', Friend: 'two cartoon children hugging as friends',
   // feelings
@@ -110,6 +118,12 @@ const SUBJECT = {
   // food
   Apple: 'a shiny red apple', Banana: 'a ripe yellow banana', Bread: 'a loaf of bread', Cheese: 'a wedge of yellow cheese',
   Juice: 'a glass of orange juice with a straw', Snack: 'a small bowl of crackers', Cookie: 'a chocolate-chip cookie',
+  Rice: 'a white bowl of fluffy cooked white rice', Avocado: 'a ripe green avocado cut in half showing the round pit',
+  Broccoli: 'a single fresh green broccoli floret', Cucumber: 'a fresh green cucumber, one whole and one slice',
+  Carrot: 'a bright orange carrot with a leafy green top', Meat: 'a cooked brown steak of meat on a plate',
+  'Chicken leg': 'a cooked golden-brown chicken drumstick', 'Fish fillet': 'a cooked fish fillet on a plate',
+  Ugali: 'a white block of ugali (maize meal porridge) on a plate', Fries: 'a red paper cup of golden french fries',
+  Bottle: 'a baby feeding bottle full of white milk', Yoghurt: 'a cup of creamy yoghurt with a spoon',
   // eating
   Plate: 'a clean empty round plate', Fork: 'a single fork', Bowl: 'a clean empty bowl',
   // clothes
