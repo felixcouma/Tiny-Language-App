@@ -13,6 +13,11 @@ import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
 
+// Parent feedback form (Tally / Google Form). Set VITE_FEEDBACK_URL at build time to
+// the real form; the link lives in the (gated) Parent area so only grown-ups see it.
+// This is how we hear from families beyond our own during the pilot.
+const FEEDBACK_URL = import.meta.env.VITE_FEEDBACK_URL || ''
+
 export default function ParentDashboard() {
   const goHome = useStore((s) => s.goHome)
   const p = useStore((s) => s.progress)
@@ -93,6 +98,24 @@ export default function ParentDashboard() {
             “big brown cow” is the most powerful part — the app just gets the conversation started.
           </p>
         </section>
+
+        {FEEDBACK_URL && (
+          <section className="parent-section feedback-section">
+            <h3 className="parent-h3">Share your thoughts</h3>
+            <p className="voice-hint">
+              We’re testing TinyVoice with families like yours. Tell us what your little one
+              loved — or what would help. It only takes a minute and it shapes what we build next.
+            </p>
+            <a
+              className="feedback-btn"
+              href={FEEDBACK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Share feedback
+            </a>
+          </section>
+        )}
 
         <button className="reset-btn" onClick={resetProgress}>
           Reset progress

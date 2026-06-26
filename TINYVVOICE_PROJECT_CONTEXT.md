@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `16f5647 Family portraits: diverse illustrations for Mommy/Daddy/siblings/grandparents`
 - `aee1b97 Add common foods to Home Village (action-talk cards + images + clips)`
 - `e683314 Say It With Me: praise on a real attempt, not a timer`
 - `f5f8be4 Bump sounds cache to tv-sounds-v3 — force-purge old leaked clips for everyone`
 - `f98205b Add live-site verification script (voice switching + clean clips on Pages)`
 - `b47caa9 Leak fix: re-record every leaked clip — 0 leaks across all 3,005 clips`
-- `1517b83 Observations #2: resolved as OS screen-pinning (Samsung Tab S9 FE+ steps)`
 <!-- AUTO:END -->
 
 ---

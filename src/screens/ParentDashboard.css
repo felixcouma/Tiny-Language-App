@@ -272,6 +272,29 @@
   transform: scale(0.98);
 }
 
+/* ---- Parent feedback (pilot) ---- */
+.feedback-section {
+  border: 2px solid var(--border-light);
+  background: linear-gradient(135deg, #f3fbfa 0%, #ffffff 100%);
+}
+.feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--space-sm);
+  min-height: 52px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  background: #20b2aa;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.feedback-btn:active {
+  transform: scale(0.98);
+}
+
 /* ---- Focus words of the week ---- */
 .focus-current {
   display: flex;
