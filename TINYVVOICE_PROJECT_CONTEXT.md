@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-29 22:09 UTC** on branch `feat/songs`._
+> _Auto-updated on commit — last refreshed **2026-06-29 22:17 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `451892e Add "Sing with Pip" — 13 public-domain children's songs, per-child selectable`
 - `11431f9 Update CURRENT_SESSION: SaaS pilot (Parts A & B) shipped; let pilot run`
 - `2ead72e Gracefully handle expired/used magic links`
 - `ecbb9b5 Part B: optional parent accounts + cloud sync + 30-day trial (Supabase)`
 - `d3867c5 Wire generic profiles through Home, Twin Mode + Parent area`
 - `3c72bfa Generic renamable child profiles + "How many children?" first-run setup`
-- `501c568 Add deployed-site verification (voices + food/family assets + feedback button)`
 <!-- AUTO:END -->
 
 ---
@@ -59,10 +59,17 @@ sections (Build Status, Next Steps) are updated by hand each push.
   word-focus mode (one target hops cell-to-cell, advances after 5 finds) for early trackers (`GridScreen`).
 - **Letter Sounds** (phonics), **Chant** (sing-along), **Today with Pip** (adaptive session),
   **Collection** (gentle word collecting), **Rest / screen-time** (per-child limit + quiet hours).
-- **Multi-child profiles** — per-child progress, stage, voice, screen-time & bedtime (a no-twin
-  "Everyone" guest profile + the AJ/AG twins), all in localStorage.
+- **Sing with Pip** — 13 **public-domain children's songs** (U.S. State Dept "Sing Out Loud",
+  credited in `CREDITS.md`): real recordings, a simple Pip player, **per-child selectable** by a
+  grown-up (`enabledSongs`, 4 on by default). `src/data/songs.js`, `SongScreen`.
+- **Multi-child profiles** — **generic, renamable** children (fresh devices ask "how many
+  children? 1 or 2" at setup; Twin Mode gates on 2); per-child progress, stage, voice, screen-time,
+  bedtime, focus words & songs, all in localStorage. The original device keeps its AJ/AG twins.
+- **Optional cloud accounts (Part B)** — parents may sign in (Supabase **magic link**) to back up +
+  **sync** each child's progress/settings across devices and run a **30-day soft-trial** (banner
+  only; child play never blocked). Fully local when Supabase env is absent. `src/lib/{supabase,cloud}.js`.
 - **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy);
-  reset button. No scores/badges/pressure.
+  Children (rename / 1↔2), Songs toggles, Account (sign-in/trial/delete-data); reset. No scores/pressure.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 

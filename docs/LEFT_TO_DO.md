@@ -75,3 +75,26 @@ file just 404s harmlessly, so dropping the real files in is all that's needed. A
 ## 5. Optional / future
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.
 - **Grid Vocabulary**: could grow the board size / add a "mastered → retire word" mode.
+
+## 6. Song animations (Lottie / vector sync) — SCOPED, not built
+"Sing with Pip" (13 PD songs) is shipped. Next upgrade: light vector animations that act
+out each song's lyrics (e.g. point to head/shoulders/knees/toes), synced to the audio —
+turns listening into word-learning. Full design + phasing + open decisions:
+**`docs/SONG_ANIMATIONS_SCOPE.md`**. Recommended flagship: *Head, Shoulders, Knees, and
+Toes*. Pairs with the deferred **karaoke highlighted-lyrics** option (shared timing data).
+
+## 7. Song length trims (owner to ear-pick trim points) — needs listening
+A few "Sing with Pip" tracks run long for toddlers. The owner will listen and mark where a
+trim is appropriate; then trim with ffmpeg and replace the file at the SAME path (self-heals
+via the `tv-sounds-v3` StaleWhileRevalidate cache). Candidates (>2 min, approx):
+- **Hokey Pokey** — ~3:59 (longest by far)
+- **Twinkle, Twinkle, Little Star** — ~2:15
+- **Hush Little Baby** — ~2:04
+All others are ~1:00–1:50 (fine). Files: `public/sounds/songs/<id>.mp3`.
+
+## 8. GitHub Codespaces backup — PLANNED (next infra step)
+Set up a GH Codespace / devcontainer so the app can be rebuilt quickly from anywhere if the
+local machine is lost. Scope: a `.devcontainer/` (Node 20, `npm install`, port 5173), confirm
+`npm run dev`/`build` work in the container, document the asset-gen env (`scripts/*.key.local`
++ `gcloud-sa-key.json` are gitignored — they'd need re-adding as Codespace secrets, NOT
+committed). Cloud accounts already de-risk *data*; this de-risks *the build environment*.

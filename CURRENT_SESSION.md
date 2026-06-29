@@ -48,11 +48,34 @@ Offline-first SaaS spine. App still runs **fully local** when Supabase env is ab
 - New dep: `@supabase/supabase-js` (saved). **Note:** bundle grew ~78→136 KB gzip — lazy-loading
   supabase-js is a easy future win.
 
-### 🟢 Pilot status — running. Next is feedback, not features.
-Parents can sign in, sync across devices, and a 30-day trial clock runs. **Let the pilot run**;
-let price/appetite emerge from real feedback before building billing.
+### 🎵 "Sing with Pip" — 13 public-domain children's songs, per-child selectable (shipped)
+Real sung recordings from the **U.S. State Department "Sing Out Loud: Children's Songs"**
+collection — U.S. government works, **public domain** (no indicated copyright on any track;
+verified), credited in `public/sounds/CREDITS.md` (no seal/endorsement implied).
+- `public/sounds/songs/*.mp3` (13, ~29 MB) — **runtime-cached** via the existing `/sounds/`
+  StaleWhileRevalidate rule, **NOT precached** (precache stayed 7 entries → no install bloat).
+- `src/data/songs.js` (catalog: exact titles, vocab `tag`, card `grad`, `DEFAULT_SONG_IDS`).
+  `SongScreen` — "Sing with Pip" Home shelf (only the child's enabled songs) + a simple Pip
+  player (big card, play/pause, progress; one song at a time, stops on exit).
+- Per-child **`enabledSongs`** on the profile (seeds/migration/`toggleSong`/`openSongs`),
+  defaulting to **Alphabet · Head-Shoulders · Bingo · Twinkle**; **synced via Part B**
+  (added to the cloud `settings` blob). Parent area → **Songs** toggle list (all 13).
+- Verify: `scripts/verify-songs.mjs` (11 checks). Verified on dev **and** the deployed
+  `.vercel.app`. Owner ear-tested (incl. switching on non-defaults) → ✅.
 
-### 📌 Backlog opened this session
+### 🟢 Pilot status — running. Next is feedback, not features.
+Parents can sign in, sync across devices, a 30-day trial runs, and there are songs. **Let the
+pilot run**; let price/appetite emerge from real feedback before building billing.
+
+### 📌 Backlog (open)
+- **GH Codespaces backup (next infra step)** — devcontainer so the build can be rebuilt anywhere
+  if the local machine is lost. Scope in `docs/LEFT_TO_DO.md §8` (secrets stay gitignored → re-add
+  as Codespace secrets).
+- **Song animations (Lottie/vector sync)** — SCOPED in `docs/SONG_ANIMATIONS_SCOPE.md`: light
+  vector animations acting out lyrics, synced to audio; flagship *Head, Shoulders, Knees, and Toes*;
+  pairs with deferred karaoke lyrics. (`LEFT_TO_DO §6`.)
+- **Song length trims** — owner to ear-pick trim points for the long tracks: **Hokey Pokey ~3:59,
+  Twinkle ~2:15, Hush Little Baby ~2:04** (others ~1:00–1:50). `LEFT_TO_DO §7`.
 - **Part C — billing**: Stripe `/api/checkout` + `/api/webhook` Vercel serverless → flip
   `plan='active'` (DB columns already exist, no migration). Needs a **price** ($5–10, set by pilot
   feedback) + a **privacy policy / COPPA-GDPR-K consent** before charging. Add the deferred pricing
