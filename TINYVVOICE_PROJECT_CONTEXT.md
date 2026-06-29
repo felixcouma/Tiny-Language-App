@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-26 23:04 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-29 17:35 UTC** on branch `feat/generic-profiles`._
 
 **Recent commits:**
 
+- `501c568 Add deployed-site verification (voices + food/family assets + feedback button)`
 - `3f3b204 Parent feedback button (pilot) — gated 'Share feedback' link to a form`
 - `16f5647 Family portraits: diverse illustrations for Mommy/Daddy/siblings/grandparents`
 - `aee1b97 Add common foods to Home Village (action-talk cards + images + clips)`
 - `e683314 Say It With Me: praise on a real attempt, not a timer`
 - `f5f8be4 Bump sounds cache to tv-sounds-v3 — force-purge old leaked clips for everyone`
-- `f98205b Add live-site verification script (voice switching + clean clips on Pages)`
 <!-- AUTO:END -->
 
 ---

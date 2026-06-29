@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useStore } from './store'
+import SetupScreen from './screens/SetupScreen.jsx'
 import ProfilePickerScreen from './screens/ProfilePickerScreen.jsx'
 import HomeScreen from './screens/HomeScreen.jsx'
 import LearningScreen from './screens/LearningScreen.jsx'
@@ -24,6 +25,7 @@ import { addMinute, isRestTime } from './lib/screentime'
 import { useWakeLock } from './lib/useWakeLock'
 
 const SCREENS = {
+  setup: SetupScreen,
   profiles: ProfilePickerScreen,
   home: HomeScreen,
   learning: LearningScreen,
@@ -103,7 +105,8 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPop)
   }, [])
 
-  const key = screen === 'profiles' || !activeProfileId ? 'profiles' : screen
+  const key =
+    screen === 'setup' ? 'setup' : screen === 'profiles' || !activeProfileId ? 'profiles' : screen
   const Screen = SCREENS[key] || HomeScreen
   const gateTitle = gateFor === 'more' ? 'A little more time?' : 'For grown-ups'
 

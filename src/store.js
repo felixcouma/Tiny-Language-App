@@ -7,6 +7,7 @@ import { snooze } from './lib/screentime'
 /* ---- Profiles + per-child progress (localStorage). Gentle, no scores. ---- */
 const PROFILES_KEY = 'tv_profiles_v1'
 const ACTIVE_KEY = 'tv_active_profile_v1'
+const CHILDCOUNT_KEY = 'tv_child_count_v1' // 1 or 2 — drives setup + Twin Mode; null = ask
 const LEGACY_PROG = 'tv_progress_v1'
 const progKey = (id) => `tv_progress_v1__${id}`
 
@@ -25,13 +26,16 @@ export const initialsOf = (name) =>
     .map((w) => w[0]?.toUpperCase() || '')
     .join('') || 'F'
 
-// A neutral "no-twin" profile so the app can be used without choosing Audrey or
-// Adriel. The twins are optional personalization you toggle into.
+// A neutral "no-twin" profile so the app can be used without choosing a child.
 const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true }
-const TWIN_INITIALS = { audrey: 'AJ', adriel: 'AG' } // Audrey Joster / Adriel Genoh
-const DEFAULT_PROFILES = [
-  { id: 'audrey', name: 'Audrey', initials: 'AJ', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 2 },
-  { id: 'adriel', name: 'Adriel', initials: 'AG', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1 },
+// Generic, renamable children seeded at first-run setup ("How many children?").
+// One child → just child1; two → child1 + child2 (unlocks Twin Mode). Names and
+// initials are placeholders a grown-up renames in the Parent area. NOTE: an
+// existing install (e.g. the original Audrey/Adriel) keeps its own profiles —
+// loadProfiles() only seeds these on a truly fresh device.
+const GENERIC_CHILDREN = [
+  { id: 'child1', name: 'Child 1', initials: 'C1', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [] },
+  { id: 'child2', name: 'Child 2', initials: 'C2', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [] },
 ]
 
 function loadJSON(key, fallback) {
@@ -54,19 +58,20 @@ function loadProfiles() {
   let profs = loadJSON(PROFILES_KEY, null)
   let changed = false
   if (!Array.isArray(profs) || !profs.length) {
-    profs = [{ ...GUEST }, ...DEFAULT_PROFILES.map((p) => ({ ...p }))]
+    // Fresh device: just "Everyone". Children are added at first-run setup so the
+    // giveaway version starts generic (no Audrey/Adriel baked in).
+    profs = [{ ...GUEST }]
     changed = true
   }
   if (!profs.some((p) => p.id === 'guest')) {
     profs = [{ ...GUEST }, ...profs] // ensure existing installs gain "Everyone"
     changed = true
   }
-  // Ensure the twins have disambiguating two-letter initials, and every profile
-  // has a speech-practice level (existing installs predate `phraseLevel`).
+  // Backfill fields that predate later versions: avatar initials + speech level.
   profs = profs.map((p) => {
     let next = p
-    if (TWIN_INITIALS[p.id] && p.initials !== TWIN_INITIALS[p.id]) {
-      next = { ...next, initials: TWIN_INITIALS[p.id] }
+    if (!p.guest && !next.initials) {
+      next = { ...next, initials: initialsOf(p.name) }
       changed = true
     }
     if (next.phraseLevel == null) {
@@ -77,6 +82,21 @@ function loadProfiles() {
   })
   if (changed) saveJSON(PROFILES_KEY, profs)
   return profs
+}
+
+// 1 or 2, or null when it still needs to be asked. Existing installs that already
+// have children infer their count once (so they skip the setup screen) — this is
+// what keeps the original Audrey/Adriel device out of the new onboarding.
+function loadChildCount(profs) {
+  let cc = loadJSON(CHILDCOUNT_KEY, null)
+  if (cc == null) {
+    const kids = profs.filter((p) => !p.guest).length
+    if (kids > 0) {
+      cc = kids >= 2 ? 2 : 1
+      saveJSON(CHILDCOUNT_KEY, cc)
+    }
+  }
+  return cc
 }
 
 const emptyProgress = () => ({
@@ -114,10 +134,13 @@ const slugId = (name) =>
 
 const initialProfiles = loadProfiles()
 const initialActive = loadJSON(ACTIVE_KEY, null)
+const initialChildCount = loadChildCount(initialProfiles)
 
 export const useStore = create((set, get) => ({
-  // Land on Home if a child is already chosen; only ask "who's playing?" on first run.
-  screen: initialActive ? 'home' : 'profiles',
+  // First run on a fresh device asks "how many children?" (setup). Otherwise land
+  // on Home if a child is chosen, else the "who's playing?" picker.
+  screen: initialChildCount == null ? 'setup' : initialActive ? 'home' : 'profiles',
+  childCount: initialChildCount, // 1 | 2 | null(not yet chosen)
   worldId: null,
   itemIndex: 0,
   muted: isMuted(),
@@ -145,6 +168,46 @@ export const useStore = create((set, get) => ({
     saveJSON(ACTIVE_KEY, id)
     set({ activeProfileId: id, progress: loadProgressFor(id), screen: 'home' })
   },
+  // First-run setup ("How many children?") and the Parent-area One/Two toggle.
+  // Seeds generic children up to `count` (non-destructive — never deletes data),
+  // then routes: single → play now, twin → "who's playing?". A later toggle from
+  // the Parent area just records the count + seeds a 2nd child if missing.
+  setChildCount: (n) =>
+    set((s) => {
+      const count = n >= 2 ? 2 : 1
+      const profiles = [...s.profiles]
+      for (let i = profiles.filter((p) => !p.guest).length; i < count; i++) {
+        const seed = GENERIC_CHILDREN[i]
+        if (seed && !profiles.some((p) => p.id === seed.id)) profiles.push({ ...seed })
+      }
+      saveJSON(PROFILES_KEY, profiles)
+      saveJSON(CHILDCOUNT_KEY, count)
+      const kids = profiles.filter((p) => !p.guest)
+      if (!s.activeProfileId) {
+        if (count === 1 && kids[0]) {
+          saveJSON(ACTIVE_KEY, kids[0].id)
+          return {
+            childCount: count,
+            profiles,
+            activeProfileId: kids[0].id,
+            progress: loadProgressFor(kids[0].id),
+            screen: 'home',
+          }
+        }
+        return { childCount: count, profiles, screen: 'profiles' }
+      }
+      return { childCount: count, profiles }
+    }),
+  renameProfile: (id, name) =>
+    set((s) => {
+      const nm = (name || '').trim()
+      if (!nm) return {}
+      const profiles = s.profiles.map((p) =>
+        p.id === id ? { ...p, name: nm, initials: initialsOf(nm) } : p,
+      )
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
   addProfile: (name) => {
     const profs = get().profiles
     const prof = {
