@@ -70,6 +70,32 @@ const run = async () => {
   ok((await page.locator('.account-sent').count()) > 0, '"check your email" confirmation shown')
 
   await ctx.close()
+
+  // ---- 4. expired/used magic link → friendly note + cleaned URL ----
+  console.log('\n[4] Stale magic-link redirect (#error_code=otp_expired)')
+  const ctx2 = await browser.newContext()
+  await ctx2.addInitScript(seed)
+  const page2 = await ctx2.newPage()
+  const errs2 = []
+  page2.on('console', (m) => { if (m.type() === 'error') errs2.push(m.text()) })
+  await page2.goto(`${APP}#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired`, { waitUntil: 'networkidle' })
+  await page2.waitForTimeout(300)
+  const hash = await page2.evaluate(() => window.location.hash)
+  ok(hash === '', 'error hash stripped from the URL')
+  // open parent and confirm the friendly note (not a raw error)
+  await page2.locator('.home2-parent').click()
+  await page2.waitForSelector('.gate-q', { timeout: 5000 })
+  const q2 = await page2.locator('.gate-q').textContent()
+  const n2 = (q2.match(/\d+/g) || []).map(Number)
+  await page2.locator('.gate-input').fill(String((n2[0] || 0) + (n2[1] || 0)))
+  await page2.locator('.gate-go').click()
+  await page2.waitForSelector('.parent-main', { timeout: 5000 })
+  const note = page2.locator('.account-note')
+  ok((await note.count()) > 0, 'friendly "request a fresh link" note shown')
+  ok(/expired|no longer valid/i.test((await note.textContent()) || ''), 'note explains the expiry in plain language')
+  ok(errs2.length === 0, `0 console errors on the error redirect (got ${errs2.length})`)
+  await ctx2.close()
+
   await browser.close()
   console.log(`\n${pass ? '✅ PASS' : '❌ FAIL'} — cloud account UI + magic-link flow verified.`)
   process.exit(pass ? 0 : 1)

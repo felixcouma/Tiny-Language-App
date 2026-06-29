@@ -156,6 +156,7 @@ export const useStore = create((set, get) => ({
   session: null, // Supabase auth session (null = signed out / local-only)
   account: null, // accounts row: { trial_ends_at, plan, ... }
   cloudStatus: 'idle', // 'idle' | 'syncing' | 'synced' | 'error'
+  authError: null, // a returned magic-link error code (e.g. 'otp_expired'), else null
 
   gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
   onboarded: loadJSON('tv_onboarded', false),
@@ -221,6 +222,7 @@ export const useStore = create((set, get) => ({
   setSession: (session) => set({ session }),
   setAccount: (account) => set({ account }),
   setCloudStatus: (cloudStatus) => set({ cloudStatus }),
+  setAuthError: (authError) => set({ authError }),
   // Adopt a cloud snapshot locally (on a fresh sign-in when the cloud has data):
   // write profiles + each child's progress to localStorage, then refresh state.
   // Non-destructive to the local "Everyone" guest profile (re-added if missing).

@@ -462,10 +462,20 @@ function TrialBanner() {
 
 // Optional parent account: magic-link sign-in → cloud backup + sync + trial.
 // Hidden entirely when Supabase isn't configured (app stays fully local).
+// Friendly text for the magic-link error codes Supabase can redirect back with.
+const AUTH_ERR_MSG = {
+  otp_expired:
+    'Your sign-in link had expired — links last about an hour and can be used once. Enter your email below for a fresh one.',
+  access_denied:
+    'That sign-in link is no longer valid. Enter your email below for a fresh one.',
+}
+
 function AccountSection() {
   const configured = useStore((s) => s.cloudConfigured)
   const session = useStore((s) => s.session)
   const status = useStore((s) => s.cloudStatus)
+  const authError = useStore((s) => s.authError)
+  const setAuthError = useStore((s) => s.setAuthError)
   const [email, setEmail] = useState('')
   const [phase, setPhase] = useState('idle') // 'idle' | 'sending' | 'sent' | 'error'
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -477,6 +487,7 @@ function AccountSection() {
     setPhase('sending')
     try {
       const { error } = await signInWithEmail(e)
+      if (!error) setAuthError(null)
       setPhase(error ? 'error' : 'sent')
     } catch {
       setPhase('error')
@@ -520,6 +531,9 @@ function AccountSection() {
         Optional: sign in to back up your children&rsquo;s progress and use TinyVoice on more
         than one device. We&rsquo;ll email you a one-tap sign-in link — no password.
       </p>
+      {authError && phase !== 'sent' && (
+        <p className="account-note">{AUTH_ERR_MSG[authError] || AUTH_ERR_MSG.access_denied}</p>
+      )}
       {phase === 'sent' ? (
         <p className="account-sent">
           ✉️ Check <b>{email.trim()}</b> for your sign-in link, then tap it on this device.

@@ -149,6 +149,20 @@ export function initCloud(store) {
   if (!supabase || started) return
   started = true
 
+  // A magic link that's expired or already used redirects back with an error in
+  // the URL hash (e.g. #error_code=otp_expired). Capture it for a friendly note
+  // in the Account area, then strip the hash so the URL stays clean.
+  try {
+    const h = window.location.hash || ''
+    if (/(?:^|[#&])(?:error|error_code)=/.test(h)) {
+      const params = new URLSearchParams(h.replace(/^#/, ''))
+      store.getState().setAuthError(params.get('error_code') || params.get('error') || 'link_error')
+      history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+  } catch {
+    /* ignore */
+  }
+
   let reconciledFor = null
   supabase.auth.onAuthStateChange(async (event, session) => {
     store.getState().setSession(session || null)
@@ -157,6 +171,7 @@ export function initCloud(store) {
       store.getState().setCloudStatus('idle')
       return
     }
+    store.getState().setAuthError(null) // a good session clears any stale-link note
     store.getState().setCloudStatus('syncing')
     try {
       // Ensure the account row exists FIRST — children/progress FK to it, and the
