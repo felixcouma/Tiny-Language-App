@@ -3,7 +3,70 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-06-10 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
+## Latest Session — 2026-06-29 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
+
+> **Strategic shift:** TinyVoice is now a **therapist-driven pilot product**. Vercel is the
+> primary surface (it runs serverless + has the cloud env); GitHub Pages stays as a free demo.
+> Goal: get it in front of parents beyond Audrey/Adriel, gather feedback, then add billing.
+
+### 🚸 Part A — generic, renamable child profiles + "How many children?" onboarding (shipped)
+The twins are no longer hard-coded — names are **per-child data**, so one build serves both our
+Audrey/Adriel device and a generic giveaway version.
+- `store.js`: generic `child1`/`child2` seeds replace Audrey/Adriel defaults; fresh devices seed
+  only "Everyone" and ask at setup. New `childCount` (1|2), `setChildCount()`, `renameProfile()`.
+  `loadChildCount()` **infers the count for existing installs** so our device skips setup and keeps
+  its profiles **untouched** (non-destructive migration — verified).
+- New `SetupScreen` ("One / Two children"); `App.jsx` routes to it on a truly fresh device.
+- Twin Mode button gated on `childCount ≥ 2`; `TwinModeScreen` players come from the two real
+  profile names. Parent area gained a **"Children"** section (1↔2 toggle + rename rows).
+- Verify: `scripts/verify-profiles.mjs` (17 checks — fresh One/Two flows + migration). All pass.
+
+### ☁️ Part B — optional parent accounts + cloud sync + 30-day trial (Supabase, shipped)
+Offline-first SaaS spine. App still runs **fully local** when Supabase env is absent; when set, an
+**Account** section appears in the (gated) Parent area.
+- Stack: **Supabase** (auth + Postgres + RLS) on the user's hobby account. Project URL
+  `https://clbeelfstlnvahzjbgfo.supabase.co`. Tables `accounts` / `children` / `progress` with
+  RLS (each parent sees only their own rows) + a signup trigger. SQL is in the chat history /
+  re-runnable. **Magic-link** email auth; redirect URLs include the Vercel domain + localhost.
+- `src/lib/supabase.js` (null-safe client) + `src/lib/cloud.js` (auth + sync). Debounced push of
+  children + active child's progress; **cloud-wins reconcile** on a fresh sign-in (new device
+  recovers data); `ensureAccount()` **self-heals** the account row (idempotent, preserves the
+  trial clock — don't depend on the trigger); one-tap `deleteCloudData()` (COPPA/GDPR-K). All
+  writes log `[cloud]` warnings on error.
+- `store.js`: `session`/`account`/`cloudStatus`/`authError` + `applyCloudState`. `App.jsx` calls
+  `initCloud(useStore)` once.
+- Parent area: **soft trial banner** ("N days left" / gentle ended state — **child play is never
+  blocked**, per the pilot decision) + magic-link sign-in / sign-out / delete-data.
+- **Expired/used magic link** (`#error_code=otp_expired`) now handled gracefully — hash stripped,
+  friendly "request a fresh link" note. (Single-use, ~1h expiry links are *expected* to fail on
+  reuse; the persisted session keeps you signed in across reloads — no re-link needed.)
+- Env: `.env.local` (gitignored) holds the Supabase + feedback keys locally; **Vercel has
+  `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` set & deployed** (confirmed). `.env.example`
+  documents them; `.gitignore` hardened for `.env*`.
+- Verify: `scripts/verify-cloud.mjs` (13 checks — UI, magic-link flow w/ OTP stubbed, trial-gating,
+  stale-link). Passes against **both** dev and the **deployed Vercel** site.
+- New dep: `@supabase/supabase-js` (saved). **Note:** bundle grew ~78→136 KB gzip — lazy-loading
+  supabase-js is a easy future win.
+
+### 🟢 Pilot status — running. Next is feedback, not features.
+Parents can sign in, sync across devices, and a 30-day trial clock runs. **Let the pilot run**;
+let price/appetite emerge from real feedback before building billing.
+
+### 📌 Backlog opened this session
+- **Part C — billing**: Stripe `/api/checkout` + `/api/webhook` Vercel serverless → flip
+  `plan='active'` (DB columns already exist, no migration). Needs a **price** ($5–10, set by pilot
+  feedback) + a **privacy policy / COPPA-GDPR-K consent** before charging. Add the deferred pricing
+  question to the feedback form then too.
+- **Twin Mode name audio for unknown names** (renamed kids currently chime, not spoken). Decision:
+  ship a generic **"Your turn!"** clip per voice (3 clips) as the pilot fix — speak the name only
+  when a clip exists (Audrey/Adriel), else play "Your turn!"; the visual turn-pill always shows the
+  real name. Per-name on-demand TTS → Supabase Storage is the premium/long-term option.
+- **Lazy-load supabase-js** to shrink the bundle.
+- (Still open from before) animal FX sounds + duck quack (LEFT_TO_DO §4); full per-voice switching.
+
+---
+
+## Earlier Session — 2026-06-10 · Branch `main` · Live: https://felixcouma.github.io/Tiny-Language-App/
 
 ### 🔊 Voice pipeline migrated to Google Cloud TTS (Vertex)
 AI Studio prepayment credits were depleted, so all warm-voice generation now runs through
