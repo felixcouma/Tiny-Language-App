@@ -23,6 +23,7 @@ import CollectToast from './components/CollectToast.jsx'
 import UpdatePrompt from './components/UpdatePrompt.jsx'
 import { addMinute, isRestTime } from './lib/screentime'
 import { useWakeLock } from './lib/useWakeLock'
+import { initCloud } from './lib/cloud'
 
 const SCREENS = {
   setup: SetupScreen,
@@ -66,6 +67,11 @@ export default function App() {
 
   // Hold the display on while the app is open (re-acquired on tab focus).
   useWakeLock()
+
+  // Wire optional cloud accounts + sync once (no-op when Supabase isn't configured).
+  useEffect(() => {
+    initCloud(useStore)
+  }, [])
 
   // Per-child screen-time: tick a minute while a child plays; wind down when
   // over their budget or during their quiet hours (bedtime).

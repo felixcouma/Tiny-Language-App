@@ -231,6 +231,84 @@
   font-size: 14px;
   font-weight: 700;
 }
+.trial-banner {
+  margin: var(--space-sm) 0 0;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: var(--bg-lavender, #efeaff);
+  color: var(--text-dark);
+  font-size: 14px;
+  line-height: 1.4;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.trial-banner.is-ended {
+  background: #fff4e6;
+  border-color: #ffd9a8;
+}
+.account-section .account-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+.account-input {
+  flex: 1 1 180px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-light);
+  background: var(--bg-white);
+  color: var(--text-dark);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 14px;
+}
+.account-input:focus {
+  outline: none;
+  border-color: var(--accent-purple);
+}
+.account-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+.account-btn {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--bg-lavender);
+  color: var(--accent-purple);
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+}
+.account-btn.primary {
+  background: linear-gradient(180deg, #ffd24d, #ffb01f);
+  color: #fff;
+}
+.account-btn.danger-ghost {
+  background: transparent;
+  color: #d4534f;
+  border: 2px solid #f0c4c2;
+}
+.account-btn.danger {
+  background: #d4534f;
+  color: #fff;
+}
+.account-sent {
+  margin-top: var(--space-sm);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: #eaf7ef;
+  border: 1px solid #b8e6c8;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+.sync-state {
+  font-weight: 700;
+  color: var(--accent-purple);
+}
 .children-list {
   display: flex;
   flex-direction: column;

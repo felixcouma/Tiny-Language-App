@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-29 17:35 UTC** on branch `feat/generic-profiles`._
+> _Auto-updated on commit — last refreshed **2026-06-29 20:40 UTC** on branch `feat/saas-auth-sync`._
 
 **Recent commits:**
 
+- `d3867c5 Wire generic profiles through Home, Twin Mode + Parent area`
 - `3c72bfa Generic renamable child profiles + "How many children?" first-run setup`
 - `501c568 Add deployed-site verification (voices + food/family assets + feedback button)`
 - `3f3b204 Parent feedback button (pilot) — gated 'Share feedback' link to a form`
 - `16f5647 Family portraits: diverse illustrations for Mommy/Daddy/siblings/grandparents`
 - `aee1b97 Add common foods to Home Village (action-talk cards + images + clips)`
-- `e683314 Say It With Me: praise on a real attempt, not a timer`
 <!-- AUTO:END -->
 
 ---

@@ -3,6 +3,7 @@ import { WORLDS, getWorld } from './data/content'
 import { DEFAULT_PHRASE_LEVEL } from './data/phraseContent'
 import { isMuted, setMuted } from './lib/audio'
 import { snooze } from './lib/screentime'
+import { cloudConfigured } from './lib/supabase'
 
 /* ---- Profiles + per-child progress (localStorage). Gentle, no scores. ---- */
 const PROFILES_KEY = 'tv_profiles_v1'
@@ -149,6 +150,13 @@ export const useStore = create((set, get) => ({
   profiles: initialProfiles,
   activeProfileId: initialActive,
   progress: initialActive ? loadProgressFor(initialActive) : emptyProgress(),
+
+  // ---- cloud (Part B) — optional parent account + sync ----
+  cloudConfigured, // env present → show the Account section in the Parent area
+  session: null, // Supabase auth session (null = signed out / local-only)
+  account: null, // accounts row: { trial_ends_at, plan, ... }
+  cloudStatus: 'idle', // 'idle' | 'syncing' | 'synced' | 'error'
+
   gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
   onboarded: loadJSON('tv_onboarded', false),
   lastCollected: null, // { item, id } — drives the "new friend!" toast
@@ -207,6 +215,39 @@ export const useStore = create((set, get) => ({
       )
       saveJSON(PROFILES_KEY, profiles)
       return { profiles }
+    }),
+
+  // ---- cloud actions (set by lib/cloud.js via the auth listener) ----
+  setSession: (session) => set({ session }),
+  setAccount: (account) => set({ account }),
+  setCloudStatus: (cloudStatus) => set({ cloudStatus }),
+  // Adopt a cloud snapshot locally (on a fresh sign-in when the cloud has data):
+  // write profiles + each child's progress to localStorage, then refresh state.
+  // Non-destructive to the local "Everyone" guest profile (re-added if missing).
+  applyCloudState: ({ profiles, progressByChild }) =>
+    set((s) => {
+      if (!Array.isArray(profiles) || !profiles.length) return {}
+      const withGuest = profiles.some((p) => p.id === 'guest')
+        ? profiles
+        : [{ ...GUEST }, ...profiles]
+      saveJSON(PROFILES_KEY, withGuest)
+      const kids = withGuest.filter((p) => !p.guest)
+      const count = kids.length >= 2 ? 2 : 1
+      saveJSON(CHILDCOUNT_KEY, count)
+      Object.entries(progressByChild || {}).forEach(([cid, data]) => {
+        saveJSON(progKey(cid), { ...emptyProgress(), ...data })
+      })
+      const activeId =
+        s.activeProfileId && withGuest.some((p) => p.id === s.activeProfileId)
+          ? s.activeProfileId
+          : kids[0]?.id || 'guest'
+      saveJSON(ACTIVE_KEY, activeId)
+      return {
+        profiles: withGuest,
+        childCount: count,
+        activeProfileId: activeId,
+        progress: loadProgressFor(activeId),
+      }
     }),
   addProfile: (name) => {
     const profs = get().profiles

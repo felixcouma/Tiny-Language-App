@@ -9,6 +9,7 @@ import {
 import { masteredCount } from '../lib/mastery'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
 import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard, CATEGORIES, wordsInCategory } from '../data/phraseContent'
+import { signInWithEmail, signOut, deleteCloudData } from '../lib/cloud'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -49,6 +50,8 @@ export default function ParentDashboard() {
         <p className="parent-intro">
           A gentle window into play — no scores, no pressure. Every word heard is progress.
         </p>
+
+        <TrialBanner />
 
         <div className="stat-grid">
           <Stat big value={uniqueWords} label="different words" />
@@ -100,6 +103,8 @@ export default function ParentDashboard() {
             “big brown cow” is the most powerful part — the app just gets the conversation started.
           </p>
         </section>
+
+        <AccountSection />
 
         {FEEDBACK_URL && (
           <section className="parent-section feedback-section">
@@ -420,6 +425,127 @@ function StorybookVoicePicker() {
           </button>
         ))}
       </div>
+    </section>
+  )
+}
+
+// Whole days left in the trial (>=0), or null when there's no trial account.
+function trialDaysLeft(account) {
+  if (!account?.trial_ends_at) return null
+  const ms = new Date(account.trial_ends_at).getTime() - Date.now()
+  return Math.max(0, Math.ceil(ms / 86400000))
+}
+
+// Soft trial gate: a parent-only banner. Child play is never blocked (pilot).
+function TrialBanner() {
+  const account = useStore((s) => s.account)
+  const session = useStore((s) => s.session)
+  if (!session || !account || account.plan === 'active') return null
+  const days = trialDaysLeft(account)
+  const ended = account.plan !== 'active' && days === 0
+  return (
+    <div className={`trial-banner ${ended ? 'is-ended' : ''}`}>
+      {ended ? (
+        <>
+          <b>Your free trial has ended.</b> Your child can keep playing — sign-in just
+          saves and syncs progress. Subscriptions are coming soon.
+        </>
+      ) : (
+        <>
+          <b>{days} {days === 1 ? 'day' : 'days'} left</b> in your free trial. Progress is
+          backed up and synced across devices.
+        </>
+      )}
+    </div>
+  )
+}
+
+// Optional parent account: magic-link sign-in → cloud backup + sync + trial.
+// Hidden entirely when Supabase isn't configured (app stays fully local).
+function AccountSection() {
+  const configured = useStore((s) => s.cloudConfigured)
+  const session = useStore((s) => s.session)
+  const status = useStore((s) => s.cloudStatus)
+  const [email, setEmail] = useState('')
+  const [phase, setPhase] = useState('idle') // 'idle' | 'sending' | 'sent' | 'error'
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  if (!configured) return null
+
+  const send = async () => {
+    const e = email.trim()
+    if (!e) return
+    setPhase('sending')
+    try {
+      const { error } = await signInWithEmail(e)
+      setPhase(error ? 'error' : 'sent')
+    } catch {
+      setPhase('error')
+    }
+  }
+
+  if (session?.user) {
+    const synced = status === 'synced' ? 'Synced ✓' : status === 'syncing' ? 'Syncing…' : status === 'error' ? 'Sync error' : ''
+    return (
+      <section className="parent-section account-section">
+        <h3 className="parent-h3">Account</h3>
+        <p className="voice-hint">
+          Signed in as <b>{session.user.email}</b>. {synced && <span className="sync-state">{synced}</span>}
+        </p>
+        <div className="account-actions">
+          <button className="account-btn" onClick={() => signOut()}>
+            Sign out
+          </button>
+          {confirmDelete ? (
+            <button className="account-btn danger" onClick={() => deleteCloudData()}>
+              Tap again to permanently delete
+            </button>
+          ) : (
+            <button className="account-btn danger-ghost" onClick={() => setConfirmDelete(true)}>
+              Delete my data
+            </button>
+          )}
+        </div>
+        <p className="voice-hint" style={{ marginTop: 'var(--space-sm)' }}>
+          Deleting removes your synced children and progress from the cloud. Play on this
+          device is unaffected.
+        </p>
+      </section>
+    )
+  }
+
+  return (
+    <section className="parent-section account-section">
+      <h3 className="parent-h3">Save &amp; sync progress</h3>
+      <p className="voice-hint">
+        Optional: sign in to back up your children&rsquo;s progress and use TinyVoice on more
+        than one device. We&rsquo;ll email you a one-tap sign-in link — no password.
+      </p>
+      {phase === 'sent' ? (
+        <p className="account-sent">
+          ✉️ Check <b>{email.trim()}</b> for your sign-in link, then tap it on this device.
+        </p>
+      ) : (
+        <div className="account-form">
+          <input
+            className="account-input"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="you@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && send()}
+          />
+          <button className="account-btn primary" onClick={send} disabled={phase === 'sending'}>
+            {phase === 'sending' ? 'Sending…' : 'Email me a link'}
+          </button>
+        </div>
+      )}
+      {phase === 'error' && (
+        <p className="voice-hint" style={{ color: 'var(--accent-red, #d4534f)' }}>
+          Something went wrong sending the link. Check the email and try again.
+        </p>
+      )}
     </section>
   )
 }

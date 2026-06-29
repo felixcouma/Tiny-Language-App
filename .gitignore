@@ -6,5 +6,9 @@ dist-ssr
 npm-debug.log*
 .vite
 .verify-shots
+# Local env with secrets (Supabase keys etc.) — keep the committed example only
+.env
+.env.*
+!.env.example
 # Google Cloud service-account key (local secret — never commit)
 scripts/gcloud-sa-key.json
