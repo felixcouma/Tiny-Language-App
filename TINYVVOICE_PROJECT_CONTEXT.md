@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `3c72bfa Generic renamable child profiles + "How many children?" first-run setup`
 - `501c568 Add deployed-site verification (voices + food/family assets + feedback button)`
 - `3f3b204 Parent feedback button (pilot) — gated 'Share feedback' link to a form`
 - `16f5647 Family portraits: diverse illustrations for Mommy/Daddy/siblings/grandparents`
 - `aee1b97 Add common foods to Home Village (action-talk cards + images + clips)`
 - `e683314 Say It With Me: praise on a real attempt, not a timer`
-- `f5f8be4 Bump sounds cache to tv-sounds-v3 — force-purge old leaked clips for everyone`
 <!-- AUTO:END -->
 
 ---

@@ -17,6 +17,10 @@ export default function HomeScreen() {
   const openToday = useStore((s) => s.openToday)
   const openCollection = useStore((s) => s.openCollection)
   const child = useStore((s) => s.activeProfile())
+  const childCount = useStore((s) => s.childCount)
+  const profiles = useStore((s) => s.profiles)
+  // Twin Mode (turn-taking) only makes sense with two children set up.
+  const twinReady = (childCount || 0) >= 2 && profiles.filter((p) => !p.guest).length >= 2
 
   return (
     <div className="scene home2">
@@ -98,15 +102,17 @@ export default function HomeScreen() {
         >
           Listening Game
         </button>
-        <button
-          className="chunky mode-btn mode-twin"
-          onClick={() => {
-            playChime('twin')
-            openTwin()
-          }}
-        >
-          Twin Mode
-        </button>
+        {twinReady && (
+          <button
+            className="chunky mode-btn mode-twin"
+            onClick={() => {
+              playChime('twin')
+              openTwin()
+            }}
+          >
+            Twin Mode
+          </button>
+        )}
         <button
           className="chunky mode-btn mode-grid"
           onClick={() => {

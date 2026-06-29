@@ -81,6 +81,8 @@ export default function ParentDashboard() {
           </section>
         )}
 
+        <Children />
+
         <ChildStage />
 
         <SpeechLevel />
@@ -167,6 +169,68 @@ function ScreenTime() {
         ))}
       </div>
     </section>
+  )
+}
+
+// Children setup: choose one child or two (two unlocks Twin Mode), and rename each
+// child. Names start as generic placeholders ("Child 1") on a fresh device.
+function Children() {
+  const profiles = useStore((s) => s.profiles)
+  const childCount = useStore((s) => s.childCount)
+  const setChildCount = useStore((s) => s.setChildCount)
+  const count = childCount || 1
+  const kids = profiles.filter((p) => !p.guest).slice(0, count)
+
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Children</h3>
+      <p className="voice-hint">
+        Using TinyVoice with one child or two? Two children unlocks <b>Twin Mode</b>{' '}
+        turn-taking. Switching is safe — no progress is ever deleted.
+      </p>
+      <div className="voice-options">
+        {[1, 2].map((n) => (
+          <button
+            key={n}
+            className={`voice-option ${count === n ? 'is-active' : ''}`}
+            onClick={() => setChildCount(n)}
+          >
+            {n === 1 ? 'One child' : 'Two children'}
+          </button>
+        ))}
+      </div>
+      <div className="children-list">
+        {kids.map((k) => (
+          <ChildNameRow key={k.id} child={k} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ChildNameRow({ child }) {
+  const renameProfile = useStore((s) => s.renameProfile)
+  const [name, setName] = useState(child.name)
+  const save = () => {
+    const n = name.trim()
+    if (n && n !== child.name) renameProfile(child.id, n)
+    else setName(child.name)
+  }
+  return (
+    <div className="child-edit">
+      <span className="child-badge" style={{ background: child.color }}>
+        {child.initials || child.name[0]?.toUpperCase()}
+      </span>
+      <input
+        className="child-name-input"
+        value={name}
+        maxLength={12}
+        onChange={(e) => setName(e.target.value)}
+        onBlur={save}
+        onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+        aria-label={`Name for ${child.name}`}
+      />
+    </div>
   )
 }
 
