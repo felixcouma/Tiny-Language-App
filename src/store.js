@@ -4,6 +4,7 @@ import { DEFAULT_PHRASE_LEVEL } from './data/phraseContent'
 import { isMuted, setMuted } from './lib/audio'
 import { snooze } from './lib/screentime'
 import { cloudConfigured } from './lib/supabase'
+import { DEFAULT_SONG_IDS, SONG_IDS } from './data/songs'
 
 /* ---- Profiles + per-child progress (localStorage). Gentle, no scores. ---- */
 const PROFILES_KEY = 'tv_profiles_v1'
@@ -28,15 +29,15 @@ export const initialsOf = (name) =>
     .join('') || 'F'
 
 // A neutral "no-twin" profile so the app can be used without choosing a child.
-const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true }
+const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true, enabledSongs: [...DEFAULT_SONG_IDS] }
 // Generic, renamable children seeded at first-run setup ("How many children?").
 // One child → just child1; two → child1 + child2 (unlocks Twin Mode). Names and
 // initials are placeholders a grown-up renames in the Parent area. NOTE: an
 // existing install (e.g. the original Audrey/Adriel) keeps its own profiles —
 // loadProfiles() only seeds these on a truly fresh device.
 const GENERIC_CHILDREN = [
-  { id: 'child1', name: 'Child 1', initials: 'C1', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [] },
-  { id: 'child2', name: 'Child 2', initials: 'C2', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [] },
+  { id: 'child1', name: 'Child 1', initials: 'C1', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS] },
+  { id: 'child2', name: 'Child 2', initials: 'C2', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS] },
 ]
 
 function loadJSON(key, fallback) {
@@ -77,6 +78,10 @@ function loadProfiles() {
     }
     if (next.phraseLevel == null) {
       next = { ...next, phraseLevel: DEFAULT_PHRASE_LEVEL[p.id] || 1 }
+      changed = true
+    }
+    if (!Array.isArray(next.enabledSongs)) {
+      next = { ...next, enabledSongs: [...DEFAULT_SONG_IDS] }
       changed = true
     }
     return next
@@ -263,6 +268,7 @@ export const useStore = create((set, get) => ({
       bedtime: null,
       phraseLevel: 1,
       focusWords: [],
+      enabledSongs: [...DEFAULT_SONG_IDS],
     }
     const next = [...profs, prof]
     saveJSON(PROFILES_KEY, next)
@@ -338,6 +344,21 @@ export const useStore = create((set, get) => ({
       return { profiles }
     }),
 
+  // ---- Songs a grown-up has switched on for this child (per-profile) ----
+  enabledSongs: () => get().activeProfile()?.enabledSongs || [],
+  toggleSong: (id) =>
+    set((s) => {
+      if (!id || !SONG_IDS.includes(id)) return {}
+      const profiles = s.profiles.map((p) => {
+        if (p.id !== s.activeProfileId) return p
+        const cur = p.enabledSongs || []
+        const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]
+        return { ...p, enabledSongs: next }
+      })
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+
   toggleMute: () =>
     set((s) => {
       const m = !s.muted
@@ -362,6 +383,7 @@ export const useStore = create((set, get) => ({
   openCollection: () => set({ screen: 'collection' }),
   openRest: () => set({ screen: 'rest', autoPlay: false }),
   openChant: () => set({ screen: 'chant', autoPlay: false }),
+  openSongs: () => set({ screen: 'songs', autoPlay: false }),
 
   finishOnboarding: () => {
     saveJSON('tv_onboarded', true)

@@ -23,3 +23,20 @@ Replaced/added by the project owner (trimmed to ~1.5–3.5 s, fade-out, mono 24 
 **cat, frog, sheep, horse, duck** (upgraded) and **crow, goose, wolf** (new safari animals).
 The duck now plays a real quack (previously sounded like a chick).
 > _Source / licence to be confirmed by the project owner._
+
+## Songs — "Sing with Pip" (`public/sounds/songs/`)
+
+The 13 children's songs are from the **U.S. Department of State, Office of English
+Language Programs — _Sing Out Loud: Children's Songs_** collection
+(<https://americanenglish.state.gov/resources/sing-out-loud-childrens-songs>).
+
+As U.S. Government works they are in the **public domain** unless a copyright is
+indicated; none of these tracks carries an indicated copyright (verified — no
+embedded copyright frame). Per State Department policy, "unless a copyright is
+indicated, information on State Department websites is in the public domain and may
+be copied and distributed without permission. Citation of the U.S. State Department
+as source of the information is appreciated."
+
+- Source: U.S. Department of State (American English). MP3s downloaded unmodified.
+- We do **not** use any State Department seal, logo, or insignia, and imply no U.S.
+  Government endorsement.

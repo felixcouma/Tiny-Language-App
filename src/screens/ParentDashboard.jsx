@@ -10,6 +10,7 @@ import { masteredCount } from '../lib/mastery'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
 import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard, CATEGORIES, wordsInCategory } from '../data/phraseContent'
 import { signInWithEmail, signOut, deleteCloudData } from '../lib/cloud'
+import { SONGS } from '../data/songs'
 import './ParentDashboard.css'
 
 const TOTAL_WORDS = WORLDS.reduce((n, w) => n + w.items.length, 0)
@@ -91,6 +92,8 @@ export default function ParentDashboard() {
         <SpeechLevel />
 
         <FocusWords />
+
+        <Songs />
 
         <ScreenTime />
 
@@ -391,6 +394,40 @@ function FocusWords() {
               aria-pressed={on}
             >
               {w.word}
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+// Per-child song selection. All 13 public-domain songs are banked; the grown-up
+// switches on the ones this child likes. They appear in "Sing with Pip" on Home.
+function Songs() {
+  const child = useStore((s) => s.activeProfile())
+  const toggleSong = useStore((s) => s.toggleSong)
+  if (!child) return null
+  const on = child.enabledSongs || []
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Songs</h3>
+      <p className="voice-hint">
+        Choose which songs {child.name} sees in <b>Sing with Pip</b>. Public-domain
+        children&rsquo;s songs (U.S. Dept. of State, American English). {on.length} on.
+      </p>
+      <div className="song-toggles">
+        {SONGS.map((s) => {
+          const isOn = on.includes(s.id)
+          return (
+            <button
+              key={s.id}
+              className={`song-toggle ${isOn ? 'is-on' : ''}`}
+              onClick={() => toggleSong(s.id)}
+              aria-pressed={isOn}
+            >
+              <span className="song-toggle-dot" aria-hidden="true" />
+              <span className="song-toggle-name">{s.title}</span>
             </button>
           )
         })}

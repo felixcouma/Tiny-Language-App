@@ -12,6 +12,7 @@ export default function HomeScreen() {
   const openGrid = useStore((s) => s.openGrid)
   const openAbc = useStore((s) => s.openAbc)
   const openEcho = useStore((s) => s.openEcho)
+  const openSongs = useStore((s) => s.openSongs)
   const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
@@ -139,6 +140,15 @@ export default function HomeScreen() {
           }}
         >
           ABC Songs
+        </button>
+        <button
+          className="chunky mode-btn mode-songs"
+          onClick={() => {
+            playChime('songs')
+            openSongs()
+          }}
+        >
+          Sing with Pip
         </button>
         <button
           className="chunky mode-btn mode-echo"

@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-29 20:56 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-29 22:09 UTC** on branch `feat/songs`._
 
 **Recent commits:**
 
+- `11431f9 Update CURRENT_SESSION: SaaS pilot (Parts A & B) shipped; let pilot run`
 - `2ead72e Gracefully handle expired/used magic links`
 - `ecbb9b5 Part B: optional parent accounts + cloud sync + 30-day trial (Supabase)`
 - `d3867c5 Wire generic profiles through Home, Twin Mode + Parent area`
 - `3c72bfa Generic renamable child profiles + "How many children?" first-run setup`
 - `501c568 Add deployed-site verification (voices + food/family assets + feedback button)`
-- `3f3b204 Parent feedback button (pilot) — gated 'Share feedback' link to a form`
 <!-- AUTO:END -->
 
 ---

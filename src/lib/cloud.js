@@ -40,6 +40,7 @@ const toChildRow = (uid, p, slot) => ({
     bedtime: p.bedtime,
     phraseLevel: p.phraseLevel,
     focusWords: p.focusWords || [],
+    enabledSongs: p.enabledSongs || [],
   },
 })
 const fromChildRow = (r) => ({ id: r.id, name: r.name, ...(r.settings || {}) })
