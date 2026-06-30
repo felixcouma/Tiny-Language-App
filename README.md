@@ -6,6 +6,11 @@ v3 design system with the v4 learning framework.
 
 **▶︎ Live:** https://felixcouma.github.io/Tiny-Language-App/ (open on any phone/tablet/laptop)
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/felixcouma/Tiny-Language-App?quickstart=1)
+
+One-click cloud dev environment (Node 20, ports auto-forwarded). Rebuild & run from any
+browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
+
 > Full product vision lives in [`docs/`](./docs); current state in
 > [`TINYVVOICE_PROJECT_CONTEXT.md`](./TINYVVOICE_PROJECT_CONTEXT.md).
 
