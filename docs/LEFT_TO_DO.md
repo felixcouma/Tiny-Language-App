@@ -92,9 +92,12 @@ via the `tv-sounds-v3` StaleWhileRevalidate cache). Candidates (>2 min, approx):
 - **Hush Little Baby** — ~2:04
 All others are ~1:00–1:50 (fine). Files: `public/sounds/songs/<id>.mp3`.
 
-## 8. GitHub Codespaces backup — PLANNED (next infra step)
-Set up a GH Codespace / devcontainer so the app can be rebuilt quickly from anywhere if the
-local machine is lost. Scope: a `.devcontainer/` (Node 20, `npm install`, port 5173), confirm
-`npm run dev`/`build` work in the container, document the asset-gen env (`scripts/*.key.local`
-+ `gcloud-sa-key.json` are gitignored — they'd need re-adding as Codespace secrets, NOT
-committed). Cloud accounts already de-risk *data*; this de-risks *the build environment*.
+## 8. GitHub Codespaces backup — ✅ DONE (2026-06-29)
+`.devcontainer/devcontainer.json` (Node 20 image, `npm ci` on create, ports 5173/4173
+forwarded, ESLint/Prettier). Rebuild/run the app from any browser: **Code ▸ Codespaces ▸
+Create on `main`** → `npm run dev` / `npm run build`. Guide + env/secrets notes:
+**`docs/CODESPACES.md`** (app runs local-only with no env; Supabase/feedback vars and the
+gitignored asset-gen keys re-add as Codespace secrets, never committed). Cloud accounts
+de-risk *data*; this de-risks the *build environment*.
+- Remaining (owner, on github.com): create a Codespace once to confirm it builds, and
+  optionally enable **prebuilds** for fast startup.

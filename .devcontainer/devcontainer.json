@@ -1,0 +1,24 @@
+{
+  // GitHub Codespaces / VS Code Dev Container for TinyVoice Twins.
+  // Purpose: rebuild + run the app from anywhere (a backup build environment) if
+  // the local machine is unavailable. See docs/CODESPACES.md for usage + secrets.
+  "name": "TinyVoice Twins",
+  // Node 20 LTS (Vite 5 + React 18). Includes npm + git out of the box.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  // Reproducible install from package-lock.json on container creation.
+  "postCreateCommand": "npm ci",
+
+  // Vite dev (server.host:true → 0.0.0.0) and vite preview ports.
+  "forwardPorts": [5173, 4173],
+  "portsAttributes": {
+    "5173": { "label": "Vite dev (TinyVoice)", "onAutoForward": "openPreview" },
+    "4173": { "label": "Vite preview" }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    }
+  }
+}
