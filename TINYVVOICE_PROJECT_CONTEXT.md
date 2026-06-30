@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-06-30 04:50 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-06-30 04:59 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `a2ac73e Docs: mark Codespaces backup verified (created, secrets, Supabase redirect)`
 - `7dcfdb1 README: add "Open in GitHub Codespaces" badge`
 - `abf47d7 Add GitHub Codespaces dev container (backup build environment)`
 - `25cf0e8 Docs: songs feature + SaaS context; scope song animations; log backlog`
 - `451892e Add "Sing with Pip" — 13 public-domain children's songs, per-child selectable`
 - `11431f9 Update CURRENT_SESSION: SaaS pilot (Parts A & B) shipped; let pilot run`
-- `2ead72e Gracefully handle expired/used magic links`
 <!-- AUTO:END -->
 
 ---

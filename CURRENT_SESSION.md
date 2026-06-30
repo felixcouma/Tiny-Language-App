@@ -63,14 +63,20 @@ verified), credited in `public/sounds/CREDITS.md` (no seal/endorsement implied).
 - Verify: `scripts/verify-songs.mjs` (11 checks). Verified on dev **and** the deployed
   `.vercel.app`. Owner ear-tested (incl. switching on non-defaults) → ✅.
 
+### 🧰 GitHub Codespaces backup — DONE & verified
+`.devcontainer/devcontainer.json` (Node 20, `npm ci`, ports 5173/4173) + `docs/CODESPACES.md`
++ an **"Open in Codespaces"** badge in `README.md`. Verified end-to-end: Codespace built,
+`npm run build` green, the 3 `VITE_*` values added as **Codespaces secrets**, and the forwarded
+5173 URL added to **Supabase Auth redirect URLs** (magic-link works from the Codespace). Backup
+story complete — **code** (GitHub) · **data** (Supabase sync) · **build env** (Codespaces).
+The owner stopped the Codespace for the night (optional: delete it to save storage; recreate via
+the badge anytime).
+
 ### 🟢 Pilot status — running. Next is feedback, not features.
 Parents can sign in, sync across devices, a 30-day trial runs, and there are songs. **Let the
 pilot run**; let price/appetite emerge from real feedback before building billing.
 
-### 📌 Backlog (open)
-- **GH Codespaces backup (next infra step)** — devcontainer so the build can be rebuilt anywhere
-  if the local machine is lost. Scope in `docs/LEFT_TO_DO.md §8` (secrets stay gitignored → re-add
-  as Codespace secrets).
+### 📌 Backlog (open) — pick up here tomorrow
 - **Song animations (Lottie/vector sync)** — SCOPED in `docs/SONG_ANIMATIONS_SCOPE.md`: light
   vector animations acting out lyrics, synced to audio; flagship *Head, Shoulders, Knees, and Toes*;
   pairs with deferred karaoke lyrics. (`LEFT_TO_DO §6`.)
