@@ -99,5 +99,8 @@ Create on `main`** → `npm run dev` / `npm run build`. Guide + env/secrets note
 **`docs/CODESPACES.md`** (app runs local-only with no env; Supabase/feedback vars and the
 gitignored asset-gen keys re-add as Codespace secrets, never committed). Cloud accounts
 de-risk *data*; this de-risks the *build environment*.
-- Remaining (owner, on github.com): create a Codespace once to confirm it builds, and
-  optionally enable **prebuilds** for fast startup.
+- ✅ Verified (2026-06-29): Codespace "crispy spoon" created on `main`, `npm ci` + `npm run
+  build` succeed, the 3 `VITE_*` values added as Codespaces secrets, and the forwarded
+  5173 URL added to Supabase Auth redirect URLs (so magic-link sign-in works from the
+  Codespace). README has an "Open in Codespaces" badge. Optional later: enable **prebuilds**
+  for faster startup.
