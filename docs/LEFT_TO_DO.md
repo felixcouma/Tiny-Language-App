@@ -109,17 +109,19 @@ de-risk *data*; this de-risks the *build environment*.
 > Items 9–13 came from the Agent Council review — see `docs/COUNCIL_REVIEW_RESPONSE.md`
 > for what we accepted / reframed / declined and why.
 
-## 9. In-session parent progress line — SHIPPING
+## 9. In-session parent progress line — ✅ DONE (2026-07-01)
 A single, **parent-facing** end-of-session line ("Today with Mia: 3 new words · 2 phrases").
 Closes the passive caregiver feedback loop without a dashboard rebuild. **Not** a child-facing
 score (keeps `no scores/streaks/pressure`). Needs a small per-child **daily activity bucket**
 (reset on date rollover) fed by the `record*` actions; surfaced at natural session-end moments
 (game "done" screen, Today complete, Rest wind-down).
 
-## 10. Cooperative "we did it!" moment (Twin Mode) — planned
-After turn-taking, a shared celebration **with no winner** — both twins get the payoff together.
-Reinforcement per Dunst & Trivette shared-celebration; the app's clearest twin-specific gap
-(currently the game ends on a solo "Wonderful listening!"). On-brand (celebration, no scores).
+## 10. Cooperative "we did it!" moment (Twin Mode) — ✅ DONE (2026-07-01)
+Twin Mode now ends on a **shared, no-winner finale**: "You did it together!" naming BOTH children
+("Mia & Leo found all 8 — great teamwork!"), a second confetti burst, and a spoken line that says
+both names + the celebration (reuses existing name clips + the "All done!" clip — no new audio).
+`ChoiceGame.jsx` gates on `players.length >= 2`. Solo games keep "Wonderful listening!".
+Verified: `scripts/verify-twin-finale.mjs`.
 
 ## 11. Expectant-pause option (Learning Screen) — planned
 An optional **3–5s "communicative opportunity" delay** before the Learning Screen auto-speaks

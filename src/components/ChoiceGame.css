@@ -177,6 +177,18 @@
   color: var(--text-gray);
   margin: 0;
 }
+.done-team {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-xs);
+  animation: fade-scale-in var(--duration-slow) var(--easing-bounce);
+}
+.game-done.is-twin .done-title {
+  background: linear-gradient(135deg, #ff8c00, #ff1493);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 .done-actions {
   display: flex;
   gap: var(--space-md);

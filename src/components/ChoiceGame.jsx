@@ -5,6 +5,7 @@ import { playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import TodayProgressLine from './TodayProgressLine.jsx'
+import Mascot from './Mascot.jsx'
 import { HomeIcon } from './Icons.jsx'
 import './ChoiceGame.css'
 
@@ -101,7 +102,14 @@ export default function ChoiceGame({
       setTimeout(() => {
         if (nextRound >= rounds) {
           setDone(true)
-          setTimeout(() => voice('All done! Wonderful listening!'), 300)
+          setConfettiKey(Date.now()) // a second burst for the finale
+          // Twin Mode → a shared, no-winner finale that names BOTH children
+          // (uses their existing name clips + the celebration line; no new audio).
+          const finale =
+            players && players.length >= 2
+              ? [...players.slice(0, 2), 'All done! Wonderful listening!']
+              : ['All done! Wonderful listening!']
+          setTimeout(() => voiceSeq(finale), 300)
         } else {
           setRound(nextRound)
           deal(nextRound)
@@ -125,13 +133,28 @@ export default function ChoiceGame({
   }
 
   if (done) {
+    const twin = players && players.length >= 2
     return (
       <div className="game">
         <Header title={title} grad={grad} onExit={goHome} />
-        <div className="game-done">
+        <div className={`game-done ${twin ? 'is-twin' : ''}`}>
           <Confetti fireKey={confettiKey} />
-          <h2 className="done-title">Wonderful listening!</h2>
-          <p className="done-sub">You found {rounds} of them.</p>
+          {twin ? (
+            <>
+              <div className="done-team">
+                <Mascot size={76} />
+              </div>
+              <h2 className="done-title">You did it together!</h2>
+              <p className="done-sub">
+                {players.slice(0, 2).join(' & ')} found all {rounds} — great teamwork!
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 className="done-title">Wonderful listening!</h2>
+              <p className="done-sub">You found {rounds} of them.</p>
+            </>
+          )}
           <TodayProgressLine />
           <div className="done-actions">
             <button className="big-btn primary" onClick={replay}>
