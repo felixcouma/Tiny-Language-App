@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useStore } from '../store'
 import { voice } from '../lib/audio'
 import Mascot from '../components/Mascot.jsx'
+import TodayProgressLine from '../components/TodayProgressLine.jsx'
 import './Rest.css'
 
 /* Calm wind-down when the daily screen-time budget is used up. */
@@ -24,6 +25,7 @@ export default function RestScreen() {
         <p className="rest-sub">
           Great playing today{child ? `, ${child.name}` : ''}. Pip needs a nap — see you soon.
         </p>
+        <TodayProgressLine />
         <div className="rest-actions">
           <button className="chunky rest-cta" onClick={goHome}>
             Home

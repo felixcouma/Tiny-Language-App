@@ -4,6 +4,7 @@ import { PRAISE } from '../data/content'
 import { playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
+import TodayProgressLine from './TodayProgressLine.jsx'
 import { HomeIcon } from './Icons.jsx'
 import './ChoiceGame.css'
 
@@ -131,6 +132,7 @@ export default function ChoiceGame({
           <Confetti fireKey={confettiKey} />
           <h2 className="done-title">Wonderful listening!</h2>
           <p className="done-sub">You found {rounds} of them.</p>
+          <TodayProgressLine />
           <div className="done-actions">
             <button className="big-btn primary" onClick={replay}>
               Play again

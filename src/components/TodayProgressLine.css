@@ -1,0 +1,27 @@
+.today-progress {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: var(--space-md) auto 0;
+  max-width: 440px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text-dark, #3a3a3a);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+.today-progress-tag {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #fff;
+  background: var(--accent-purple, #8a3fd0);
+  padding: 3px 8px;
+  border-radius: 999px;
+}

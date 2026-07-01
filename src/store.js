@@ -115,9 +115,27 @@ const emptyProgress = () => ({
   collected: {}, // word -> true (sticker book)
   phrases: {}, // phrase -> count (Level 2 speech practice)
   abcSeen: {}, // letter -> count (ABC Songs; "mastered" = count >= 4)
+  daily: { date: '', newWords: 0, phrases: 0, wordsHeard: 0 }, // today's counts (parent-facing line)
   firstUse: Date.now(),
   lastUse: Date.now(),
 })
+
+// A stable per-day key so the daily counters reset on a new day, no timers needed.
+export const dayKey = () => {
+  const d = new Date()
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+}
+// Merge today's parent-facing activity counters (auto-resets when the day rolls over).
+function bumpDaily(daily, delta) {
+  const key = dayKey()
+  const base = daily && daily.date === key ? daily : { date: key, newWords: 0, phrases: 0, wordsHeard: 0 }
+  return {
+    date: key,
+    newWords: (base.newWords || 0) + (delta.newWords || 0),
+    phrases: (base.phrases || 0) + (delta.phrases || 0),
+    wordsHeard: (base.wordsHeard || 0) + (delta.wordsHeard || 0),
+  }
+}
 
 function loadProgressFor(id) {
   let p = loadJSON(progKey(id), null)
@@ -423,6 +441,7 @@ export const useStore = create((set, get) => ({
       p.lastSeen = { ...p.lastSeen, [item.word]: Date.now() }
       p.collected = { ...p.collected, [item.word]: true }
       if (worldId) p.byWorld = { ...p.byWorld, [worldId]: (p.byWorld[worldId] || 0) + 1 }
+      p.daily = bumpDaily(p.daily, { wordsHeard: 1, newWords: isNew ? 1 : 0 })
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return {
@@ -445,10 +464,12 @@ export const useStore = create((set, get) => ({
   recordPracticeWord: (word) =>
     set((s) => {
       if (!s.activeProfileId || !word) return {}
+      const isNew = !s.progress.seen?.[word]
       const p = { ...s.progress }
       p.wordsHeard += 1
       p.seen = { ...p.seen, [word]: (p.seen[word] || 0) + 1 }
       p.lastSeen = { ...p.lastSeen, [word]: Date.now() }
+      p.daily = bumpDaily(p.daily, { wordsHeard: 1, newWords: isNew ? 1 : 0 })
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return { progress: p }
@@ -469,6 +490,7 @@ export const useStore = create((set, get) => ({
       if (!s.activeProfileId || !phrase) return {}
       const p = { ...s.progress }
       p.phrases = { ...p.phrases, [phrase]: (p.phrases[phrase] || 0) + 1 }
+      p.daily = bumpDaily(p.daily, { phrases: 1 })
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return { progress: p }
