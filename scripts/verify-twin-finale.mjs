@@ -8,20 +8,22 @@ import { chromium } from 'playwright'
 
 const APP = process.argv[2] || 'http://localhost:5173/'
 
+// child1 "Ezra" HAS a name clip; child2 "Mia" does NOT (→ generic "Your turn!" cue).
 const seed = `
   const profs = [
     { id:'guest', name:'Everyone', color:'#20B2AA', stage:'first', limit:0, bedtime:null, phraseLevel:1, guest:true, focusWords:[], enabledSongs:[] },
-    { id:'child1', name:'Mia', initials:'M', color:'#FF1493', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[] },
-    { id:'child2', name:'Leo', initials:'L', color:'#1E90FF', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[] },
+    { id:'child1', name:'Ezra', initials:'E', color:'#FF1493', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[] },
+    { id:'child2', name:'Mia', initials:'M', color:'#1E90FF', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[] },
   ];
   localStorage.setItem('tv_profiles_v1', JSON.stringify(profs));
   localStorage.setItem('tv_active_profile_v1', JSON.stringify('child1'));
   localStorage.setItem('tv_child_count_v1','2');
   localStorage.setItem('tv_onboarded','true');
   localStorage.setItem('tv_muted','0');
+  window.__aud = [];
   class FakeAudio extends EventTarget {
     constructor(s){ super(); this._src=''; if(s) this.src=s; }
-    set src(v){ this._src=v; if(v) setTimeout(()=>this.dispatchEvent(new Event('ended')), 6); }
+    set src(v){ this._src=v; if(v){ window.__aud.push(v); setTimeout(()=>this.dispatchEvent(new Event('ended')), 6); } }
     get src(){ return this._src; }
     play(){ return Promise.resolve(); } pause(){} load(){}
   }
@@ -73,8 +75,14 @@ const run = async () => {
   const title = (await page.locator('.done-title').textContent().catch(() => '')) || ''
   ok(/did it together/i.test(title), `title is a shared payoff (got "${title.trim()}")`)
   const sub = (await page.locator('.done-sub').textContent().catch(() => '')) || ''
-  ok(/Mia/.test(sub) && /Leo/.test(sub), `both children named (got "${sub.replace(/\s+/g, ' ').trim()}")`)
+  ok(/Ezra/.test(sub) && /Mia/.test(sub), `both children named (got "${sub.replace(/\s+/g, ' ').trim()}")`)
   ok(/teamwork/i.test(sub) && !/winner|win\b|beat/i.test(sub), 'framed as teamwork, no winner')
+
+  console.log('\n[2b] Name audio routes correctly')
+  const aud = await page.evaluate(() => window.__aud || [])
+  ok(aud.some((u) => /\/phrases\/ezra\.mp3/.test(u)), 'known name "Ezra" spoken by name (ezra.mp3)')
+  ok(aud.some((u) => /\/your-turn\.mp3/.test(u)), 'unknown name "Mia" → generic "Your turn!" cue (your-turn.mp3)')
+  ok(!aud.some((u) => /\/phrases\/mia\.mp3/.test(u)), 'no clip requested for the unknown name (no chime/miss)')
 
   console.log('\n[3] Console')
   ok(errors.length === 0, `0 console errors (got ${errors.length}${errors.length ? ': ' + errors[0] : ''})`)

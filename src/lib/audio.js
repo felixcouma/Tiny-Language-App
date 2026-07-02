@@ -223,7 +223,7 @@ export async function voiceSeq(parts) {
 // Any other name is shown on screen but NOT spoken — a missing name clip must
 // never chime or use the device voice. Extend this set when new name clips are
 // generated (or wire on-demand name TTS for arbitrary names).
-export const NAME_CLIP_NAMES = new Set(['audrey', 'adriel'])
+export const NAME_CLIP_NAMES = new Set(['audrey', 'adriel', 'ezra', 'leila', 'ethan'])
 export const hasNameClip = (name) => NAME_CLIP_NAMES.has(String(name || '').trim().toLowerCase())
 
 /* ---------------- Storybook voice (bundled premium recordings) ---------------- */

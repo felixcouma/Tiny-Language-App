@@ -9,6 +9,11 @@ import Mascot from './Mascot.jsx'
 import { HomeIcon } from './Icons.jsx'
 import './ChoiceGame.css'
 
+// Twin Mode turn audio: speak the child's name when we have a clip, otherwise a
+// warm generic "Your turn!" cue (never a chime/device voice for an unknown name).
+// null for solo games (no players) → just the prompt.
+const nameCue = (name) => (name ? (hasNameClip(name) ? name : 'Your turn!') : null)
+
 const shuffle = (arr) => {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -71,9 +76,7 @@ export default function ChoiceGame({
       locked.current = false
       answered.current = false
       const namePart = players ? players[roundIdx % players.length] : null
-      // Speak the name only when we have a clip for it; otherwise the pill still
-      // shows it but we go straight to the prompt (no chime for an unknown name).
-      setTimeout(() => voiceSeq([hasNameClip(namePart) ? namePart : null, buildPrompt(t, { round: roundIdx })]), 450)
+      setTimeout(() => voiceSeq([nameCue(namePart), buildPrompt(t, { round: roundIdx })]), 450)
     },
     [pool, choices, buildPrompt, players, pickDistractors],
   )
@@ -180,7 +183,7 @@ export default function ChoiceGame({
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
-          onClick={() => target && voiceSeq([hasNameClip(player) ? player : null, buildPrompt(target, { round })])}
+          onClick={() => target && voiceSeq([nameCue(player), buildPrompt(target, { round })])}
         >
           Listen again
         </button>

@@ -136,6 +136,18 @@ re-fetch on next play (graceful → chime if offline). Consider **raising `maxEn
 ~3500) and/or documenting the budget. NOT a content-hash manifest (that would break the stable-URL
 self-heal). See `COUNCIL_REVIEW_RESPONSE.md` (reframe).
 
+## 14. Twin Mode name audio for unknown names — DONE (pilot) + future (on-demand)
+Custom/renamed children have no name clip, so they can't be spoken in the warm voice.
+- ✅ DONE (2026-07-01): a generic **"Your turn!"** cue clip per voice + name clips for the
+  owner's nieces/nephews **Ezra, Leila, Ethan** (added to `gen-tts-gcloud.mjs` name list +
+  `NAME_CLIP_NAMES` in `audio.js`). Turn-taking now speaks the name when a clip exists
+  (audrey/adriel/ezra/leila/ethan), else "Your turn!"; the co-op finale speaks known names
+  then the celebration. No chime for unknown names. Verified: `verify-twin-finale.mjs`.
+- ⏳ FUTURE (the real SaaS fix — **do not lose sight of this**): **on-demand name TTS** so ANY
+  parent-chosen name is spoken. When a parent sets/renames a child, generate its clip via a
+  serverless TTS endpoint → store in **Supabase Storage** → serve per-account. Fits the paid
+  tier. Until then, custom names outside the known set fall back to the "Your turn!" cue.
+
 ## 13. Supabase offline-merge / conflict resolution — future (before heavier sync)
 Part B reconcile is pilot-simple (cloud-wins on fresh sign-in, else push local — see
 `src/lib/cloud.js`). Fine at pilot scale. Before shipping richer/real-time sync, define + test a

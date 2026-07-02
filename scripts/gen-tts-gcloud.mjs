@@ -107,7 +107,9 @@ function phraseRows() {
     if (!POOL_IDS.includes(world.id)) continue
     for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach(add)
   }
-  ;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach(add)
+  // Twin Mode: per-child name clips (spoken before a turn), the generic "Your turn!"
+  // cue for children without a name clip, and the shared finale line.
+  ;['Audrey,', 'Adriel,', 'Ezra,', 'Leila,', 'Ethan,', 'Your turn!', 'All done! Wonderful listening!'].forEach(add)
   PRAISE.forEach(add) // rotating praise words spoken on a correct answer
   // Single letters (Learning + Word Practice "starts with X" buttons play voice(letter)).
   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(add)
