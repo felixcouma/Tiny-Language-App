@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { PRAISE } from '../data/content'
-import { playCelebration, playChime, voice, voiceSeq } from '../lib/audio'
+import { playCelebration, playChime, voice, voiceSeq, hasNameClip } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import TodayProgressLine from './TodayProgressLine.jsx'
@@ -71,7 +71,9 @@ export default function ChoiceGame({
       locked.current = false
       answered.current = false
       const namePart = players ? players[roundIdx % players.length] : null
-      setTimeout(() => voiceSeq([namePart, buildPrompt(t, { round: roundIdx })]), 450)
+      // Speak the name only when we have a clip for it; otherwise the pill still
+      // shows it but we go straight to the prompt (no chime for an unknown name).
+      setTimeout(() => voiceSeq([hasNameClip(namePart) ? namePart : null, buildPrompt(t, { round: roundIdx })]), 450)
     },
     [pool, choices, buildPrompt, players, pickDistractors],
   )
@@ -105,11 +107,10 @@ export default function ChoiceGame({
           setConfettiKey(Date.now()) // a second burst for the finale
           // Twin Mode → a shared, no-winner finale that names BOTH children
           // (uses their existing name clips + the celebration line; no new audio).
-          const finale =
-            players && players.length >= 2
-              ? [...players.slice(0, 2), 'All done! Wonderful listening!']
-              : ['All done! Wonderful listening!']
-          setTimeout(() => voiceSeq(finale), 300)
+          // Say the names we have clips for, then the celebration (no chime for
+          // unknown names — they still appear on the screen).
+          const spokenNames = players ? players.slice(0, 2).filter(hasNameClip) : []
+          setTimeout(() => voiceSeq([...spokenNames, 'All done! Wonderful listening!']), 300)
         } else {
           setRound(nextRound)
           deal(nextRound)
@@ -179,7 +180,7 @@ export default function ChoiceGame({
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
-          onClick={() => target && voiceSeq([player, buildPrompt(target, { round })])}
+          onClick={() => target && voiceSeq([hasNameClip(player) ? player : null, buildPrompt(target, { round })])}
         >
           Listen again
         </button>

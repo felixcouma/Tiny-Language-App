@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-01 20:11 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-02 04:01 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `8a10438 §10 Cooperative "we did it!" Twin Mode finale (council: twin differentiator)`
 - `47561a2 Move Agent Council into tools/council as its own package`
 - `668a02e §9 In-session parent progress line (council: caregiver feedback loop)`
 - `e3f91a5 Docs: council review response + fold accepted items into backlog (§9–§13)`
 - `34fc8eb CURRENT_SESSION: Codespaces backup done/verified; tidy backlog for next pickup`
 - `a2ac73e Docs: mark Codespaces backup verified (created, secrets, Supabase redirect)`
-- `7dcfdb1 README: add "Open in GitHub Codespaces" badge`
 <!-- AUTO:END -->
 
 ---
