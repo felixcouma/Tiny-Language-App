@@ -123,18 +123,19 @@ both names + the celebration (reuses existing name clips + the "All done!" clip 
 `ChoiceGame.jsx` gates on `players.length >= 2`. Solo games keep "Wonderful listening!".
 Verified: `scripts/verify-twin-finale.mjs`.
 
-## 11. Expectant-pause option (Learning Screen) — planned
-An optional **3–5s "communicative opportunity" delay** before the Learning Screen auto-speaks
-(therapy responsiveness — create the opportunity, then wait). **Parent toggle, default OFF** so
-the frictionless sound-first launch stays the default. (We already embody this in "Say It With
-Me" — patient wait, praise only on a real attempt.)
+## 11. Expectant-pause option (Learning Screen) — ✅ DONE (2026-07-01)
+Per-child **"Wait time"** toggle in the Parent area (default OFF). When ON, the Learning screen
+holds ~4s before auto-speaking so the child gets a communicative-opportunity window to name the
+picture first; tapping the picture still speaks it immediately (no doubled speak). Auto Play stays
+snappy (pause applies to hands-on play only). Per-child field `expectantPause` (store + migration +
+cloud sync). Verified: `scripts/verify-expectant-pause.mjs`.
 
-## 12. Sound cache-budget review — tiny hygiene
-The `/sounds/` runtime cache is `maxEntries: 900` (`vite.config.js`) but total clips are ~3,000
-(3 voices × 899 phrases + words + abc-songs + fx + 13 songs). Beyond 900 MRU, clips evict and
-re-fetch on next play (graceful → chime if offline). Consider **raising `maxEntries`** (e.g.
-~3500) and/or documenting the budget. NOT a content-hash manifest (that would break the stable-URL
-self-heal). See `COUNCIL_REVIEW_RESPONSE.md` (reframe).
+## 12. Sound cache-budget review — ✅ DONE (2026-07-01)
+Raised the `/sounds/` runtime cache `maxEntries` 900 → **1600** (covers a single child's voice UI +
+the songs they play within a session; LRU beyond it evicts + re-fetches gracefully) and images
+240 → 400. Documented the byte tradeoff in `vite.config.js` (songs dominate ~29 MB; a dedicated
+song cache with its own cap is the future lever). NOT a content-hash manifest (would break the
+stable-URL self-heal). See `COUNCIL_REVIEW_RESPONSE.md`.
 
 ## 14. Twin Mode name audio for unknown names — DONE (pilot) + future (on-demand)
 Custom/renamed children have no name clip, so they can't be spoken in the warm voice.

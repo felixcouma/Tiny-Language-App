@@ -91,6 +91,8 @@ export default function ParentDashboard() {
 
         <SpeechLevel />
 
+        <ExpectantPause />
+
         <FocusWords />
 
         <Songs />
@@ -326,6 +328,36 @@ function SpeechLevel() {
         {child.name} has heard {wordsHeard} different words
         {phrasesExplored > 0 && ` · ${phrasesExplored} ${phrasesExplored === 1 ? 'phrase' : 'phrases'} explored`}.
       </p>
+    </section>
+  )
+}
+
+// Therapy responsiveness (Dunst & Trivette): optionally hold a beat before the
+// Learning screen speaks, giving the child a chance to name the picture first.
+function ExpectantPause() {
+  const child = useStore((s) => s.activeProfile())
+  const setExpectantPause = useStore((s) => s.setExpectantPause)
+  if (!child) return null
+  const on = !!child.expectantPause
+  return (
+    <section className="parent-section">
+      <h3 className="parent-h3">Wait time</h3>
+      <p className="voice-hint">
+        For {child.name} — when on, a picture appears quietly for a few seconds before Pip
+        says the word, so they get a chance to try saying it first. Tapping the picture still
+        speaks it right away. Leave off for the usual instant sound.
+      </p>
+      <div className="voice-options">
+        {[false, true].map((v) => (
+          <button
+            key={String(v)}
+            className={`voice-option ${on === v ? 'is-active' : ''}`}
+            onClick={() => setExpectantPause(v)}
+          >
+            {v ? 'On · pause first' : 'Off · speak right away'}
+          </button>
+        ))}
+      </div>
     </section>
   )
 }

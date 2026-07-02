@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { playItem, stopSpeaking, voice } from '../lib/audio'
 import TactileStage from '../components/TactileStage.jsx'
@@ -30,19 +30,30 @@ export default function LearningScreen() {
   const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
   const openChant = useStore((s) => s.openChant)
   const stage = useStore((s) => s.stage())
+  // Optional therapy "expectant pause": wait a few seconds before auto-speaking so
+  // the child gets a communicative opportunity to name the picture first (per child).
+  const expectantPause = useStore((s) => s.activeProfile()?.expectantPause || false)
   // Tracks which word's audio has finished, so Auto Play waits for the full clip
   // (word + animal sound) before advancing instead of cutting it off.
   const [playedWord, setPlayedWord] = useState(null)
+  // Whether this word has been spoken yet (via the pause timer OR a manual tap) —
+  // so a tap during the expectant pause doesn't get doubled by the pending timer.
+  const spokeRef = useRef(false)
 
   // Speak each word as it appears; mark it played once its audio finishes.
   useEffect(() => {
     if (!item) return
+    spokeRef.current = false
     let cancelled = false
+    // Auto Play stays snappy; the expectant pause applies to hands-on play only.
+    const delay = expectantPause && !autoPlay ? 4000 : 350
     const t = setTimeout(async () => {
+      if (cancelled || spokeRef.current) return
+      spokeRef.current = true
       recordHeard(item, world.id)
       await playItem(item)
       if (!cancelled) setPlayedWord(item.word)
-    }, 350)
+    }, delay)
     return () => {
       cancelled = true
       clearTimeout(t)
@@ -64,8 +75,10 @@ export default function LearningScreen() {
   const wordColor = isLight(item.color) ? '#2C3E50' : item.color
 
   const sayNow = () => {
+    spokeRef.current = true // a tap satisfies the expectant pause (no doubled speak)
     playItem(item)
     recordHeard(item, world.id)
+    setPlayedWord(item.word)
   }
 
   const onAutoPlay = () => {

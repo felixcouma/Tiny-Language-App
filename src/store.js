@@ -29,15 +29,15 @@ export const initialsOf = (name) =>
     .join('') || 'F'
 
 // A neutral "no-twin" profile so the app can be used without choosing a child.
-const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true, enabledSongs: [...DEFAULT_SONG_IDS] }
+const GUEST = { id: 'guest', name: 'Everyone', color: '#20B2AA', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, guest: true, enabledSongs: [...DEFAULT_SONG_IDS], expectantPause: false }
 // Generic, renamable children seeded at first-run setup ("How many children?").
 // One child → just child1; two → child1 + child2 (unlocks Twin Mode). Names and
 // initials are placeholders a grown-up renames in the Parent area. NOTE: an
 // existing install (e.g. the original Audrey/Adriel) keeps its own profiles —
 // loadProfiles() only seeds these on a truly fresh device.
 const GENERIC_CHILDREN = [
-  { id: 'child1', name: 'Child 1', initials: 'C1', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS] },
-  { id: 'child2', name: 'Child 2', initials: 'C2', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS] },
+  { id: 'child1', name: 'Child 1', initials: 'C1', color: '#FF1493', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS], expectantPause: false },
+  { id: 'child2', name: 'Child 2', initials: 'C2', color: '#1E90FF', stage: 'first', limit: 0, bedtime: null, phraseLevel: 1, focusWords: [], enabledSongs: [...DEFAULT_SONG_IDS], expectantPause: false },
 ]
 
 function loadJSON(key, fallback) {
@@ -82,6 +82,10 @@ function loadProfiles() {
     }
     if (!Array.isArray(next.enabledSongs)) {
       next = { ...next, enabledSongs: [...DEFAULT_SONG_IDS] }
+      changed = true
+    }
+    if (typeof next.expectantPause !== 'boolean') {
+      next = { ...next, expectantPause: false }
       changed = true
     }
     return next
@@ -287,6 +291,7 @@ export const useStore = create((set, get) => ({
       phraseLevel: 1,
       focusWords: [],
       enabledSongs: [...DEFAULT_SONG_IDS],
+      expectantPause: false,
     }
     const next = [...profs, prof]
     saveJSON(PROFILES_KEY, next)
@@ -328,6 +333,16 @@ export const useStore = create((set, get) => ({
     set((s) => {
       const profiles = s.profiles.map((p) =>
         p.id === s.activeProfileId ? { ...p, phraseLevel } : p
+      )
+      saveJSON(PROFILES_KEY, profiles)
+      return { profiles }
+    }),
+  // Therapy responsiveness: pause a few seconds before the Learning screen speaks,
+  // so the child has a "communicative opportunity" to name the picture first.
+  setExpectantPause: (on) =>
+    set((s) => {
+      const profiles = s.profiles.map((p) =>
+        p.id === s.activeProfileId ? { ...p, expectantPause: !!on } : p
       )
       saveJSON(PROFILES_KEY, profiles)
       return { profiles }

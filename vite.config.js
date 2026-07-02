@@ -32,7 +32,8 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'tv-images-v2',
-              expiration: { maxEntries: 240, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              // ~215 bundled WebP today; headroom so a fully-explored install stays cached.
+              expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
@@ -41,7 +42,13 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'tv-sounds-v3', // bumped to force-purge the old (leaked) clips for everyone
-              expiration: { maxEntries: 900, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              // We ship ~3,000 clips (3 voices × phrases + words + abc + fx) + 13 songs. This
+              // caps the cache so a single child's working set (their voice's UI + the songs
+              // they play) stays fully offline within a session; least-recently-used entries
+              // beyond it evict and re-fetch on next play (graceful → soft chime if offline).
+              // Songs dominate the BYTES (~29 MB / 13 files) — a dedicated song cache with its
+              // own small cap is a future option if storage pressure shows up on cheap tablets.
+              expiration: { maxEntries: 1600, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
