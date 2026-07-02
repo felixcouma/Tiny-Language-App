@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-02 04:40 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-02 04:41 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `328c989 Docs: capture council-driven session (§9–§12, name audio, council tool)`
 - `6736cd1 §11 Expectant-pause option + §12 sound cache-budget bump`
 - `ce2a5d1 Option 1: "Your turn!" cue + name clips for Ezra/Leila/Ethan`
 - `90fc66a Twin Mode: don't chime unknown child names (graceful name audio)`
 - `8a10438 §10 Cooperative "we did it!" Twin Mode finale (council: twin differentiator)`
 - `47561a2 Move Agent Council into tools/council as its own package`
-- `668a02e §9 In-session parent progress line (council: caregiver feedback loop)`
 <!-- AUTO:END -->
 
 ---
@@ -79,12 +79,14 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
-### 🚧 Backlog (see `docs/LEFT_TO_DO.md`)
-- **Full per-voice switching** (§3) — generate Leda/Sulafat copies of the ~800 phrase clips so the
-  voice toggle changes *everything* (Aoede is already the enforced default). ~$3–5 of the GCP credit.
-- **Real animal FX recordings + duck-quack fix** (§4) — the 5 new animals (Snake/Owl/Wolf/Goose/Crow)
-  currently use spoken sound-labels; real CC `fx/<key>.mp3` clips need ear-auditioning. Keys are pre-wired.
-- **Music Forest** build-out (richer sound-play). Optional: Word Board "mastered → retire word" mode.
+### 🚧 Backlog (see `docs/LEFT_TO_DO.md` for the numbered, status-tracked list)
+- **Song animations — Lottie + karaoke lyric sync** (§6) — scoped in `docs/SONG_ANIMATIONS_SCOPE.md`
+  (flagship *Head, Shoulders, Knees, and Toes*); needs 2 design decisions, then P1.
+- **Real animal FX recordings + duck-quack fix** (§4) — Snake/Owl/Wolf/Goose/Crow + duck; real CC
+  `fx/<key>.mp3` clips need ear-auditioning (keys pre-wired).
+- **Song length trims** (§7) — owner ear-picks trim points for the long tracks.
+- **Part C billing** (Stripe + privacy policy) — after pilot feedback sets a price.
+- Future: on-demand per-name TTS (§14), Supabase offline-merge (§13), Music Forest build-out.
 
 ### 🗂️ Code map
 ```
