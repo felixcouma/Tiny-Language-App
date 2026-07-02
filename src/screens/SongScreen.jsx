@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { SONGS, songById } from '../data/songs'
 import Mascot from '../components/Mascot.jsx'
+import SongAnimation from '../components/SongAnimation.jsx'
 import { HomeIcon } from '../components/Icons.jsx'
 import './SongScreen.css'
 
@@ -96,10 +97,10 @@ export default function SongScreen() {
       ) : (
         <>
           <div
-            className={`now-playing ${playing ? 'is-playing' : ''}`}
+            className={`now-playing ${playing ? 'is-playing' : ''} ${current?.animated ? 'is-animated' : ''}`}
             style={{ background: current ? current.grad : undefined }}
           >
-            <Mascot size={64} />
+            {current?.animated ? <SongAnimation playing={playing} /> : <Mascot size={64} />}
             <div className="np-meta">
               <div className="np-title">{current ? current.title : 'Pick a song to sing!'}</div>
               {current && <div className="np-tag">{current.tag}</div>}

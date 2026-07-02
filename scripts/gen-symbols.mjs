@@ -55,7 +55,19 @@ const STYLE =
 const NUM_WORDS = { One: 1, Two: 2, Three: 3, Four: 4, Five: 5, Six: 6, Seven: 7, Eight: 8, Nine: 9, Ten: 10 }
 const COLOURS = new Set(['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'])
 
+// Fixed character so the "Head, Shoulders, Knees and Toes" song poses read as ONE
+// consistent toddler (benchmark for song animations — see docs/SONG_ANIMATIONS_SCOPE.md).
+const SONG_CHAR =
+  'a cute happy toddler with short dark hair and a round friendly face, wearing a teal ' +
+  't-shirt and mustard-yellow shorts, whole body from head to feet visible, standing facing forward'
+
 const SUBJECT = {
+  // song poses (Head/Shoulders benchmark) — same character, one action each
+  'Song ready': `${SONG_CHAR}, arms relaxed down at their sides, big friendly smile`,
+  'Song head': `${SONG_CHAR}, both hands placed flat on the top of their head`,
+  'Song shoulders': `${SONG_CHAR}, both hands placed on their own two shoulders`,
+  'Song knees': `${SONG_CHAR}, bending forward a little, both hands on their knees`,
+  'Song toes': `${SONG_CHAR}, bending down low, both hands touching their toes on the ground`,
   // verbs
   Go: 'a cute toddler happily walking forward with motion lines', Play: 'a cute toddler playing with a colourful ball',
   Eat: 'a cute toddler eating from a spoon', Sleep: 'a cute toddler sleeping peacefully with eyes closed on a pillow',

@@ -35,6 +35,16 @@
   flex: 1;
   min-width: 0;
 }
+/* Animated song (benchmark): character on top, then title + play, centered. */
+.now-playing.is-animated {
+  flex-direction: column;
+  text-align: center;
+  gap: 4px;
+  padding-bottom: calc(var(--space-md) + 6px);
+}
+.now-playing.is-animated .np-meta {
+  flex: 0 0 auto;
+}
 .np-title {
   font-size: 19px;
   font-weight: 800;
