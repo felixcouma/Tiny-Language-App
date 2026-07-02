@@ -83,14 +83,13 @@ turns listening into word-learning. Full design + phasing + open decisions:
 **`docs/SONG_ANIMATIONS_SCOPE.md`**. Recommended flagship: *Head, Shoulders, Knees, and
 Toes*. Pairs with the deferred **karaoke highlighted-lyrics** option (shared timing data).
 
-## 7. Song length trims (owner to ear-pick trim points) — needs listening
-A few "Sing with Pip" tracks run long for toddlers. The owner will listen and mark where a
-trim is appropriate; then trim with ffmpeg and replace the file at the SAME path (self-heals
-via the `tv-sounds-v3` StaleWhileRevalidate cache). Candidates (>2 min, approx):
-- **Hokey Pokey** — ~3:59 (longest by far)
-- **Twinkle, Twinkle, Little Star** — ~2:15
-- **Hush Little Baby** — ~2:04
-All others are ~1:00–1:50 (fine). Files: `public/sounds/songs/<id>.mp3`.
+## 7. Song length trims — ✅ DONE (2026-07-02)
+Trimmed the long "Sing with Pip" tracks for toddler attention (ffmpeg-static, 2s fade-out so they
+don't cut mid-note; replaced at the SAME path → self-heals via `tv-sounds-v3` StaleWhileRevalidate):
+- **Hokey Pokey** — 3:59 → **1:30**
+- **Twinkle, Twinkle, Little Star** — 2:15 → **1:15**
+- **Hush Little Baby** (~2:04) — left as-is (owner's call); trim later if wanted, same recipe:
+  `ffmpeg -i in.mp3 -t <sec> -af "afade=t=out:st=<sec-2>:d=2" -c:a libmp3lame -b:a 192k out.mp3`.
 
 ## 8. GitHub Codespaces backup — ✅ DONE (2026-06-29)
 `.devcontainer/devcontainer.json` (Node 20 image, `npm ci` on create, ports 5173/4173

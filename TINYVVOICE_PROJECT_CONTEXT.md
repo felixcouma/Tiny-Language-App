@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-02 04:41 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-02 17:05 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6a5ca8b Docs: refresh context-doc backlog summary (per-voice done; current items)`
 - `328c989 Docs: capture council-driven session (§9–§12, name audio, council tool)`
 - `6736cd1 §11 Expectant-pause option + §12 sound cache-budget bump`
 - `ce2a5d1 Option 1: "Your turn!" cue + name clips for Ezra/Leila/Ethan`
 - `90fc66a Twin Mode: don't chime unknown child names (graceful name audio)`
 - `8a10438 §10 Cooperative "we did it!" Twin Mode finale (council: twin differentiator)`
-- `47561a2 Move Agent Council into tools/council as its own package`
 <!-- AUTO:END -->
 
 ---

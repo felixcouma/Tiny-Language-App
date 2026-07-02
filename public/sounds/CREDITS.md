@@ -37,6 +37,8 @@ indicated, information on State Department websites is in the public domain and 
 be copied and distributed without permission. Citation of the U.S. State Department
 as source of the information is appreciated."
 
-- Source: U.S. Department of State (American English). MP3s downloaded unmodified.
+- Source: U.S. Department of State (American English). Public-domain works.
+- Modifications: **Hokey Pokey** (→1:30) and **Twinkle, Twinkle, Little Star** (→1:15) were
+  length-trimmed with a 2s fade-out for toddler attention spans; the other 11 are unmodified.
 - We do **not** use any State Department seal, logo, or insignia, and imply no U.S.
   Government endorsement.
