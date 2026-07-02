@@ -16,7 +16,7 @@ npm run preview               # serve the production build
 ```
 
 ## Architecture
-- `src/store.js` — Zustand store: screen router, **profiles** (per-child progress in localStorage; **generic renamable children** — fresh devices seed only "Everyone" then ask **"how many children?"** at setup; `childCount` 1|2 gates Twin Mode; the original device keeps its AJ/AG twins via migration), `stage`, `progress` (`seen`/`lastSeen`/`byWorld`/`collected`), per-child `focusWords` + **`enabledSongs`**, gate + screen-time, and **cloud** state (`session`/`account`/`cloudStatus` — see Part B).
+- `src/store.js` — Zustand store: screen router, **profiles** (per-child progress in localStorage; **generic renamable children** — fresh devices seed only "Everyone" then ask **"how many children?"** at setup; `childCount` 1|2 gates Twin Mode; the original device keeps its AJ/AG twins via migration), `stage`, `progress` (`seen`/`lastSeen`/`byWorld`/`collected` + `daily` bucket for the parent-facing "today" line, auto-resets on date rollover), per-child `focusWords` + **`enabledSongs`** + **`expectantPause`** (Learning-screen "Wait time"), gate + screen-time, and **cloud** state (`session`/`account`/`cloudStatus` — see Part B). New per-child settings must be added to the seeds + `loadProfiles()` migration + `cloud.js` settings so they sync.
 - `src/data/content.js` — 7 worlds / 102 items (`word`, `wiki`, `say`, `soundLabel`, `expand` ladder, `sound` key); also exports `PRAISE` (rotating correct-answer praise).
 - `src/data/phraseContent.js` — speech-therapy vocab: 209 core words (frequency tiers / categories), `PHRASES` (2-/3-word banks), `imageKeyFor`/`WORD_ALIAS` (image reuse), readiness helpers.
 - `src/data/songs.js` — "Sing with Pip" catalog: 13 public-domain children's songs (exact titles, vocab `tag`, card `grad`) + `DEFAULT_SONG_IDS`. Audio in `public/sounds/songs/<id>.mp3`.
@@ -27,6 +27,10 @@ npm run preview               # serve the production build
 
 ## SaaS (Part B — optional, pilot)
 TinyVoice is now a **therapist-driven pilot**: primary surface is **Vercel** (`tiny-language-app.vercel.app`, runs serverless + has the cloud env); GitHub Pages stays a free demo. Parents can **optionally** sign in (Supabase magic link) to back up + sync each child's progress/settings and run a **30-day soft-trial** (banner only — child play is never blocked). Stack: Supabase (auth + Postgres + RLS) — tables `accounts`/`children`/`progress`. Env (`.env.local`, gitignored; set in Vercel): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_FEEDBACK_URL`. **Without** the Supabase vars the app runs fully local exactly as before. Stripe billing (Part C) is scoped but not built.
+
+## Tooling & reviews
+- **`tools/council/`** — a standalone "Agent Council" review tool (own `package.json`; Express + Anthropic SDK — kept OUT of the app's deps). `cd tools/council && npm install && npm start`. Its critiques are evaluated against the real code in **`docs/COUNCIL_REVIEW_RESPONSE.md`** (accept/reframe/decline) — treat council output as an outside-in view, not ground truth.
+- Backlog lives in **`docs/LEFT_TO_DO.md`** (numbered items, done/open status). Verify UI changes headlessly with the `scripts/verify-*.mjs` Playwright checks (each asserts 0 console errors); `npm install playwright --no-save` first (asset-gen installs prune it).
 
 ## Conventions (golden rules)
 - **No emoji, no synthetic placeholders** — real WebP illustrations + warm voice + real animal sounds.

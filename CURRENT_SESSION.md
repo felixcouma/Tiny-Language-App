@@ -3,7 +3,45 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-06-29 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
+## Latest Session — 2026-07-01 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
+
+> **Agent Council review → shipped enhancements.** The owner ran an interactive "Agent Council"
+> tool (now at `tools/council/`, its own package). Its critique was evaluated against the actual
+> codebase in **`docs/COUNCIL_REVIEW_RESPONSE.md`** (accept / reframe / decline — several council
+> claims were factually wrong about the code, e.g. Howler/PNG/runtime-TTS). The accepted items
+> were then built this session.
+
+### ✅ Shipped this session (all verified, 0 console errors)
+- **§9 In-session parent progress line** — a gentle **parent-facing** "Today with `<child>`: N new
+  words · N phrases" at session-end (game done + Rest). Per-child `daily` bucket (auto-resets on
+  date rollover) fed by `record*`. **Not** a child-facing score. `verify-progress-line.mjs`.
+- **§10 Cooperative "we did it!" Twin finale** — Twin Mode ends on a shared, **no-winner** payoff
+  ("You did it together! A & B found all 8 — great teamwork!"), double confetti, both names spoken.
+  `ChoiceGame` gates on `players.length >= 2`. `verify-twin-finale.mjs`.
+- **Twin name audio (§14 pilot)** — unknown/renamed names no longer chime. Speak the name when a
+  clip exists (`NAME_CLIP_NAMES` = audrey/adriel + **ezra/leila/ethan**, the owner's nieces/nephews
+  — 12 new clips generated), else a generic **"Your turn!"** cue. `nameCue()` in `ChoiceGame`.
+  FUTURE: on-demand per-name TTS → Supabase Storage (LEFT_TO_DO §14 — **do not lose sight**).
+- **§11 Expectant-pause option** — per-child **"Wait time"** toggle (Parent area, default OFF).
+  ON → Learning screen holds ~4s before speaking (communicative-opportunity window); tap speaks
+  immediately; Auto Play stays snappy. New per-child `expectantPause` (store + migration + sync).
+  `verify-expectant-pause.mjs`.
+- **§12 Sound cache-budget** — `/sounds/` `maxEntries` 900→1600, `/images/` 240→400, byte tradeoff
+  documented in `vite.config.js` (songs dominate; dedicated song cache is the future lever). NOT a
+  content-hash manifest (would break stable-URL self-heal).
+- **Tooling:** the Agent Council moved to **`tools/council/`** (own `package.json`; `@anthropic-ai/sdk`
+  + express + dotenv kept OUT of the app's deps). `cd tools/council && npm install && npm start`.
+
+### 📌 Backlog now — remaining items are input-gated or bigger
+- **§4 Duck quack + 5 animal FX** — owner sources + ear-auditions CC audio; keys pre-wired.
+- **§7 Song trims** — owner ear-picks trim points (Hokey Pokey ~3:59, Twinkle ~2:15, Hush ~2:04).
+- **§6 Lottie + karaoke lyric sync** — scoped (`SONG_ANIMATIONS_SCOPE.md`); needs 2 decisions, then P1.
+- **§13 offline-merge** · **§14 on-demand name TTS** — future (before heavier sync / paid tier).
+- **Part C billing** (Stripe + privacy policy) — after pilot feedback sets a price.
+
+---
+
+## Earlier Session — 2026-06-29 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
 
 > **Strategic shift:** TinyVoice is now a **therapist-driven pilot product**. Vercel is the
 > primary surface (it runs serverless + has the cloud env); GitHub Pages stays as a free demo.

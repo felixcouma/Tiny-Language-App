@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-02 04:36 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-02 04:40 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6736cd1 §11 Expectant-pause option + §12 sound cache-budget bump`
 - `ce2a5d1 Option 1: "Your turn!" cue + name clips for Ezra/Leila/Ethan`
 - `90fc66a Twin Mode: don't chime unknown child names (graceful name audio)`
 - `8a10438 §10 Cooperative "we did it!" Twin Mode finale (council: twin differentiator)`
 - `47561a2 Move Agent Council into tools/council as its own package`
 - `668a02e §9 In-session parent progress line (council: caregiver feedback loop)`
-- `e3f91a5 Docs: council review response + fold accepted items into backlog (§9–§13)`
 <!-- AUTO:END -->
 
 ---
@@ -51,7 +51,9 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
   and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
 - **Listening Game** & **Twin Mode** — listen → tap the right picture; Twin Mode does turn-taking
-  rounds naming **Audrey & Adriel**. Rotating warm praise; gentle wobble on a miss (no scores).
+  that speaks each child's name (clip when we have one — audrey/adriel/ezra/leila/ethan — else a
+  warm **"Your turn!"** cue, never a chime) and ends on a shared, **no-winner** "You did it
+  together!" finale. Rotating warm praise; gentle wobble on a miss (no scores).
 - **Word Practice / Phrase Builder** — per-child stage (`phraseLevel`): tap words, or build 2-/3-word
   phrases (`src/data/phraseContent.js`, `PhraseScreen`). Readiness graduates a child from words →
   phrases at ~25 distinct words.
@@ -69,7 +71,11 @@ sections (Build Status, Next Steps) are updated by hand each push.
   **sync** each child's progress/settings across devices and run a **30-day soft-trial** (banner
   only; child play never blocked). Fully local when Supabase env is absent. `src/lib/{supabase,cloud}.js`.
 - **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy);
-  Children (rename / 1↔2), Songs toggles, Account (sign-in/trial/delete-data); reset. No scores/pressure.
+  Children (rename / 1↔2), Songs toggles, **Wait time** (per-child expectant pause — hold a beat
+  before the Learning screen speaks so the child can try naming it first), Account
+  (sign-in/trial/delete-data); reset. No scores/pressure.
+- **In-session parent line** — a gentle, **parent-facing** "Today with `<child>`: N new words · N
+  phrases" at session-end (game done + wind-down). Per-child daily bucket, not a child score.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
