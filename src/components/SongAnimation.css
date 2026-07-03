@@ -7,10 +7,10 @@
 }
 .song-anim-stage {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 190px;
+  height: 190px;
   background: #fff;
-  border-radius: 22px;
+  border-radius: 24px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
   overflow: hidden;
 }
@@ -21,13 +21,15 @@
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  transform: scale(0.94);
+  /* scaled up a touch — the generated art has whitespace margins, so this makes
+     the child read bigger; the active pose zooms in slightly on change. */
+  transform: scale(1.04);
   transition: opacity 0.18s ease, transform 0.18s ease;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
 }
 .song-anim-pose.is-on {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.12);
 }
 .song-anim-caption {
   min-height: 40px;

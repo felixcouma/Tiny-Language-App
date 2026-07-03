@@ -6,40 +6,59 @@ const BASE = import.meta.env.BASE_URL || '/'
 // toddler). `ready` = idle. See docs/SONG_ANIMATIONS_SCOPE.md.
 const POSES = ['ready', 'head', 'shoulders', 'knees', 'toes', 'eyes', 'ears', 'mouth', 'nose']
 
-// One pose per sung word, in the song's order:
-//   Head, shoulders, knees and toes, knees and toes   (×2)
-//   And eyes and ears and mouth and nose
-//   Head, shoulders, knees and toes, knees and toes
-const V = ['head', 'shoulders', 'knees', 'toes', 'knees', 'toes']
-const FACE = ['eyes', 'ears', 'mouth', 'nose']
-const PATTERN = [...V, ...V, ...FACE, ...V] // 22 beats
-
-// Karaoke / closed-caption line for each section (beat index → line).
+// Karaoke / closed-caption line per section.
 const LINES = [
   'Head, shoulders, knees and toes, knees and toes',
   'Head, shoulders, knees and toes, knees and toes',
   'And eyes and ears and mouth and nose',
   'Head, shoulders, knees and toes, knees and toes',
 ]
-const lineFor = (i) => (i < 6 ? 0 : i < 12 ? 1 : i < 16 ? 2 : 3)
 
-// Tuned to the recording (a slow, choir-style rendition that drags a little).
-// INTRO = seconds before the first "Head"; BEAT = seconds per sung word. These
-// two numbers are the whole sync knob — adjust by ear.
-const INTRO = 0.4
-const BEAT = 0.95
+// Sung sequence: [pose, lineIndex, isPhraseEnd]. Phrase-ends ("…toes", "…nose")
+// are held longer + followed by a small gap — that's how the slow choir "drags".
+const SEQ = [
+  ['head', 0], ['shoulders', 0], ['knees', 0], ['toes', 0], ['knees', 0], ['toes', 0, true],
+  ['head', 1], ['shoulders', 1], ['knees', 1], ['toes', 1], ['knees', 1], ['toes', 1, true],
+  ['eyes', 2], ['ears', 2], ['mouth', 2], ['nose', 2, true],
+  ['head', 3], ['shoulders', 3], ['knees', 3], ['toes', 3], ['knees', 3], ['toes', 3, true],
+]
+
+// Per-word timing (seconds). The four knobs, tuned by ear to the recording:
+const INTRO = 0.4 // before the first "Head"
+const WORD = 0.85 // base per sung word
+const HOLD = 0.8 // extra on a phrase-final word (the drag)
+const GAP = 0.45 // breath between lines
+
+// Build the cue timeline once: each cue = { t (offset from INTRO), pose, line }.
+const CUES = []
+let CYCLE = 0
+{
+  let t = 0
+  for (const [pose, line, end] of SEQ) {
+    CUES.push({ t, pose, line })
+    t += WORD + (end ? HOLD + GAP : 0)
+  }
+  CYCLE = t // duration of one full pass through the song
+}
 
 /*
- * Pose + karaoke caption driven by the ACTUAL audio position (`currentTime`), so
- * it can't drift from the tune. The caption shows the sung line (closed caption)
- * while the character acts out each word; both come off the same beat grid.
- * prefers-reduced-motion handled in CSS.
+ * Pose + karaoke caption driven by the ACTUAL audio position (`currentTime`), via
+ * a per-word cue timeline (not a rigid beat) so held phrase-ends + line gaps match
+ * the slow choir rendition. Loops each CYCLE. prefers-reduced-motion handled in CSS.
  */
 export default function SongAnimation({ playing, currentTime = 0 }) {
-  const active = playing && currentTime > INTRO
-  const idx = active ? Math.floor((currentTime - INTRO) / BEAT) % PATTERN.length : -1
-  const pose = idx >= 0 ? PATTERN[idx] : 'ready'
-  const line = idx >= 0 ? LINES[lineFor(idx)] : ''
+  let pose = 'ready'
+  let line = ''
+  if (playing && currentTime > INTRO) {
+    const rel = (currentTime - INTRO) % CYCLE
+    let cue = CUES[0]
+    for (const c of CUES) {
+      if (c.t <= rel) cue = c
+      else break
+    }
+    pose = cue.pose
+    line = LINES[cue.line]
+  }
 
   return (
     <div className="song-anim">

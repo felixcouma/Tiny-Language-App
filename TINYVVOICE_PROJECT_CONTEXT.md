@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-03 04:42 UTC** on branch `feat/song-animation-benchmark`._
+> _Auto-updated on commit — last refreshed **2026-07-03 04:52 UTC** on branch `feat/song-animation-benchmark`._
 
 **Recent commits:**
 
+- `e5a5ac8 Song animation: add karaoke caption + slow tempo to the choir rendition`
 - `7b774ca Fine-tune song animation: add face verse + drive sync off audio time`
 - `2fdd8be Benchmark: Head/Shoulders song animation (our-own-style key poses)`
 - `d5b0976 §7 Trim long songs: Hokey Pokey 3:59→1:30, Twinkle 2:15→1:15`
 - `6a5ca8b Docs: refresh context-doc backlog summary (per-voice done; current items)`
 - `328c989 Docs: capture council-driven session (§9–§12, name audio, council tool)`
-- `6736cd1 §11 Expectant-pause option + §12 sound cache-budget bump`
 <!-- AUTO:END -->
 
 ---
