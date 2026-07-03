@@ -107,7 +107,7 @@ export default function SongScreen() {
             style={{ background: current ? current.grad : undefined }}
           >
             {current?.animated ? (
-              <SongAnimation playing={playing} currentTime={currentTime} />
+              <SongAnimation song={current.id} playing={playing} currentTime={currentTime} />
             ) : (
               <Mascot size={64} />
             )}

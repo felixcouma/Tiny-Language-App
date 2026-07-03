@@ -26,16 +26,12 @@ const extract = (r) => (r?.candidates?.[0]?.content?.parts || []).find((p) => p.
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const POSES = {
-  // Body verse (already generated). Uncomment to re-run.
-  // 'song-head': 'both arms raised, both hands placed flat on the top of their head',
-  // 'song-shoulders': 'both hands placed on their own two shoulders',
-  // 'song-knees': 'bending forward a little, both hands placed on their knees',
-  // 'song-toes': 'bending all the way down, both hands touching their toes near the ground',
-  // Face verse ("and eyes and ears and mouth and nose")
-  'song-eyes': 'pointing to both of their two eyes with two index fingers, big smile',
-  'song-ears': 'both hands cupping their two ears',
-  'song-mouth': 'pointing to their open smiling mouth with one index finger',
-  'song-nose': 'pointing to the tip of their nose with one index finger',
+  // "Head, Shoulders" verses — already generated (kept for reference):
+  //   song-head/shoulders/knees/toes, song-eyes/ears/mouth/nose
+  // "I'm a Little Teapot" poses (same child role-playing a teapot):
+  'song-teapot-handle': 'standing, one arm bent with that hand on their hip to make a teapot HANDLE shape, big happy smile',
+  'song-teapot-spout': 'standing, one hand on their hip (the handle) and the OTHER arm stretched straight out to the side, hand bent upward at the wrist like a teapot SPOUT',
+  'song-teapot-tip': 'leaning their whole body over to one side like a teapot tipping to pour, one arm raised and angled downward like a pouring spout, the other hand on the hip',
 }
 
 for (const [key, action] of Object.entries(POSES)) {

@@ -16,7 +16,7 @@ export const SONGS = [
   { id: 'one-two-buckle-my-shoe',            title: 'One, Two, Buckle My Shoe',          tag: 'Counting', grad: 'linear-gradient(135deg, #E84393 0%, #FF7AB6 100%)' },
   { id: 'mary-had-a-little-lamb',            title: 'Mary Had a Little Lamb',            tag: 'Animals',  grad: 'linear-gradient(135deg, #00A8B5 0%, #6FD3DC 100%)' },
   { id: 'hickory-dickory-dock',              title: 'Hickory Dickory Dock',              tag: 'Time',     grad: 'linear-gradient(135deg, #C0392B 0%, #FF7062 100%)' },
-  { id: 'im-a-little-teapot',                title: "I'm a Little Teapot",               tag: 'Actions',  grad: 'linear-gradient(135deg, #16A085 0%, #5FD0A8 100%)' },
+  { id: 'im-a-little-teapot',                title: "I'm a Little Teapot",               tag: 'Actions',  grad: 'linear-gradient(135deg, #16A085 0%, #5FD0A8 100%)', animated: true },
   { id: 'the-happy-song',                    title: 'The Happy Song',                    tag: 'Feelings', grad: 'linear-gradient(135deg, #F39C12 0%, #FFCA6B 100%)' },
   { id: 'hokey-pokey',                       title: 'Hokey Pokey',                       tag: 'Move',     grad: 'linear-gradient(135deg, #8E44AD 0%, #C58BE0 100%)' },
   { id: 'hush-little-baby',                  title: 'Hush Little Baby',                  tag: 'Lullaby',  grad: 'linear-gradient(135deg, #5C6BC0 0%, #9FA8DA 100%)' },
