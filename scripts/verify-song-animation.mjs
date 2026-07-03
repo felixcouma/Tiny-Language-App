@@ -50,17 +50,17 @@ const run = async () => {
   console.log('\n[2] Poses cycle while playing')
   // sample the active pose a few times over ~1.6s (STEP_MS=650) — expect it to move off "ready"
   const seenPoses = new Set()
-  let sawLabel = false
+  let sawCaption = false
   for (let i = 0; i < 8; i++) {
     await page.waitForTimeout(220)
     const src = await page.locator('.song-anim-pose.is-on').first().getAttribute('src').catch(() => '')
     if (src) seenPoses.add(src.split('/').pop())
-    const lbl = (await page.locator('.song-anim-label').textContent().catch(() => '')) || ''
-    if (lbl.trim()) sawLabel = true
+    const cap = (await page.locator('.song-anim-caption').textContent().catch(() => '')) || ''
+    if (/head|shoulders|knees|toes|eyes|ears|mouth|nose/i.test(cap)) sawCaption = true
   }
   const bodyPoses = [...seenPoses].filter((s) => /song-(head|shoulders|knees|toes)\.webp/.test(s))
   ok(bodyPoses.length >= 2, `cycled through multiple body poses (${[...seenPoses].join(', ')})`)
-  ok(sawLabel, 'body-part label shown during play')
+  ok(sawCaption, 'karaoke caption (lyric line) shown during play')
 
   console.log('\n[3] Console')
   ok(errors.length === 0, `0 console errors (got ${errors.length}${errors.length ? ': ' + errors[0] : ''})`)

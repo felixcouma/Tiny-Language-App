@@ -29,20 +29,19 @@
   opacity: 1;
   transform: scale(1);
 }
-.song-anim-label {
-  min-height: 26px;
-  font-size: 20px;
+.song-anim-caption {
+  min-height: 40px;
+  max-width: 300px;
+  font-size: 17px;
   font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-  animation: song-label-pop 0.3s var(--easing-bounce, ease) both;
-}
-@keyframes song-label-pop {
-  from { transform: scale(0.6); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.28);
+  transition: opacity 0.2s ease;
 }
 @media (prefers-reduced-motion: reduce) {
   .song-anim-pose { transition: none; transform: none; }
   .song-anim-pose.is-on { transform: none; }
-  .song-anim-label { animation: none; }
+  .song-anim-caption { transition: none; }
 }
