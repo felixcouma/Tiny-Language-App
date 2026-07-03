@@ -76,12 +76,25 @@ file just 404s harmlessly, so dropping the real files in is all that's needed. A
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.
 - **Grid Vocabulary**: could grow the board size / add a "mastered → retire word" mode.
 
-## 6. Song animations (Lottie / vector sync) — SCOPED, not built
-"Sing with Pip" (13 PD songs) is shipped. Next upgrade: light vector animations that act
-out each song's lyrics (e.g. point to head/shoulders/knees/toes), synced to the audio —
-turns listening into word-learning. Full design + phasing + open decisions:
-**`docs/SONG_ANIMATIONS_SCOPE.md`**. Recommended flagship: *Head, Shoulders, Knees, and
-Toes*. Pairs with the deferred **karaoke highlighted-lyrics** option (shared timing data).
+## 6. Song animations — BENCHMARK DONE & APPROACH APPROVED (2026-07-02); rollout pending
+Flagship **Head, Shoulders, Knees, and Toes** shipped (`SongAnimation.jsx`, wired via
+`songs.js` `animated: true`). **Owner approved: build our own, don't source** — sourced
+Lottie/video are Cloudflare-gated + style-inconsistent + license-fussy; our-own is consistent,
+clean-licensed, tiny (~11 KB/frame) and keeps our audio + Pip identity. Validated approach =
+**generated, anchor-conditioned key-pose frames** + an **audio-time-driven per-word cue
+timeline** + a **karaoke caption**. Full design in `docs/SONG_ANIMATIONS_SCOPE.md`.
+
+**Per-song production recipe (repeatable):**
+1. Add a `SONG_CHAR` + pose subjects in `scripts/gen-symbols.mjs`; generate a `ready` pose
+   (Vertex), then `node scripts/gen-song-poses.mjs` to anchor-condition the action poses to it
+   (so it's ONE consistent child). `optimize-images.mjs --replace` → `song-<pose>.webp` (~11 KB).
+2. Author the cue timeline in the animation (pose sequence + lyric lines + INTRO/WORD/HOLD/GAP,
+   tuned by ear to that recording). Set `animated: true` on the song.
+3. `verify-song-animation.mjs` + on-device check.
+
+**Next:** roll out to more songs (continuous-motion ones like Wheels on the Bus / Itsy Bitsy
+cost more than pose-based ones — extrapolate). Optional polish: exact per-word sync via audio
+onset-detection; per-word karaoke highlight (not just line caption).
 
 ## 7. Song length trims — ✅ DONE (2026-07-02)
 Trimmed the long "Sing with Pip" tracks for toddler attention (ffmpeg-static, 2s fade-out so they

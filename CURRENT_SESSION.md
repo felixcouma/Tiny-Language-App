@@ -32,10 +32,19 @@
 - **Tooling:** the Agent Council moved to **`tools/council/`** (own `package.json`; `@anthropic-ai/sdk`
   + express + dotenv kept OUT of the app's deps). `cd tools/council && npm install && npm start`.
 
+### 🎬 Song animations — benchmark built & approach APPROVED (2026-07-02)
+Flagship **Head, Shoulders, Knees, and Toes** ships an in-app animation: a **consistent toddler**
+(generated + anchor-conditioned key-pose frames, ~11 KB each) acts out head/shoulders/knees/toes +
+eyes/ears/mouth/nose, driven by the **actual audio time** (per-word cue timeline modelling the slow
+choir "drag") with a **karaoke caption**. `SongAnimation.jsx`, `songs.js animated:true`,
+`gen-song-poses.mjs`, `verify-song-animation.mjs`. **Decision: build our own, not source** (Lottie
+& Pixabay video are Cloudflare-gated + style-inconsistent + license-fussy — sourcing attempts in
+`.verify-shots/`). Rollout recipe: `LEFT_TO_DO §6`. §7 song trims also done earlier this session.
+
 ### 📌 Backlog now — remaining items are input-gated or bigger
+- **Roll out song animations to more songs** (§6 recipe) — pose-based songs are cheap; continuous-
+  motion (Wheels on the Bus, Itsy Bitsy) cost more. Optional: exact per-word sync via onset detection.
 - **§4 Duck quack + 5 animal FX** — owner sources + ear-auditions CC audio; keys pre-wired.
-- **§7 Song trims** — owner ear-picks trim points (Hokey Pokey ~3:59, Twinkle ~2:15, Hush ~2:04).
-- **§6 Lottie + karaoke lyric sync** — scoped (`SONG_ANIMATIONS_SCOPE.md`); needs 2 decisions, then P1.
 - **§13 offline-merge** · **§14 on-demand name TTS** — future (before heavier sync / paid tier).
 - **Part C billing** (Stripe + privacy policy) — after pilot feedback sets a price.
 

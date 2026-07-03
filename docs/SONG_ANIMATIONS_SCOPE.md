@@ -1,7 +1,11 @@
-# Scope — Song animations (Lottie / vector sync)
+# Scope — Song animations
 
-> Status: **scoping** (not built). Future upgrade to the "Sing with Pip" feature
-> (`src/screens/SongScreen.jsx`, `src/data/songs.js`). Owner-requested 2026-06-29.
+> Status: **BENCHMARK BUILT & APPROACH APPROVED (2026-07-02).** Flagship *Head, Shoulders,
+> Knees, and Toes* shipped (`SongAnimation.jsx`). Decision: **build our own** (generated,
+> anchor-conditioned key-pose frames + audio-time cue timeline + karaoke caption) — NOT sourced
+> Lottie/video (Cloudflare-gated, style-inconsistent, license-fussy; see the sourcing attempts in
+> `.verify-shots/LOTTIE_BENCHMARK.md`). Per-song rollout recipe: `docs/LEFT_TO_DO.md §6`.
+> Below is the original scope that led here (some options were superseded by the built approach).
 
 ## Context — why
 "Sing with Pip" plays 13 public-domain children's songs as audio + a coloured card.
