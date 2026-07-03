@@ -19,15 +19,23 @@ const ai = new GoogleGenAI({
   project: process.env.VERTEX_PROJECT,
   location: process.env.VERTEX_LOCATION || 'global',
 })
-const base = readFileSync(path.join(IMG, 'song-ready.png')).toString('base64')
+// Anchor on the optimized WebP (the PNG is removed after optimize-images).
+const ANCHOR_MIME = 'image/webp'
+const base = readFileSync(path.join(IMG, 'song-ready.webp')).toString('base64')
 const extract = (r) => (r?.candidates?.[0]?.content?.parts || []).find((p) => p.inlineData?.data)?.inlineData?.data
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 const POSES = {
-  'song-head': 'both arms raised, both hands placed flat on the top of their head',
-  'song-shoulders': 'both hands placed on their own two shoulders',
-  'song-knees': 'bending forward a little, both hands placed on their knees',
-  'song-toes': 'bending all the way down, both hands touching their toes near the ground',
+  // Body verse (already generated). Uncomment to re-run.
+  // 'song-head': 'both arms raised, both hands placed flat on the top of their head',
+  // 'song-shoulders': 'both hands placed on their own two shoulders',
+  // 'song-knees': 'bending forward a little, both hands placed on their knees',
+  // 'song-toes': 'bending all the way down, both hands touching their toes near the ground',
+  // Face verse ("and eyes and ears and mouth and nose")
+  'song-eyes': 'pointing to both of their two eyes with two index fingers, big smile',
+  'song-ears': 'both hands cupping their two ears',
+  'song-mouth': 'pointing to their open smiling mouth with one index finger',
+  'song-nose': 'pointing to the tip of their nose with one index finger',
 }
 
 for (const [key, action] of Object.entries(POSES)) {
@@ -40,7 +48,7 @@ for (const [key, action] of Object.entries(POSES)) {
   try {
     const resp = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
-      contents: [{ role: 'user', parts: [{ inlineData: { mimeType: 'image/png', data: base } }, { text: prompt }] }],
+      contents: [{ role: 'user', parts: [{ inlineData: { mimeType: ANCHOR_MIME, data: base } }, { text: prompt }] }],
       config: { responseModalities: ['IMAGE'] },
     })
     const d = extract(resp)

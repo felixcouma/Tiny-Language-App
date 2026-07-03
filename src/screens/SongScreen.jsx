@@ -35,16 +35,21 @@ export default function SongScreen() {
   const [currentId, setCurrentId] = useState(null)
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0) // seconds — drives SongAnimation sync
   const audioRef = useRef(null)
 
   useEffect(() => {
     const a = new Audio()
     a.preload = 'none'
     audioRef.current = a
-    const onTime = () => setProgress(a.duration ? a.currentTime / a.duration : 0)
+    const onTime = () => {
+      setProgress(a.duration ? a.currentTime / a.duration : 0)
+      setCurrentTime(a.currentTime)
+    }
     const onEnd = () => {
       setPlaying(false)
       setProgress(0)
+      setCurrentTime(0)
     }
     a.addEventListener('timeupdate', onTime)
     a.addEventListener('ended', onEnd)
@@ -71,6 +76,7 @@ export default function SongScreen() {
     a.src = `${BASE}sounds/songs/${id}.mp3`
     setCurrentId(id)
     setProgress(0)
+    setCurrentTime(0)
     a.play().then(() => setPlaying(true)).catch(() => setPlaying(false))
   }
 
@@ -100,7 +106,11 @@ export default function SongScreen() {
             className={`now-playing ${playing ? 'is-playing' : ''} ${current?.animated ? 'is-animated' : ''}`}
             style={{ background: current ? current.grad : undefined }}
           >
-            {current?.animated ? <SongAnimation playing={playing} /> : <Mascot size={64} />}
+            {current?.animated ? (
+              <SongAnimation playing={playing} currentTime={currentTime} />
+            ) : (
+              <Mascot size={64} />
+            )}
             <div className="np-meta">
               <div className="np-title">{current ? current.title : 'Pick a song to sing!'}</div>
               {current && <div className="np-tag">{current.tag}</div>}

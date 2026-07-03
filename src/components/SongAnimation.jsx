@@ -1,40 +1,40 @@
-import { useEffect, useRef, useState } from 'react'
 import './SongAnimation.css'
 
 const BASE = import.meta.env.BASE_URL || '/'
 
-// "Head, Shoulders, Knees and Toes" benchmark: our-own-style key-pose frames
-// (generated via the app's Vertex image pipeline → consistent with all other art).
-// The character cycles through the four actions while the real song plays; the
-// on-screen word names the part in sync with the pose (self-consistent — the label
-// matches the pose regardless of the recording's exact timing). See
-// docs/SONG_ANIMATIONS_SCOPE.md. Exact lyric-lock timing is the follow-up (P1).
-const POSES = ['ready', 'head', 'shoulders', 'knees', 'toes']
-const CYCLE = [
-  { pose: 'head', label: 'Head!' },
-  { pose: 'shoulders', label: 'Shoulders!' },
-  { pose: 'knees', label: 'Knees!' },
-  { pose: 'toes', label: 'Toes!' },
+// Our-own-style key-pose frames (generated + anchor-conditioned → one consistent
+// toddler). `ready` = idle. See docs/SONG_ANIMATIONS_SCOPE.md.
+const POSES = ['ready', 'head', 'shoulders', 'knees', 'toes', 'eyes', 'ears', 'mouth', 'nose']
+
+// "Head, Shoulders, Knees and Toes" — one entry per sung word, in order:
+//   Head, shoulders, knees and toes, knees and toes  (×2)
+//   And eyes and ears and mouth and nose
+//   Head, shoulders, knees and toes, knees and toes
+const V = [
+  ['head', 'Head!'], ['shoulders', 'Shoulders!'], ['knees', 'Knees!'], ['toes', 'Toes!'],
+  ['knees', 'Knees!'], ['toes', 'Toes!'],
 ]
-const STEP_MS = 650
+const FACE = [['eyes', 'Eyes!'], ['ears', 'Ears!'], ['mouth', 'Mouth!'], ['nose', 'Nose!']]
+const PATTERN = [...V, ...V, ...FACE, ...V]
 
-export default function SongAnimation({ playing }) {
-  const [idx, setIdx] = useState(-1) // -1 → the "ready" pose (paused/idle)
-  const timer = useRef(null)
+// Tuned to the recording (public/sounds/songs/head-shoulders-knees-and-toes.mp3).
+// INTRO = seconds before the first "Head"; BEAT = seconds per sung word. These two
+// numbers are the whole sync knob — adjust by ear if it drifts.
+const INTRO = 0.4
+const BEAT = 0.58
 
-  useEffect(() => {
-    clearInterval(timer.current)
-    if (!playing) {
-      setIdx(-1)
-      return
-    }
-    setIdx(0)
-    timer.current = setInterval(() => setIdx((i) => (i + 1) % CYCLE.length), STEP_MS)
-    return () => clearInterval(timer.current)
-  }, [playing])
-
-  const cur = idx < 0 ? { pose: 'ready', label: '' } : CYCLE[idx]
-
+/*
+ * Pose animation driven by the ACTUAL audio position (`currentTime` from the
+ * <audio> element), so it can't drift from the tune — it always maps the current
+ * playback second to the right sung word. Self-consistent: the on-screen word
+ * matches the on-screen pose. prefers-reduced-motion handled in CSS.
+ */
+export default function SongAnimation({ playing, currentTime = 0 }) {
+  let cur = { pose: 'ready', label: '' }
+  if (playing && currentTime > INTRO) {
+    const [pose, label] = PATTERN[Math.floor((currentTime - INTRO) / BEAT) % PATTERN.length]
+    cur = { pose, label }
+  }
   return (
     <div className="song-anim">
       <div className="song-anim-stage">
@@ -48,7 +48,7 @@ export default function SongAnimation({ playing }) {
           />
         ))}
       </div>
-      <div className="song-anim-label" key={cur.label || 'ready'}>
+      <div className="song-anim-label" key={`${cur.label}-${Math.floor((currentTime - INTRO) / BEAT)}`}>
         {cur.label}
       </div>
     </div>

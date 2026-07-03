@@ -16,10 +16,11 @@ const seed = `
   localStorage.setItem('tv_onboarded','true');
   localStorage.setItem('tv_muted','0');
   class FakeAudio extends EventTarget {
-    constructor(s){ super(); this._src=''; this.paused=true; this.duration=64; this.currentTime=0; if(s) this.src=s; }
-    set src(v){ this._src=v; } get src(){ return this._src; }
+    constructor(s){ super(); this._src=''; this.paused=true; this.duration=64; this.currentTime=0; this._t=null; if(s) this.src=s; }
+    set src(v){ this._src=v; this.currentTime=0; } get src(){ return this._src; }
     set preload(v){} removeAttribute(){ this._src=''; }
-    play(){ this.paused=false; return Promise.resolve(); } pause(){ this.paused=true; } load(){}
+    play(){ this.paused=false; clearInterval(this._t); this._t=setInterval(()=>{ this.currentTime+=0.15; this.dispatchEvent(new Event('timeupdate')); }, 60); return Promise.resolve(); }
+    pause(){ this.paused=true; clearInterval(this._t); } load(){}
   }
   window.Audio = FakeAudio;
 `
@@ -44,7 +45,7 @@ const run = async () => {
   await page.waitForTimeout(300)
   ok((await page.locator('.now-playing.is-animated').count()) === 1, 'now-playing is in animated mode')
   ok((await page.locator('.song-anim').count()) === 1, 'SongAnimation rendered (not just Pip)')
-  ok((await page.locator('.song-anim-pose').count()) === 5, 'all 5 pose frames present')
+  ok((await page.locator('.song-anim-pose').count()) === 9, 'all 9 pose frames present (body + face verses)')
 
   console.log('\n[2] Poses cycle while playing')
   // sample the active pose a few times over ~1.6s (STEP_MS=650) — expect it to move off "ready"
