@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-03 05:07 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-06 20:57 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `4b4825b Animate "I'm a Little Teapot" + make song animations config-driven`
 - `5702b32 Docs: song-animation benchmark approved — record approach + rollout recipe`
 - `380c0ef Song animation: per-word cue timeline (models choir drag) + bigger child`
 - `e5a5ac8 Song animation: add karaoke caption + slow tempo to the choir rendition`
 - `7b774ca Fine-tune song animation: add face verse + drive sync off audio time`
 - `2fdd8be Benchmark: Head/Shoulders song animation (our-own-style key poses)`
-- `d5b0976 §7 Trim long songs: Hokey Pokey 3:59→1:30, Twinkle 2:15→1:15`
 <!-- AUTO:END -->
 
 ---

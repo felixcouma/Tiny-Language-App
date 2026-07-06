@@ -14,7 +14,7 @@ export default function SongAnimation({ song, playing, currentTime = 0 }) {
   const cfg = SONG_ANIMATIONS[song]
   if (!cfg) return null
 
-  let pose = 'ready'
+  let pose = cfg.poses[0]
   let line = ''
   if (playing && currentTime > cfg.timing.intro) {
     const rel = (currentTime - cfg.timing.intro) % cfg.cycle
