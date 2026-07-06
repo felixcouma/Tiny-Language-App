@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `53e485d Animate 10 more songs as config-driven character animations`
 - `4b4825b Animate "I'm a Little Teapot" + make song animations config-driven`
 - `5702b32 Docs: song-animation benchmark approved — record approach + rollout recipe`
 - `380c0ef Song animation: per-word cue timeline (models choir drag) + bigger child`
 - `e5a5ac8 Song animation: add karaoke caption + slow tempo to the choir rendition`
 - `7b774ca Fine-tune song animation: add face verse + drive sync off audio time`
-- `2fdd8be Benchmark: Head/Shoulders song animation (our-own-style key poses)`
 <!-- AUTO:END -->
 
 ---

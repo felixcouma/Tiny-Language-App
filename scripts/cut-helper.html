@@ -1,0 +1,119 @@
+<!doctype html>
+<!--
+  Song cut-finder — a review aid (NOT part of the app). Open this file directly in a
+  browser (double-click, or File ▸ Open). Pick a song, play/scrub with the native bar,
+  watch the big live timecode, and hit "Mark" (or the M key) at the moment you want to
+  cut. Copy the marked timestamps back to me and I'll trim the mp3.
+
+  Audio is loaded relative to this file: ../public/sounds/songs/<id>.mp3
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Song cut-finder</title>
+<style>
+  :root { color-scheme: light; }
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 24px; background: #10151f; color: #eef2f8; }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 800; margin: 0 0 16px; }
+  select, audio { width: 100%; }
+  select { padding: 10px; font-size: 16px; border-radius: 10px; margin-bottom: 16px; }
+  audio { margin-bottom: 16px; }
+  .time { font-variant-numeric: tabular-nums; font-weight: 800; text-align: center;
+          font-size: 56px; letter-spacing: 1px; margin: 8px 0 4px; }
+  .dur { text-align: center; color: #8b98ad; margin-bottom: 18px; font-variant-numeric: tabular-nums; }
+  button { font-size: 16px; font-weight: 700; padding: 12px 18px; border: 0; border-radius: 12px; cursor: pointer; }
+  .mark { background: #ff7062; color: #fff; width: 100%; }
+  .hint { color: #8b98ad; font-size: 13px; text-align: center; margin: 10px 0 20px; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #1b2330;
+       border-radius: 10px; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+  li .t { font-size: 20px; font-weight: 800; flex: 0 0 auto; }
+  li .s { color: #8b98ad; font-size: 13px; flex: 1; }
+  li button { background: #2b3648; color: #eef2f8; padding: 6px 10px; font-size: 13px; }
+  .row { display: flex; gap: 8px; }
+  .row button { flex: 1; }
+  .ghost { background: #2b3648; color: #eef2f8; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎵 Song cut-finder</h1>
+  <select id="song"></select>
+  <audio id="audio" controls preload="auto"></audio>
+  <div class="time" id="time">0:00.000</div>
+  <div class="dur" id="dur">/ 0:00.000</div>
+  <button class="mark" id="mark">Mark cut point &nbsp;(press&nbsp;M)</button>
+  <div class="hint">Space = play/pause · ← / → = nudge 0.1s · M = mark</div>
+  <div class="row" style="margin-bottom:16px">
+    <button class="ghost" id="copy">Copy all marks</button>
+    <button class="ghost" id="clear">Clear marks</button>
+  </div>
+  <ul id="marks"></ul>
+</div>
+<script>
+  const SONGS = [
+    ['im-a-little-teapot', "I'm a Little Teapot"],
+    ['the-alphabet-song', 'The Alphabet Song'],
+    ['head-shoulders-knees-and-toes', 'Head, Shoulders, Knees, and Toes'],
+    ['bingo', 'Bingo'],
+    ['twinkle-twinkle-little-star', 'Twinkle, Twinkle, Little Star'],
+    ['one-two-buckle-my-shoe', 'One, Two, Buckle My Shoe'],
+    ['mary-had-a-little-lamb', 'Mary Had a Little Lamb'],
+    ['hickory-dickory-dock', 'Hickory Dickory Dock'],
+    ['the-happy-song', 'The Happy Song'],
+    ['hokey-pokey', 'Hokey Pokey'],
+    ['hush-little-baby', 'Hush Little Baby'],
+    ['are-you-sleeping', 'Are You Sleeping?'],
+    ['over-the-river-and-through-the-woods', 'Over the River and Through the Woods'],
+  ]
+  const $ = (id) => document.getElementById(id)
+  const audio = $('audio'), sel = $('song'), marks = $('marks')
+  for (const [id, title] of SONGS) {
+    const o = document.createElement('option'); o.value = id; o.textContent = title; sel.appendChild(o)
+  }
+  const fmt = (s) => {
+    if (!isFinite(s)) return '0:00.000'
+    const m = Math.floor(s / 60), sec = Math.floor(s % 60), ms = Math.floor((s % 1) * 1000)
+    return `${m}:${String(sec).padStart(2, '0')}.${String(ms).padStart(3, '0')}`
+  }
+  const load = () => {
+    audio.src = `../public/sounds/songs/${sel.value}.mp3`
+    audio.load()
+  }
+  sel.addEventListener('change', load)
+  audio.addEventListener('loadedmetadata', () => { $('dur').textContent = '/ ' + fmt(audio.duration) })
+  const tick = () => { $('time').textContent = fmt(audio.currentTime); requestAnimationFrame(tick) }
+  requestAnimationFrame(tick)
+
+  const addMark = () => {
+    const t = audio.currentTime
+    const li = document.createElement('li')
+    const label = SONGS.find((s) => s[0] === sel.value)[1]
+    li.innerHTML = `<span class="t">${fmt(t)}</span><span class="s">${t.toFixed(3)}s · ${label}</span>`
+    const copy = document.createElement('button'); copy.textContent = 'copy'
+    copy.onclick = () => navigator.clipboard.writeText(`${fmt(t)} (${t.toFixed(3)}s)`)
+    const del = document.createElement('button'); del.textContent = '✕'
+    del.onclick = () => li.remove()
+    li.append(copy, del)
+    marks.prepend(li)
+  }
+  $('mark').onclick = addMark
+  $('clear').onclick = () => { marks.innerHTML = '' }
+  $('copy').onclick = () => {
+    const lines = [...marks.querySelectorAll('li')].reverse()
+      .map((li) => li.querySelector('.t').textContent + '  (' + li.querySelector('.s').textContent + ')')
+    navigator.clipboard.writeText(lines.join('\n'))
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'SELECT') return
+    if (e.key === 'm' || e.key === 'M') { e.preventDefault(); addMark() }
+    else if (e.key === ' ') { e.preventDefault(); audio.paused ? audio.play() : audio.pause() }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); audio.currentTime = Math.min(audio.duration || 1e9, audio.currentTime + 0.1) }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); audio.currentTime = Math.max(0, audio.currentTime - 0.1) }
+  })
+  load()
+</script>
+</body>
+</html>
