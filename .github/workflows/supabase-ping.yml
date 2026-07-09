@@ -20,8 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Supabase REST API
+        # Query a real table (limit 1) rather than the /rest/v1/ root: the root schema
+        # endpoint is service_role-only, whereas a table read is allowed with the anon
+        # key and returns 200 (RLS just yields an empty set) — and it exercises Postgres,
+        # which is what keeps the project from pausing. --fail makes a real outage red.
         run: |
           curl --fail --silent --show-error --output /dev/null --write-out "HTTP %{http_code}\n" \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/accounts?limit=1" \
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
