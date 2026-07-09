@@ -1,0 +1,27 @@
+name: Supabase Ping
+
+# Keeps the free-tier Supabase project from pausing. A Supabase project on the free
+# plan sleeps after ~7 days with no API activity; a lightweight REST ping every 3 days
+# keeps it warm so cloud sync / magic-link auth stay available.
+#
+# Requires two repo secrets (Settings -> Secrets and variables -> Actions -> Secrets):
+#   SUPABASE_URL        e.g. https://xxxx.supabase.co   (same value as VITE_SUPABASE_URL)
+#   SUPABASE_ANON_KEY   the anon/public key             (same value as VITE_SUPABASE_ANON_KEY)
+# The anon key is the public client key (already shipped in the web build), not the
+# service_role key — never put the service_role key here.
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *'   # 00:00 UTC every 3 days
+  workflow_dispatch: {}      # allow a manual run from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          curl --fail --silent --show-error --output /dev/null --write-out "HTTP %{http_code}\n" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
