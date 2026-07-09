@@ -12,9 +12,12 @@
 const build = (cfg) => {
   const cues = []
   let t = 0
-  for (const [pose, line, end] of cfg.seq) {
+  for (const [pose, line, end, extra] of cfg.seq) {
     cues.push({ t, pose, line })
-    t += cfg.timing.word + (end ? cfg.timing.hold + cfg.timing.gap : 0)
+    // word = one beat; end adds the standard phrase drag; extra = a one-off pause in
+    // seconds for a specific boundary (e.g. a breath before a new phrase) without
+    // affecting the global tempo.
+    t += cfg.timing.word + (end ? cfg.timing.hold + cfg.timing.gap : 0) + (extra || 0)
   }
   return { ...cfg, cues, cycle: t }
 }
@@ -34,6 +37,10 @@ const bingoAnim = () => {
     const intro = line('There was a farmer had a dog')
     const nameo = line('And Bingo was his name-o')
     const spell = line(LETTERS.map((l, i) => (i < claps ? 'clap' : l)).join(' – '))
+    // The recording settles ~1s behind our model once the real clapping starts. Add a
+    // one-time lead-in at the 2-clap verse (≈2 beats) so verses 2→6 all shift back onto
+    // the beat by the same amount, while round 1 and the 1-clap verse stay untouched.
+    if (claps === 2) { seq.push(['bingo-dog', intro]); seq.push(['bingo-dog', intro]) }
     seq.push(['bingo-dog', intro, true])
     seq.push(['bingo-bark', nameo, true])
     for (let rep = 0; rep < 3; rep++)
@@ -42,6 +49,8 @@ const bingoAnim = () => {
     seq.push(['bingo-wag', nameo, true])
   }
   return { poses: ['bingo-dog', 'bingo-bark', 'bingo-clap', 'bingo-wag'], lines, seq,
+    // word keeps round 1 & the 1-clap verse synced (both confirmed good by ear); the
+    // 2-clap lead-in above handles the ~1s offset that appears once clapping starts.
     timing: { intro: 0.4, word: 0.52, hold: 0.5, gap: 0.32 } }
 }
 
@@ -55,12 +64,17 @@ export const SONG_ANIMATIONS = {
       'Head, shoulders, knees and toes, knees and toes',
     ],
     seq: [
-      ['head', 0], ['shoulders', 0], ['knees', 0], ['toes', 0], ['knees', 0], ['toes', 0, true],
-      ['head', 1], ['shoulders', 1], ['knees', 1], ['toes', 1], ['knees', 1], ['toes', 1, true],
-      ['eyes', 2], ['ears', 2], ['mouth', 2], ['nose', 2, true],
-      ['head', 3], ['shoulders', 3], ['knees', 3], ['toes', 3], ['knees', 3], ['toes', 3, true],
+      // rounds 1→2 flow with no pause; a small breath (extra) before the eyes line and
+      // before the final round, where the recording actually pauses.
+      ['head', 0], ['shoulders', 0], ['knees', 0], ['toes', 0], ['knees', 0], ['toes', 0],
+      ['head', 1], ['shoulders', 1], ['knees', 1], ['toes', 1], ['knees', 1], ['toes', 1, false, 0.35],
+      ['eyes', 2], ['ears', 2], ['mouth', 2], ['nose', 2, false, 0.65],
+      ['head', 3], ['shoulders', 3], ['knees', 3], ['toes', 3], ['knees', 3], ['toes', 3],
     ],
-    timing: { intro: 0.4, word: 0.85, hold: 0.8, gap: 0.45 },
+    // Round 1 confirmed on-beat at word 0.8, so the tempo is right; the song flows
+    // straight into the next round with NO pause, so hold+gap (the phrase drag) is 0 —
+    // otherwise the last "toes" freezes for a split second and starts round 2 late.
+    timing: { intro: 0.4, word: 0.8, hold: 0, gap: 0 },
   }),
 
   'im-a-little-teapot': build({

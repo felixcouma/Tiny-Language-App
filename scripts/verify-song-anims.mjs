@@ -65,8 +65,10 @@ const run = async () => {
     const srcs = await page.locator('.song-anim-pose').evaluateAll((els) => els.map((e) => e.getAttribute('src').split('/').pop()))
     ok(srcs.every((x) => x.startsWith(`song-${s.prefix}-`)), `all frames are ${s.prefix} poses (${srcs.join(', ')})`)
 
+    // Sample enough of the (sped-up fake) audio to span more than one phrase — Bingo's
+    // round 1 is all one pose, so a short window would miss its later clap poses.
     const seen = new Set(); let sawCap = false
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 32; i++) {
       await page.waitForTimeout(200)
       const src = await page.locator('.song-anim-pose.is-on').first().getAttribute('src').catch(() => '')
       if (src) seen.add(src.split('/').pop())
