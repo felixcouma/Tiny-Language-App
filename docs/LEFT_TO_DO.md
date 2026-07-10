@@ -76,33 +76,36 @@ file just 404s harmlessly, so dropping the real files in is all that's needed. A
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.
 - **Grid Vocabulary**: could grow the board size / add a "mastered → retire word" mode.
 
-## 6. Song animations — BENCHMARK DONE & APPROACH APPROVED (2026-07-02); rollout pending
-Flagship **Head, Shoulders, Knees, and Toes** shipped (`SongAnimation.jsx`, wired via
-`songs.js` `animated: true`). **Owner approved: build our own, don't source** — sourced
-Lottie/video are Cloudflare-gated + style-inconsistent + license-fussy; our-own is consistent,
-clean-licensed, tiny (~11 KB/frame) and keeps our audio + Pip identity. Validated approach =
-**generated, anchor-conditioned key-pose frames** + an **audio-time-driven per-word cue
-timeline** + a **karaoke caption**. Full design in `docs/SONG_ANIMATIONS_SCOPE.md`.
+## 6. Song animations — ✅ ROLLED OUT to all 13 songs, config-driven (2026-07-10)
+Every song now animates. `SongAnimation.jsx` reads per-song data from
+**`src/data/songAnimations.js`** (poses / lyric lines / cue `seq` / timing); `build()` has an
+optional per-cue **`extra`** pause for a single phrase boundary. Each animated song is ONE
+consistent character/subject acting out its lyrics — the **base pose is drawn fresh, action poses
+are anchored on it** for consistency, via the now **multi-song** `scripts/gen-song-poses.mjs
+--song <name>` (→ `optimize-images.mjs --replace` → `song-<key>.webp`, 10–38 KB).
 
-**Per-song production recipe (repeatable):**
-1. Add a `SONG_CHAR` + pose subjects in `scripts/gen-symbols.mjs`; generate a `ready` pose
-   (Vertex), then `node scripts/gen-song-poses.mjs` to anchor-condition the action poses to it
-   (so it's ONE consistent child). `optimize-images.mjs --replace` → `song-<pose>.webp` (~11 KB).
-2. Author the cue timeline in the animation (pose sequence + lyric lines + INTRO/WORD/HOLD/GAP,
-   tuned by ear to that recording). Set `animated: true` on the song.
-3. `verify-song-animation.mjs` + on-device check.
+**Adding/redoing a song:** add an entry to `SONGS` in `gen-song-poses.mjs` (base pose `anchor:null`
+first) → generate + optimize → add a config in `songAnimations.js` → set `animated:true` in
+`songs.js` → `scripts/verify-song-anims.mjs` + on-device check. Full design in
+`docs/SONG_ANIMATIONS_SCOPE.md`.
 
-**Next:** roll out to more songs (continuous-motion ones like Wheels on the Bus / Itsy Bitsy
-cost more than pose-based ones — extrapolate). Optional polish: exact per-word sync via audio
-onset-detection; per-word karaoke highlight (not just line caption).
+Notable: **teapot is an orange teapot CHARACTER** (was a child role-play); **Bingo models the clap
+game** (each verse drops a leading letter for a clap, CC shows the letters); Alphabet/Sleeping/Hush/
+River use themed characters; One-Two-Buckle/Hokey/Happy **reuse the Head/Shoulders child**.
 
-## 7. Song length trims — ✅ DONE (2026-07-02)
-Trimmed the long "Sing with Pip" tracks for toddler attention (ffmpeg-static, 2s fade-out so they
-don't cut mid-note; replaced at the SAME path → self-heals via `tv-sounds-v3` StaleWhileRevalidate):
-- **Hokey Pokey** — 3:59 → **1:30**
-- **Twinkle, Twinkle, Little Star** — 2:15 → **1:15**
-- **Hush Little Baby** (~2:04) — left as-is (owner's call); trim later if wanted, same recipe:
-  `ffmpeg -i in.mp3 -t <sec> -af "afade=t=out:st=<sec-2>:d=2" -c:a libmp3lame -b:a 192k out.mp3`.
+**Remaining (optional polish):** ear-pass the newer songs' timing (Head/Shoulders + Bingo already
+tuned); **confirm "The Happy Song" lyrics** (captions are a best-guess, caption-only fix); exact
+per-word sync via onset detection; per-word karaoke highlight (not just the line caption).
+
+## 7. Song length trims — ✅ DONE (2026-07-02, extended 2026-07-10)
+Trimmed the long "Sing with Pip" tracks for toddler attention (ffmpeg-static, fade-out so they
+don't cut mid-note; replaced at the SAME path → self-heals via StaleWhileRevalidate).
+- 2026-07-02: **Hokey Pokey** 3:59 → **1:30**, **Twinkle** 2:15 → **1:15**.
+- 2026-07-10: **8 recordings cut to song-only** cut points — owner marked them with
+  `scripts/cut-helper.html` (standalone timecode/mark tool), applied by **`scripts/trim-songs.mjs`**
+  (0.5s fade, idempotent, skips OS-locked files): teapot (dropped a ~24s non-teapot tail,
+  1:02→0:38), alphabet, bingo, twinkle, one-two-buckle, mary, hickory, are-you-sleeping. Originals
+  remain in git for re-cutting (`git checkout -- public/sounds/songs/<id>.mp3`, tweak, re-run).
 
 ## 8. GitHub Codespaces backup — ✅ DONE (2026-06-29)
 `.devcontainer/devcontainer.json` (Node 20 image, `npm ci` on create, ports 5173/4173

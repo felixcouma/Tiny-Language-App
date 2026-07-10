@@ -3,7 +3,58 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-01 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
+## Latest Session — 2026-07-10 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Song animations rolled out to ALL 13 songs and made config-driven; 8 more song trims; CI
+> hardening; Supabase keep-alive.** Verified headlessly (0 console errors) on dev AND the **live
+> GitHub Pages** site; owner ear-tuned the sync. All pushed to `main` (deploys both surfaces).
+
+### 🎬 Song animations — full rollout, now config-driven (all 13 songs)
+- **Config-driven**: `SongAnimation.jsx` reads per-song data from **`src/data/songAnimations.js`**
+  (poses / lyric lines / cue `seq` / timing). Adding a song = generate poses + add a config entry +
+  `animated:true`. `build()` gained an optional per-cue **`extra`** pause for a single phrase
+  boundary (used to fix Head/Shoulders round-3 without changing tempo).
+- **Teapot redone as a CHARACTER** — "I'm a Little Teapot" was a child *role-playing* a teapot
+  (confusing for toddlers); now a cheerful **orange teapot** (body/handle/spout/steam/tip).
+- **New character animations** (each = one consistent subject acting out the lyrics, base pose drawn
+  fresh then action poses anchored on it): Twinkle (star), Hickory Dickory Dock (mouse+clock), Mary
+  Had a Little Lamb (lamb), **Bingo (puppy — models the CLAP GAME**: each verse drops a leading letter
+  for a clap; CC shows the letters), Alphabet (owl; letters live in the caption), One-Two-Buckle /
+  Hokey Pokey / Happy Song (**reuse the Head/Shoulders child**), Are You Sleeping (bear), Hush Little
+  Baby (baby), Over the River (horse+sleigh). ~30 new `song-*.webp` (10–38 KB).
+- `scripts/gen-song-poses.mjs` is now **multi-song** (`--song a,b`) with graceful anchor fallback.
+- **Sync tuning (owner ear-pass):** Head/Shoulders → uniform beats (removed a phrase-freeze that
+  lagged round 2) + small breaths before the eyes line and the final round (round 3 on-beat). Bingo →
+  one-time ~1s lead-in at the 2-clap verse. Others use first-pass defaults (tune by ear later).
+  ⚠️ **"The Happy Song" captions are a best-guess** ("If You're Happy…") — confirm vs the recording
+  (caption-only fix, no re-gen).
+- Verify: **`scripts/verify-song-anims.mjs`** (all 12 config-driven songs) + `verify-teapot.mjs`.
+  Passed on dev **and** the **live** `felixcouma.github.io` site.
+
+### ✂️ Song trims — 8 recordings cut to song-only (this session)
+Owner marked cut points with **`scripts/cut-helper.html`** (standalone timecode + mark tool).
+**`scripts/trim-songs.mjs`** (static ffmpeg, 0.5s fade-out, idempotent, skips OS-locked files)
+trimmed teapot (dropped a ~24s non-teapot tail, 1:02→0:38), alphabet, bingo, twinkle,
+one-two-buckle, mary, hickory, are-you-sleeping. Originals stay in git for re-cutting.
+
+### 🔧 CI + infra
+- **Node 20 deprecation fixed** — bumped Pages actions to Node-24 majors (checkout v5, setup-node v6
+  / build on Node 22, configure-pages v6, upload-pages-artifact v5, deploy-pages v5). Deploy green,
+  no annotations.
+- **Supabase keep-alive** — `.github/workflows/supabase-ping.yml` pings `/rest/v1/accounts?limit=1`
+  every 3 days (free tier pauses after ~7 days idle). Repo secrets `SUPABASE_URL` /
+  `SUPABASE_ANON_KEY` set. **The project had paused** (owner restored it); the anon key is valid —
+  the `/rest/v1/` ROOT is service_role-only, so the ping queries a table (200). **Data survived the
+  pause intact** (pause = suspend, not delete; same key still authenticates the same project ref).
+
+### 📌 Still open / next
+- Ear-pass timing on the newer song animations; confirm "The Happy Song" lyrics.
+- Optional: exact per-word sync via onset detection; per-word karaoke highlight.
+- Everything from the pilot backlog below still stands.
+
+---
+
+## Earlier Session — 2026-07-01 · Branch `main` · Pilot live on **Vercel**: https://tiny-language-app.vercel.app/
 
 > **Agent Council review → shipped enhancements.** The owner ran an interactive "Agent Council"
 > tool (now at `tools/council/`, its own package). Its critique was evaluated against the actual

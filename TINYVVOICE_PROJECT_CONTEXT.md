@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-09 17:18 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-10 16:42 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `f575824 CI: ping an anon-accessible table, not the service_role-only REST root`
 - `0a3d484 CI: add Supabase keep-alive ping (every 3 days)`
 - `3ee445a CI: bump Pages actions off deprecated Node 20 runtime`
 - `86a366e Tune song-animation sync (Head/Shoulders + Bingo)`
 - `797d93b Trim 8 song recordings to their song-only cut points`
 - `53e485d Animate 10 more songs as config-driven character animations`
-- `4b4825b Animate "I'm a Little Teapot" + make song animations config-driven`
 <!-- AUTO:END -->
 
 ---
@@ -79,12 +79,17 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
+### ✅ Done recently (2026-07)
+- **Song animations — all 13 songs, config-driven** (§6): our-own key-pose frames that act out
+  each song + a karaoke caption; per-song data in `src/data/songAnimations.js`, rendered by
+  `SongAnimation.jsx`, poses via `scripts/gen-song-poses.mjs --song <name>`. **Song trims** (§7) done.
+- **CI/infra**: Pages actions bumped off deprecated Node 20; **Supabase keep-alive** ping every
+  3 days (`.github/workflows/supabase-ping.yml`) so the free-tier project doesn't pause.
+
 ### 🚧 Backlog (see `docs/LEFT_TO_DO.md` for the numbered, status-tracked list)
-- **Song animations — Lottie + karaoke lyric sync** (§6) — scoped in `docs/SONG_ANIMATIONS_SCOPE.md`
-  (flagship *Head, Shoulders, Knees, and Toes*); needs 2 design decisions, then P1.
 - **Real animal FX recordings + duck-quack fix** (§4) — Snake/Owl/Wolf/Goose/Crow + duck; real CC
   `fx/<key>.mp3` clips need ear-auditioning (keys pre-wired).
-- **Song length trims** (§7) — owner ear-picks trim points for the long tracks.
+- **Song-animation polish** (§6) — ear-pass the newer songs' timing; confirm "The Happy Song" lyrics.
 - **Part C billing** (Stripe + privacy policy) — after pilot feedback sets a price.
 - Future: on-demand per-name TTS (§14), Supabase offline-merge (§13), Music Forest build-out.
 
