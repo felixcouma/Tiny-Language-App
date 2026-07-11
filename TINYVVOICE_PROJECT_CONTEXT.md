@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-10 16:42 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-11 03:27 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `6244061 Docs: record song-animation rollout, trims, CI + Supabase keep-alive`
 - `f575824 CI: ping an anon-accessible table, not the service_role-only REST root`
 - `0a3d484 CI: add Supabase keep-alive ping (every 3 days)`
 - `3ee445a CI: bump Pages actions off deprecated Node 20 runtime`
 - `86a366e Tune song-animation sync (Head/Shoulders + Bingo)`
 - `797d93b Trim 8 song recordings to their song-only cut points`
-- `53e485d Animate 10 more songs as config-driven character animations`
 <!-- AUTO:END -->
 
 ---
@@ -98,18 +98,20 @@ sections (Build Status, Next Steps) are updated by hand each push.
 src/
 ├── data/content.js        # 7 worlds / 102 items (say text, IPA, ladder phrases, PRAISE)
 ├── data/phraseContent.js  # speech-therapy vocab (209 words / tiers / categories) + phrase banks
+├── data/songs.js          # "Sing with Pip" catalog (13 PD songs; tag / grad / animated flag)
+├── data/songAnimations.js # per-song animation configs (poses / lyrics / cue seq / timing) → build()
 ├── lib/audio.js           # warm voice-clip playback (sayWord/voice/voiceSeq/playItem) + chime/celebration
 ├── lib/images.js          # local-WebP-first resolver (→ Unsplash/Pexels/Wikimedia) + cache
 ├── lib/                   # tts.js (dormant premium hook) · today.js · screentime.js · useWakeLock.js
 ├── store.js               # Zustand: router, profiles, progress, stage, gate, screen-time
 ├── components/            # WordPic, TactileStage, Ladder, Mascot(Pip), Confetti, ChoiceGame,
-│                          # Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary
+│                          # SongAnimation, Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary
 └── screens/               # ProfilePicker, Home, Learning, Today, Collection, Parent, SoundGame,
-                           # TwinMode, Phonics, Phrase, Grid (Word Board), Chant, Rest
+                           # TwinMode, Phonics, Phrase, Grid (Word Board), Song (Sing with Pip), Chant, Rest
 public/
-├── images/<key>.webp      # bundled illustrations + generated AAC symbols
-└── sounds/<voice>/<key>.mp3 · sounds/phrases/<slug>.mp3 · sounds/fx/<key>.mp3 (+ CREDITS.md)
-scripts/                   # gen-tts-gcloud · gen-symbols · optimize-images · clean-orphan-clips · check-content
+├── images/<key>.webp      # bundled illustrations + generated AAC symbols + song-<pose> frames
+└── sounds/<voice>/<key>.mp3 · sounds/phrases/<slug>.mp3 · sounds/fx/<key>.mp3 · sounds/songs/<id>.mp3 (+ CREDITS.md)
+scripts/                   # gen-tts-gcloud · gen-symbols · gen-song-poses · trim-songs · optimize-images · verify-* · check-content
 docs/                      # LEFT_TO_DO · TTS_GCLOUD_SETUP · Observations · blueprints + workflow
 ```
 
