@@ -3,7 +3,37 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-10 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-12 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **"Things I Do" verbs are now ANIMATED** — the same our-own-character, key-pose approach as the
+> songs, but with **no audio to sync to** (a verb just loops 2 frames, so it's far simpler and can't
+> drift). Adds a **girl** character alongside the existing boy, with a boy/girl split and a few
+> **both-together** social scenes. Owner reviewed the prototype on dev before the full rollout.
+
+### 🤸 Things I Do — action animations (all 20 verbs)
+- **Renderer**: `src/components/ActionAnimation.jsx` loops an action's key frames on a fixed
+  interval (config: `src/data/actionAnimations.js`, keyed by the item's `sound`, e.g. `do-jumping`).
+  **Hard cut (flip-book), not a cross-fade** — an action's two frames can differ a lot in silhouette
+  and fading ghosts them into a confusing double-image. `prefers-reduced-motion` freezes on frame 0.
+- **Where it plays**: `ItemVisual` shows the animation on the **big learning stage** only; game/Word
+  Board/Phonics cards use **frame 0 as a still**, so grids stay light.
+- **Characters**: the existing Head/Shoulders boy (`song-ready`) + a **new girl anchor**
+  (`act-girl-ready`, coral dress / pigtails). Solo verbs split boy/girl (alternating); the social
+  verbs **Hugging / Dancing / Laughing / Playing with toys** show **both children together**.
+- **Frames**: `scripts/gen-action-poses.mjs` (Vertex, anchor-conditioned, 2 frames/verb) → ~40 new
+  `act-*.webp` (8–23 KB). **6 new verbs** added to `content.js doing[]`: Climbing stairs, Playing
+  with toys, Kicking a ball, Reading a book, Waving, Swimming (+ Riding a bike / Blowing bubbles from
+  the prototype). Content now **131 items**.
+- **Voice**: `do-*` word clips for the 8 new verbs generated in all 3 voices (`gen-tts-gcloud.mjs
+  --only …`); game/phonics prompts + expand-ladder clips filled via `--kind phrases` (skip-existing).
+- **Note learned**: a 4-frame full-circle bike pedal looked **glitchy** — independently generated
+  frames don't register pixel-for-pixel, so fast multi-frame cutting jitters the whole child. Rule:
+  **smooth = few frames held calmly**. Every action is a calm 2-frame loop.
+- Verify: **`scripts/verify-actions.mjs`** (all 20 verbs: 2 frames, correct keys, cycles, 0 errors).
+
+---
+
+## Earlier Session — 2026-07-10 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Song animations rolled out to ALL 13 songs and made config-driven; 8 more song trims; CI
 > hardening; Supabase keep-alive.** Verified headlessly (0 console errors) on dev AND the **live

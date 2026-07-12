@@ -59,6 +59,14 @@ const doing = [
   { word: 'Hugging', wiki: 'Hug', say: 'Hugging! A big, warm squeeze!', expand: ['Big hug', 'Hug me', 'I hug my mommy'] },
   { word: 'Dancing', wiki: 'Dance', say: 'Dancing! Wiggle and twirl!', expand: ['I dance', 'Dance with me', 'I love to dance'] },
   { word: 'Brushing teeth', wiki: 'Tooth brushing', say: 'Brushing teeth! Brush, brush, brush!', expand: ['Brush teeth', 'Clean teeth', 'I brush my teeth'] },
+  { word: 'Riding a bike', wiki: 'Bicycle', say: 'Riding a bike! Pedal, pedal, pedal!', expand: ['I ride', 'Ride bike', 'I ride my bike'] },
+  { word: 'Blowing bubbles', wiki: 'Soap bubble', say: 'Blowing bubbles! Puff… pop, pop, pop!', expand: ['I blow', 'Blow bubbles', 'I blow the bubbles'] },
+  { word: 'Climbing stairs', wiki: 'Stairs', say: 'Climbing stairs! Up, up, up we go!', expand: ['I climb', 'Climb up', 'I climb the stairs'] },
+  { word: 'Playing with toys', wiki: 'Toy', say: 'Playing with toys! Build and play!', expand: ['I play', 'Play toys', 'I play with my toys'] },
+  { word: 'Kicking a ball', wiki: 'Kick', say: 'Kicking a ball! Kick it far!', expand: ['I kick', 'Kick ball', 'I kick the ball'] },
+  { word: 'Reading a book', wiki: 'Book', say: 'Reading a book! Turn the page!', expand: ['I read', 'Read book', 'I read my book'] },
+  { word: 'Waving', wiki: 'Wave (gesture)', say: 'Waving! Hello, hello! Bye bye!', expand: ['I wave', 'Wave hello', 'I wave to you'] },
+  { word: 'Swimming', wiki: 'Swimming', say: 'Swimming! Splash and paddle!', expand: ['I swim', 'Swim fast', 'I swim in the water'] },
 ].map((x) => ({ ...x, action: true, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
 
 // ---------- HOME VILLAGE (family + objects) ----------

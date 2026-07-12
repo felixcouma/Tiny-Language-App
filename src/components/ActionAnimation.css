@@ -1,0 +1,30 @@
+.act-anim {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #fbfbf7; /* matches the frames' off-white so nothing is cropped or boxed */
+}
+/* Stack frames; only the active one shows. `contain` keeps the whole child in view
+   (the frames already sit on the same off-white, so there's no letterbox seam). The
+   two-class selector beats `.visual-photo img` (which is object-fit: cover).
+   HARD cut, not a cross-fade: an action's two frames can have very different
+   silhouettes (arms wide vs a tight hug), and fading between them ghosts into a
+   confusing double-image. A clean flip-book swap keeps each pose crisp. */
+.act-anim .act-anim-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+.act-anim .act-anim-frame.is-on {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No interval runs; ensure the first frame is visible even without the is-on toggle. */
+  .act-anim .act-anim-frame:first-child {
+    opacity: 1;
+  }
+}

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { resolveImage } from '../lib/images'
+import { ACTION_ANIMATIONS } from '../data/actionAnimations'
+import ActionAnimation from './ActionAnimation.jsx'
 import './ItemVisual.css'
 
 /*
@@ -65,6 +67,22 @@ export default function ItemVisual({ item, kind = 'stage' }) {
 
   if (item.portrait) {
     return <Portrait item={item} cls={cls} />
+  }
+
+  // "Things I Do" verbs with an animation: MOVE on the big learning stage (a verb wants
+  // motion); on the small game/choice cards show the first frame as a still, so grids and
+  // game rounds stay light. No audio to sync — the loop is purely visual.
+  const anim = item.action && ACTION_ANIMATIONS[item.sound]
+  if (anim) {
+    return (
+      <div className={`${cls} visual-photo`} aria-label={item.word}>
+        {kind === 'stage' ? (
+          <ActionAnimation soundKey={item.sound} />
+        ) : (
+          <img src={`${PORTRAIT_BASE}images/${anim.frames[0]}.webp`} alt={item.word} />
+        )}
+      </div>
+    )
   }
 
   return <Photo item={item} cls={cls} />
