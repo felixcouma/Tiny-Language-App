@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-12 19:42 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-12 19:55 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `73c1798 Feat: 5 more animated verbs — Crying, Painting, Throwing, Cooking, Peekaboo`
 - `340aa45 Feat: animate all "Things I Do" verbs (boy/girl + both-together)`
 - `23d5895 Docs: add song files to the code map`
 - `6244061 Docs: record song-animation rollout, trims, CI + Supabase keep-alive`
 - `f575824 CI: ping an anon-accessible table, not the service_role-only REST root`
 - `0a3d484 CI: add Supabase keep-alive ping (every 3 days)`
-- `3ee445a CI: bump Pages actions off deprecated Node 20 runtime`
 <!-- AUTO:END -->
 
 ---
@@ -46,10 +46,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
   device voice** — a missing clip falls back to a soft chime. Re-record clips with
   `scripts/gen-tts-gcloud.mjs` (see `docs/TTS_GCLOUD_SETUP.md`).
 - **7 living worlds** — incl. the two parent-requested favourites:
-  **My Body** (13 parts) and **Things I Do** (12 activities/verbs) + Home Village (family+objects),
-  Safari Island (25 animals), Rainbow Island (10 colours), Counting Mountain (1–20), Music Forest.
+  **My Body** (13 parts) and **Things I Do** (25 **animated** activities/verbs — see below) + Home
+  Village (family+objects), Safari Island (25 animals), Rainbow Island (10 colours), Counting
+  Mountain (1–20), Music Forest.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
-  and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence).
+  and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence). "Things I Do"
+  **verbs animate** here (looped key-pose frames — see below).
 - **Listening Game** & **Twin Mode** — listen → tap the right picture; Twin Mode does turn-taking
   that speaks each child's name (clip when we have one — audrey/adriel/ezra/leila/ethan — else a
   warm **"Your turn!"** cue, never a chime) and ends on a shared, **no-winner** "You did it
@@ -80,6 +82,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
 ### ✅ Done recently (2026-07)
+- **"Things I Do" action animations — 25 verbs** (§7b): every verb now MOVES on the Learning stage.
+  Same our-own key-pose idea as the songs but with **no audio to sync** — a calm 2-frame flip-book
+  loop (`components/ActionAnimation.jsx`, config `src/data/actionAnimations.js`). Adds a **girl**
+  character (`act-girl-ready`) beside the boy; solo verbs split boy/girl, social ones (hug/dance/
+  laugh/play/peekaboo) show **both**. Frames via `scripts/gen-action-poses.mjs`; 11 new verbs (136
+  items). Verify `scripts/verify-actions.mjs`.
 - **Song animations — all 13 songs, config-driven** (§6): our-own key-pose frames that act out
   each song + a karaoke caption; per-song data in `src/data/songAnimations.js`, rendered by
   `SongAnimation.jsx`, poses via `scripts/gen-song-poses.mjs --song <name>`. **Song trims** (§7) done.
@@ -96,20 +104,21 @@ sections (Build Status, Next Steps) are updated by hand each push.
 ### 🗂️ Code map
 ```
 src/
-├── data/content.js        # 7 worlds / 102 items (say text, IPA, ladder phrases, PRAISE)
+├── data/content.js        # 7 worlds / 136 items (say text, IPA, ladder phrases, PRAISE)
 ├── data/phraseContent.js  # speech-therapy vocab (209 words / tiers / categories) + phrase banks
 ├── data/songs.js          # "Sing with Pip" catalog (13 PD songs; tag / grad / animated flag)
 ├── data/songAnimations.js # per-song animation configs (poses / lyrics / cue seq / timing) → build()
+├── data/actionAnimations.js # "Things I Do" verb loops (keyed by item.sound) → ActionAnimation.jsx
 ├── lib/audio.js           # warm voice-clip playback (sayWord/voice/voiceSeq/playItem) + chime/celebration
 ├── lib/images.js          # local-WebP-first resolver (→ Unsplash/Pexels/Wikimedia) + cache
 ├── lib/                   # tts.js (dormant premium hook) · today.js · screentime.js · useWakeLock.js
 ├── store.js               # Zustand: router, profiles, progress, stage, gate, screen-time
-├── components/            # WordPic, TactileStage, Ladder, Mascot(Pip), Confetti, ChoiceGame,
-│                          # SongAnimation, Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary
+├── components/            # WordPic, TactileStage, ItemVisual, Ladder, Mascot(Pip), Confetti, ChoiceGame,
+│                          # SongAnimation, ActionAnimation, Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary
 └── screens/               # ProfilePicker, Home, Learning, Today, Collection, Parent, SoundGame,
                            # TwinMode, Phonics, Phrase, Grid (Word Board), Song (Sing with Pip), Chant, Rest
 public/
-├── images/<key>.webp      # bundled illustrations + generated AAC symbols + song-<pose> frames
+├── images/<key>.webp      # bundled illustrations + generated AAC symbols + song-<pose> + act-<pose> frames
 └── sounds/<voice>/<key>.mp3 · sounds/phrases/<slug>.mp3 · sounds/fx/<key>.mp3 · sounds/songs/<id>.mp3 (+ CREDITS.md)
 scripts/                   # gen-tts-gcloud · gen-symbols · gen-song-poses · trim-songs · optimize-images · verify-* · check-content
 docs/                      # LEFT_TO_DO · TTS_GCLOUD_SETUP · Observations · blueprints + workflow

@@ -107,6 +107,28 @@ don't cut mid-note; replaced at the SAME path → self-heals via StaleWhileReval
   1:02→0:38), alphabet, bingo, twinkle, one-two-buckle, mary, hickory, are-you-sleeping. Originals
   remain in git for re-cutting (`git checkout -- public/sounds/songs/<id>.mp3`, tweak, re-run).
 
+## 7b. "Things I Do" action animations — ✅ DONE (2026-07-12)
+Every "Things I Do" verb now **animates** on the big Learning stage — the same our-own-character,
+key-pose idea as the songs, but with **no audio to sync** (a verb just loops 2 frames on a fixed
+interval, so it can't drift and is far simpler). `components/ActionAnimation.jsx` +
+**`src/data/actionAnimations.js`** (keyed by the item's `sound`, e.g. `do-jumping`); `ItemVisual`
+plays it on the stage only, game/grid cards use frame 0. **Hard-cut flip-book, not a fade** (action
+silhouettes differ too much to fade cleanly); `prefers-reduced-motion` freezes on frame 0.
+- **Two characters**: the existing Head/Shoulders **boy** (`song-ready`) + a **new girl** anchor
+  (`act-girl-ready`, coral dress / pigtails). Solo verbs alternate boy/girl; the social verbs
+  **Hugging / Dancing / Laughing / Playing / Peekaboo** show **both children together**.
+- **25 verbs** (11 new added to `content.js doing[]`: Riding a bike, Blowing bubbles, Climbing
+  stairs, Playing with toys, Kicking a ball, Reading a book, Waving, Swimming, Crying, Painting,
+  Throwing a ball, Cooking, Peekaboo). Content = **136 items**. ~50 `act-*.webp` (8–23 KB).
+- **Adding a verb:** add an entry to `ACTIONS` in `scripts/gen-action-poses.mjs` (anchor on
+  `song-ready`/`act-girl-ready`, or draw a fresh base first) → generate + `optimize-images.mjs
+  --replace` → add a config in `actionAnimations.js` → (new word) add the item + generate its
+  `do-*` clips (`gen-tts-gcloud.mjs --only …`) + prompts (`--kind phrases`) → `verify-actions.mjs`.
+- **Lesson learned:** a 4-frame full-circle bike pedal looked **glitchy** — independently generated
+  frames don't register pixel-for-pixel, so fast multi-frame cutting jitters the whole child.
+  **Rule: smooth = few frames held calmly.** Every action is a calm 2-frame loop.
+- **Optional next verbs:** Waking up (pairs with Sleeping), Pointing (AAC gesture), Getting dressed.
+
 ## 8. GitHub Codespaces backup — ✅ DONE (2026-06-29)
 `.devcontainer/devcontainer.json` (Node 20 image, `npm ci` on create, ports 5173/4173
 forwarded, ESLint/Prettier). Rebuild/run the app from any browser: **Code ▸ Codespaces ▸
