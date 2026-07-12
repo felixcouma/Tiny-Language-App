@@ -42,4 +42,11 @@ export const ACTION_ANIMATIONS = {
   'do-dancing': { frames: ['act-dance-1', 'act-dance-2'], ms: 560 },
   'do-laughing': { frames: ['act-laugh-1', 'act-laugh-2'], ms: 620 },
   'do-playing': { frames: ['act-play-1', 'act-play-2'], ms: 780 },
+
+  // ---- Round 2 additions ----
+  'do-crying': { frames: ['act-cry-1', 'act-cry-2'], ms: 640 }, // girl (emotion)
+  'do-painting': { frames: ['act-paint-1', 'act-paint-2'], ms: 700 }, // girl (creative)
+  'do-throwing': { frames: ['act-throw-1', 'act-throw-2'], ms: 480 }, // boy (motor)
+  'do-cooking': { frames: ['act-cook-1', 'act-cook-2'], ms: 700 }, // boy (routine)
+  'do-peekaboo': { frames: ['act-peek-1', 'act-peek-2'], ms: 700 }, // both (social game)
 }

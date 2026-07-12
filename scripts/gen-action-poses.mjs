@@ -245,6 +245,53 @@ const ACTIONS = {
         action: 'The exact same two children with the same blocks, the stack now TALLER, one child placing another block on top and both grinning proudly, a couple of loose toys nearby.' },
     ],
   },
+
+  // ---------- Round 2: 5 more useful verbs ----------
+  // GIRL solo — crying (the emotion counterpart to Laughing).
+  cry: {
+    subject: 'child', poses: [
+      { key: 'act-cry-1', anchor: 'act-girl-ready',
+        action: 'The same girl has a sad crying face: mouth turned down, eyebrows up, big shiny tears welling in her eyes and a couple of tear drops on her cheeks.' },
+      { key: 'act-cry-2', anchor: 'act-cry-1',
+        action: 'The exact same sad girl now rubs one eye with her little fist, still crying, a few more tear drops falling — clearly mid-cry.' },
+    ],
+  },
+  // GIRL solo — painting (fine-motor / creative).
+  paint: {
+    subject: 'child', poses: [
+      { key: 'act-paint-1', anchor: 'act-girl-ready',
+        action: 'The same girl stands at a little easel holding a paintbrush to the paper, making a colourful brush stroke, a small paint palette in her other hand, happy.' },
+      { key: 'act-paint-2', anchor: 'act-paint-1',
+        action: 'The exact same girl at the same easel lifts the brush with a dab of bright paint, having added another colourful mark to the picture, delighted.' },
+    ],
+  },
+  // BOY solo — throwing a ball (gross-motor pair to Kicking).
+  throw: {
+    subject: 'child', poses: [
+      { key: 'act-throw-1', anchor: 'song-ready',
+        action: 'The same boy stands holding a colourful ball, his throwing arm cocked BACK behind his head, ready to throw, leaning back a little.' },
+      { key: 'act-throw-2', anchor: 'act-throw-1',
+        action: 'The exact same boy swings his arm FORWARD and lets go — the ball now flying off ahead of him with a few motion lines, mid-follow-through, happy.' },
+    ],
+  },
+  // BOY solo — cooking (pretend-play routine).
+  cook: {
+    subject: 'child', poses: [
+      { key: 'act-cook-1', anchor: 'song-ready',
+        action: 'The same boy stands at a little toy stove stirring a pot with a big spoon, a curl of steam rising, wearing a small apron, happy and focused.' },
+      { key: 'act-cook-2', anchor: 'act-cook-1',
+        action: 'The exact same boy at the same pot now lifts the spoon up near his mouth to taste, a little more steam, cheeks happy — yum.' },
+    ],
+  },
+  // BOTH children — peekaboo (classic toddler social game).
+  peekaboo: {
+    subject: 'two children', poses: [
+      { key: 'act-peek-1', anchor: 'song-ready',
+        action: `The same teal-shirt boy and ${GIRL_DESC} stand side by side, each covering their own face with both hands, hiding, as if playing peekaboo.` },
+      { key: 'act-peek-2', anchor: 'act-peek-1',
+        action: 'The exact same two children now pull their hands away from their faces, revealing big surprised delighted grins, hands out to the sides — "peekaboo!"' },
+    ],
+  },
 }
 
 for (const actKey of which) {

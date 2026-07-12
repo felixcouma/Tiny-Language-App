@@ -18,6 +18,8 @@ const VERBS = [
   ['Riding a bike', 'do-riding'], ['Blowing bubbles', 'do-blowing'], ['Climbing stairs', 'do-climbing'],
   ['Playing with toys', 'do-playing'], ['Kicking a ball', 'do-kicking'], ['Reading a book', 'do-reading'],
   ['Waving', 'do-waving'], ['Swimming', 'do-swimming'],
+  ['Crying', 'do-crying'], ['Painting', 'do-painting'], ['Throwing a ball', 'do-throwing'],
+  ['Cooking', 'do-cooking'], ['Peekaboo', 'do-peekaboo'],
 ]
 
 const SEED = `

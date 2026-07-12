@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-12 19:01 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-12 19:42 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `340aa45 Feat: animate all "Things I Do" verbs (boy/girl + both-together)`
 - `23d5895 Docs: add song files to the code map`
 - `6244061 Docs: record song-animation rollout, trims, CI + Supabase keep-alive`
 - `f575824 CI: ping an anon-accessible table, not the service_role-only REST root`
 - `0a3d484 CI: add Supabase keep-alive ping (every 3 days)`
 - `3ee445a CI: bump Pages actions off deprecated Node 20 runtime`
-- `86a366e Tune song-animation sync (Head/Shoulders + Bingo)`
 <!-- AUTO:END -->
 
 ---

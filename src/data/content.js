@@ -67,6 +67,11 @@ const doing = [
   { word: 'Reading a book', wiki: 'Book', say: 'Reading a book! Turn the page!', expand: ['I read', 'Read book', 'I read my book'] },
   { word: 'Waving', wiki: 'Wave (gesture)', say: 'Waving! Hello, hello! Bye bye!', expand: ['I wave', 'Wave hello', 'I wave to you'] },
   { word: 'Swimming', wiki: 'Swimming', say: 'Swimming! Splash and paddle!', expand: ['I swim', 'Swim fast', 'I swim in the water'] },
+  { word: 'Crying', wiki: 'Crying', say: 'Crying! Boo hoo. It is okay.', expand: ['I cry', 'Baby cries', 'I am sad and I cry'] },
+  { word: 'Painting', wiki: 'Painting', say: 'Painting! Dab, dab, dab. Pretty colours!', expand: ['I paint', 'Paint a picture', 'I paint a pretty picture'] },
+  { word: 'Throwing a ball', wiki: 'Throwing', say: 'Throwing a ball! Throw it high!', expand: ['I throw', 'Throw ball', 'I throw the ball'] },
+  { word: 'Cooking', wiki: 'Cooking', say: 'Cooking! Stir, stir, stir. Yummy!', expand: ['I cook', 'Cook food', 'I cook in the pot'] },
+  { word: 'Peekaboo', wiki: 'Peekaboo', say: 'Peekaboo! Where are you? I see you!', expand: ['Peekaboo', 'I see you', 'Peekaboo, I see you'] },
 ].map((x) => ({ ...x, action: true, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
 
 // ---------- HOME VILLAGE (family + objects) ----------
