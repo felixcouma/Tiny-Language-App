@@ -72,6 +72,9 @@ const doing = [
   { word: 'Throwing a ball', wiki: 'Throwing', say: 'Throwing a ball! Throw it high!', expand: ['I throw', 'Throw ball', 'I throw the ball'] },
   { word: 'Cooking', wiki: 'Cooking', say: 'Cooking! Stir, stir, stir. Yummy!', expand: ['I cook', 'Cook food', 'I cook in the pot'] },
   { word: 'Peekaboo', wiki: 'Peekaboo', say: 'Peekaboo! Where are you? I see you!', expand: ['Peekaboo', 'I see you', 'Peekaboo, I see you'] },
+  { word: 'Waking up', wiki: 'Wakefulness', say: 'Waking up! Good morning! Stretch and yawn.', expand: ['I wake', 'Wake up', 'I wake up'] },
+  { word: 'Pointing', wiki: 'Pointing', say: 'Pointing! Look over there!', expand: ['I point', 'Point there', 'I point to it'] },
+  { word: 'Getting dressed', wiki: 'Dress', say: 'Getting dressed! Shirt on. All dressed!', expand: ['I dress', 'Get dressed', 'I get dressed'] },
 ].map((x) => ({ ...x, action: true, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
 
 // ---------- HOME VILLAGE (family + objects) ----------

@@ -119,9 +119,10 @@ static on phones/tablets that have Reduce Motion on (fixed 2026-07-13, `scripts/
 - **Two characters**: the existing Head/Shoulders **boy** (`song-ready`) + a **new girl** anchor
   (`act-girl-ready`, coral dress / pigtails). Solo verbs alternate boy/girl; the social verbs
   **Hugging / Dancing / Laughing / Playing / Peekaboo** show **both children together**.
-- **25 verbs** (11 new added to `content.js doing[]`: Riding a bike, Blowing bubbles, Climbing
+- **28 verbs** (14 new added to `content.js doing[]`: Riding a bike, Blowing bubbles, Climbing
   stairs, Playing with toys, Kicking a ball, Reading a book, Waving, Swimming, Crying, Painting,
-  Throwing a ball, Cooking, Peekaboo). Content = **136 items**. ~50 `act-*.webp` (8–23 KB).
+  Throwing a ball, Cooking, Peekaboo, Waking up, Pointing, Getting dressed). Content = **139
+  items**. ~56 `act-*.webp` (8–23 KB).
 - **Adding a verb:** add an entry to `ACTIONS` in `scripts/gen-action-poses.mjs` (anchor on
   `song-ready`/`act-girl-ready`, or draw a fresh base first) → generate + `optimize-images.mjs
   --replace` → add a config in `actionAnimations.js` → (new word) add the item + generate its
@@ -129,7 +130,11 @@ static on phones/tablets that have Reduce Motion on (fixed 2026-07-13, `scripts/
 - **Lesson learned:** a 4-frame full-circle bike pedal looked **glitchy** — independently generated
   frames don't register pixel-for-pixel, so fast multi-frame cutting jitters the whole child.
   **Rule: smooth = few frames held calmly.** Every action is a calm 2-frame loop.
-- **Optional next verbs:** Waking up (pairs with Sleeping), Pointing (AAC gesture), Getting dressed.
+- **Regression suite (2026-07-13):** `npm run verify:ui` (`scripts/verify-suite.mjs`) builds → serves
+  `vite preview` → runs the UI checks as one pass/fail gate. `verify-actions.mjs` tests a **device ×
+  reduced-motion matrix** and asserts every verb CYCLES — this exists because a Reduce-Motion freeze
+  once shipped unnoticed (the old test only ran motion-ON). **Do not drop the reduced-motion cases.**
+- **Optional next verbs:** other routines/emotions as wanted (e.g. Combing hair, Sneezing, Falling).
 
 ## 8. GitHub Codespaces backup — ✅ DONE (2026-06-29)
 `.devcontainer/devcontainer.json` (Node 20 image, `npm ci` on create, ports 5173/4173

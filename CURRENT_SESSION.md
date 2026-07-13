@@ -10,7 +10,7 @@
 > drift). Adds a **girl** character alongside the existing boy, with a boy/girl split and a few
 > **both-together** social scenes. Owner reviewed the prototype on dev before the full rollout.
 
-### 🤸 Things I Do — action animations (25 verbs)
+### 🤸 Things I Do — action animations (28 verbs)
 - **Renderer**: `src/components/ActionAnimation.jsx` loops an action's key frames on a fixed
   interval (config: `src/data/actionAnimations.js`, keyed by the item's `sound`, e.g. `do-jumping`).
   **Hard cut (flip-book), not a cross-fade** — an action's two frames can differ a lot in silhouette
@@ -34,8 +34,15 @@
   **smooth = few frames held calmly**. Every action is a calm 2-frame loop.
 - **Round 2 (+5, owner-reviewed the frames first)**: **Crying** (girl — emotion, counterpart to
   Laughing), **Painting** (girl — creative), **Throwing a ball** (boy — motor pair to Kicking),
-  **Cooking** (boy — routine), **Peekaboo** (both — social game). Content now **136 items**.
-- Verify: **`scripts/verify-actions.mjs`** (all 25 verbs: 2 frames, correct keys, cycles, 0 errors).
+  **Cooking** (boy — routine), **Peekaboo** (both — social game). **Round 3 (+3)**: **Waking up**
+  (boy — pairs with Sleeping), **Pointing** (girl — AAC gesture), **Getting dressed** (boy).
+  Content now **139 items**.
+- **Reduced-motion fix + regression suite (2026-07-13)**: verbs used to FREEZE under Reduce Motion
+  (looked static on phones/tablets with it on); now the loop plays at a calm ≥1s cadence.
+  **`scripts/verify-actions.mjs`** was rebuilt to test a **device × reduced-motion matrix** (desktop
+  / iPhone / Android × motion-on / reduce) and assert every verb actually CYCLES — a negative test
+  confirms it fails on the old freeze. **`npm run verify:ui`** (`scripts/verify-suite.mjs`) builds,
+  serves `vite preview`, and runs the action + song checks as one pass/fail gate.
 
 ---
 

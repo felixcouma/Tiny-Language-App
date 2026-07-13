@@ -292,6 +292,35 @@ const ACTIONS = {
         action: 'The exact same two children now pull their hands away from their faces, revealing big surprised delighted grins, hands out to the sides — "peekaboo!"' },
     ],
   },
+
+  // ---------- Round 3: 3 more verbs ----------
+  // BOY solo — waking up (the routine counterpart to Sleeping).
+  wake: {
+    subject: 'child', poses: [
+      { key: 'act-wake-1', anchor: 'song-ready',
+        action: 'The same boy is waking up in bed under a soft blanket: eyes closed, both arms stretched way up in a big morning yawn, mouth open yawning.' },
+      { key: 'act-wake-2', anchor: 'act-wake-1',
+        action: 'The exact same boy now sitting up awake, rubbing one eye with his fist, eyes open with a sleepy happy smile, the blanket around his waist, a little morning sun feel.' },
+    ],
+  },
+  // GIRL solo — pointing (key AAC / joint-attention gesture).
+  point: {
+    subject: 'child', poses: [
+      { key: 'act-point-1', anchor: 'act-girl-ready',
+        action: 'The same girl points with her arm stretched out to the LEFT, index finger clearly pointing that way, looking where she points, happy.' },
+      { key: 'act-point-2', anchor: 'act-point-1',
+        action: 'The exact same girl now points UP and to the RIGHT with the same arm, index finger clearly pointing up, looking up excitedly — as if spotting something.' },
+    ],
+  },
+  // BOY solo — getting dressed (pulling his shirt on).
+  dress: {
+    subject: 'child', poses: [
+      { key: 'act-dress-1', anchor: 'song-ready',
+        action: 'The same boy is getting dressed, pulling his teal t-shirt on over his head: both arms up, the shirt bunched over his head and face, mid-dressing, only his tummy and yellow shorts showing below.' },
+      { key: 'act-dress-2', anchor: 'act-dress-1',
+        action: 'The exact same boy has now pulled the teal t-shirt all the way on and down, fully dressed and smiling, arms coming back down, hair a little tousled from the shirt.' },
+    ],
+  },
 }
 
 for (const actKey of which) {

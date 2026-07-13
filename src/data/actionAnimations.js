@@ -49,4 +49,9 @@ export const ACTION_ANIMATIONS = {
   'do-throwing': { frames: ['act-throw-1', 'act-throw-2'], ms: 480 }, // boy (motor)
   'do-cooking': { frames: ['act-cook-1', 'act-cook-2'], ms: 700 }, // boy (routine)
   'do-peekaboo': { frames: ['act-peek-1', 'act-peek-2'], ms: 700 }, // both (social game)
+
+  // ---- Round 3 additions ----
+  'do-waking': { frames: ['act-wake-1', 'act-wake-2'], ms: 720 }, // boy (routine; pairs with Sleeping)
+  'do-pointing': { frames: ['act-point-1', 'act-point-2'], ms: 620 }, // girl (AAC gesture)
+  'do-getting': { frames: ['act-dress-1', 'act-dress-2'], ms: 640 }, // boy (routine; getting dressed)
 }

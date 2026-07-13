@@ -10,7 +10,9 @@
     "optimize:images": "node scripts/optimize-images.mjs",
     "prebuild": "node scripts/check-content.mjs",
     "build": "vite build",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "verify:ui": "node scripts/verify-suite.mjs",
+    "verify:actions": "node scripts/verify-actions.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.2",

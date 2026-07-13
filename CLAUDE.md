@@ -32,7 +32,7 @@ TinyVoice is now a **therapist-driven pilot**: primary surface is **Vercel** (`t
 
 ## Tooling & reviews
 - **`tools/council/`** — a standalone "Agent Council" review tool (own `package.json`; Express + Anthropic SDK — kept OUT of the app's deps). `cd tools/council && npm install && npm start`. Its critiques are evaluated against the real code in **`docs/COUNCIL_REVIEW_RESPONSE.md`** (accept/reframe/decline) — treat council output as an outside-in view, not ground truth.
-- Backlog lives in **`docs/LEFT_TO_DO.md`** (numbered items, done/open status). Verify UI changes headlessly with the `scripts/verify-*.mjs` Playwright checks (each asserts 0 console errors); `npm install playwright --no-save` first (asset-gen installs prune it).
+- Backlog lives in **`docs/LEFT_TO_DO.md`** (numbered items, done/open status). Verify UI changes headlessly with the `scripts/verify-*.mjs` Playwright checks (each asserts 0 console errors); `npm install playwright --no-save` first (asset-gen installs prune it). **`npm run verify:ui`** is the regression suite — it builds, serves `vite preview`, and runs the checks as one pass/fail gate. `verify-actions.mjs` tests a **device × reduced-motion matrix** (a Reduce-Motion freeze once shipped unnoticed because the old test only ran motion-ON — don't remove that dimension).
 
 ## Conventions (golden rules)
 - **No emoji, no synthetic placeholders** — real WebP illustrations + warm voice + real animal sounds.

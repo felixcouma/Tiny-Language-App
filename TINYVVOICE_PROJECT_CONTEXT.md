@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-13 05:10 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-13 15:08 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `fb67e92 Test: cover Android (Pixel 7 / Galaxy Tab) in the action-animation live probe`
 - `142712b Fix: action verbs stayed static under Reduce Motion (phones/tablets)`
 - `7246ebe Docs: record the "Things I Do" action-animation rollout`
 - `73c1798 Feat: 5 more animated verbs — Crying, Painting, Throwing, Cooking, Peekaboo`
 - `340aa45 Feat: animate all "Things I Do" verbs (boy/girl + both-together)`
 - `23d5895 Docs: add song files to the code map`
-- `6244061 Docs: record song-animation rollout, trims, CI + Supabase keep-alive`
 <!-- AUTO:END -->
 
 ---
@@ -46,7 +46,7 @@ sections (Build Status, Next Steps) are updated by hand each push.
   device voice** — a missing clip falls back to a soft chime. Re-record clips with
   `scripts/gen-tts-gcloud.mjs` (see `docs/TTS_GCLOUD_SETUP.md`).
 - **7 living worlds** — incl. the two parent-requested favourites:
-  **My Body** (13 parts) and **Things I Do** (25 **animated** activities/verbs — see below) + Home
+  **My Body** (13 parts) and **Things I Do** (28 **animated** activities/verbs — see below) + Home
   Village (family+objects), Safari Island (25 animals), Rainbow Island (10 colours), Counting
   Mountain (1–20), Music Forest.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
@@ -82,12 +82,14 @@ sections (Build Status, Next Steps) are updated by hand each push.
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
 
 ### ✅ Done recently (2026-07)
-- **"Things I Do" action animations — 25 verbs** (§7b): every verb now MOVES on the Learning stage.
+- **"Things I Do" action animations — 28 verbs** (§7b): every verb now MOVES on the Learning stage.
   Same our-own key-pose idea as the songs but with **no audio to sync** — a calm 2-frame flip-book
   loop (`components/ActionAnimation.jsx`, config `src/data/actionAnimations.js`). Adds a **girl**
   character (`act-girl-ready`) beside the boy; solo verbs split boy/girl, social ones (hug/dance/
-  laugh/play/peekaboo) show **both**. Frames via `scripts/gen-action-poses.mjs`; 11 new verbs (136
-  items). Verify `scripts/verify-actions.mjs`.
+  laugh/play/peekaboo) show **both**. Frames via `scripts/gen-action-poses.mjs`; 14 new verbs (139
+  items). Under reduced-motion the loop plays gently (≥1s) — it must NOT freeze. Guarded by the
+  **UI regression suite** `npm run verify:ui` (`verify-suite.mjs` builds → `vite preview` → checks;
+  `verify-actions.mjs` tests a device × reduced-motion matrix).
 - **Song animations — all 13 songs, config-driven** (§6): our-own key-pose frames that act out
   each song + a karaoke caption; per-song data in `src/data/songAnimations.js`, rendered by
   `SongAnimation.jsx`, poses via `scripts/gen-song-poses.mjs --song <name>`. **Song trims** (§7) done.
@@ -104,7 +106,7 @@ sections (Build Status, Next Steps) are updated by hand each push.
 ### 🗂️ Code map
 ```
 src/
-├── data/content.js        # 7 worlds / 136 items (say text, IPA, ladder phrases, PRAISE)
+├── data/content.js        # 7 worlds / 139 items (say text, IPA, ladder phrases, PRAISE)
 ├── data/phraseContent.js  # speech-therapy vocab (209 words / tiers / categories) + phrase banks
 ├── data/songs.js          # "Sing with Pip" catalog (13 PD songs; tag / grad / animated flag)
 ├── data/songAnimations.js # per-song animation configs (poses / lyrics / cue seq / timing) → build()
