@@ -113,7 +113,9 @@ key-pose idea as the songs, but with **no audio to sync** (a verb just loops 2 f
 interval, so it can't drift and is far simpler). `components/ActionAnimation.jsx` +
 **`src/data/actionAnimations.js`** (keyed by the item's `sound`, e.g. `do-jumping`); `ItemVisual`
 plays it on the stage only, game/grid cards use frame 0. **Hard-cut flip-book, not a fade** (action
-silhouettes differ too much to fade cleanly); `prefers-reduced-motion` freezes on frame 0.
+silhouettes differ too much to fade cleanly). Under `prefers-reduced-motion` the loop still plays
+(the motion demonstrates the verb) but at a calmer ≥1s cadence — it must NOT freeze, or verbs look
+static on phones/tablets that have Reduce Motion on (fixed 2026-07-13, `scripts/diag-live-actions.mjs`).
 - **Two characters**: the existing Head/Shoulders **boy** (`song-ready`) + a **new girl** anchor
   (`act-girl-ready`, coral dress / pigtails). Solo verbs alternate boy/girl; the social verbs
   **Hugging / Dancing / Laughing / Playing / Peekaboo** show **both children together**.

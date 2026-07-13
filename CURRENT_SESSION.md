@@ -14,7 +14,10 @@
 - **Renderer**: `src/components/ActionAnimation.jsx` loops an action's key frames on a fixed
   interval (config: `src/data/actionAnimations.js`, keyed by the item's `sound`, e.g. `do-jumping`).
   **Hard cut (flip-book), not a cross-fade** — an action's two frames can differ a lot in silhouette
-  and fading ghosts them into a confusing double-image. `prefers-reduced-motion` freezes on frame 0.
+  and fading ghosts them into a confusing double-image. Under `prefers-reduced-motion` the loop
+  still plays (the motion demonstrates the verb — it's informative), just at a calmer ≥1s cadence.
+  ⚠️ It **used** to freeze on frame 0, which made verbs look static on phones/tablets that have
+  Reduce Motion on (fixed 2026-07-13; diagnosed live with `scripts/diag-live-actions.mjs`).
 - **Where it plays**: `ItemVisual` shows the animation on the **big learning stage** only; game/Word
   Board/Phonics cards use **frame 0 as a still**, so grids stay light.
 - **Characters**: the existing Head/Shoulders boy (`song-ready`) + a **new girl anchor**

@@ -6,8 +6,10 @@ const BASE = import.meta.env.BASE_URL || '/'
 
 /*
  * A "Things I Do" verb, animated. Loops the action's key frames on a fixed interval
- * (no audio to sync to — a verb just needs to MOVE), cross-fading between them. Honours
- * prefers-reduced-motion by freezing on the first frame. Config: data/actionAnimations.js.
+ * (no audio to sync to — a verb just needs to MOVE). A verb's motion IS the content — it
+ * demonstrates the word — so under prefers-reduced-motion we don't FREEZE it (that made it
+ * look broken on phones/tablets that have Reduce Motion on); we just play it slower and
+ * gentler. Config: data/actionAnimations.js.
  */
 export default function ActionAnimation({ soundKey }) {
   const cfg = ACTION_ANIMATIONS[soundKey]
@@ -20,8 +22,9 @@ export default function ActionAnimation({ soundKey }) {
       typeof window !== 'undefined' &&
       window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) return
-    const id = setInterval(() => setI((n) => (n + 1) % cfg.frames.length), cfg.ms || 600)
+    // Reduced motion → keep the (informative) loop, but calm it to a gentle >=1s cadence.
+    const ms = reduce ? Math.max(cfg.ms || 600, 1000) : cfg.ms || 600
+    const id = setInterval(() => setI((n) => (n + 1) % cfg.frames.length), ms)
     return () => clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [soundKey])

@@ -21,10 +21,5 @@
 .act-anim .act-anim-frame.is-on {
   opacity: 1;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  /* No interval runs; ensure the first frame is visible even without the is-on toggle. */
-  .act-anim .act-anim-frame:first-child {
-    opacity: 1;
-  }
-}
+/* No prefers-reduced-motion override: the loop still runs (just slower, set in JS), and the
+   initial render already gives frame 0 the is-on class, so there's nothing to freeze. */
