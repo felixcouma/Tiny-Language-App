@@ -51,7 +51,10 @@ const run = async () => {
   await scenario(browser, 'Desktop · reduced-motion: reduce', { viewport: { width: 1280, height: 900 }, reducedMotion: 'reduce' })
   await scenario(browser, 'Mobile (iPhone 13) · default', { ...devices['iPhone 13'] })
   await scenario(browser, 'Mobile (iPhone 13) · reduced-motion: reduce', { ...devices['iPhone 13'], reducedMotion: 'reduce' })
+  await scenario(browser, 'Android (Pixel 7) · default', { ...devices['Pixel 7'] })
+  await scenario(browser, 'Android (Pixel 7) · reduced-motion: reduce', { ...devices['Pixel 7'], reducedMotion: 'reduce' })
   await scenario(browser, 'Tablet (iPad Pro 11) · default', { ...devices['iPad Pro 11'] })
+  await scenario(browser, 'Android tablet (Galaxy Tab S4) · reduced-motion: reduce', { ...devices['Galaxy Tab S4'], reducedMotion: 'reduce' })
   await browser.close()
 }
 run().catch((e) => { console.error(e); process.exit(1) })
