@@ -3,7 +3,25 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-12 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-14 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Playtest fixes (parent-reported).**
+> - **Auto Play looped forever** at the end of a world — `store.next()` wraps with `% length` and
+>   Auto Play called it. Fixed in `LearningScreen`: Auto Play now **stops at the last item** (manual
+>   arrows still wrap). Also **gentler pacing** — the auto-advance gap went 0.9s → **2.5s** so there's
+>   a calm beat between items/verbs (parent's choice) and the "Things I Do" verb keeps animating in it.
+> - **"Mama" mispronounced ("mala")** on the Word Board — regenerated the `mama`-containing phrase
+>   clips in all 3 voices (`--kind phrases --match mama --force`). ⚠️ **Owner to ear-check**; if it's
+>   still off, respell the synthesized text (keep the `mama` slug for lookup).
+> - **Wait-time / "name it first" pause** (e.g. see cow → say "cow" → app speaks): decided to **keep
+>   it opt-in** — it's the per-child **Parent → Wait time** toggle (~4s, off by default), not a new
+>   default.
+> - **Regression guard:** new **`scripts/verify-autoplay.mjs`** (advances + STOPS at end, no loop) —
+>   negative-tested against the reintroduced bug — added to **`npm run verify:ui`**. Suite green.
+
+---
+
+## Earlier Session — 2026-07-12 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **"Things I Do" verbs are now ANIMATED** — the same our-own-character, key-pose approach as the
 > songs, but with **no audio to sync to** (a verb just loops 2 frames, so it's far simpler and can't

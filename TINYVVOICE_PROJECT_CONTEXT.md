@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-13 15:08 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-15 04:33 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `cff467f Feat: 3 more verbs (Waking up, Pointing, Getting dressed) + UI regression suite`
 - `fb67e92 Test: cover Android (Pixel 7 / Galaxy Tab) in the action-animation live probe`
 - `142712b Fix: action verbs stayed static under Reduce Motion (phones/tablets)`
 - `7246ebe Docs: record the "Things I Do" action-animation rollout`
 - `73c1798 Feat: 5 more animated verbs — Crying, Painting, Throwing, Cooking, Peekaboo`
 - `340aa45 Feat: animate all "Things I Do" verbs (boy/girl + both-together)`
-- `23d5895 Docs: add song files to the code map`
 <!-- AUTO:END -->
 
 ---

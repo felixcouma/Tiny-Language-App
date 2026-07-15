@@ -62,10 +62,16 @@ export default function LearningScreen() {
   }, [item && item.word])
 
   // Auto-play: advance only AFTER the current word's audio has finished, plus a
-  // short gentle gap — so the sound is never cut short.
+  // gentle beat so the child can take in the picture/verb (and try saying it) before
+  // the next one. STOPS at the end of the world instead of looping forever — the
+  // manual arrows still wrap. (~2.5s gap chosen with the parent.)
   useEffect(() => {
     if (!autoPlay || !item || playedWord !== item.word) return
-    const t = setTimeout(() => next(), 900)
+    const isLast = itemIndex >= world.items.length - 1
+    const t = setTimeout(() => {
+      if (isLast) toggleAutoPlay() // reached the last item — stop, don't loop back
+      else next()
+    }, 2500)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPlay, playedWord, item && item.word])
