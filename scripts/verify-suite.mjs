@@ -29,6 +29,7 @@ const CHECKS = [
   ['verify-actions.mjs', FULL ? ['--full'] : []], // action animations × device × reduced-motion
   ['verify-autoplay.mjs', []], // Auto Play advances + stops at the end (no loop)
   ['verify-song-anims.mjs', []], // song animations (all 12 config-driven songs)
+  ['verify-song-player.mjs', []], // Sing with Pip player: transport + auto-advance + stop-at-end
 ]
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

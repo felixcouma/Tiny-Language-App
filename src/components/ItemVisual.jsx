@@ -26,7 +26,7 @@ const Star = ({ color, style }) => (
   </svg>
 )
 
-export default function ItemVisual({ item, kind = 'stage' }) {
+export default function ItemVisual({ item, kind = 'stage', paused = false }) {
   const cls = `visual visual-${kind}`
 
   if (item.numeral != null) {
@@ -77,7 +77,7 @@ export default function ItemVisual({ item, kind = 'stage' }) {
     return (
       <div className={`${cls} visual-photo`} aria-label={item.word}>
         {kind === 'stage' ? (
-          <ActionAnimation soundKey={item.sound} />
+          <ActionAnimation soundKey={item.sound} paused={paused} />
         ) : (
           <img src={`${PORTRAIT_BASE}images/${anim.frames[0]}.webp`} alt={item.word} />
         )}

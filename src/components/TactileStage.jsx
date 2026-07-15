@@ -8,7 +8,7 @@ import './TactileStage.css'
  * the image never reloads) and throws a little sparkle burst — cause-and-effect
  * delight that keeps toddlers' fingers moving. Calls onTap to replay the sound.
  */
-export default function TactileStage({ item, onTap }) {
+export default function TactileStage({ item, onTap, paused = false }) {
   const ref = useRef(null)
   const [burst, setBurst] = useState(0)
 
@@ -29,7 +29,7 @@ export default function TactileStage({ item, onTap }) {
   return (
     <button className="tactile-wrap" onClick={tap} aria-label={`Hear ${item.word}`}>
       <div className="tactile-visual" ref={ref}>
-        <ItemVisual key={item.word} item={item} kind="stage" />
+        <ItemVisual key={item.word} item={item} kind="stage" paused={paused} />
       </div>
       <span className="card-speaker" aria-hidden="true">
         <SpeakerIcon size={22} />

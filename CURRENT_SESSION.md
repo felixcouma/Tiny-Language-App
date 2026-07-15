@@ -3,7 +3,33 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-14 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-15 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **"Sing with Pip" is now a proper little player.** When more than one song is enabled you no
+> longer tap each song one at a time. The now-playing panel became a **transport bar**:
+> **Shuffle · Previous · Play/Pause · Next**, and it **auto-advances** through the queue when a
+> song finishes — then **stops at the end** (no endless loop, same rule as Auto Play).
+> - **`src/screens/SongScreen.jsx`** — a play **queue** (`order`) built from the enabled songs;
+>   a `shuffle` toggle (Fisher–Yates; rebuilds the queue, current song keeps playing); `start` /
+>   `toggle` / `skip(±1)` (manual skips wrap) / `onMainPlay` (starts the queue if nothing's
+>   selected). Auto-advance effect listens for `ended` → plays the next, or stops on the last.
+>   Idle state shows a purple panel + Pip + "N songs ready".
+> - **`src/screens/SongScreen.css`** — now-playing is a centered player card; new `.np-transport`,
+>   `.np-ctrl`, and shuffle-active `.np-ctrl.is-on` (filled white). Big `.np-play` unchanged.
+> - **Regression guard:** new **`scripts/verify-song-player.mjs`** (controls present · Play starts
+>   the queue · Next/Prev step + wrap · song-end auto-advances · **stops at end, no loop** · shuffle
+>   toggles) — added to **`npm run verify:ui`**. Full suite green.
+>
+> **Auto Play end-of-world — the last verb now SETTLES.** Auto Play already stopped at the end,
+> but a "Things I Do" verb kept looping its animation forever afterward. Added a `paused` prop
+> threaded `LearningScreen → TactileStage → ItemVisual → ActionAnimation`: when Auto Play finishes
+> a world it sets `finished`, which **freezes the last verb on its calm base frame (frame 0)**. Any
+> interaction (next/prev, a tap, restarting Auto Play) un-freezes it. `verify-autoplay.mjs` grew a
+> scenario C: the last verb is cycling before the end and **frozen on the base frame** after.
+
+---
+
+## Session — 2026-07-14 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Playtest fixes (parent-reported).**
 > - **Auto Play looped forever** at the end of a world — `store.next()` wraps with `% length` and

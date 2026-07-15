@@ -39,11 +39,15 @@ export default function LearningScreen() {
   // Whether this word has been spoken yet (via the pause timer OR a manual tap) —
   // so a tap during the expectant pause doesn't get doubled by the pending timer.
   const spokeRef = useRef(false)
+  // True once Auto Play has finished a world and stopped on the last item — freezes that
+  // item's animation to rest so it doesn't keep looping forever. Cleared on any interaction.
+  const [finished, setFinished] = useState(false)
 
   // Speak each word as it appears; mark it played once its audio finishes.
   useEffect(() => {
     if (!item) return
     spokeRef.current = false
+    setFinished(false) // a new word is showing — un-freeze (covers next/prev/auto-advance)
     let cancelled = false
     // Auto Play stays snappy; the expectant pause applies to hands-on play only.
     const delay = expectantPause && !autoPlay ? 4000 : 350
@@ -69,8 +73,10 @@ export default function LearningScreen() {
     if (!autoPlay || !item || playedWord !== item.word) return
     const isLast = itemIndex >= world.items.length - 1
     const t = setTimeout(() => {
-      if (isLast) toggleAutoPlay() // reached the last item — stop, don't loop back
-      else next()
+      if (isLast) {
+        toggleAutoPlay() // reached the last item — stop, don't loop back
+        setFinished(true) // and let the last verb settle (freeze its animation)
+      } else next()
     }, 2500)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,6 +88,7 @@ export default function LearningScreen() {
 
   const sayNow = () => {
     spokeRef.current = true // a tap satisfies the expectant pause (no doubled speak)
+    setFinished(false) // interacting wakes the verb back up
     playItem(item)
     recordHeard(item, world.id)
     setPlayedWord(item.word)
@@ -91,6 +98,7 @@ export default function LearningScreen() {
     // No immediate replay — the word is already spoken when it appears, and
     // auto-advance waits for the clip to finish, so toggling never cuts audio.
     if (autoPlay) stopSpeaking()
+    else setFinished(false) // restarting Auto Play un-freezes a settled last verb
     toggleAutoPlay()
   }
 
@@ -125,7 +133,7 @@ export default function LearningScreen() {
 
       <main className="l2-main">
         <div className="tv-card l2-card">
-          <TactileStage item={item} onTap={sayNow} />
+          <TactileStage item={item} onTap={sayNow} paused={finished} />
           <button className="l2-word-btn" onClick={sayNow} aria-label={`Hear ${item.word}`}>
             <h2 className="l2-word" style={{ color: wordColor }}>
               {item.word}

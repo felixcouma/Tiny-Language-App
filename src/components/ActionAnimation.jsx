@@ -10,14 +10,17 @@ const BASE = import.meta.env.BASE_URL || '/'
  * demonstrates the word — so under prefers-reduced-motion we don't FREEZE it (that made it
  * look broken on phones/tablets that have Reduce Motion on); we just play it slower and
  * gentler. Config: data/actionAnimations.js.
+ *
+ * `paused` freezes the loop on the calm base frame (frame 0) — used when Auto Play reaches
+ * the end of a world so the last verb settles to rest instead of moving forever.
  */
-export default function ActionAnimation({ soundKey }) {
+export default function ActionAnimation({ soundKey, paused = false }) {
   const cfg = ACTION_ANIMATIONS[soundKey]
   const [i, setI] = useState(0)
 
   useEffect(() => {
     setI(0)
-    if (!cfg || cfg.frames.length < 2) return
+    if (paused || !cfg || cfg.frames.length < 2) return
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia &&
@@ -27,7 +30,7 @@ export default function ActionAnimation({ soundKey }) {
     const id = setInterval(() => setI((n) => (n + 1) % cfg.frames.length), ms)
     return () => clearInterval(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [soundKey])
+  }, [soundKey, paused])
 
   if (!cfg) return null
 
