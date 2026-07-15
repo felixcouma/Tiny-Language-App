@@ -28,6 +28,10 @@ const ROOT = path.join(__dirname, '..')
 const args = process.argv.slice(2)
 const VOICE = args.includes('--voice') ? args[args.indexOf('--voice') + 1] : 'aoede'
 const ORDER = args.includes('--order') ? args[args.indexOf('--order') + 1] : 'alpha'
+// --only Big,Cow,... : build a short recheck clip of just those words (case-insensitive).
+const ONLY = args.includes('--only')
+  ? new Set(args[args.indexOf('--only') + 1].split(',').map((s) => s.trim().toLowerCase()))
+  : null
 const GAP = 0.6 // seconds of silence between words
 const ffprobePath = ffprobeStatic.path
 
@@ -45,8 +49,8 @@ const ff = (a) => execFileSync(ffmpegPath, a, { stdio: 'ignore' })
 const durationOf = (f) =>
   Number(execFileSync(ffprobePath, ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', f]).toString().trim()) || 0
 
-// Order the words for a scannable list.
-const words = [...WORDS]
+// Order the words for a scannable list (optionally just the --only recheck subset).
+const words = ONLY ? WORDS.filter((w) => ONLY.has(w.word.toLowerCase())) : [...WORDS]
 if (ORDER === 'category') words.sort((a, b) => a.category.localeCompare(b.category) || a.word.localeCompare(b.word))
 else words.sort((a, b) => a.word.localeCompare(b.word, 'en', { sensitivity: 'base' }))
 
@@ -77,7 +81,7 @@ for (const w of words) {
 // Concatenate all the normalized WAVs (+ gaps) and encode one MP3.
 const listFile = path.join(TMP, 'list.txt')
 writeFileSync(listFile, listLines.join('\n'))
-const outMp3 = path.join(OUT, `wordboard-review-${VOICE}.mp3`)
+const outMp3 = path.join(OUT, `wordboard-review-${VOICE}${ONLY ? '-recheck' : ''}.mp3`)
 ff(['-y', '-f', 'concat', '-safe', '0', '-i', listFile, '-c:a', 'libmp3lame', '-q:a', '4', outMp3])
 
 // Tracklist.
@@ -95,7 +99,7 @@ if (missing.length) {
   md.push(``, `## Missing clips (${missing.length}) — these chime in-app, no recording:`, ``)
   md.push(...missing.map((w) => `- ${w.word} (${w.category})`))
 }
-const outMd = path.join(OUT, `wordboard-review-${VOICE}.md`)
+const outMd = path.join(OUT, `wordboard-review-${VOICE}${ONLY ? '-recheck' : ''}.md`)
 writeFileSync(outMd, md.join('\n'))
 
 rmSync(TMP, { recursive: true, force: true })

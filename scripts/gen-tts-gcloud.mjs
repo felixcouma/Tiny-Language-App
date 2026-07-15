@@ -153,6 +153,8 @@ async function synth(voiceFolder, text, key) {
 
 /* ---- run ---- */
 let items = KIND === 'phrases' ? phraseRows() : KIND === 'abc-songs' ? abcRows() : voiceRows()
+// --only a,b : EXACT keys (works for every kind incl. phrases — regen just those clips).
+if (ONLY) { const set = new Set(ONLY.split(',').map((s) => s.trim())); items = items.filter((it) => set.has(it.key)) }
 if (MATCH) items = items.filter((it) => it.key.includes(MATCH)) // --match number- : targeted (re)gen
 if (LIMIT) items = items.slice(0, LIMIT) // --limit N: generate only the first N (for a quick test)
 // For phrases, Aoede lives in the flat sounds/phrases/ (the app default); the other voices get
