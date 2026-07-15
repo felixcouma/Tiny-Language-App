@@ -12,3 +12,4 @@ npm-debug.log*
 !.env.example
 # Google Cloud service-account key (local secret — never commit)
 scripts/gcloud-sa-key.json
+scripts/_review/
