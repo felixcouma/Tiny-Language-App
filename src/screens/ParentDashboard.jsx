@@ -54,6 +54,8 @@ export default function ParentDashboard() {
 
         <TrialBanner />
 
+        <TwinNudge />
+
         <div className="stat-grid">
           <Stat big value={uniqueWords} label="different words" />
           <Stat big value={mastered} label="words mastered" />
@@ -133,6 +135,56 @@ export default function ParentDashboard() {
           Reset progress
         </button>
       </main>
+    </div>
+  )
+}
+
+// Twin insight (only with two children): a single, gentle, cooperative nudge derived
+// from each child's saved progress — no scores, no ranking. It answers the anxious
+// asymmetric-twin case (one late talker) that no competitor addresses: when one child
+// has been exploring more this week, suggest a shared turn or a world the other hasn't
+// visited yet. Reads BOTH children without switching the active profile.
+function TwinNudge() {
+  const childCount = useStore((s) => s.childCount)
+  const profiles = useStore((s) => s.profiles)
+  const progressFor = useStore((s) => s.progressFor)
+  if (childCount !== 2) return null
+  const kids = profiles.filter((p) => !p.guest).slice(0, 2)
+  if (kids.length < 2) return null
+
+  const WEEK = 7 * 86400000
+  const now = Date.now()
+  const stat = (id) => {
+    const pr = progressFor(id) || {}
+    const recent = Object.values(pr.lastSeen || {}).filter((t) => now - t < WEEK).length
+    const worlds = new Set(Object.keys(pr.byWorld || {}).filter((w) => (pr.byWorld[w] || 0) > 0))
+    return { recent, worlds }
+  }
+  const A = { ...kids[0], ...stat(kids[0].id) }
+  const B = { ...kids[1], ...stat(kids[1].id) }
+  const [lead, lag] = A.recent >= B.recent ? [A, B] : [B, A]
+  const gapWorld = [...lead.worlds].find((w) => !lag.worlds.has(w))
+  // Only surface when there's a real, gentle divergence worth a nudge.
+  const enough = lead.recent >= 3
+  const activityGap = lead.recent - lag.recent >= 4
+  if (!enough || (!gapWorld && !activityGap)) return null
+  const worldName = gapWorld ? getWorld(gapWorld)?.name || 'a new world' : null
+
+  return (
+    <div className="twin-nudge">
+      <p className="twin-nudge-text">
+        {worldName ? (
+          <>
+            <b>{lead.name}</b> explored <b>{worldName}</b> this week. <b>{lag.name}</b> hasn&rsquo;t
+            been there yet — try it together next time.
+          </>
+        ) : (
+          <>
+            <b>{lead.name}</b> has been exploring a lot this week. Invite <b>{lag.name}</b> to a
+            shared turn today — playing side by side keeps both talking.
+          </>
+        )}
+      </p>
     </div>
   )
 }
@@ -347,6 +399,10 @@ function ExpectantPause() {
         says the word, so they get a chance to try saying it first. Tapping the picture still
         speaks it right away. Leave off for the usual instant sound.
       </p>
+      <p className="voice-why">
+        Why: speech therapists call this <b>“wait time”</b> — the little silence is the
+        invitation to talk. Try it during a calm moment together.
+      </p>
       <div className="voice-options">
         {[false, true].map((v) => (
           <button
@@ -401,6 +457,17 @@ function FocusWords() {
           </button>
         )}
       </div>
+
+      {focus.length > 0 && (
+        <div className="home-tip">
+          <h4 className="home-tip-h">Say it at home</h4>
+          <p className="home-tip-p">
+            This week you&rsquo;re practising <b>{focus.join(', ')}</b>. In the moment each one
+            happens, say it slowly and clearly, then <b>pause</b> and give {child.name} a chance to
+            try. A few times a day beats one long sitting — and Auto Play will lead with these.
+          </p>
+        </div>
+      )}
 
       <div className="focus-cats" role="tablist" aria-label="Word groups">
         {CATEGORIES.map((c) => (
@@ -482,6 +549,10 @@ function StorybookVoicePicker() {
       <h3 className="parent-h3">Storybook voice</h3>
       <p className="voice-hint">
         The warm voice that reads each word aloud. Tap one to hear it.
+      </p>
+      <p className="voice-why">
+        Why: all three are warm, human-recorded voices — never a robotic text-to-speech. Natural
+        prosody is what helps little ones tune in. Pick whichever your child settles on.
       </p>
       <div className="voice-options">
         {STORYBOOK_VOICES.map((v) => (

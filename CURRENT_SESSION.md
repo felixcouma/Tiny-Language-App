@@ -3,7 +3,35 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-15 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-16 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Competitive review (Agent Council) → 3 edge moves shipped.** Re-ran `tools/council/` in
+> **comparative** mode vs. the top-5 toddler speech apps (Speech Blubs · Khan Kids · Otsimo · Lingumi
+> · Proloquo2Go). Refreshed the council's stale `projectContext` (it wrongly claimed Howler.js /
+> Tailwind / photographs) + added a research-grounded `competitorContext`. Full write-up +
+> accept/reframe/decline in **`docs/COUNCIL_REVIEW_RESPONSE.md`** (new "Competitive Review" section).
+> Verdict: our moat (multi-child/twin + warm offline voice + expectant pause + no-scores + PWA) is real;
+> the one closable gap is *making state we already store speak to the parent*. Three non-bloating moves,
+> all reusing existing per-child state:
+> - **Twin divergence nudge** (`ParentDashboard` → `TwinNudge`): one gentle, cooperative, no-score card
+>   from each child's `lastSeen`/`byWorld` — *"Mia explored Safari Island this week; Leo hasn't been
+>   there yet — try it together."* Only with two children + a real divergence. Reads both kids via new
+>   `store.progressFor(id)`. **Uniquely ours** — no competitor handles twins.
+> - **Focus-first Auto Play + "Say it at home"**: `focusWords` already existed + were prioritized in
+>   `today.js`; now Auto Play on the Learning screen **leads with a pinned focus word** (new
+>   `store.setItemIndex`), the current focus word shows a **"Practice word"** star (`.l2-focus`), and the
+>   Parent focus-words section gets a plain-language **coaching card** (aided language input). Closes
+>   Otsimo's structured-targets gap without a therapist dashboard.
+> - **"Why" notes** on the Wait-time and Storybook-voice settings (`.voice-why`): turns baked-in science
+>   into parent-legible value at ~0 cost. Answers Speech Blubs' Parents' Academy.
+> - **Declined (would bloat / break brand):** live ASR mic-scoring, streaks/achievements, a full clinical
+>   therapist dashboard.
+> - **Regression guard:** new **`scripts/verify-parent-insights.mjs`** (twin nudge · say-it-at-home · why
+>   notes · focus-first Auto Play + marker) — added to **`npm run verify:ui`**. Full suite green.
+
+---
+
+## Session — 2026-07-15 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **"Sing with Pip" is now a proper little player.** When more than one song is enabled you no
 > longer tap each song one at a time. The now-playing panel became a **transport bar**:

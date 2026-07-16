@@ -131,6 +131,56 @@
   margin: 0 0 var(--space-sm);
   line-height: 1.4;
 }
+/* A short, plain-language "why this helps" note under a therapy setting — turns baked-in
+   science into something a caregiver can act on (no jargon dump). */
+.voice-why {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-gray);
+  margin: 0 0 var(--space-sm);
+  padding-left: 10px;
+  border-left: 3px solid var(--accent-purple);
+  line-height: 1.45;
+  opacity: 0.95;
+}
+/* Twin insight card: a single gentle, cooperative nudge (no scores/ranking). */
+.twin-nudge {
+  margin: 0 0 var(--space-md);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-lavender);
+  border-left: 5px solid var(--primary-magenta);
+}
+.twin-nudge-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark, #3a3a3a);
+  line-height: 1.45;
+}
+/* "Say it at home" coaching card in Focus words — aided language input, plain language. */
+.home-tip {
+  margin: var(--space-sm) 0 var(--space-md);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-lavender);
+  border: 2px solid var(--accent-teal, #20B2AA);
+}
+.home-tip-h {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--accent-teal, #178a8f);
+}
+.home-tip-p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark, #3a3a3a);
+  line-height: 1.5;
+}
 .voice-options {
   display: flex;
   flex-direction: column;

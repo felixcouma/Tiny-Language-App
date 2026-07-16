@@ -52,41 +52,96 @@ const councilMembers = [
 ];
 
 const projectContext = `
-TinyVoice Twins is a sound-first, speech-therapy-aligned educational app for toddler twins (ages 2–3). 
+TinyVoice (a.k.a. "TinyVoice Twins") is a sound-first, speech-therapy-aligned early-language app
+for TODDLERS (ages ~2–3), mobile-first PWA. Now a therapist-driven pilot. (Refreshed 2026-07-15.)
 
 KEY FEATURES IMPLEMENTED:
-- Sound-first interaction with warm TTS voices (Aoede, Leda, Sulafat via Google Cloud)
-- Real assets: authentic photographs + recorded animal sounds (25 animals)
-- Learning Screen: word + sound discovery with auto-play
-- Grid Vocabulary Board: categorized AAC-style word layout
-- Phrase Practice (Levels 1–3): word → 2-word → 3-word progression
-- Counting Ladders: number practice with varied nouns
-- Safari Ladders: animal verb morphology (e.g., "The dog runs fast")
-- Sing with Pip: 13 public domain songs with per-child voice selection
-- Alphabet Friends: 26 letter-song clips with word pictures
-- Twin Mode: per-child profiles with named turn-taking
-- Parent Dashboard: voice switching, progress tracking, settings
+- Speech-first: every word is HEARD in a warm PRE-RENDERED human-like voice — 3 selectable voices
+  (Aoede default · Leda · Sulafat, Google Cloud TTS). NEVER the robotic device voice; a missing clip
+  plays a soft chime, so clip coverage is kept complete (letters A–Z, phonics, praise all recorded).
+- Real assets only: our own hand-styled WebP ILLUSTRATIONS (not photos, no emoji, no synthetic
+  placeholders) + real Creative-Commons animal SOUNDS.
+- 7 "worlds" / 139 items (each: word, wiki ref, spoken line, a 1→2→3-word "expand" ladder, sound key).
+- Learning Screen: tap-to-hear word + sound discovery; expand ladder; "Auto Play" (auto-advances then
+  STOPS at the end, no loop); optional per-child "expectant pause" (a few seconds before auto-speak so
+  the child gets a communicative opportunity to name it first — Dunst & Trivette responsiveness).
+- "Things I Do": 28 ANIMATED verbs using our OWN boy + girl characters (key-pose flip-book loops, no
+  audio to sync); solo verbs alternate boy/girl, social verbs (hug/dance/laugh/play) show BOTH kids;
+  plays gently under prefers-reduced-motion; the last verb settles (freezes) when Auto Play finishes.
+- Word Board: an AAC-style categorized vocabulary board — ~200 therapist-aligned CORE words across 3
+  frequency tiers — plus a "Find" word-focus mode.
+- Phrase practice: Word Practice + Phrase Builder (2-word / 3-word banks).
+- Sing with Pip: 13 public-domain children's songs, each with an our-own-character animation +
+  karaoke captions; now a robust transport-bar PLAYER (shuffle · prev · play/pause · next, auto-
+  advances the enabled-songs queue, stops at the end). Per-child song enabling + voice.
+- Counting + Colours worlds; Phonics + Sound-game + Twin-Mode mini-games (shared ChoiceGame engine).
+- Twin Mode: generic RENAMABLE per-child profiles; a fresh device seeds only "Everyone" then asks
+  "how many children?"; childCount (1|2) gates Twin Mode; cooperative turn-taking (no winner).
+- Per-child state: progress (seen / collected / a parent-facing "today" line), stage, focus words,
+  enabled songs, wait-time, screen-time limit + quiet hours.
+- Parent area (gated): voice switch, song enable, progress, screen-time/bedtime.
+- Cloud (OPTIONAL pilot, Supabase): magic-link auth + per-child sync + a 30-day soft trial (banner
+  only — child play is NEVER blocked). Runs fully local & offline without any of it.
+- PWA: offline-first; /sounds/ + /images/ use StaleWhileRevalidate so a re-recorded clip/image at the
+  SAME url self-heals on next play. Deployed to GitHub Pages (free demo) + Vercel (pilot w/ cloud env).
 
-CURRENT STATE (as of 2026-06-11):
-✅ COMPLETE: Core learning screens, 3-voice TTS generation, ABC songs, animal FX infrastructure, 25 animal images + 12 concrete objects, per-voice switching for phrases, PWA with StaleWhileRevalidate cache, Codespaces backup
-🔄 IN PROGRESS: Animal sound effect recordings (5 new animals need real FX), duck quack replacement
-⏳ BACKLOG: Song animations (Lottie sync), karaoke/highlighted lyrics, progressive word mastery indicators, in-app weekly parent insights
+DESIGN PHILOSOPHY / QUALITY BARS:
+- NO scores / streaks / pressure — gentle "collection" + celebration only; any growth signal is
+  surfaced to PARENTS, never as a child-facing scoreboard.
+- Warm, bold, chunky, tactile; one action per screen; toddler-safe; prefers-reduced-motion respected.
+- Real illustration + warm voice + real sound over anything synthetic.
+- Per-child everything (progress, stage, screen-time, bedtime).
+- NO feature bloat: every feature must earn its place via learning science + toddler/twin value.
+- Learning science aligned: Dunst & Trivette child-responsive practices; AAC core-vocabulary board.
 
-DESIGN PHILOSOPHY:
-- Warm Maximalism: bold colors (never muted), chunky tactile graphics, sound-first
-- Zero cognitive friction: one action per screen = one joy outcome
-- Twin-specific: named turn-taking, cooperative (not competitive) interaction
-- Real assets over synthetic: photos + CC audio, no AI-generated content
-- Learning science aligned: Dunst & Trivette child-responsive practices, AAC board principles
+TECH STACK (corrects earlier notes):
+React + Vite + Zustand. Audio is a CUSTOM lib (src/lib/audio.js) — NOT Howler. Plain CSS (NOT
+Tailwind). Google Cloud / Vertex asset pipeline (pre-rendered voice clips + WebP images, committed).
+Supabase optional. Playwright UI regression suite (npm run verify:ui).
+`;
 
-QUALITY BARS:
-- No feature bloat: every feature must earn its place through learning science + twin value
-- No population comparisons: parent features avoid developmental milestone claims
-- Accessibility: WCAG 2.1 AA compliance
-- Performance: 60fps animations, <3s load time on 4G, offline-first PWA
+// Competitive landscape for a COMPARATIVE review — the top toddler / early-language speech apps
+// TinyVoice competes against. Populated from current (2025–26) market research so the council
+// grounds its "how do we compare / where's our edge" calls in real products, not vibes.
+const competitorContext = `
+TOP-5 COMPETITOR APPS (toddler / early-language speech space), from 2025–26 market research:
 
-TECH STACK:
-React 18, Tailwind CSS, Howler.js, Zustand, Vite, GitHub Codespaces, Google Cloud TTS, Supabase auth (optional)
+1) SPEECH BLUBS (category leader, 6M+ downloads, built w/ 1,000+ SLPs, 4.6★). Freemium → ~$60/yr.
+   Signature moat = PEER VIDEO MOUTH-MODELING: the child watches REAL OTHER KIDS pronounce a
+   sound/word then imitates into the mic; AR face filters; real photos + real voice; big Parents'
+   Academy. Weakness: pricey, finicky mic ASR, spans to age 8 (not toddler-pure), feels supplemental.
+
+2) KHAN ACADEMY KIDS (the "free giant," 21M+ learners, Stanford-designed, ages 2–8). 100% FREE,
+   ad-free, no IAP. Huge 5,000+ activity library, adaptive path, licensed content, teacher dashboards.
+   Weakness: general early-ed, NOT speech therapy — no articulation drills, no mic practice, no AAC.
+
+3) OTSIMO SPEECH THERAPY SLP (clinical, UC Berkeley/Edinburgh-backed). Freemium → ~$4.49–6.99/mo or
+   ~$116 lifetime. Structured oral-motor → consonant → word → phrase drills with ASR/ML scoring; a
+   dev-test sets a personalized schedule; caregivers can align with a real SLP. Weakness: feels like
+   therapy not play; billing complaints; toddler-speech ASR imperfect.
+
+4) LINGUMI (toddler UX benchmark, 2M+ users, ages 2–5; now owned by Novakid). Subscription (EFL model).
+   ONE 10-min lesson/day (deliberate screen-time cap = healthy-habits positioning); child-tuned speech
+   detection; multi-language; optional physical foam cubes. Weakness: it's ENGLISH-LEARNING (EFL), not
+   speech therapy; less relevant for English-native late talkers; future uncertain post-acquisition.
+
+5) PROLOQUO2GO (gold-standard AAC, AssistiveWare). ONE-TIME ~$250, iOS-only. Symbol word-board:
+   tap SymbolStix symbols to speak utterances aloud; 14,000+ symbols, 100+ natural voices (incl. child
+   voices), deep accessibility; "Progressive Language" reveals words as skill grows. Weakness: very
+   expensive, iOS-only, steep setup, clinical — overkill/intimidating for a typical late-talking
+   toddler (cheaper toddler AAC = free Twinkl Symbols AAC).
+
+FIELD TABLE STAKES: real photo+voice, ad-free/kid-safe, play-based mini-games, some parent dashboard.
+FIELD EDGE FEATURES (only the best): video/mouth modeling (Speech Blubs owns it), speech recognition
+(weak on toddlers everywhere), SLP-designed adaptive isolation→word→phrase curriculum, AAC boards.
+
+WHITE-SPACE GAPS none of them fill well (candidate edges): (a) TWIN / SIBLING multi-child on ONE device
+— essentially absent everywhere; (b) toddler-first PLAYFUL AAC word-board (vs $250 clinical or
+utilitarian-free); (c) a strictly NO-SCORE / NO-STREAK curiosity-reward stance (clinical apps drill,
+Lingumi gamifies); (d) an installable OFFLINE PWA with a free web demo — the entire top-5 are native
+store apps; (e) warm fully-pre-rendered voice with named voice choice + a no-robotic-voice guarantee;
+(f) a lightweight optional therapist-pilot cloud sync in the CONSUMER toddler tier. Hardest walls to
+climb: Speech Blubs' video-modeling moat and Khan's "free" — differentiate on the gaps, don't attack those two head-on.
 `;
 
 // ============================================
@@ -121,7 +176,19 @@ app.post("/api/council", async (req, res) => {
 PROJECT CONTEXT:
 ${projectContext}
 
-Respond in the voice of ${member.name.split(" — ")[0]}. Be specific, cite features or docs when possible, and keep it to 5–7 sentences max. Avoid generic praise; focus on what's unique and what's missing.`;
+${competitorContext}
+
+This is a COMPARATIVE review. In your domain, benchmark TinyVoice against the 5 competitor apps
+above and answer three things, concretely:
+  1) WHERE WE ALREADY WIN — a real advantage vs these apps we should protect/lean into.
+  2) WHERE WE'RE BEHIND — a specific gap where a competitor does something we don't (name it).
+  3) THE ONE EDGE MOVE — a single improvement in your domain that would give us a durable edge
+     WITHOUT bloating the app (must respect: no scores/streaks, speech-first warm voice, real
+     illustrations, per-child, toddler-safe, lean). Say if it's cheap or costly.
+
+Respond in the voice of ${member.name.split(" — ")[0]}. Be specific, name competitors and our real
+features, keep it to 6–8 sentences max. No generic praise. Format: **Where we win:** … **Where we're
+behind:** … **The one edge move:** …`;
 
       try {
         const message = await client.messages.create({
@@ -151,18 +218,22 @@ Respond in the voice of ${member.name.split(" — ")[0]}. Be specific, cite feat
 
     // Run grandmaster synthesis
     console.log("🏆 Running Grandmaster synthesis...");
-    const grandmasterPrompt = `You are the Grandmaster — a strategic synthesis engine. You've heard from four council members:
+    const grandmasterPrompt = `You are the Grandmaster — a strategic synthesis engine. This was a COMPARATIVE
+review of TinyVoice against the top 5 toddler / early-language speech apps. You've heard from four
+council members:
 
 ${councilMembers.map((m) => `**${m.name}** (${m.role}):\n${councilState[m.name]}`).join("\n\n")}
 
-Your job: synthesize this into a **concise, actionable final report** covering:
-1. **Strategic Consensus** (what all 4 agree on)
-2. **Key Tensions** (where council disagrees, and why it matters)
-3. **Top 3 Immediate Actions** (what to do in the next sprint)
-4. **Longer-term Bets** (what requires time/credits but unlocks the most value)
-5. **Quality Gates** (what NOT to build to avoid bloat)
+Synthesize into a **concise, competitive final report** covering:
+1. **How We Compare** — a short WIN / PARITY / BEHIND table vs the field (3–5 rows; name competitors).
+2. **Our Defensible Edge** — the 1–2 things TinyVoice does that the field does NOT (protect these).
+3. **Top 3 Edge Moves** — the highest-leverage improvements that CLOSE a real gap or SHARPEN our edge,
+   each with a rough cost (cheap / medium / costly) and the competitor it answers. Every one must be
+   non-bloating and respect the quality bars (no scores/streaks, speech-first warm voice, real
+   illustrations, per-child, toddler-safe, lean).
+4. **Do NOT Build** — 2–3 tempting competitor features to deliberately SKIP (would bloat or break brand).
 
-Format as a structured report, 300–400 words total. Be bold; make calls.`;
+Format as a structured report, 350–450 words. Be bold; make calls; prefer specifics over hedging.`;
 
     const grandmasterMessage = await client.messages.create({
       model: "claude-sonnet-4-6",

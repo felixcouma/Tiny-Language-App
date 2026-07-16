@@ -30,6 +30,7 @@ const CHECKS = [
   ['verify-autoplay.mjs', []], // Auto Play advances + stops at the end (no loop)
   ['verify-song-anims.mjs', []], // song animations (all 12 config-driven songs)
   ['verify-song-player.mjs', []], // Sing with Pip player: transport + auto-advance + stop-at-end
+  ['verify-parent-insights.mjs', []], // twin nudge · say-it-at-home · why notes · focus-first Auto Play
 ]
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

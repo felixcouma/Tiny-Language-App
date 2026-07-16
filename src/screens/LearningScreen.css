@@ -83,6 +83,19 @@
   border: none;
   padding: 0;
 }
+/* A gentle marker when the current word is one a grown-up pinned as a focus/practice
+   word — makes the therapy target legible without any score or pressure. */
+.l2-focus {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(255, 200, 40, 0.22);
+  color: #b8860b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
 .l2-letter {
   margin-top: 6px;
   padding: 6px 14px;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { playItem, stopSpeaking, voice } from '../lib/audio'
 import TactileStage from '../components/TactileStage.jsx'
@@ -28,8 +28,13 @@ export default function LearningScreen() {
   const toggleMute = useStore((s) => s.toggleMute)
   const autoPlay = useStore((s) => s.autoPlay)
   const toggleAutoPlay = useStore((s) => s.toggleAutoPlay)
+  const setItemIndex = useStore((s) => s.setItemIndex)
   const openChant = useStore((s) => s.openChant)
   const stage = useStore((s) => s.stage())
+  // Focus words a grown-up pinned for this child (therapy homework). We LEAD Auto Play
+  // with one when the world has it, and mark it on the stage so the target is legible.
+  const focusWords = useStore((s) => s.activeProfile()?.focusWords || [])
+  const focusSet = useMemo(() => new Set(focusWords.map((w) => String(w).toLowerCase())), [focusWords])
   // Optional therapy "expectant pause": wait a few seconds before auto-speaking so
   // the child gets a communicative opportunity to name the picture first (per child).
   const expectantPause = useStore((s) => s.activeProfile()?.expectantPause || false)
@@ -98,9 +103,19 @@ export default function LearningScreen() {
     // No immediate replay — the word is already spoken when it appears, and
     // auto-advance waits for the clip to finish, so toggling never cuts audio.
     if (autoPlay) stopSpeaking()
-    else setFinished(false) // restarting Auto Play un-freezes a settled last verb
+    else {
+      setFinished(false) // restarting Auto Play un-freezes a settled last verb
+      // Lead with a pinned focus word if this world has one, so practice targets
+      // come first. (No reordering — we just start the run there, then continue.)
+      if (focusSet.size && world) {
+        const idx = world.items.findIndex((it) => focusSet.has(String(it.word).toLowerCase()))
+        if (idx >= 0 && idx !== itemIndex) setItemIndex(idx)
+      }
+    }
     toggleAutoPlay()
   }
+
+  const isFocus = item && focusSet.has(String(item.word).toLowerCase())
 
   return (
     <div className="scene learn2">
@@ -139,6 +154,11 @@ export default function LearningScreen() {
               {item.word}
             </h2>
           </button>
+          {isFocus && (
+            <span className="l2-focus" aria-label="Practice word">
+              ★ Practice word
+            </span>
+          )}
         </div>
 
         <button

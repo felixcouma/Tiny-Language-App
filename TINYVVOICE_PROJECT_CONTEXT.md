@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-15 19:43 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-16 05:37 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `1adc45e Feat: robust "Sing with Pip" player + Auto Play last-verb settles`
 - `498d162 Fix: regenerate 5 mispronounced Word Board clips (Big, Cow, Cup, Eight, Plane)`
 - `79252b8 @ Tooling: word-board audio review builder`
 - `b9d71a5 Fix: Auto Play looped at end + gentler pacing; regen "mama" clip; autoplay test`
 - `cff467f Feat: 3 more verbs (Waking up, Pointing, Getting dressed) + UI regression suite`
 - `fb67e92 Test: cover Android (Pixel 7 / Galaxy Tab) in the action-animation live probe`
-- `142712b Fix: action verbs stayed static under Reduce Motion (phones/tablets)`
 <!-- AUTO:END -->
 
 ---

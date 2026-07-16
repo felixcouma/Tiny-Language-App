@@ -192,6 +192,9 @@ export const useStore = create((set, get) => ({
   // ---- derived ----
   activeProfile: () => get().profiles.find((p) => p.id === get().activeProfileId) || null,
   stage: () => get().activeProfile()?.stage || 'first',
+  // Read ANY child's saved progress (localStorage) — used by the parent-area twin
+  // insight to compare siblings without switching the active profile.
+  progressFor: (id) => (id === get().activeProfileId ? get().progress : loadProgressFor(id)),
   currentWorld: () => getWorld(get().worldId),
   currentItem: () => {
     const w = getWorld(get().worldId)
@@ -436,6 +439,11 @@ export const useStore = create((set, get) => ({
       return { gateFor: null }
     }),
 
+  // Jump straight to a specific item (used to LEAD Auto Play with a focus word).
+  setItemIndex: (i) => {
+    const w = getWorld(get().worldId)
+    if (w && i >= 0 && i < w.items.length) set({ itemIndex: i })
+  },
   next: () => {
     const w = getWorld(get().worldId)
     if (w) set((s) => ({ itemIndex: (s.itemIndex + 1) % w.items.length }))
