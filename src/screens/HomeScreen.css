@@ -51,13 +51,30 @@
   color: #fff;
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.home2-parent {
-  font-size: 16px;
-  letter-spacing: 1px;
-}
 .home2-actions {
   display: inline-flex;
+  align-items: flex-start;
   gap: 8px;
+}
+/* Grown-ups button carries a caption below it so the intent is unambiguous
+   (and it won't be mistaken for the child avatar top-left). Caption is absolutely
+   positioned so it doesn't stretch the action row's height. */
+.home2-parent-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.home2-parent-cap {
+  position: absolute;
+  top: 100%;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #123a63;
+  white-space: nowrap;
+  pointer-events: none;
 }
 .home2-collect {
   font-size: 24px;

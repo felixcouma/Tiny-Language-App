@@ -40,13 +40,19 @@ export default function HomeScreen() {
           <button className="round-btn home2-collect" onClick={openCollection} aria-label="My collection">
             ★
           </button>
-          <button
-            className="round-btn home2-parent"
-            onClick={() => requestGate('parent')}
-            aria-label="Parent dashboard"
-          >
-            •••
-          </button>
+          <span className="home2-parent-wrap">
+            <button
+              className="round-btn home2-parent"
+              onClick={() => requestGate('parent')}
+              aria-label="For grown-ups"
+            >
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8v1H4v-1z" />
+              </svg>
+            </button>
+            <span className="home2-parent-cap">Grown-ups</span>
+          </span>
         </div>
       </header>
 
