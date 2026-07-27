@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-27 17:42 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-27 19:50 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `a658fbe Feat: clearer "Grown-ups" home button — silhouette + caption, drop the three dots`
 - `1a2275b Feat: competitive-review edge moves — twin nudge, focus-first Auto Play, "why" notes`
 - `1adc45e Feat: robust "Sing with Pip" player + Auto Play last-verb settles`
 - `498d162 Fix: regenerate 5 mispronounced Word Board clips (Big, Cow, Cup, Eight, Plane)`
 - `79252b8 @ Tooling: word-board audio review builder`
 - `b9d71a5 Fix: Auto Play looped at end + gentler pacing; regen "mama" clip; autoplay test`
-- `cff467f Feat: 3 more verbs (Waking up, Pointing, Getting dressed) + UI regression suite`
 <!-- AUTO:END -->
 
 ---
@@ -47,7 +47,7 @@ sections (Build Status, Next Steps) are updated by hand each push.
   `scripts/gen-tts-gcloud.mjs` (see `docs/TTS_GCLOUD_SETUP.md`).
 - **7 living worlds** — incl. the two parent-requested favourites:
   **My Body** (13 parts) and **Things I Do** (28 **animated** activities/verbs — see below) + Home
-  Village (family+objects), Safari Island (25 animals), Rainbow Island (10 colours), Counting
+  Village (family+objects), Safari Island (26 animals), Rainbow Island (10 colours), Counting
   Mountain (1–20), Music Forest.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
   and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence). "Things I Do"
@@ -86,7 +86,7 @@ sections (Build Status, Next Steps) are updated by hand each push.
   Same our-own key-pose idea as the songs but with **no audio to sync** — a calm 2-frame flip-book
   loop (`components/ActionAnimation.jsx`, config `src/data/actionAnimations.js`). Adds a **girl**
   character (`act-girl-ready`) beside the boy; solo verbs split boy/girl, social ones (hug/dance/
-  laugh/play/peekaboo) show **both**. Frames via `scripts/gen-action-poses.mjs`; 14 new verbs (139
+  laugh/play/peekaboo) show **both**. Frames via `scripts/gen-action-poses.mjs`; 14 new verbs (140
   items). Under reduced-motion the loop plays gently (≥1s) — it must NOT freeze. Guarded by the
   **UI regression suite** `npm run verify:ui` (`verify-suite.mjs` builds → `vite preview` → checks;
   `verify-actions.mjs` tests a device × reduced-motion matrix).
@@ -106,8 +106,8 @@ sections (Build Status, Next Steps) are updated by hand each push.
 ### 🗂️ Code map
 ```
 src/
-├── data/content.js        # 7 worlds / 139 items (say text, IPA, ladder phrases, PRAISE)
-├── data/phraseContent.js  # speech-therapy vocab (209 words / tiers / categories) + phrase banks
+├── data/content.js        # 7 worlds / 140 items (say text, IPA, ladder phrases, PRAISE)
+├── data/phraseContent.js  # speech-therapy vocab (221 words / tiers / categories) + phrase banks
 ├── data/songs.js          # "Sing with Pip" catalog (13 PD songs; tag / grad / animated flag)
 ├── data/songAnimations.js # per-song animation configs (poses / lyrics / cue seq / timing) → build()
 ├── data/actionAnimations.js # "Things I Do" verb loops (keyed by item.sound) → ActionAnimation.jsx

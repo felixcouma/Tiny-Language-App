@@ -257,7 +257,7 @@ export function setStorybookVoice(id) {
 // bakes a coherent 3–4x repeat). The flow is: say the word, THEN play the sound.
 const FX_KEYS = new Set([
   'dog', 'cat', 'cow', 'sheep', 'bird', 'frog', 'monkey', 'lion', 'bear', 'duck',
-  'zebra', 'horse', 'pig', 'chicken', 'elephant', 'bee',
+  'zebra', 'horse', 'pig', 'chicken', 'rooster', 'elephant', 'bee',
   'snake', 'owl', 'wolf', 'goose', 'crow',
 ])
 const missingFile = new Set() // urls known to be absent (avoid retrying)

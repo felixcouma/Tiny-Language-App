@@ -100,6 +100,7 @@ const SUBJECT = {
   Home: 'a single cute cartoon house', Under: 'a red ball underneath a small table', Behind: 'a red ball behind a box',
   Between: 'a red ball in the middle between two boxes', 'Next to': 'a red ball right beside a box', Far: 'a tiny house far away at the end of a long road',
   // things
+  Ball: 'a classic bright inflatable beach ball with red, blue, green and yellow curved panels meeting at the top, glossy, round and cheerful',
   Toy: 'a colourful toy box overflowing with toys', Food: 'a plate piled with yummy food', Water: 'a clear glass of water',
   Shoe: 'a single cute sneaker shoe', Car: 'a cute little red car', Door: 'a friendly closed wooden door',
   // people
@@ -163,6 +164,7 @@ const SUBJECT = {
   Wolf: 'a cute fluffy grey wolf sitting, friendly and gentle',
   Goose: 'a cute white goose with an orange beak',
   Crow: 'a cute glossy black crow bird',
+  Rooster: 'a cute proud rooster (cockerel) with a bright red comb and wattle, golden-brown body, and long curved dark green tail feathers, standing tall',
   // ABC Songs words (Alphabet Friends)
   Egg: 'a single smooth white egg', Goat: 'a cute white goat with little horns',
   House: 'a single cute cartoon house with a red roof', 'Ice cream': 'a cute ice cream cone with a pink scoop',

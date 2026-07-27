@@ -3,7 +3,34 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-16 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-17 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Clearer grown-ups button + a Rooster, a real hen cluck, and a nicer ball.**
+> - **Grown-ups home button** (shipped, commit `a658fbe`): the ambiguous `•••` became a **person
+>   silhouette SVG + a solid-navy "Grown-ups" caption** (`HomeScreen.jsx`/`.css` — `.home2-parent-wrap`
+>   / `.home2-parent-cap`), so parents know it's their area and it won't be mistaken for the child
+>   avatar. No emoji (inline SVG). Tests select `.home2-parent` by class, so nothing downstream broke.
+> - **Chicken sound fix + new Rooster** (staged, pending an ear-check before push): the animal "Chicken"
+>   was playing a **rooster crow**. Fixed → `fx/chicken.mp3` is now a **real hen cluck** (Wikimedia
+>   "Hen announcing shes lain an egg", Public domain, *alys*; trimmed 2.95s, high-passed, faded,
+>   loudness-normalized). The old crow was **renamed `fx/rooster.mp3`** and reused by a **new Rooster
+>   animal** in Safari Island (now **26 animals / 140 items**): `content.js` entry, `rooster.webp`
+>   (house animal style), `'rooster'` added to `FX_KEYS` in `audio.js`, **3 voice clips + 24 phrase/game
+>   clips** (Aoede/Leda/Sulafat). `CREDITS.md` updated for both.
+> - **Ball swap**: `home-ball.webp` (used everywhere for "Ball") was a kawaii face-ball; regenerated as
+>   the clean **red/blue/green/yellow beach ball** from the Kick/Throw action frames (`gen-symbols.mjs`
+>   gained `Ball` + `Rooster` subjects). Self-heals at the stable path.
+> - **Audio hygiene:** scanned all **3,995** clips for the oversized "leaked-narration" tell — **clean**
+>   (largest short clip 25KB; the only >65KB files are the legitimately long letter-songs + count-along
+>   number clips). Docs refreshed: `PHRASES_REVIEW.md` regenerated (140 items), counts synced in
+>   `CLAUDE.md` / `TINYVVOICE_PROJECT_CONTEXT.md` / the `content.js` Safari comment.
+> - **Verify:** `check-content` green (140 items); in-app Playwright check — Rooster renders with picture
+>   + audio, all new assets 200, 0 console errors. **Still open:** owner to audition the hen cluck +
+>   rooster crow, and flag any phrases that sound mispronounced (plain `--force` re-record).
+
+---
+
+## Session — 2026-07-16 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Competitive review (Agent Council) → 3 edge moves shipped.** Re-ran `tools/council/` in
 > **comparative** mode vs. the top-5 toddler speech apps (Speech Blubs · Khan Kids · Otsimo · Lingumi

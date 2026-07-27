@@ -14,12 +14,12 @@
   *Current setup: Adriel → words, Audrey → phrases.*
 - **No scores, no failure.** A wrong tap gives a gentle "try again", never a penalty.
 
-**At a glance:** 211 core words · 54 two-word + 32 three-word phrase models · 102 learning items across 7 worlds.
+**At a glance:** 221 core words · 54 two-word + 32 three-word phrase models · 140 learning items across 7 worlds.
 
 ---
 
 ## 1. Core vocabulary — Word Practice / Phrase Builder / Word Board
-The functional single-word set the twins practise (211 words), grouped by category.
+The functional single-word set the twins practise (221 words), grouped by category.
 
 - **Doing words** (48): Go, Play, Eat, Sleep, Stop, Help, Come, Run, Sit, Stand, Look, Sing, Kick, Throw, Catch, Jump, Dance, Laugh, Cry, Hug, Kiss, Clap, Splash, Climb, Slide, Push, Pull, Pick, Drop, Pour, Drink, Blow, Read, Peek, Hide, Find, Open, Close, Turn, Spin, Stretch, Bend, Ride, Roll, Skip, Hop, Wave, Shake
 - **Where words** (13): In, On, Out, Up, Down, Here, There, Home, Under, Behind, Between, Next to, Far
@@ -28,7 +28,7 @@ The functional single-word set the twins practise (211 words), grouped by catego
 - **People** (7): Mama, Dada, Baby, Me, You, Bye, Friend
 - **Feelings** (13): Happy, Sad, More, Yes, No, All done, Tired, Hurt, Excited, Scared, Angry, Silly, Quiet
 - **Describing** (17): Big, Small, Hot, Cold, Soft, Hard, Wet, Dry, Clean, Dirty, Loud, Fast, Slow, Good, Bad, Old, New
-- **Food** (8): Apple, Banana, Bread, Cheese, Milk, Juice, Snack, Cookie
+- **Food** (18): Apple, Banana, Bread, Cheese, Milk, Juice, Snack, Cookie, Rice, Avocado, Broccoli, Cucumber, Carrot, Egg, Meat, Ugali, Fries, Yoghurt
 - **Eating** (4): Plate, Spoon, Fork, Bowl
 - **Clothes** (4): Shirt, Pants, Hat, Socks
 - **Body** (8): Hand, Foot, Head, Eyes, Nose, Mouth, Hair, Belly
@@ -83,7 +83,7 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
 - **Toes**  `/toʊz/` — “My toes! Little toes. Wiggle your toes!”
   - ladder: “My toes” → “Ten toes” → “I wiggle my toes”
 
-### Things I Do (12)
+### Things I Do (28)
 - **Washing hands** — “Washing hands! I wash my hands. Scrub, scrub!”
   - ladder: “Wash hands” → “I wash” → “I wash my hands”
 - **Eating** — “Eating! Yum, yum, yum!”
@@ -108,8 +108,40 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
   - ladder: “I dance” → “Dance with me” → “I love to dance”
 - **Brushing teeth** — “Brushing teeth! Brush, brush, brush!”
   - ladder: “Brush teeth” → “Clean teeth” → “I brush my teeth”
+- **Riding a bike** — “Riding a bike! Pedal, pedal, pedal!”
+  - ladder: “I ride” → “Ride bike” → “I ride my bike”
+- **Blowing bubbles** — “Blowing bubbles! Puff… pop, pop, pop!”
+  - ladder: “I blow” → “Blow bubbles” → “I blow the bubbles”
+- **Climbing stairs** — “Climbing stairs! Up, up, up we go!”
+  - ladder: “I climb” → “Climb up” → “I climb the stairs”
+- **Playing with toys** — “Playing with toys! Build and play!”
+  - ladder: “I play” → “Play toys” → “I play with my toys”
+- **Kicking a ball** — “Kicking a ball! Kick it far!”
+  - ladder: “I kick” → “Kick ball” → “I kick the ball”
+- **Reading a book** — “Reading a book! Turn the page!”
+  - ladder: “I read” → “Read book” → “I read my book”
+- **Waving** — “Waving! Hello, hello! Bye bye!”
+  - ladder: “I wave” → “Wave hello” → “I wave to you”
+- **Swimming** — “Swimming! Splash and paddle!”
+  - ladder: “I swim” → “Swim fast” → “I swim in the water”
+- **Crying** — “Crying! Boo hoo. It is okay.”
+  - ladder: “I cry” → “Baby cries” → “I am sad and I cry”
+- **Painting** — “Painting! Dab, dab, dab. Pretty colours!”
+  - ladder: “I paint” → “Paint a picture” → “I paint a pretty picture”
+- **Throwing a ball** — “Throwing a ball! Throw it high!”
+  - ladder: “I throw” → “Throw ball” → “I throw the ball”
+- **Cooking** — “Cooking! Stir, stir, stir. Yummy!”
+  - ladder: “I cook” → “Cook food” → “I cook in the pot”
+- **Peekaboo** — “Peekaboo! Where are you? I see you!”
+  - ladder: “Peekaboo” → “I see you” → “Peekaboo, I see you”
+- **Waking up** — “Waking up! Good morning! Stretch and yawn.”
+  - ladder: “I wake” → “Wake up” → “I wake up”
+- **Pointing** — “Pointing! Look over there!”
+  - ladder: “I point” → “Point there” → “I point to it”
+- **Getting dressed** — “Getting dressed! Shirt on. All dressed!”
+  - ladder: “I dress” → “Get dressed” → “I get dressed”
 
-### Home Village (14)
+### Home Village (35)
 - **Mommy** — “Mommy! I love you, Mommy.”
   - ladder: “Hi Mommy” → “Love Mommy” → “I love my Mommy”
 - **Daddy** — “Daddy! I love you, Daddy.”
@@ -138,8 +170,50 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
   - ladder: “My book” → “Big book” → “I read a book”
 - **Bath** — “A bath! Splash, splash, bubbles!”
   - ladder: “Warm bath” → “Bath time” → “I have a bath”
+- **Apple** — “Apple! Chew the apple. Crunch, crunch!”
+  - ladder: “My apple” → “Chew apple” → “I chew the apple”
+- **Banana** — “Banana! Eat the yummy banana. Mmm, yummy!”
+  - ladder: “My banana” → “Eat banana” → “I eat the yummy banana”
+- **Avocado** — “Avocado! Let me feed you avocado. Soft and yummy!”
+  - ladder: “My avocado” → “Eat avocado” → “I eat the avocado”
+- **Broccoli** — “Broccoli! Eat the green broccoli. Yum, yum!”
+  - ladder: “Green broccoli” → “Eat broccoli” → “I eat my broccoli”
+- **Cucumber** — “Cucumber! Crunch the cucumber. Cool and crunchy!”
+  - ladder: “My cucumber” → “Eat cucumber” → “I crunch the cucumber”
+- **Carrot** — “Carrot! Chew the carrot. Crunch, crunch!”
+  - ladder: “My carrot” → “Eat carrot” → “I chew the carrot”
+- **Rice** — “Rice! Eat the rice. Scoop and eat!”
+  - ladder: “My rice” → “Eat rice” → “I eat the rice”
+- **Ugali** — “Ugali! Eat the ugali. Soft and warm!”
+  - ladder: “My ugali” → “Eat ugali” → “I eat the ugali”
+- **Bread** — “Bread! Eat the bread. Munch, munch!”
+  - ladder: “My bread” → “Eat bread” → “I eat the bread”
+- **Egg** — “Egg! Eat the egg. Yum, yum!”
+  - ladder: “My egg” → “Eat egg” → “I eat the egg”
+- **Meat** — “Meat! Eat the meat. Chew, chew!”
+  - ladder: “My meat” → “Eat meat” → “I eat the meat”
+- **Chicken leg** — “Chicken! Eat the chicken. Yum, yum!”
+  - ladder: “My chicken” → “Eat chicken” → “I eat the chicken”
+- **Fish fillet** — “Fish! Eat the yummy fish. Mmm!”
+  - ladder: “My fish” → “Eat fish” → “I eat the yummy fish”
+- **French fries** — “Fries! Eat the fries. Dip and munch!”
+  - ladder: “My fries” → “Eat fries” → “I eat the fries”
+- **Cheese** — “Cheese! Nibble the cheese. Yummy!”
+  - ladder: “My cheese” → “Eat cheese” → “I eat the cheese”
+- **Yoghurt** — “Yoghurt! Slurp the yoghurt. Cool and yummy!”
+  - ladder: “My yoghurt” → “Eat yoghurt” → “I slurp the yoghurt”
+- **Juice** — “Juice! Drink your juice. Glug, glug!”
+  - ladder: “My juice” → “Drink juice” → “I drink my juice”
+- **Bottle** — “Bottle! Drink your milk. Glug, glug!”
+  - ladder: “My bottle” → “Drink milk” → “I drink my milk”
+- **Water** — “Water! Drink your water. Gulp, gulp!”
+  - ladder: “My water” → “Drink water” → “I drink my water”
+- **Snack** — “Snack time! Have a yummy snack. Munch, munch!”
+  - ladder: “My snack” → “Want snack” → “I want a snack”
+- **Cookie** — “Cookie! Eat the cookie. Nom, nom!”
+  - ladder: “My cookie” → “Eat cookie” → “I eat the cookie”
 
-### Safari Island (25)
+### Safari Island (26)
 - **Dog**  `/dɔg/` — “The dog! Listen… woof, woof!”
   - ladder: “Big dog” → “Dog runs” → “The dog runs fast”
 - **Cat**  `/kæt/` — “The cat! Listen… meow, meow!”
@@ -156,6 +230,8 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
   - ladder: “Soft sheep” → “Sheep baas” → “The sheep says baa”
 - **Chicken**  `/ˈtʃɪkɪn/` — “The chicken! Listen… cluck, cluck!”
   - ladder: “Little chicken” → “Chicken pecks” → “The chicken pecks corn”
+- **Rooster**  `/ˈrustər/` — “The rooster! Listen… cock-a-doodle-doo!”
+  - ladder: “Big rooster” → “Rooster crows” → “The rooster crows at dawn”
 - **Bird**  `/bɜrd/` — “The bird! Listen… tweet, tweet!”
   - ladder: “Tiny bird” → “Bird flies” → “The bird can fly”
 - **Fish**  `/fɪʃ/` — “The fish! Listen… blub, blub!”
@@ -303,6 +379,22 @@ Mirrors the in-app templates. Source: `SoundGame`/`TwinMode`/`Phonics` via `Choi
 - **Hugging**: “Which one is hugging?”
 - **Dancing**: “Which one is dancing?”
 - **Brushing teeth**: “Which one is brushing teeth?”
+- **Riding a bike**: “Which one is riding a bike?”
+- **Blowing bubbles**: “Which one is blowing bubbles?”
+- **Climbing stairs**: “Which one is climbing stairs?”
+- **Playing with toys**: “Which one is playing with toys?”
+- **Kicking a ball**: “Which one is kicking a ball?”
+- **Reading a book**: “Which one is reading a book?”
+- **Waving**: “Which one is waving?”
+- **Swimming**: “Which one is swimming?”
+- **Crying**: “Which one is crying?”
+- **Painting**: “Which one is painting?”
+- **Throwing a ball**: “Which one is throwing a ball?”
+- **Cooking**: “Which one is cooking?”
+- **Peekaboo**: “Which one is peekaboo?”
+- **Waking up**: “Which one is waking up?”
+- **Pointing**: “Which one is pointing?”
+- **Getting dressed**: “Which one is getting dressed?”
 - **Cup**: “Can you find the cup?”
 - **Milk**: “Can you find the milk?”
 - **Spoon**: “Can you find the spoon?”
@@ -311,6 +403,27 @@ Mirrors the in-app templates. Source: `SoundGame`/`TwinMode`/`Phonics` via `Choi
 - **Bed**: “Can you find the bed?”
 - **Book**: “Can you find the book?”
 - **Bath**: “Can you find the bath?”
+- **Apple**: “Can you find the apple?”
+- **Banana**: “Can you find the banana?”
+- **Avocado**: “Can you find the avocado?”
+- **Broccoli**: “Can you find the broccoli?”
+- **Cucumber**: “Can you find the cucumber?”
+- **Carrot**: “Can you find the carrot?”
+- **Rice**: “Can you find the rice?”
+- **Ugali**: “Can you find the ugali?”
+- **Bread**: “Can you find the bread?”
+- **Egg**: “Can you find the egg?”
+- **Meat**: “Can you find the meat?”
+- **Chicken leg**: “Can you find the chicken leg?”
+- **Fish fillet**: “Can you find the fish fillet?”
+- **French fries**: “Can you find the french fries?”
+- **Cheese**: “Can you find the cheese?”
+- **Yoghurt**: “Can you find the yoghurt?”
+- **Juice**: “Can you find the juice?”
+- **Bottle**: “Can you find the bottle?”
+- **Water**: “Can you find the water?”
+- **Snack**: “Can you find the snack?”
+- **Cookie**: “Can you find the cookie?”
 - **Dog**: “Listen… Woof woof! Where is the dog?”
 - **Cat**: “Listen… Meow! Where is the cat?”
 - **Cow**: “Listen… Moooo! Where is the cow?”
@@ -319,6 +432,7 @@ Mirrors the in-app templates. Source: `SoundGame`/`TwinMode`/`Phonics` via `Choi
 - **Horse**: “Listen… Neigh! Where is the horse?”
 - **Sheep**: “Listen… Baa! Where is the sheep?”
 - **Chicken**: “Listen… Cluck! Where is the chicken?”
+- **Rooster**: “Listen… Cock-a-doodle-doo! Where is the rooster?”
 - **Bird**: “Listen… Tweet! Where is the bird?”
 - **Fish**: “Listen… Blub! Where is the fish?”
 - **Lion**: “Listen… Roar! Where is the lion?”

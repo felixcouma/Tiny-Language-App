@@ -131,7 +131,7 @@ const foods = [
 
 const home = [...family, ...objects, ...foods]
 
-// ---------- SAFARI ISLAND (20 animals) ----------
+// ---------- SAFARI ISLAND (26 animals) ----------
 const A = (word, wiki, ipa, soundLabel, script, expand) => ({
   word, wiki, ipa, soundLabel, say: script, color: CAT.safari.color,
   sound: word.toLowerCase(), expand,
@@ -145,6 +145,7 @@ const animals = [
   A('Horse', 'Horse', '/hɔrs/', 'Neigh', 'The horse! Listen… neighhh!', ['Big horse', 'Horse runs', 'The horse runs fast']),
   A('Sheep', 'Sheep', '/ʃip/', 'Baa', 'The sheep! Listen… baa, baa!', ['Soft sheep', 'Sheep baas', 'The sheep says baa']),
   A('Chicken', 'Chicken', '/ˈtʃɪkɪn/', 'Cluck', 'The chicken! Listen… cluck, cluck!', ['Little chicken', 'Chicken pecks', 'The chicken pecks corn']),
+  A('Rooster', 'Rooster', '/ˈrustər/', 'Cock-a-doodle-doo', 'The rooster! Listen… cock-a-doodle-doo!', ['Big rooster', 'Rooster crows', 'The rooster crows at dawn']),
   A('Bird', 'Bird', '/bɜrd/', 'Tweet', 'The bird! Listen… tweet, tweet!', ['Tiny bird', 'Bird flies', 'The bird can fly']),
   A('Fish', 'Fish', '/fɪʃ/', 'Blub', 'The fish! Listen… blub, blub!', ['Little fish', 'Fish swims', 'The fish swims fast']),
   A('Lion', 'Lion', '/ˈlaɪən/', 'Roar', 'The lion! Hear the big roar… roar!', ['Big lion', 'Lion roars', 'The lion roars loud']),
