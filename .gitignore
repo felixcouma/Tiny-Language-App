@@ -6,6 +6,9 @@ dist-ssr
 npm-debug.log*
 .vite
 .verify-shots
+.tmpwork
+# Local Claude Code state (settings.local.json, scheduled-task locks) — not for the repo
+.claude/
 # Local env with secrets (Supabase keys etc.) — keep the committed example only
 .env
 .env.*

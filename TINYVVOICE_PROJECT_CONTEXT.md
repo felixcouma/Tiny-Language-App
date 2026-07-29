@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `d8fcbf5 Chore: root council.js runner + pilot parent handouts`
 - `3b9878a Feat: real owl hoot, snake spoken-only; close council #1`
 - `849365f Feat: decongest + warmly restyle the Grown-Ups dashboard`
 - `4eb7be7 Docs: bring README up to date with the current app`
 - `0c57602 Feat: real hen cluck for Chicken, new Rooster animal, cleaner beach-ball`
 - `a658fbe Feat: clearer "Grown-ups" home button — silhouette + caption, drop the three dots`
-- `1a2275b Feat: competitive-review edge moves — twin nudge, focus-first Auto Play, "why" notes`
 <!-- AUTO:END -->
 
 ---

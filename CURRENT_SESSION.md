@@ -3,7 +3,30 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-17 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-29 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Grown-Ups dashboard: decongested + a warm, colour-coded redesign.**
+> - **Decongestion** (`ParentDashboard.jsx`): the long flat settings form is now a short overview
+>   plus **collapsible panels** (`Panel` — inline-SVG chevron, `aria-expanded`, reduced-motion-safe).
+>   Everyday controls open on load — **Learning Level · Wait Time · Children Setup · Daily Play Time** —
+>   then a **"More settings"** divider hides the rarer ones collapsed: **Focus Words · Songs (13 rows) ·
+>   Storybook Voice · Account**. Feedback stays a single-tap **"Share your thoughts"** button; Reset is
+>   neutral + set apart. An **active-child chip** (badge · name · Switch child) shows whose settings these are.
+> - **Warm redesign** (`ParentDashboard.css`): cream→sunrise-peach gradient (no more white-on-white); a
+>   **Pip hero** (`<Mascot>`) with a live **"Pip says: {name} has heard {N} words"** line (sums both in
+>   Twin Mode); **tinted stat cards** (peach/mint/sky/lavender/coral/teal) with coloured numbers; navy
+>   **Title-Case** headings (was grey ALL-CAPS); **colour-coded panels** (accent left-bar + coloured title
+>   over a soft tint — Focus=blue, Wait=purple, Children=teal, Play=tangerine, Songs=magenta, etc.); a warm
+>   **yellow "A Tip for Today"** guidance card. Navy stays the primary text colour so it reads grown-up,
+>   not like a child play screen.
+> - **Design gate:** built to an owner-approved HTML mockup; iterated live (swap: Learning Level open on
+>   load, Focus Words collapsed).
+> - **Verify:** `build` green; full `verify:ui` suite green (0 console errors). `verify-songs` /
+>   `verify-cloud` / `verify-parent-insights` updated to open the now-collapsed panels before asserting.
+
+---
+
+## Session — 2026-07-17 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Clearer grown-ups button + a Rooster, a real hen cluck, and a nicer ball.**
 > - **Grown-ups home button** (shipped, commit `a658fbe`): the ambiguous `•••` became a **person
@@ -25,8 +48,14 @@
 >   number clips). Docs refreshed: `PHRASES_REVIEW.md` regenerated (140 items), counts synced in
 >   `CLAUDE.md` / `TINYVVOICE_PROJECT_CONTEXT.md` / the `content.js` Safari comment.
 > - **Verify:** `check-content` green (140 items); in-app Playwright check — Rooster renders with picture
->   + audio, all new assets 200, 0 console errors. **Still open:** owner to audition the hen cluck +
->   rooster crow, and flag any phrases that sound mispronounced (plain `--force` re-record).
+>   + audio, all new assets 200, 0 console errors. Owner auditioned hen/rooster/ball — all confirmed good.
+> - **README** rewritten to match the current app (was: photos / device speech / Audrey-Adriel / local-only).
+> - **Grandmaster council synthesis → response** in `docs/COUNCIL_REVIEW_RESPONSE.md`: grounded the
+>   "Top 3" against code (most already shipped); council **accepted** the corrections. Closed its #1:
+>   **Owl** now has a real tawny-owl hoot (`fx/owl.mp3`, CC BY-SA 4.0); **Snake** decided
+>   **intentionally spoken-only** (no clean CC hiss; faint on phones) → removed from `FX_KEYS`. All wired
+>   `FX_KEYS` now have a real recording — `LEFT_TO_DO §4` closed. Next (gated on measurement): instrument
+>   the in-session parent line, then scope a weekly parent *narrative*.
 
 ---
 
