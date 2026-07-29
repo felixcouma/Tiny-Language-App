@@ -1,9 +1,19 @@
+/* Grown-Ups palette — warm foundation + intentional, meaningful colour.
+   Navy stays the primary text colour; section colours give personality + hierarchy. */
 .parent {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 100%;
-  background: var(--bg-cream);
+  /* soft cream → sunrise peach, not flat white */
+  background: linear-gradient(180deg, #fffaf3 0%, #fff1e6 45%, #ffe9dc 100%);
+  --gu-navy: #17324f;
+  --gu-lime: #1aa06a;
+  --gu-teal: #159e96;
+  --gu-blue: #1e90ff;
+  --gu-purple: #9d4edd;
+  --gu-magenta: #ff1493;
+  --gu-tangerine: #ff8c00;
 }
 .parent-header {
   display: flex;
@@ -24,13 +34,62 @@
   overflow-y: auto;
   padding: 0 var(--space-lg) var(--space-xl);
 }
-.parent-intro {
-  font-size: 15px;
-  font-weight: 500;
+
+/* ---- Warm hero: Pip + greeting + a live "Pip says" line ---- */
+.gu-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 6px;
+}
+.gu-hero .mascot {
+  flex: 0 0 auto;
+  filter: drop-shadow(0 4px 10px rgba(63, 181, 82, 0.3));
+}
+.gu-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--gu-navy);
+  margin: 0;
+  line-height: 1;
+}
+.gu-sub {
+  font-size: 14px;
+  font-weight: 600;
   color: var(--text-gray);
-  text-align: center;
-  margin: 0 0 var(--space-lg);
+  margin: 5px 0 0;
+  line-height: 1.35;
+}
+.gu-pipsay {
+  margin: 8px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--bg-white);
+  border: 2px solid #ffe2b8;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gu-navy);
   line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(255, 150, 40, 0.12);
+}
+.gu-pipsay b {
+  color: var(--gu-tangerine);
+}
+
+/* Quiet divider between the open everyday controls and the collapsed "more" group. */
+.panels-divider {
+  margin: var(--space-lg) 0 var(--space-xs);
+  border: none;
+  border-top: 1px dashed #e6d9c7;
+}
+.panels-divider-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #b8a98f;
+  text-align: center;
+  margin: 0 0 var(--space-xs);
 }
 
 .stat-grid {
@@ -38,33 +97,38 @@
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-md);
 }
+/* Tinted progress cards — colour carries meaning, numbers pop in a stronger tone. */
 .stat {
-  background: var(--bg-white);
-  border: 2px solid var(--border-light);
+  border: 2px solid rgba(0, 0, 0, 0.04);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   text-align: center;
-  box-shadow: var(--shadow-sm);
-}
-.stat-big .stat-value {
-  background: linear-gradient(135deg, #ff8c00, #ff1493);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 .stat-value {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 700;
-  color: var(--text-dark);
   line-height: 1.1;
   word-break: break-word;
+  color: var(--text-dark);
 }
 .stat-label {
   font-size: 13px;
-  font-weight: 500;
-  color: var(--text-gray);
+  font-weight: 600;
+  color: #6b6b6b;
   margin-top: 4px;
 }
+.stat-peach { background: #ffece0; }
+.stat-peach .stat-value { color: #e07b00; }
+.stat-mint { background: #e3f7ef; }
+.stat-mint .stat-value { color: var(--gu-lime); }
+.stat-sky { background: #e4f1ff; }
+.stat-sky .stat-value { color: var(--gu-blue); }
+.stat-lav { background: #f3e8ff; }
+.stat-lav .stat-value { color: var(--gu-purple); }
+.stat-coral { background: #ffe8e8; }
+.stat-coral .stat-value { color: var(--accent-coral, #ff6b6b); }
+.stat-tealtint { background: #e2f6f4; }
+.stat-tealtint .stat-value { color: var(--gu-teal); }
 
 .parent-next {
   font-size: 14px;
@@ -90,13 +154,102 @@
 .parent-section {
   margin-top: var(--space-xl);
 }
+/* Sub-headings inside panels + the "words they love" title — warm navy, Title Case
+   (no more clinical grey all-caps). */
 .parent-h3 {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--text-gray);
+  color: var(--gu-navy, var(--text-dark));
   margin: 0 0 var(--space-sm);
+}
+
+/* ---- Collapsible settings panels (dashboard decongestion + colour-coding) ----
+   Each settings group is a card whose body opens/closes on the header tap. Every
+   panel carries a section colour via --accent (heading + left bar) over a soft
+   --tint background, so colour means "which area am I in", not decoration. */
+.parent-panel {
+  margin-top: var(--space-md);
+  border: 2px solid var(--border-light);
+  border-left: 5px solid var(--accent, var(--accent-purple));
+  border-radius: var(--radius-md);
+  background: var(--tint, var(--bg-white));
+  padding: 0 var(--space-md);
+}
+.parent-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  width: 100%;
+  min-height: 54px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+}
+.parent-panel-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent, var(--accent-purple));
+  text-align: left;
+}
+.parent-panel-chev {
+  flex: 0 0 auto;
+  color: var(--accent, var(--text-gray));
+  transition: transform 0.15s ease;
+}
+.parent-panel.is-open .parent-panel-chev {
+  transform: rotate(180deg);
+}
+.parent-panel-body {
+  padding: 0 0 var(--space-md);
+}
+@media (prefers-reduced-motion: reduce) {
+  .parent-panel-chev {
+    transition: none;
+  }
+}
+
+/* Active-child chip — always shown so it's clear whose settings these are. */
+.active-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: var(--space-md);
+  padding: 10px 12px;
+  background: var(--bg-white);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+/* "A Tip for Today" — warm yellow guidance card (educational, not a setting). */
+.gu-tip {
+  margin-top: var(--space-md);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #fff7d6, #ffefb0);
+  border: 2px solid #f5d97a;
+}
+.gu-tip-h {
+  font-size: 15px;
+  font-weight: 800;
+  color: #8a6a00;
+  margin: 0 0 6px;
+}
+.gu-tip-p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #5c4a12;
+  line-height: 1.5;
+}
+.gu-tip-p em {
+  font-style: normal;
+  font-weight: 800;
+  color: #c98a00;
 }
 .word-chips {
   display: flex;
@@ -106,8 +259,9 @@
 .word-chip {
   padding: 8px 14px;
   border-radius: 999px;
-  background: var(--bg-lavender);
-  color: var(--accent-purple);
+  background: var(--bg-white);
+  border: 2px solid #ffe2b8;
+  color: #e07b00;
   font-size: 15px;
   font-weight: 700;
 }
@@ -462,8 +616,14 @@
   transform: scale(0.98);
 }
 
+/* Reset is destructive — deliberately neutral and set apart from the coloured page
+   by a quiet dashed divider + generous space. */
+.reset-sep {
+  margin: var(--space-xl) 0 var(--space-md);
+  border: none;
+  border-top: 1px dashed #e0d6c6;
+}
 .reset-btn {
-  margin-top: var(--space-xl);
   width: 100%;
   min-height: 52px;
   border-radius: var(--radius-md);
@@ -498,6 +658,11 @@
 }
 .feedback-btn:active {
   transform: scale(0.98);
+}
+/* Feedback is a single-tap link pinned near the bottom (not a collapsible panel),
+   always visible during the pilot. */
+.feedback-btn-standalone {
+  margin-top: var(--space-lg);
 }
 
 /* ---- Focus words of the week ---- */

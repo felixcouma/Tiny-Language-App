@@ -69,12 +69,18 @@ const run = async () => {
   ok(/Mia/.test(nudgeText) && /Leo/.test(nudgeText), `nudge names both children ("${nudgeText.trim()}")`)
   ok(/Safari Island/.test(nudgeText), 'nudge points to the world the lagging twin has not visited (Safari Island)')
 
-  // B) "Say it at home" card lists the pinned focus word
+  // B) "Say it at home" card lists the pinned focus word (Focus Words is a collapsed
+  //    panel now — open it first).
+  await page.locator('.parent-panel-head', { hasText: 'Focus Words' }).click()
+  await page.waitForTimeout(150)
   const tip = page.locator('.home-tip')
   ok((await tip.count()) === 1, '"Say it at home" card is shown when focus words are pinned')
   ok(/Ball/.test((await tip.textContent().catch(() => '')) || ''), 'the card lists the pinned focus word (Ball)')
 
-  // C) plain-language "why" notes under the therapy settings
+  // C) plain-language "why" notes under the therapy settings. Wait time is an open
+  //     panel; Storybook voice is collapsed, so open it before counting both notes.
+  await page.locator('.parent-panel-head', { hasText: 'Storybook voice' }).click()
+  await page.waitForTimeout(150)
   ok((await page.locator('.voice-why').count()) >= 2, 'the "why" rationale notes are present (wait time + voice)')
 
   // D) focus-first Auto Play + "Practice word" marker, in a world that has the focus word

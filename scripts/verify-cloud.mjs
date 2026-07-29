@@ -53,6 +53,8 @@ const run = async () => {
 
   console.log('\n[1] Boot + parent area')
   ok(errors.length === 0, `0 console errors (got ${errors.length}${errors.length ? ': ' + errors[0] : ''})`)
+  // Account is a collapsed panel — open it before asserting on its contents.
+  await page.locator('.parent-panel-head', { hasText: 'Account' }).click()
   const acct = page.locator('.account-section')
   await acct.scrollIntoViewIfNeeded().catch(() => {})
   ok((await acct.count()) > 0, 'Account section present (Supabase configured)')
@@ -90,6 +92,7 @@ const run = async () => {
   await page2.locator('.gate-input').fill(String((n2[0] || 0) + (n2[1] || 0)))
   await page2.locator('.gate-go').click()
   await page2.waitForSelector('.parent-main', { timeout: 5000 })
+  await page2.locator('.parent-panel-head', { hasText: 'Account' }).click()
   const note = page2.locator('.account-note')
   ok((await note.count()) > 0, 'friendly "request a fresh link" note shown')
   ok(/expired|no longer valid/i.test((await note.textContent()) || ''), 'note explains the expiry in plain language')

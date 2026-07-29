@@ -7,6 +7,7 @@ import {
   playStorybookSample,
 } from '../lib/audio'
 import { masteredCount } from '../lib/mastery'
+import Mascot from '../components/Mascot'
 import { getUsedToday, LIMIT_OPTIONS, BEDTIME_OPTIONS } from '../lib/screentime'
 import { PHRASE_LEVELS, PHRASE_READY_AT, distinctWordsHeard, CATEGORIES, wordsInCategory } from '../data/phraseContent'
 import { signInWithEmail, signOut, deleteCloudData } from '../lib/cloud'
@@ -43,26 +44,34 @@ export default function ParentDashboard() {
         <button className="icon-btn" onClick={goHome} aria-label="Back to home">
           ‹
         </button>
-        <h2 className="parent-title">For Grown-Ups</h2>
-        <span style={{ minWidth: 44 }} />
+        <span style={{ flex: 1 }} />
       </header>
 
       <main className="parent-main">
-        <p className="parent-intro">
-          A gentle window into play — no scores, no pressure. Every word heard is progress.
-        </p>
+        {/* Warm hero — Pip, greeting, and a live "Pip says" line tying the grown-up
+            back into the same TinyVoice world the children play in. */}
+        <div className="gu-hero">
+          <Mascot size={64} />
+          <div>
+            <h1 className="gu-title">Grown-Ups</h1>
+            <p className="gu-sub">See what they’re exploring. Help choose what comes next.</p>
+          </div>
+        </div>
+        <PipSays />
+
+        <ActiveChild />
 
         <TrialBanner />
 
         <TwinNudge />
 
         <div className="stat-grid">
-          <Stat big value={uniqueWords} label="different words" />
-          <Stat big value={mastered} label="words mastered" />
-          <Stat value={p.wordsHeard || 0} label="words heard" />
-          <Stat value={favWorld} label="favourite world" />
-          <Stat value={days} label={days === 1 ? 'day of play' : 'days of play'} />
-          <Stat value={accuracy == null ? '—' : `${accuracy}%`} label="found first try" />
+          <Stat value={uniqueWords} label="different words" tone="peach" />
+          <Stat value={mastered} label="words mastered" tone="mint" />
+          <Stat value={p.wordsHeard || 0} label="words heard" tone="sky" />
+          <Stat value={favWorld} label="favourite world" tone="lav" />
+          <Stat value={days} label={days === 1 ? 'day of play' : 'days of play'} tone="coral" />
+          <Stat value={accuracy == null ? '—' : `${accuracy}%`} label="found first try" tone="tealtint" />
         </div>
         <p className="parent-next">
           {toDiscover > 0 ? (
@@ -87,55 +96,172 @@ export default function ParentDashboard() {
           </section>
         )}
 
-        <Children />
-
-        <ChildStage />
-
-        <SpeechLevel />
-
-        <ExpectantPause />
-
-        <FocusWords />
-
-        <Songs />
-
-        <ScreenTime />
-
-        <StorybookVoicePicker />
-
-        <section className="parent-section">
-          <h3 className="parent-h3">A tip for today</h3>
-          <p className="parent-tip">
+        <div className="gu-tip">
+          <p className="gu-tip-h">A Tip for Today</p>
+          <p className="gu-tip-p">
             Sit together and copy the “Say it together” phrases aloud. Hearing <em>you</em> say
             “big brown cow” is the most powerful part — the app just gets the conversation started.
           </p>
-        </section>
+        </div>
 
-        <AccountSection />
+        {/* Everyday controls — open by default. */}
+        <Panel title="Learning Level" defaultOpen accent="var(--gu-purple)" tint="#f7f1ff">
+          <LearningLevel />
+        </Panel>
+        <Panel title="Wait Time" defaultOpen accent="var(--gu-purple)" tint="#f7f1ff">
+          <ExpectantPause />
+        </Panel>
+        <Panel title="Children Setup" defaultOpen accent="var(--gu-teal)" tint="#eef8f7">
+          <Children />
+        </Panel>
+        <Panel title="Daily Play Time" defaultOpen accent="var(--gu-tangerine)" tint="#fff5ea">
+          <ScreenTime />
+        </Panel>
 
+        {/* Longer / rarer settings — collapsed to a single row each. */}
+        <hr className="panels-divider" />
+        <p className="panels-divider-label">More settings</p>
+        <Panel title="Focus Words This Week" accent="var(--gu-blue)" tint="#f2f8ff">
+          <FocusWords />
+        </Panel>
+        <Panel title="Songs" accent="var(--gu-magenta)" tint="#fff0f7">
+          <Songs />
+        </Panel>
+        <Panel title="Storybook Voice" accent="var(--gu-purple)" tint="#f7f1ff">
+          <StorybookVoicePicker />
+        </Panel>
+        <AccountPanel />
+
+        {/* Feedback stays a single-tap link, always visible (pilot). */}
         {FEEDBACK_URL && (
-          <section className="parent-section feedback-section">
-            <h3 className="parent-h3">Share your thoughts</h3>
-            <p className="voice-hint">
-              We’re testing TinyVoice with families like yours. Tell us what your little one
-              loved — or what would help. It only takes a minute and it shapes what we build next.
-            </p>
-            <a
-              className="feedback-btn"
-              href={FEEDBACK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Share feedback
-            </a>
-          </section>
+          <a
+            className="feedback-btn feedback-btn-standalone"
+            href={FEEDBACK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Share your thoughts
+          </a>
         )}
 
+        <hr className="reset-sep" />
         <button className="reset-btn" onClick={resetProgress}>
           Reset progress
         </button>
       </main>
     </div>
+  )
+}
+
+// Collapsible settings card. Everyday controls pass defaultOpen; longer/rarer groups
+// stay collapsed to a single tappable row so the dashboard opens short. The body is
+// only rendered when open (keeps the DOM — and the scroll — light). Each panel wears
+// its section colour via accent (heading + left bar) over a soft tint background.
+function Panel({ title, defaultOpen = false, accent, tint, children }) {
+  const [open, setOpen] = useState(defaultOpen)
+  return (
+    <section
+      className={`parent-panel ${open ? 'is-open' : ''}`}
+      style={{ '--accent': accent, '--tint': tint }}
+    >
+      <button
+        className="parent-panel-head"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+      >
+        <span className="parent-panel-title">{title}</span>
+        <svg
+          className="parent-panel-chev"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+      {open && <div className="parent-panel-body">{children}</div>}
+    </section>
+  )
+}
+
+// Live "Pip says" line — connects the grown-up to the child's world with real data.
+function PipSays() {
+  const p = useStore((s) => s.progress)
+  const child = useStore((s) => s.activeProfile())
+  const childCount = useStore((s) => s.childCount)
+  const profiles = useStore((s) => s.profiles)
+  const progressFor = useStore((s) => s.progressFor)
+  if (!child) return null
+
+  let names, heard, verb
+  if (childCount === 2) {
+    const kids = profiles.filter((k) => !k.guest).slice(0, 2)
+    names = kids.map((k) => k.name).join(' & ')
+    heard = kids.reduce((n, k) => n + (progressFor(k.id)?.wordsHeard || 0), 0)
+    verb = 'have'
+  } else {
+    names = child.name
+    heard = p.wordsHeard || 0
+    verb = 'has'
+  }
+
+  return (
+    <p className="gu-pipsay">
+      {heard > 0 ? (
+        <>
+          Pip says: <b>{names} {verb} heard {heard} {heard === 1 ? 'word' : 'words'}</b> so far!
+        </>
+      ) : (
+        <>Pip says: pick a world together and let’s hear those first words!</>
+      )}
+    </p>
+  )
+}
+
+// Which child these settings apply to — always shown so the grown-up has context
+// (many hints below read "For {child.name}"). Switch child opens the profile picker.
+function ActiveChild() {
+  const child = useStore((s) => s.activeProfile())
+  const openProfiles = useStore((s) => s.openProfiles)
+  if (!child) return null
+  return (
+    <div className="active-child">
+      <span className="child-badge" style={{ background: child.color }}>
+        {child.initials || child.name[0]?.toUpperCase()}
+      </span>
+      <span className="child-name">{child.name}</span>
+      <button className="child-switch" onClick={openProfiles}>
+        Switch child
+      </button>
+    </div>
+  )
+}
+
+// "Learning level" panel body = play stage + speech-practice level (two related dials).
+function LearningLevel() {
+  return (
+    <>
+      <StagePicker />
+      <SpeechLevel />
+    </>
+  )
+}
+
+// Account is only meaningful when cloud sync is configured; hide the whole panel
+// otherwise so local-only installs don't show an empty row.
+function AccountPanel() {
+  const configured = useStore((s) => s.cloudConfigured)
+  if (!configured) return null
+  return (
+    <Panel title="Account" accent="var(--gu-teal)" tint="#eef8f7">
+      <AccountSection />
+    </Panel>
   )
 }
 
@@ -198,8 +324,7 @@ function ScreenTime() {
   const used = getUsedToday(child.id)
   const bedFrom = child.bedtime?.from ?? null
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Daily play time</h3>
+    <>
       <p className="voice-hint">
         For {child.name} — when it&rsquo;s used up, Pip suggests a rest.{' '}
         {limit > 0 ? `${used} of ${limit} min today.` : 'No limit set.'}
@@ -230,7 +355,7 @@ function ScreenTime() {
           </button>
         ))}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -244,8 +369,7 @@ function Children() {
   const kids = profiles.filter((p) => !p.guest).slice(0, count)
 
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Children</h3>
+    <>
       <p className="voice-hint">
         Using TinyVoice with one child or two? Two children unlocks <b>Twin Mode</b>{' '}
         turn-taking. Switching is safe — no progress is ever deleted.
@@ -266,7 +390,7 @@ function Children() {
           <ChildNameRow key={k.id} child={k} />
         ))}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -296,24 +420,15 @@ function ChildNameRow({ child }) {
   )
 }
 
-function ChildStage() {
+// Play stage picker — top half of the "Learning level" panel.
+function StagePicker() {
   const child = useStore((s) => s.activeProfile())
   const setStage = useStore((s) => s.setStage)
-  const openProfiles = useStore((s) => s.openProfiles)
   if (!child) return null
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Child &amp; level</h3>
-      <div className="child-row">
-        <span className="child-badge" style={{ background: child.color }}>
-          {child.initials || child.name[0]?.toUpperCase()}
-        </span>
-        <span className="child-name">{child.name}</span>
-        <button className="child-switch" onClick={openProfiles}>
-          Switch child
-        </button>
-      </div>
-      <div className="voice-options" style={{ marginTop: 'var(--space-sm)' }}>
+    <>
+      <p className="voice-hint">How much language each screen shows for {child.name}.</p>
+      <div className="voice-options">
         {STAGES.map((st) => (
           <button
             key={st.id}
@@ -325,7 +440,7 @@ function ChildStage() {
           </button>
         ))}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -342,8 +457,10 @@ function SpeechLevel() {
   const suggestPhrases = level === 1 && wordsHeard >= PHRASE_READY_AT
 
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Speech practice level</h3>
+    <>
+      <h3 className="parent-h3" style={{ marginTop: 'var(--space-md)' }}>
+        Speech practice level
+      </h3>
       <p className="voice-hint">
         For {child.name} — sets what “{level >= 2 ? 'Phrase Builder' : 'Word Practice'}” on
         the home screen shows. Advance levels when your speech therapist agrees.
@@ -380,7 +497,7 @@ function SpeechLevel() {
         {child.name} has heard {wordsHeard} different words
         {phrasesExplored > 0 && ` · ${phrasesExplored} ${phrasesExplored === 1 ? 'phrase' : 'phrases'} explored`}.
       </p>
-    </section>
+    </>
   )
 }
 
@@ -392,8 +509,7 @@ function ExpectantPause() {
   if (!child) return null
   const on = !!child.expectantPause
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Wait time</h3>
+    <>
       <p className="voice-hint">
         For {child.name} — when on, a picture appears quietly for a few seconds before Pip
         says the word, so they get a chance to try saying it first. Tapping the picture still
@@ -414,7 +530,7 @@ function ExpectantPause() {
           </button>
         ))}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -429,8 +545,7 @@ function FocusWords() {
   const atCap = focus.length >= FOCUS_MAX
 
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Focus words this week</h3>
+    <>
       <p className="voice-hint">
         Pin up to {FOCUS_MAX} words for {child.name} to practise — lovely for therapy homework.
         They lead the Word Board&rsquo;s <b>Find</b> game and Today with Pip.
@@ -497,7 +612,7 @@ function FocusWords() {
           )
         })}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -509,8 +624,7 @@ function Songs() {
   if (!child) return null
   const on = child.enabledSongs || []
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Songs</h3>
+    <>
       <p className="voice-hint">
         Choose which songs {child.name} sees in <b>Sing with Pip</b>. Public-domain
         children&rsquo;s songs (U.S. Dept. of State, American English). {on.length} on.
@@ -531,7 +645,7 @@ function Songs() {
           )
         })}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -545,8 +659,7 @@ function StorybookVoicePicker() {
   }
 
   return (
-    <section className="parent-section">
-      <h3 className="parent-h3">Storybook voice</h3>
+    <>
       <p className="voice-hint">
         The warm voice that reads each word aloud. Tap one to hear it.
       </p>
@@ -565,7 +678,7 @@ function StorybookVoicePicker() {
           </button>
         ))}
       </div>
-    </section>
+    </>
   )
 }
 
@@ -637,8 +750,7 @@ function AccountSection() {
   if (session?.user) {
     const synced = status === 'synced' ? 'Synced ✓' : status === 'syncing' ? 'Syncing…' : status === 'error' ? 'Sync error' : ''
     return (
-      <section className="parent-section account-section">
-        <h3 className="parent-h3">Account</h3>
+      <div className="account-section">
         <p className="voice-hint">
           Signed in as <b>{session.user.email}</b>. {synced && <span className="sync-state">{synced}</span>}
         </p>
@@ -660,12 +772,12 @@ function AccountSection() {
           Deleting removes your synced children and progress from the cloud. Play on this
           device is unaffected.
         </p>
-      </section>
+      </div>
     )
   }
 
   return (
-    <section className="parent-section account-section">
+    <div className="account-section">
       <h3 className="parent-h3">Save &amp; sync progress</h3>
       <p className="voice-hint">
         Optional: sign in to back up your children&rsquo;s progress and use TinyVoice on more
@@ -700,13 +812,13 @@ function AccountSection() {
           Something went wrong sending the link. Check the email and try again.
         </p>
       )}
-    </section>
+    </div>
   )
 }
 
-function Stat({ value, label, big }) {
+function Stat({ value, label, tone }) {
   return (
-    <div className={`stat ${big ? 'stat-big' : ''}`}>
+    <div className={`stat ${tone ? `stat-${tone}` : ''}`}>
       <div className="stat-value">{value}</div>
       <div className="stat-label">{label}</div>
     </div>

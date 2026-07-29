@@ -79,6 +79,9 @@ const run = async () => {
   const n = (q.match(/\d+/g) || []).map(Number)
   await page.locator('.gate-input').fill(String((n[0] || 0) + (n[1] || 0)))
   await page.locator('.gate-go').click()
+  await page.waitForSelector('.parent-main', { timeout: 5000 })
+  // Songs is a collapsed panel — open it before asserting on its toggles.
+  await page.locator('.parent-panel-head', { hasText: 'Songs' }).click()
   await page.waitForSelector('.song-toggles', { timeout: 5000 })
   const toggles = page.locator('.song-toggle')
   ok((await toggles.count()) === 13, `13 song toggles shown (got ${await toggles.count()})`)
