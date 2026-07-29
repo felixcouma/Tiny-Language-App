@@ -258,7 +258,9 @@ export function setStorybookVoice(id) {
 const FX_KEYS = new Set([
   'dog', 'cat', 'cow', 'sheep', 'bird', 'frog', 'monkey', 'lion', 'bear', 'duck',
   'zebra', 'horse', 'pig', 'chicken', 'rooster', 'elephant', 'bee',
-  'snake', 'owl', 'wolf', 'goose', 'crow',
+  'owl', 'wolf', 'goose', 'crow',
+  // Snake is intentionally spoken-only (warm "hiss, hissss!") — no clean CC hiss exists
+  // and a real hiss reads poorly on phone speakers. Like butterfly/turtle/fish: no fx file.
 ])
 const missingFile = new Set() // urls known to be absent (avoid retrying)
 

@@ -62,15 +62,18 @@ instead of a chime. The 16 letter-word pictures were also added earlier (commit 
 every letter shows a real WebP picture. Regenerate anytime with
 `node scripts/gen-tts-gcloud.mjs --kind abc-songs`.
 
-## 4. Animal sound effects (new safari animals + duck) — needs ear-verification
-The 5 new animals (Snake/Owl/Wolf/Goose/Crow) ship with images + warm spoken sound-labels
-("Listen… hiss!"), but have **no real FX recording** yet, and the **duck quack still sounds like
-a chick**. Real animal sounds aren't TTS — they're CC audio that must be auditioned (Claude can't
-hear). Source CC0/CC-BY clips (Wikimedia Commons / freesound), trim to ~1–2s, and drop at
-`public/sounds/fx/<key>.mp3`, credited in `public/sounds/CREDITS.md`. The keys
-(snake/owl/wolf/goose/crow) are **already wired** into `FX_KEYS` (`src/lib/audio.js`) — a missing
-file just 404s harmlessly, so dropping the real files in is all that's needed. Also replace the
-`public/sounds/fx/duck.mp3` quack.
+## 4. Animal sound effects (new safari animals + duck) — ✅ ESSENTIALLY DONE
+Real animal FX aren't TTS — they're CC audio that must be ear-auditioned (Claude can't hear), so
+this closed out incrementally as the owner + Claude sourced clips:
+- **Duck** quack fixed (real quack, not a chick); **Wolf / Goose / Crow** owner-provided
+  (2026-06-10). **Owl** = real tawny-owl hoot (Wikimedia, CC BY-SA 4.0 — Alvaro Ortiz Troncoso;
+  2026-07-17). **Chicken** = real hen cluck + new **Rooster** using the old crow (2026-07-17).
+- **Snake** = **intentionally spoken-only** (warm "hiss, hissss!"). No clean CC snake-hiss exists on
+  Wikimedia (verified across species/term queries) and a real hiss reads poorly on phone speakers, so
+  snake was **removed from `FX_KEYS`** and now behaves like butterfly/turtle/fish (spoken label, no
+  fx file). If a good hiss is ever sourced, drop it at `public/sounds/fx/snake.mp3` and re-add the key.
+
+All wired `FX_KEYS` now have a real `public/sounds/fx/<key>.mp3`, credited in `public/sounds/CREDITS.md`.
 
 ## 5. Optional / future
 - **Music Forest** build-out (richer sound-play + phonics) — wanted once its clips exist.

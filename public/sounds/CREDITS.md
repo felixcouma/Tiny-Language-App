@@ -12,6 +12,7 @@ Animal sound effects used in TinyVoice Twins (`public/sounds/fx/`).
 | rooster | [Young rooster crowing.ogg](https://commons.wikimedia.org/wiki/File:Young_rooster_crowing.ogg) | Filo gèn' | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | elephant | [Elephant voice - trumpeting.ogg](https://commons.wikimedia.org/wiki/File:Elephant_voice_-_trumpeting.ogg) | தகவலுழவன் | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) |
 | bee | [Bee buzzing sound (animal noises).opus](https://commons.wikimedia.org/wiki/File:Bee_buzzing_sound_(animal_noises).opus) | Free Sounds Library User Spanac | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) |
+| owl | [Strix aluco - Tawny Owl XC563348.mp3](https://commons.wikimedia.org/wiki/File:Strix_aluco_-_Tawny_Owl_XC563348.mp3) | Alvaro Ortiz Troncoso | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 
 ## Adobe
 

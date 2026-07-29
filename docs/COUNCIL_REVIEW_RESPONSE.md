@@ -128,3 +128,89 @@ holds it. The edge doesn't come from new surfaces; it comes from **making state 
 to the parent**: (1) the twin divergence nudge, (2) focus-word "what to say at home" + focus-first Auto
 Play, (3) one-line "why" on the therapy toggles. Skip ASR, streaks, and a clinical dashboard — those
 add bloat and erode the no-pressure brand the pilot is built on.
+
+---
+
+# Grandmaster Synthesis — Response (2026-07-17)
+
+> A reply to the Grandmaster "Strategic Synthesis" (5-point report: consensus · tensions · top-3
+> actions · longer-term bets · do-not-build). The strategic read is sound; the *scope* is stale on
+> several points because the council still has no codebase access. Corrections and verdicts below.
+
+## First: status corrections (things that shipped since the review's context)
+The council is arguing for several things **that already exist** — noting so effort isn't spent
+rebuilding shipped features:
+- **Animal FX is ~95% done, not "all missing."** 20 of the 22 wired keys now have a real recording:
+  `bear bee bird cat chicken cow crow dog duck elephant frog goose horse lion monkey pig rooster
+  sheep wolf zebra`. **The duck quack was already fixed** (real quack, not a chick). **Only `snake`
+  and `owl` remain** (keys pre-wired; a missing file 404s harmlessly). The hen/rooster split shipped
+  2026-07-17. → Priority accepted; **scope narrows to 2 files.**
+- **The shared "celebrate together" moment already ships.** Twin Mode ends on a no-winner
+  *"You did it together!"* that names both children (`verify-twin-finale.mjs`, `LEFT_TO_DO §10`).
+- **Twins onboarding is already one-decision-per-screen** — Setup asks *"how many children?"* and
+  children are generic + renamable.
+- **Spaced-retrieval signal already exists** — `today.js buildTodaySession` sorts least-practised →
+  **least-recently-seen**; **focus-first Auto Play** shipped in the competitive-review round.
+- **Karaoke already exists at line level** — all 13 Sing-with-Pip songs animate with a synced lyric
+  caption; the open piece is *per-word* highlight, not karaoke from scratch.
+- **Parent insight already partly built** — the in-session "Today with `<child>`" line + the twin
+  divergence nudge + "say it at home" + "why" notes all shipped.
+
+## ✅ Accept
+- **Audio authenticity is a release gate (Action #1).** Agreed and nearly closed — we accept the
+  priority and will finish **`snake` + `owl`** the same way as the hen (one ear-auditioned CC clip each).
+- **Weekly parent *narrative* (not raw data).** This is the one genuinely **net-new, on-brand** idea in
+  the report — a one-paragraph story extends the existing in-session line into a retention loop for the
+  therapy-aligned parent. Accept as the next strategic bet to scope (still parent-facing, never a child
+  score).
+
+## 🔁 Reframe (right worry — wrong or unproven fix)
+- **"Freeze animation; ship code-splitting + lazy audio first" (Action #2 / Marcus).** Reframe on a false
+  premise: our animations are **not Lottie** — they're lightweight **WebP frame-loops (8–23 KB)** already
+  shipped, so they don't threaten the load target. And **audio/images are already lazy**: clips are fetched
+  per-play from `public/` under `StaleWhileRevalidate` (songs are runtime-cached, **never bundled**), so
+  "asset weight" is not in the JS bundle. Before accepting the code-splitting bet we ask the council for a
+  **concrete metric** (JS bundle KB / TTI on a mid phone) — we'll measure `dist/` and accept-or-kill on
+  numbers, not prescription. The blanket **animation freeze is therefore moot.**
+- **"Tap-triggered reward burst to add response-contingency" (Sofia).** Partly already there: **tapping the
+  picture speaks it immediately** (a differentiated, contingent consequence), and animals then play a real
+  FX. So the evidence gap is smaller than stated. Reconsider whether an *extra* reward burst risks the
+  over-stimulation / no-pressure line before adding it.
+- **"Spaced retrieval (Leitner)"** → reframe to **light revisit-weighting** for near-mastered words; the
+  ordering signal already exists.
+- **"Karaoke sync"** → scope as **per-word highlight**; the line-level caption already ships.
+
+## ♻︎ For reconsideration (points where the premise looks off)
+- **"No new TTS voices until the GCP fallback corpus is in versioned storage."** Reconsider — **all three
+  voices' full clip corpora are already committed to git** (Aoede/Leda/Sulafat, incl. per-voice phrase
+  folders). The versioning concern is already satisfied; this gate is effectively met.
+- **"Parent Dashboard without weekly insights will cause churn."** Agreed on direction, but note the churn
+  claim is **untested at pilot scale** — we have the in-session line + twin nudge live; recommend we
+  *measure* whether those move retention before committing to the weekly-narrative build.
+
+## ❌ Hold (agree with the council's own quality gates)
+- **Joint-attention cooperative prompts** — hold until mastery signals exist (agreed; architecturally early).
+- **Expanded song library** — hold; 13 songs is sufficient (depth > breadth).
+
+## Verdict
+The synthesis is strategically right about the **moat (sound-first + twins)** and about **audio
+authenticity as a gate** — but roughly **two-thirds of the "Top 3" is already shipped**, so the real
+redirect is: **(1) finish `snake` + `owl` FX** to take audio authenticity to 100%, and **(2) scope the
+weekly parent *narrative*** as the one net-new retention bet. Everything else is an *upgrade* to existing
+machinery (per-word karaoke, revisit-weighting), not greenfield — and the code-splitting freeze is based
+on a Lottie/bundled-audio assumption that doesn't match how this app actually loads. Measure before we
+build there.
+
+## Loop closed — Grandmaster's revised synthesis (accepted)
+The Grandmaster accepted the corrections and collapsed the "Top 3" to effectively **one genuine action**,
+with a fair caution: *don't let "measure first" become indefinite deferral of the one retention lever.*
+Agreed revised order + where each stands:
+1. **`snake` + `owl` FX — close the audio gate.** **Owl DONE** (real tawny-owl hoot, CC BY-SA 4.0, 2026-07-17).
+   **Snake resolved as intentionally spoken-only** — no clean CC hiss exists and a real hiss reads poorly on
+   phone speakers, so it keeps the warm *"hiss, hissss!"* and was removed from `FX_KEYS` (like butterfly/
+   turtle/fish). Audio authenticity now **100% of what will have a recording**. `LEFT_TO_DO §4` closed.
+2. **Instrument the existing in-session parent-insight line** before scoping the narrative — validate that
+   what's live moves retention. **Caveat (ours):** instrumentation in a local-first, privacy-sensitive
+   toddler app must be a **lightweight local/opt-in signal**, not third-party analytics — design that first.
+3. **Scope the weekly parent *narrative*** — one paragraph, therapy-parent voice, earned by the #2 data.
+   The one net-new retention bet; not started (correctly gated behind measurement).
