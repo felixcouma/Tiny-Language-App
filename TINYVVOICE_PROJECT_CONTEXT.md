@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-30 19:40 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-30 19:42 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `08bdb02 Revert: consolidate council into tools/council (drop root runner)`
 - `73b16ad Docs: session handoff for the dashboard redesign; gitignore .claude`
 - `d8fcbf5 Chore: root council.js runner + pilot parent handouts`
 - `3b9878a Feat: real owl hoot, snake spoken-only; close council #1`
 - `849365f Feat: decongest + warmly restyle the Grown-Ups dashboard`
 - `4eb7be7 Docs: bring README up to date with the current app`
-- `0c57602 Feat: real hen cluck for Chicken, new Rooster animal, cleaner beach-ball`
 <!-- AUTO:END -->
 
 ---
@@ -75,7 +75,9 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Parent Dashboard** — gentle insight (words heard, favourite world, top words, days, accuracy);
   Children (rename / 1↔2), Songs toggles, **Wait time** (per-child expectant pause — hold a beat
   before the Learning screen speaks so the child can try naming it first), Account
-  (sign-in/trial/delete-data); reset. No scores/pressure.
+  (sign-in/trial/delete-data); reset. No scores/pressure. **Warm, colour-coded layout**: a Pip hero
+  with a live "heard N words" line, tinted stat cards, and **collapsible panels** (everyday controls
+  open, rarer ones behind a "More settings" divider) so the page opens short.
 - **In-session parent line** — a gentle, **parent-facing** "Today with `<child>`: N new words · N
   phrases" at session-end (game done + wind-down). Per-child daily bucket, not a child score.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating

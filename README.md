@@ -32,7 +32,8 @@ browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
   player) · **Today with Pip** (adaptive session) · **Collection** · **Rest / screen-time**
 - **Multi-child profiles:** generic, **renamable** children; per-child progress, stage, voice,
   screen-time, bedtime, focus words & songs — all on the device
-- **Parent Dashboard:** gentle insight + settings (voice, **Wait time**, songs, focus words);
+- **Parent Dashboard:** gentle insight + settings (voice, **Wait time**, songs, focus words) in a
+  warm, colour-coded layout with collapsible panels (a Pip hero + a live "heard N words" line);
   **optional** cloud sign-in (Supabase magic link) to back up & sync + a 30-day soft-trial
 - **No scores, no streaks, no pressure** — gentle collection & celebration only
 
