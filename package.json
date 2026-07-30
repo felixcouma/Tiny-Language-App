@@ -6,7 +6,6 @@
   "description": "TinyVoice Twins — a sound-first, mobile-first speech & early-language app for toddlers (built for Audrey & Adriel).",
   "scripts": {
     "dev": "vite",
-    "council": "node council.js",
     "check": "node scripts/check-content.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "prebuild": "node scripts/check-content.mjs",
@@ -16,10 +15,7 @@
     "verify:actions": "node scripts/verify-actions.mjs"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.115.0",
     "@supabase/supabase-js": "^2.108.2",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zustand": "^4.5.5"
