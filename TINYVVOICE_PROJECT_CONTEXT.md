@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-07-30 19:42 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-07-31 22:04 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `5908590 Docs: note the warm, collapsible Parent Dashboard redesign`
 - `08bdb02 Revert: consolidate council into tools/council (drop root runner)`
 - `73b16ad Docs: session handoff for the dashboard redesign; gitignore .claude`
 - `d8fcbf5 Chore: root council.js runner + pilot parent handouts`
 - `3b9878a Feat: real owl hoot, snake spoken-only; close council #1`
 - `849365f Feat: decongest + warmly restyle the Grown-Ups dashboard`
-- `4eb7be7 Docs: bring README up to date with the current app`
 <!-- AUTO:END -->
 
 ---

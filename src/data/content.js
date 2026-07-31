@@ -6,15 +6,16 @@
  *   • Things I Do  (playful activities — the verbs that build sentences)
  * blended with v3's depth (IPA, teaching scripts) and the v4 Language Ladder.
  *
- * VISUALS: real photographs, no emoji. Each item carries a `wiki` title; the
- * image layer (src/lib/images.js) resolves a real friendly photo at runtime
- * from Wikimedia (keyless) or Unsplash/Pexels if an API key is added. Items
- * marked `portrait: true` (e.g. family) intentionally show a clean typographic
- * card instead of a stranger's photo. Nothing ever renders an emoji.
+ * VISUALS: bundled WebP illustrations, no emoji. Each item carries a `wiki` title;
+ * the image layer (src/lib/images.js) resolves a local `public/images/<key>.webp`
+ * first, falling back to Unsplash/Pexels/Wikimedia only if a local asset is missing.
+ * Items marked `portrait: true` (e.g. family) intentionally show a clean typographic
+ * card instead of a photo. Nothing ever renders an emoji.
  *
- * AUDIO: `say` is spoken aloud (browser speech) so children HEAR the word and
- * phrases — core to speech development. If a real recording exists at
- * /sounds/<sound>.mp3 it is preferred over speech (drop in animal sounds later).
+ * AUDIO: `say`, the `expand` ladder rungs, and phrases are spoken from warm
+ * pre-rendered Gemini-TTS clips (per-voice: Aoede default · Leda · Sulafat). A
+ * missing clip plays a soft chime — never the robotic device voice. Real Creative-
+ * Commons animal recordings play from /sounds/fx/<sound>.mp3.
  */
 
 // Category palette (from the blueprint). grad = card gradient.
@@ -47,44 +48,44 @@ const body = [
 
 // ---------- THINGS I DO (activities / verbs) ----------
 const doing = [
-  { word: 'Washing hands', wiki: 'Hand washing', say: 'Washing hands! I wash my hands. Scrub, scrub!', expand: ['Wash hands', 'I wash', 'I wash my hands'] },
-  { word: 'Eating', wiki: 'Eating', say: 'Eating! Yum, yum, yum!', expand: ['I eat', 'Eat food', 'I eat my food'] },
-  { word: 'Drinking', wiki: 'Drinking', say: 'Drinking! Glug, glug, glug!', expand: ['I drink', 'Drink milk', 'I drink my milk'] },
-  { word: 'Sleeping', wiki: 'Sleep', say: 'Sleeping! Shhh… night night.', expand: ['I sleep', 'Go sleep', 'I go to sleep'] },
-  { word: 'Walking', wiki: 'Walking', say: 'Walking! Step, step, step!', expand: ['I walk', 'Walk slow', 'I walk to you'] },
-  { word: 'Running', wiki: 'Running', say: 'Running! Go, go, go!', expand: ['I run', 'Run fast', 'I run and run'] },
-  { word: 'Jumping', wiki: 'Jumping', say: 'Jumping! Boing, boing, boing!', expand: ['I jump', 'Jump high', 'I jump up high'] },
-  { word: 'Laughing', wiki: 'Laughter', say: 'Laughing! Ha ha ha ha!', expand: ['I laugh', 'So funny', 'I laugh with you'] },
-  { word: 'Clapping', wiki: 'Clapping', say: 'Clapping! Clap, clap, clap!', expand: ['I clap', 'Clap hands', 'I clap my hands'] },
-  { word: 'Hugging', wiki: 'Hug', say: 'Hugging! A big, warm squeeze!', expand: ['Big hug', 'Hug me', 'I hug my mommy'] },
-  { word: 'Dancing', wiki: 'Dance', say: 'Dancing! Wiggle and twirl!', expand: ['I dance', 'Dance with me', 'I love to dance'] },
-  { word: 'Brushing teeth', wiki: 'Tooth brushing', say: 'Brushing teeth! Brush, brush, brush!', expand: ['Brush teeth', 'Clean teeth', 'I brush my teeth'] },
-  { word: 'Riding a bike', wiki: 'Bicycle', say: 'Riding a bike! Pedal, pedal, pedal!', expand: ['I ride', 'Ride bike', 'I ride my bike'] },
-  { word: 'Blowing bubbles', wiki: 'Soap bubble', say: 'Blowing bubbles! Puff… pop, pop, pop!', expand: ['I blow', 'Blow bubbles', 'I blow the bubbles'] },
-  { word: 'Climbing stairs', wiki: 'Stairs', say: 'Climbing stairs! Up, up, up we go!', expand: ['I climb', 'Climb up', 'I climb the stairs'] },
-  { word: 'Playing with toys', wiki: 'Toy', say: 'Playing with toys! Build and play!', expand: ['I play', 'Play toys', 'I play with my toys'] },
-  { word: 'Kicking a ball', wiki: 'Kick', say: 'Kicking a ball! Kick it far!', expand: ['I kick', 'Kick ball', 'I kick the ball'] },
-  { word: 'Reading a book', wiki: 'Book', say: 'Reading a book! Turn the page!', expand: ['I read', 'Read book', 'I read my book'] },
-  { word: 'Waving', wiki: 'Wave (gesture)', say: 'Waving! Hello, hello! Bye bye!', expand: ['I wave', 'Wave hello', 'I wave to you'] },
-  { word: 'Swimming', wiki: 'Swimming', say: 'Swimming! Splash and paddle!', expand: ['I swim', 'Swim fast', 'I swim in the water'] },
-  { word: 'Crying', wiki: 'Crying', say: 'Crying! Boo hoo. It is okay.', expand: ['I cry', 'Baby cries', 'I am sad and I cry'] },
-  { word: 'Painting', wiki: 'Painting', say: 'Painting! Dab, dab, dab. Pretty colours!', expand: ['I paint', 'Paint a picture', 'I paint a pretty picture'] },
-  { word: 'Throwing a ball', wiki: 'Throwing', say: 'Throwing a ball! Throw it high!', expand: ['I throw', 'Throw ball', 'I throw the ball'] },
-  { word: 'Cooking', wiki: 'Cooking', say: 'Cooking! Stir, stir, stir. Yummy!', expand: ['I cook', 'Cook food', 'I cook in the pot'] },
+  { word: 'Washing hands', wiki: 'Hand washing', say: 'Washing hands! I wash my hands. Scrub, scrub!', expand: ['Wash hands', "She's washing", "She's washing her hands"] },
+  { word: 'Eating', wiki: 'Eating', say: 'Eating! Yum, yum, yum!', expand: ["He's eating", 'Eat food', "He's eating his food"] },
+  { word: 'Drinking', wiki: 'Drinking', say: 'Drinking! Glug, glug, glug!', expand: ["She's drinking", 'Drink milk', "She's drinking her milk"] },
+  { word: 'Sleeping', wiki: 'Sleep', say: 'Sleeping! Shhh… night night.', expand: ["He's sleeping", 'Go to sleep', "He's going to sleep"] },
+  { word: 'Walking', wiki: 'Walking', say: 'Walking! Step, step, step!', expand: ["She's walking", 'Walk slowly', "She's walking to you"] },
+  { word: 'Running', wiki: 'Running', say: 'Running! Go, go, go!', expand: ["He's running", 'Run fast', "He's running fast"] },
+  { word: 'Jumping', wiki: 'Jumping', say: 'Jumping! Boing, boing, boing!', expand: ["She's jumping", 'Jump high', "She's jumping high"] },
+  { word: 'Laughing', wiki: 'Laughter', say: 'Laughing! Ha ha ha ha!', expand: ["They're laughing", 'So funny', "They're laughing together"] },
+  { word: 'Clapping', wiki: 'Clapping', say: 'Clapping! Clap, clap, clap!', expand: ["He's clapping", 'Clap hands', "He's clapping his hands"] },
+  { word: 'Hugging', wiki: 'Hug', say: 'Hugging! A big, warm squeeze!', expand: ['Big hug', 'Hug me', "They're hugging"] },
+  { word: 'Dancing', wiki: 'Dance', say: 'Dancing! Wiggle and twirl!', expand: ["They're dancing", 'Dance with me', "They're dancing together"] },
+  { word: 'Brushing teeth', wiki: 'Tooth brushing', say: 'Brushing teeth! Brush, brush, brush!', expand: ['Brush teeth', 'Clean teeth', "She's brushing her teeth"] },
+  { word: 'Riding a bike', wiki: 'Bicycle', say: 'Riding a bike! Pedal, pedal, pedal!', expand: ["He's riding", 'Ride a bike', "He's riding his bike"] },
+  { word: 'Blowing bubbles', wiki: 'Soap bubble', say: 'Blowing bubbles! Puff… pop, pop, pop!', expand: ["She's blowing", 'Blow bubbles', "She's blowing bubbles"] },
+  { word: 'Climbing stairs', wiki: 'Stairs', say: 'Climbing stairs! Up, up, up we go!', expand: ["He's climbing", 'Climb up', "He's climbing the stairs"] },
+  { word: 'Playing with toys', wiki: 'Toy', say: 'Playing with toys! Build and play!', expand: ["They're playing", 'Play with toys', "They're playing with toys"] },
+  { word: 'Kicking a ball', wiki: 'Kick', say: 'Kicking a ball! Kick it far!', expand: ["She's kicking", 'Kick the ball', "She's kicking the ball"] },
+  { word: 'Reading a book', wiki: 'Book', say: 'Reading a book! Turn the page!', expand: ["He's reading", 'Read a book', "He's reading his book"] },
+  { word: 'Waving', wiki: 'Wave (gesture)', say: 'Waving! Hello, hello! Bye bye!', expand: ["She's waving", 'Wave hello', "She's waving to you"] },
+  { word: 'Swimming', wiki: 'Swimming', say: 'Swimming! Splash and paddle!', expand: ["He's swimming", 'Swim fast', "He's swimming"] },
+  { word: 'Crying', wiki: 'Crying', say: "Crying! Boo hoo. It's okay.", expand: ["She's crying", 'So sad', "She's crying. She's sad"] },
+  { word: 'Painting', wiki: 'Painting', say: 'Painting! Dab, dab, dab. Pretty colours!', expand: ["She's painting", 'Paint a picture', "She's painting a picture"] },
+  { word: 'Throwing a ball', wiki: 'Throwing', say: 'Throwing a ball! Throw it high!', expand: ["He's throwing", 'Throw the ball', "He's throwing the ball"] },
+  { word: 'Cooking', wiki: 'Cooking', say: 'Cooking! Stir, stir, stir. Yummy!', expand: ["He's cooking", 'Cook food', "He's cooking"] },
   { word: 'Peekaboo', wiki: 'Peekaboo', say: 'Peekaboo! Where are you? I see you!', expand: ['Peekaboo', 'I see you', 'Peekaboo, I see you'] },
-  { word: 'Waking up', wiki: 'Wakefulness', say: 'Waking up! Good morning! Stretch and yawn.', expand: ['I wake', 'Wake up', 'I wake up'] },
-  { word: 'Pointing', wiki: 'Pointing', say: 'Pointing! Look over there!', expand: ['I point', 'Point there', 'I point to it'] },
-  { word: 'Getting dressed', wiki: 'Dress', say: 'Getting dressed! Shirt on. All dressed!', expand: ['I dress', 'Get dressed', 'I get dressed'] },
+  { word: 'Waking up', wiki: 'Wakefulness', say: 'Waking up! Good morning! Stretch and yawn.', expand: ["He's waking up", 'Wake up', "He's waking up"] },
+  { word: 'Pointing', wiki: 'Pointing', say: 'Pointing! Look over there!', expand: ["She's pointing", 'Point there', "She's pointing at it"] },
+  { word: 'Getting dressed', wiki: 'Dress', say: 'Getting dressed! Shirt on. All dressed!', expand: ["He's getting dressed", 'Get dressed', "He's getting dressed"] },
 ].map((x) => ({ ...x, action: true, color: CAT.doing.color, sound: `do-${x.word.split(' ')[0].toLowerCase()}` }))
 
 // ---------- HOME VILLAGE (family + objects) ----------
 const family = [
   { word: 'Mommy', say: 'Mommy! I love you, Mommy.', expand: ['Hi Mommy', 'Love Mommy', 'I love my Mommy'] },
   { word: 'Daddy', say: 'Daddy! I love you, Daddy.', expand: ['Hi Daddy', 'Love Daddy', 'I love my Daddy'] },
-  { word: 'Sister', say: 'My sister! I love my sister.', expand: ['My sister', 'Play sister', 'I play with sister'] },
-  { word: 'Brother', say: 'My brother! I play with my brother.', expand: ['My brother', 'Play brother', 'I play with brother'] },
+  { word: 'Sister', say: 'My sister! I love my sister.', expand: ['My sister', 'Play with sister', 'I play with sister'] },
+  { word: 'Brother', say: 'My brother! I play with my brother.', expand: ['My brother', 'Play with brother', 'I play with brother'] },
   { word: 'Grandma', say: 'Grandma! I hug my Grandma.', expand: ['Hug Grandma', 'Love Grandma', 'I hug my Grandma'] },
-  { word: 'Grandpa', say: 'Grandpa is here! Hi, Grandpa!', expand: ['Grandpa here', 'Hi Grandpa', 'I see my Grandpa'] },
+  { word: 'Grandpa', say: "Grandpa's here! Hi, Grandpa!", expand: ["Grandpa's here", 'Hi Grandpa', 'I see my Grandpa'] },
 ].map((x) => ({ ...x, color: CAT.home.color, portrait: true, sound: `home-${x.word.toLowerCase()}` }))
 
 const objects = [
@@ -137,32 +138,32 @@ const A = (word, wiki, ipa, soundLabel, script, expand) => ({
   sound: word.toLowerCase(), expand,
 })
 const animals = [
-  A('Dog', 'Dog', '/dɔg/', 'Woof woof', 'The dog! Listen… woof, woof!', ['Big dog', 'Dog runs', 'The dog runs fast']),
-  A('Cat', 'Cat', '/kæt/', 'Meow', 'The cat! Listen… meow, meow!', ['Soft cat', 'Cat sleeps', 'The cat is sleeping']),
-  A('Cow', 'Cattle', '/kaʊ/', 'Moooo', 'The cow! Listen… mooooo!', ['Big cow', 'Cow eats', 'The cow eats grass']),
-  A('Duck', 'Duck', '/dʌk/', 'Quack', 'The duck! Listen… quack, quack!', ['Little duck', 'Duck swims', 'The duck swims']),
-  A('Pig', 'Pig', '/pɪg/', 'Oink', 'The pig! Listen… oink, oink!', ['Big pig', 'Pig oinks', 'The pig says oink']),
-  A('Horse', 'Horse', '/hɔrs/', 'Neigh', 'The horse! Listen… neighhh!', ['Big horse', 'Horse runs', 'The horse runs fast']),
-  A('Sheep', 'Sheep', '/ʃip/', 'Baa', 'The sheep! Listen… baa, baa!', ['Soft sheep', 'Sheep baas', 'The sheep says baa']),
-  A('Chicken', 'Chicken', '/ˈtʃɪkɪn/', 'Cluck', 'The chicken! Listen… cluck, cluck!', ['Little chicken', 'Chicken pecks', 'The chicken pecks corn']),
-  A('Rooster', 'Rooster', '/ˈrustər/', 'Cock-a-doodle-doo', 'The rooster! Listen… cock-a-doodle-doo!', ['Big rooster', 'Rooster crows', 'The rooster crows at dawn']),
-  A('Bird', 'Bird', '/bɜrd/', 'Tweet', 'The bird! Listen… tweet, tweet!', ['Tiny bird', 'Bird flies', 'The bird can fly']),
-  A('Fish', 'Fish', '/fɪʃ/', 'Blub', 'The fish! Listen… blub, blub!', ['Little fish', 'Fish swims', 'The fish swims fast']),
-  A('Lion', 'Lion', '/ˈlaɪən/', 'Roar', 'The lion! Hear the big roar… roar!', ['Big lion', 'Lion roars', 'The lion roars loud']),
-  A('Monkey', 'Monkey', '/ˈmʌŋki/', 'Ooh ooh', 'The monkey! Listen… ooh ooh ah ah!', ['Funny monkey', 'Monkey climbs', 'The monkey climbs high']),
-  A('Elephant', 'Elephant', '/ˈɛləfənt/', 'Trumpet', 'The elephant! So big! Trumpet sound!', ['Big elephant', 'Elephant stomps', 'The elephant is huge']),
-  A('Bear', 'Bear', '/bɛr/', 'Growl', 'The bear! Listen… grrrowl!', ['Big bear', 'Bear sleeps', 'The bear is sleeping']),
-  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['Fast rabbit', 'Rabbit hops', 'The rabbit hops away']),
-  A('Frog', 'Frog', '/frɑg/', 'Croak', 'The frog! Listen… croak, croak!', ['Little frog', 'Frog jumps', 'The frog jumps high']),
-  A('Bee', 'Bee', '/bi/', 'Buzz', 'The bee! Listen… buzz, buzz!', ['Tiny bee', 'Bee flies', 'The bee buzzes']),
-  A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty fluttering wings!', ['Pretty butterfly', 'Butterfly flies', 'The butterfly flutters']),
-  A('Turtle', 'Turtle', '/ˈtɜrtəl/', 'Slow friend', 'The turtle! Slow and steady.', ['Slow turtle', 'Turtle walks', 'The turtle walks slow']),
+  A('Dog', 'Dog', '/dɔg/', 'Woof woof', 'The dog! Listen… woof, woof!', ['Big dog', 'Dog runs', "The dog's running fast"]),
+  A('Cat', 'Cat', '/kæt/', 'Meow', 'The cat! Listen… meow, meow!', ['Soft cat', 'Cat sleeps', "The cat's sleeping"]),
+  A('Cow', 'Cattle', '/kaʊ/', 'Moooo', 'The cow! Listen… mooooo!', ['Big cow', 'Cow eats', "The cow's eating grass"]),
+  A('Duck', 'Duck', '/dʌk/', 'Quack', 'The duck! Listen… quack, quack!', ['Little duck', 'Duck swims', "The duck's swimming"]),
+  A('Pig', 'Pig', '/pɪg/', 'Oink', 'The pig! Listen… oink, oink!', ['Big pig', 'Pig oinks', "The pig's saying oink"]),
+  A('Horse', 'Horse', '/hɔrs/', 'Neigh', 'The horse! Listen… neighhh!', ['Big horse', 'Horse runs', "The horse's running fast"]),
+  A('Sheep', 'Sheep', '/ʃip/', 'Baa', 'The sheep! Listen… baa, baa!', ['Soft sheep', 'Sheep baas', "The sheep's saying baa"]),
+  A('Chicken', 'Chicken', '/ˈtʃɪkɪn/', 'Cluck', 'The chicken! Listen… cluck, cluck!', ['Little chicken', 'Chicken pecks', "The chicken's eating corn"]),
+  A('Rooster', 'Rooster', '/ˈrustər/', 'Cock-a-doodle-doo', 'The rooster! Listen… cock-a-doodle-doo!', ['Big rooster', 'Rooster crows', "The rooster's crowing in the morning"]),
+  A('Bird', 'Bird', '/bɜrd/', 'Tweet', 'The bird! Listen… tweet, tweet!', ['Tiny bird', 'Bird flies', "The bird's flying"]),
+  A('Fish', 'Fish', '/fɪʃ/', 'Blub', 'The fish! Listen… blub, blub!', ['Little fish', 'Fish swims', "The fish's swimming"]),
+  A('Lion', 'Lion', '/ˈlaɪən/', 'Roar', 'The lion! Hear the big roar… roar!', ['Big lion', 'Lion roars', "The lion's roaring"]),
+  A('Monkey', 'Monkey', '/ˈmʌŋki/', 'Ooh ooh', 'The monkey! Listen… ooh ooh ah ah!', ['Funny monkey', 'Monkey climbs', "The monkey's climbing"]),
+  A('Elephant', 'Elephant', '/ˈɛləfənt/', 'Trumpet', 'The elephant! So big! Trumpet sound!', ['Big elephant', 'Elephant stomps', "The elephant's big"]),
+  A('Bear', 'Bear', '/bɛr/', 'Growl', 'The bear! Listen… grrrowl!', ['Big bear', 'Bear sleeps', "The bear's sleeping"]),
+  A('Rabbit', 'Rabbit', '/ˈræbɪt/', 'Hop hop', 'The rabbit! Hop, hop, hop!', ['Fast rabbit', 'Rabbit hops', "The rabbit's hopping"]),
+  A('Frog', 'Frog', '/frɑg/', 'Croak', 'The frog! Listen… croak, croak!', ['Little frog', 'Frog jumps', "The frog's jumping"]),
+  A('Bee', 'Bee', '/bi/', 'Buzz', 'The bee! Listen… buzz, buzz!', ['Tiny bee', 'Bee flies', "The bee's buzzing"]),
+  A('Butterfly', 'Butterfly', '/ˈbʌtərflaɪ/', 'Flutter', 'The butterfly! Pretty wings!', ['Pretty butterfly', 'Butterfly flies', "The butterfly's flying"]),
+  A('Turtle', 'Turtle', '/ˈtɜrtəl/', 'Slow friend', 'The turtle! Slow and steady.', ['Slow turtle', 'Turtle walks', "The turtle's walking. So slow"]),
   A('Zebra', 'Zebra', '/ˈzɛbrə/', 'Neigh', 'The zebra! Black and white stripes!', ['Big zebra', 'Zebra runs', 'The zebra has stripes']),
-  A('Snake', 'Snake', '/sneɪk/', 'Hiss', 'The snake! Listen… hiss, hissss!', ['Long snake', 'Snake slides', 'The snake slides slow']),
-  A('Owl', 'Owl', '/aʊl/', 'Hoot', 'The owl! Listen… hoot, hoot!', ['Wise owl', 'Owl hoots', 'The owl hoots at night']),
-  A('Wolf', 'Wolf', '/wʊlf/', 'Howl', 'The wolf! Listen… ah-wooooo!', ['Big wolf', 'Wolf howls', 'The wolf howls at the moon']),
-  A('Goose', 'Goose', '/ɡus/', 'Honk', 'The goose! Listen… honk, honk!', ['Big goose', 'Goose honks', 'The goose says honk']),
-  A('Crow', 'Crow', '/kroʊ/', 'Caw', 'The crow! Listen… caw, caw!', ['Black crow', 'Crow caws', 'The crow says caw']),
+  A('Snake', 'Snake', '/sneɪk/', 'Hiss', 'The snake! Listen… hiss, hissss!', ['Long snake', 'Snake slides', "The snake's sliding"]),
+  A('Owl', 'Owl', '/aʊl/', 'Hoot', 'The owl! Listen… hoot, hoot!', ['Big owl', "Owl's hooting", "The owl's hooting"]),
+  A('Wolf', 'Wolf', '/wʊlf/', 'Howl', 'The wolf! Listen… ah-wooooo!', ['Big wolf', 'Wolf howls', "The wolf's howling"]),
+  A('Goose', 'Goose', '/ɡus/', 'Honk', 'The goose! Listen… honk, honk!', ['Big goose', 'Goose honks', "The goose's honking"]),
+  A('Crow', 'Crow', '/kroʊ/', 'Caw', 'The crow! Listen… caw, caw!', ['Black crow', 'Crow caws', "The crow's cawing"]),
 ]
 
 // ---------- RAINBOW ISLAND (colours — swatches) ----------
@@ -175,8 +176,8 @@ const colors = [
   C('Blue', '#1E90FF', '/blu/', 'the blue sky', ['Blue ball', 'Blue cup', 'The sky is blue']),
   C('Yellow', '#FFD700', '/ˈjɛloʊ/', 'the yellow sun', ['Yellow sun', 'Yellow duck', 'The sun is yellow']),
   C('Green', '#32CD32', '/grin/', 'green grass', ['Green grass', 'Green leaf', 'The grass is green']),
-  C('Orange', '#FF8C00', '/ˈɔrɪndʒ/', 'an orange', ['Orange ball', 'Orange fish', 'I like orange']),
-  C('Purple', '#9D4EDD', '/ˈpɜrpəl/', 'purple grapes', ['Purple grape', 'Purple cup', 'Grapes are purple']),
+  C('Orange', '#FF8C00', '/ˈɔrɪndʒ/', 'an orange carrot', ['Orange ball', 'Orange fish', 'I like orange']),
+  C('Purple', '#9D4EDD', '/ˈpɜrpəl/', 'purple grapes', ['Purple grapes', 'Purple cup', 'Grapes are purple']),
   C('Pink', '#FF69B4', '/pɪŋk/', 'a pink flower', ['Pink flower', 'Pink shoe', 'The flower is pink']),
   C('Brown', '#8B4513', '/braʊn/', 'a brown bear', ['Brown bear', 'Brown cow', 'The bear is brown']),
   C('White', '#FFFFFF', '/waɪt/', 'white milk', ['White milk', 'White cloud', 'The milk is white']),
@@ -208,7 +209,7 @@ const numbers = NUM.map((word, i) => {
 // ---------- MUSIC FOREST (listen — who is it?) ----------
 const M = (word, wiki, soundLabel, say) => ({
   word, wiki, soundLabel, say, color: CAT.music.color, sound: word.toLowerCase(),
-  expand: ['Who is it?', `It is a ${word.toLowerCase()}`, `The ${word.toLowerCase()} says ${soundLabel.toLowerCase()}`],
+  expand: ['Who is it?', `It's a ${word.toLowerCase()}`, `The ${word.toLowerCase()} says ${soundLabel.toLowerCase()}`],
 })
 const music = [
   M('Cow', 'Cattle', 'Moo', 'Listen… mooooo! Who says moo? The cow!'),

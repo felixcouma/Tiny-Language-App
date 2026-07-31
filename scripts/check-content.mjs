@@ -3,6 +3,7 @@
  * Pure data validation (no browser needed). Exits non-zero on any problem.
  */
 import { WORLDS, getWorld, photoWorlds } from '../src/data/content.js'
+import { runLanguageLint } from './lint-language.mjs'
 
 let errors = 0
 const fail = (msg) => {
@@ -56,6 +57,9 @@ const pool = WORLDS.filter((w) => photoWorlds.includes(w.id))
   .filter((it) => !it.portrait)
 if (pool.length < 8) fail(`game pool too small (${pool.length})`)
 else ok(`game pool has ${pool.length} photo items (enough for 4-choice rounds)`)
+
+// 6. Language lint (SLP guardrail) — contractions + habitual-3sg (see lint-language.mjs)
+errors += runLanguageLint({ fail, ok })
 
 if (errors) {
   console.error(`\n${errors} problem(s) found.`)
