@@ -26,7 +26,7 @@ import { writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { WORLDS, PRAISE } from '../src/data/content.js'
-import { WORDS, PHRASES } from '../src/data/phraseContent.js'
+import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -101,6 +101,7 @@ function phraseRows() {
   const bySlug = new Map()
   const add = (t) => { const s = slugify(t); if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: t }) }
   for (const w of WORDS) add(w.word)
+  for (const w of CORE_BOARD) add(w) // AAC core board words (some aren't in WORDS)
   for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.phrase)
   for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach(add)
   for (const world of WORLDS) {

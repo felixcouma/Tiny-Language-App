@@ -1,19 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { voice, voiceSeq, playChime, stopSpeaking } from '../lib/audio'
-import { WORDS, CATEGORIES, wordsInCategory } from '../data/phraseContent'
+import { WORDS, CATEGORIES, wordsInCategory, CORE_BOARD } from '../data/phraseContent'
 import { PRAISE } from '../data/content'
 import { HomeIcon } from '../components/Icons.jsx'
 import WordPic from '../components/WordPic.jsx'
 import './GridScreen.css'
 
 // Word Board — two modes the parent toggles:
-//  • Board: a therapist-style AAC board. Starts BLANK; tapping an empty cell reveals
-//    a random word, speaks it, and adds it to the message strip. CLEAR resets both.
-//  • Find (word-focus, for Adriel): ONE target word appears in a random cell; tapping
-//    it speaks it with warm praise, then it hops to a new cell so he tracks & finds it.
-//    After 5 finds it moves on to a new word. Toggle back to Board anytime.
-const BOARD = 24 // 4 cols × 6 rows
+//  • Board: a real AAC communication board. Symbol positions are STABLE — the Core page
+//    is a fixed layout (never shuffles, always the landing view) and each category is a
+//    position-stable fringe page. Tapping a cell speaks the word + adds it to the message
+//    strip. CLEAR empties the message strip only; it never blanks the board.
+//  • Find (word-focus, for a tracker): ONE target word appears in a random cell; tapping
+//    it speaks it with warm praise, then it hops to a new cell to track & find. After 5
+//    finds it moves to a new word. A separate activity — NOT the communication board.
+const BOARD = 24 // Find-mode grid (4 cols × 6 rows)
 const MAX_MSG = 8
 const FIND_GOAL = 5
 
@@ -35,23 +37,30 @@ export default function GridScreen() {
   const recordPhrase = useStore((s) => s.recordPhrase)
 
   const [mode, setMode] = useState('board') // 'board' | 'find'
-  const [cat, setCat] = useState('All')
-  const pool = useMemo(() => (cat === 'All' ? WORDS : wordsInCategory(cat)), [cat])
+  const [page, setPage] = useState('Core') // 'Core' (fixed core board) | a category (fringe page)
+
+  // Board pages are position-stable: the Core page is a fixed layout constant; each
+  // fringe page is its category's words in the bank's deterministic order. No reveal,
+  // no shuffle — the same word always sits in the same cell.
+  const pageWords = useMemo(
+    () => (page === 'Core' ? CORE_BOARD : wordsInCategory(page).map((w) => w.word)),
+    [page]
+  )
 
   // Focus words of the week (grown-up-set): in Find mode the target rotates through
-  // THESE instead of the random category pool, turning Find into targeted homework.
+  // THESE instead of the page pool, turning Find into targeted homework.
   const focus = useStore((s) => s.activeProfile()?.focusWords || [])
   const focusPool = useMemo(
     () => focus.map((fw) => WORDS.find((w) => w.word === fw)).filter(Boolean),
     [focus]
   )
-  const findPool = mode === 'find' && focusPool.length ? focusPool : pool
+  // Find needs picturable targets, so on the Core page (abstract words) draw from the
+  // whole bank; on a fringe page, from that category.
+  const findBase = useMemo(() => (page === 'Core' ? WORDS : wordsInCategory(page)), [page])
+  const findPool = mode === 'find' && focusPool.length ? focusPool : findBase
 
-  // Board mode
-  const [board, setBoard] = useState(() => Array(BOARD).fill(null))
   const [hi, setHi] = useState(null)
   const [message, setMessage] = useState([])
-  const blankBoard = () => setBoard(Array(BOARD).fill(null))
 
   // Find mode
   const [target, setTarget] = useState(null)
@@ -69,19 +78,6 @@ export default function GridScreen() {
     setMessage((m) => (m.length >= MAX_MSG ? m : [...m, word]))
   }
 
-  const tap = (idx) => {
-    const cell = board[idx]
-    if (cell) {
-      say(cell.word)
-      return
-    }
-    const taken = new Set(board.filter(Boolean).map((w) => w.word))
-    const fresh = pickRandom(pool, taken)
-    if (!fresh) return
-    setBoard((b) => b.map((c, i) => (i === idx ? fresh : c)))
-    say(fresh.word)
-  }
-
   // ---- Find mode: announce a new target word & drop it in a random cell ----
   const newTarget = (avoidWord) => {
     const next = pickRandom(findPool, avoidWord ? new Set([avoidWord]) : new Set()) || findPool[0]
@@ -92,11 +88,11 @@ export default function GridScreen() {
     if (next) voice(next.word) // tell the child what to look for
   }
 
-  // Entering Find (changing the category, or new focus words) starts a fresh word.
+  // Entering Find (changing the page, or new focus words) starts a fresh word.
   useEffect(() => {
     if (mode === 'find') newTarget()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, cat, focus.join(',')])
+  }, [mode, page, focus.join(',')])
 
   const onFindTap = (idx) => {
     if (!target) return
@@ -119,11 +115,11 @@ export default function GridScreen() {
     }
   }
 
-  const pickCat = (c) => {
+  // Switch page — positions are stable, so this NEVER blanks or shuffles the board.
+  const pickPage = (p) => {
     stopSpeaking()
-    setCat(c)
+    setPage(p)
     setHi(null)
-    if (mode === 'board') blankBoard() // new set → fresh blank board (Find resets via effect)
   }
 
   const sayMessage = () => {
@@ -133,10 +129,10 @@ export default function GridScreen() {
     if (message.length > 1) recordPhrase(message.join(' '))
   }
 
+  // CLEAR empties the message strip only — the board stays put (AAC stability).
   const clear = () => {
     stopSpeaking()
     setMessage([])
-    blankBoard()
     setHi(null)
   }
 
@@ -177,10 +173,10 @@ export default function GridScreen() {
                 </span>
               ))
             ) : (
-              <span className="wb-strip-empty">Tap a box to find a word…</span>
+              <span className="wb-strip-empty">Tap words to build a message…</span>
             )}
           </button>
-          <button className="wb-clear" onClick={clear} disabled={!message.length && board.every((c) => !c)}>
+          <button className="wb-clear" onClick={clear} disabled={!message.length}>
             CLEAR
           </button>
         </div>
@@ -203,11 +199,12 @@ export default function GridScreen() {
       )}
 
       <div className="wb-cats" role="tablist" aria-label="Word groups">
-        {['All', ...CATEGORIES].map((c) => (
+        {/* Numbers live in the Counting Mountain world, not the communication board. */}
+        {['Core', ...CATEGORIES.filter((c) => c !== 'Numbers')].map((c) => (
           <button
             key={c}
-            className={`wb-cat ${c === cat ? 'is-active' : ''}`}
-            onClick={() => pickCat(c)}
+            className={`wb-cat ${c === page ? 'is-active' : ''}`}
+            onClick={() => pickPage(c)}
           >
             {c}
           </button>
@@ -216,14 +213,14 @@ export default function GridScreen() {
 
       <main className="wb-board">
         {mode === 'board'
-          ? board.map((cell, idx) => (
+          ? pageWords.map((word, idx) => (
               <button
-                key={idx}
-                className={`wb-cell ${cell ? 'is-filled' : 'is-blank'} ${cell && hi === cell.word ? 'is-hi' : ''}`}
-                onClick={() => tap(idx)}
-                aria-label={cell ? `Say ${cell.word}` : 'Find a word'}
+                key={`${page}-${idx}-${word}`}
+                className={`wb-cell is-filled ${hi === word ? 'is-hi' : ''}`}
+                onClick={() => say(word)}
+                aria-label={`Say ${word}`}
               >
-                {cell && <WordPic key={cell.word} word={cell.word} variant="cell" />}
+                <WordPic key={word} word={word} variant="cell" />
               </button>
             ))
           : Array.from({ length: BOARD }, (_, idx) => {
@@ -240,6 +237,12 @@ export default function GridScreen() {
               )
             })}
       </main>
+
+      {mode === 'board' && (
+        <p className="wb-hint">
+          Tap words yourself while you talk — children learn the board by watching you use it.
+        </p>
+      )}
     </div>
   )
 }

@@ -116,7 +116,8 @@ const SUBJECT = {
   Me: 'a cartoon child pointing to themselves with both hands', You: 'a cartoon child pointing forward at the viewer',
   Bye: 'a cartoon child waving goodbye', Friend: 'two cartoon children hugging as friends',
   // feelings
-  Happy: 'a big happy smiling round face', Sad: 'a sad round face with one tear', More: 'two open hands held together asking for more',
+  Happy: 'a big happy smiling round face', Sad: 'a sad round face with one tear',
+  More: 'the baby-sign / ASL gesture for MORE: two hands, each with all four fingertips pinched together to meet the thumb tip forming a bunched "flat-O" handshape (like a closed tulip bud or pinching fingers), both hands the SAME identical posture, turned to face each other and tapping their bunched fingertips together in the centre — clearly NOT flat open palms',
   Yes: 'a single bold green thumbs-up', No: 'a flat red open hand held up saying no', 'All done': 'two open empty hands, palms up, all finished',
   Tired: 'a yawning sleepy round face', Hurt: 'a child with a bandage on a knee', Excited: 'an excited face with open mouth and sparkles',
   Scared: 'a worried frightened round face', Angry: 'an angry frowning round face', Silly: 'a silly face with tongue sticking out',
@@ -137,8 +138,12 @@ const SUBJECT = {
   'Chicken leg': 'a cooked golden-brown chicken drumstick', 'Fish fillet': 'a cooked fish fillet on a plate',
   Ugali: 'a white block of ugali (maize meal porridge) on a plate', Fries: 'a red paper cup of golden french fries',
   Bottle: 'a baby feeding bottle full of white milk', Yoghurt: 'a cup of creamy yoghurt with a spoon',
-  // eating
+  // mealtime
   Plate: 'a clean empty round plate', Fork: 'a single fork', Bowl: 'a clean empty bowl',
+  Bib: 'a cute baby mealtime bib with a friendly rounded shape and a little pattern',
+  Napkin: 'a single clean folded napkin', Straw: 'a colourful striped bendy drinking straw',
+  Highchair: 'a cute wooden baby high chair with a little tray, for mealtime',
+  Mug: 'a warm cheerful mug with a round handle',
   // clothes
   Shirt: 'a colourful t-shirt', Pants: 'a pair of blue pants', Hat: 'a cute sun hat', Socks: 'a pair of striped socks',
   // body

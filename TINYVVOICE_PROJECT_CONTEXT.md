@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `9f1c37a Feat: SLP Phase-1 language corrections + content-lint guardrail`
 - `5908590 Docs: note the warm, collapsible Parent Dashboard redesign`
 - `08bdb02 Revert: consolidate council into tools/council (drop root runner)`
 - `73b16ad Docs: session handoff for the dashboard redesign; gitignore .claude`
 - `d8fcbf5 Chore: root council.js runner + pilot parent handouts`
 - `3b9878a Feat: real owl hoot, snake spoken-only; close council #1`
-- `849365f Feat: decongest + warmly restyle the Grown-Ups dashboard`
 <!-- AUTO:END -->
 
 ---

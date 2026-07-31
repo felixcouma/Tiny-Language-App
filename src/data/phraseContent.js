@@ -25,18 +25,23 @@ const keyOf = (w) =>
 // ---- Tiers, grouped by category (a parent/therapist sees the structure). -----
 // The complete VOCABULARY_CORE_200_WORDS set — every word appears exactly once.
 const TIER1 = {
-  'Doing words': ['Go', 'Play', 'Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Run', 'Sit', 'Stand', 'Look', 'Sing'],
+  // Verbs split into 3 themed pages (Move / Play / Everyday) so no single page is 48 long.
+  Move: ['Go', 'Run'],
+  Play: ['Play', 'Sing'],
+  Everyday: ['Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Sit', 'Stand', 'Look'],
   'Where words': ['In', 'On', 'Out', 'Up', 'Down', 'Here', 'There', 'Home'],
-  Things: ['Ball', 'Toy', 'Food', 'Water', 'Cup', 'Shoe', 'Book', 'Car', 'Door', 'Bed'],
+  Things: ['Ball', 'Toy', 'Food', 'Water', 'Shoe', 'Book', 'Car', 'Door', 'Bed'],
   Animals: ['Dog', 'Cat'],
   People: ['Mama', 'Dada', 'Baby', 'Me', 'You', 'Bye', 'Friend'],
   Feelings: ['Happy', 'Sad', 'More', 'Yes', 'No', 'All done', 'Tired', 'Hurt'],
   Describing: ['Big', 'Small', 'Hot', 'Cold'],
 }
 const TIER2 = {
-  'Doing words': ['Kick', 'Throw', 'Catch', 'Jump', 'Dance', 'Laugh', 'Cry', 'Hug', 'Kiss', 'Clap', 'Splash', 'Climb', 'Slide', 'Push', 'Pull', 'Pick', 'Drop', 'Pour', 'Drink', 'Blow', 'Read'],
+  Move: ['Kick', 'Throw', 'Catch', 'Jump', 'Climb', 'Slide', 'Push', 'Pull'],
+  Play: ['Dance', 'Laugh', 'Hug', 'Kiss', 'Clap', 'Blow', 'Read'],
+  Everyday: ['Cry', 'Splash', 'Pick', 'Drop', 'Pour', 'Drink'],
   Food: ['Apple', 'Banana', 'Bread', 'Cheese', 'Milk', 'Juice', 'Snack', 'Cookie', 'Rice', 'Avocado', 'Broccoli', 'Cucumber', 'Carrot', 'Egg', 'Meat', 'Ugali', 'Fries', 'Yoghurt'],
-  Eating: ['Plate', 'Spoon', 'Fork', 'Bowl'],
+  Mealtime: ['Plate', 'Spoon', 'Fork', 'Bowl', 'Cup', 'Bottle', 'Bib', 'Napkin', 'Straw', 'Highchair', 'Mug'],
   Clothes: ['Shirt', 'Pants', 'Hat', 'Socks'],
   Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly'],
   'Around home': ['Chair', 'Table', 'Sofa', 'Window', 'Light', 'Stairs', 'Rug', 'Pillow'],
@@ -47,7 +52,9 @@ const TIER2 = {
   'Asking words': ['Want', 'Where'], // enable requesting + question phrases
 }
 const TIER3 = {
-  'Doing words': ['Peek', 'Hide', 'Find', 'Open', 'Close', 'Turn', 'Spin', 'Stretch', 'Bend', 'Ride', 'Roll', 'Skip', 'Hop', 'Wave', 'Shake'],
+  Move: ['Spin', 'Bend', 'Ride', 'Roll', 'Skip', 'Hop'],
+  Play: ['Peek', 'Hide', 'Find', 'Open', 'Close', 'Wave', 'Shake'],
+  Everyday: ['Turn', 'Stretch'],
   Feelings: ['Excited', 'Scared', 'Angry', 'Silly', 'Quiet'],
   'Where words': ['Under', 'Behind', 'Between', 'Next to', 'Far'],
   Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Bad', 'Old', 'New'],
@@ -77,6 +84,20 @@ export const CATEGORIES = (() => {
 // Every word in a category (across all tiers) — Word Practice & the Word Board pull
 // from the FULL bank so each category is rich, regardless of the child's level.
 export const wordsInCategory = (cat) => WORDS.filter((w) => w.category === cat)
+
+// Fixed AAC core board — permanent positions, never shuffles, always the landing page
+// of the Word Board (positions are what let a child build motor memory and let an adult
+// model language on the board; Sennott, Light & McNaughton 2016). Order IS the layout
+// (4 columns). SLP/AAC-editable: reorder or swap words here and the board follows.
+// Final vocab + spatial layout pending SLP review.
+export const CORE_BOARD = [
+  'I', 'want', 'more', 'help',
+  'stop', 'go', 'look', 'my',
+  'mine', 'yes', 'no', 'all done',
+  'that', 'this', 'here', 'up',
+  'down', 'in', 'on', 'turn',
+  'please', 'uh-oh',
+]
 
 // Real illustration (public/images/<key>.webp) for a word, when one exists in the
 // learning-world content. Reuses our actual WebP art — never a synthetic placeholder;

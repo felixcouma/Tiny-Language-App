@@ -11,7 +11,7 @@ import { readdirSync, unlinkSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { WORLDS, PRAISE } from '../src/data/content.js'
-import { WORDS, PHRASES } from '../src/data/phraseContent.js'
+import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SOUNDS = path.join(__dirname, '..', 'public', 'sounds')
@@ -39,13 +39,15 @@ function gamePrompts(item) {
 }
 const validPhrases = new Set()
 for (const w of WORDS) validPhrases.add(slugify(w.word))
+for (const w of CORE_BOARD) validPhrases.add(slugify(w)) // AAC core board words
 for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) validPhrases.add(slugify(e.phrase))
 for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach((t) => validPhrases.add(slugify(t)))
 for (const world of WORLDS) {
   if (!POOL_IDS.includes(world.id)) continue
   for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach((t) => validPhrases.add(slugify(t)))
 }
-;['Audrey,', 'Adriel,', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
+// Hardcoded spoken cues that aren't derived from content/phrases — keep them.
+;['Audrey,', 'Adriel,', 'Ethan', 'Ezra', 'Leila', 'Your turn!', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
 PRAISE.forEach((t) => validPhrases.add(slugify(t))) // rotating praise clips (correct-answer feedback)
 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((t) => validPhrases.add(slugify(t))) // letter buttons
 for (const world of WORLDS) { // phonics "which one starts with X?" prompts
