@@ -3,7 +3,37 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-29 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-07-31 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **SLP Phase-1 language corrections + Word Board AAC redesign + natural learner pace.**
+> - **Phase 1 / Stage 1 (language):** `content.js` — Things-I-Do ladder rungs now character-narrated
+>   progressive with the **pronoun taken from `actionAnimations.js`** (he/she/they per the on-screen
+>   child; fixed 3 mismatches the source doc had); Safari rung-3 → progressive ("The dog's running
+>   fast"); Music "It's a…"; Home/Rainbow contractions; stale header rewritten. New **`lint-language.mjs`**
+>   guardrail wired into `npm run check` (Rule A contractions FAIL; Rule B habitual-3sg on say+rung-3).
+>   All changed lines re-rendered ×3 voices (Aoede/Leda/Sulafat); 91 stale clips pruned; **4 needed cues
+>   (`your-turn`, `ethan/ezra/leila`) rescued** after a clean-orphan allowlist gap deleted them — allowlist
+>   patched. Owner ear-check still pending.
+> - **Word Board = real AAC board (SLP §S1):** stable symbol positions. Fixed **Core** page
+>   (`CORE_BOARD` constant, always the landing view, never shuffles) + position-stable **fringe pages**;
+>   **CLEAR empties the message strip only** (no longer blanks the board); Find kept decoupled; parent-
+>   modelling hint added. `verify-word-board.mjs` (asserts positions stable across category switch / CLEAR
+>   / reload / profile switch + a negative check) wired into `verify:ui`. New core-word clips generated
+>   (my/mine/that/this/please/uh-oh). The **"more"** symbol regenerated as the real MORE sign (pinched
+>   flat-O hands), distinct from "all done".
+> - **Word Board vocab:** "Eating" → **Mealtime** (+Cup/Bottle/Bib/Napkin/Straw/Highchair/Mug, 5 new
+>   images); **48-verb page split → Move / Play / Everyday** (16 each, zero new assets); **Numbers dropped**
+>   from the board (they live in Counting Mountain). Full fringe-page fill-out plan in
+>   `docs/WORD_BOARD_GRID_PROPOSAL.md` (approved w/ rulings; asset batch pending).
+> - **Natural learner pace:** Listening Game (`ChoiceGame`) no longer races the voice — advance is chained
+>   to audio completion + a shared **`SETTLE_MS`** beat (audio.js). Learning Auto Play already paced right.
+> - **Pending (not done):** Mealtime clips; the vocab fill-out image+clip batch (~34 words); Counting
+>   Mountain 11–20 (say the number + phrase, no long count-along); all owner ear-checks. Nothing here is
+>   ear-checked yet — owner testing end-to-end.
+
+---
+
+## Session — 2026-07-29 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Grown-Ups dashboard: decongested + a warm, colour-coded redesign.**
 > - **Decongestion** (`ParentDashboard.jsx`): the long flat settings form is now a short overview

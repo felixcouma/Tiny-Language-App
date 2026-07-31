@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `48e3737 Fix: natural learner pace in the Listening Game`
 - `0f58d1a Feat: Word Board AAC redesign (stable positions) + vocab reshape`
 - `9f1c37a Feat: SLP Phase-1 language corrections + content-lint guardrail`
 - `5908590 Docs: note the warm, collapsible Parent Dashboard redesign`
 - `08bdb02 Revert: consolidate council into tools/council (drop root runner)`
 - `73b16ad Docs: session handoff for the dashboard redesign; gitignore .claude`
-- `d8fcbf5 Chore: root council.js runner + pilot parent handouts`
 <!-- AUTO:END -->
 
 ---
