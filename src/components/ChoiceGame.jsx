@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { PRAISE } from '../data/content'
-import { playCelebration, playChime, voice, voiceSeq, hasNameClip } from '../lib/audio'
+import { playCelebration, playChime, voice, voiceSeq, hasNameClip, SETTLE_MS } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import TodayProgressLine from './TodayProgressLine.jsx'
@@ -102,23 +102,26 @@ export default function ChoiceGame({
       playCelebration()
       // Rotating warm praise ("Awesome!" …) then the word — both pre-rendered clips.
       const praise = PRAISE[praiseIdx.current++ % PRAISE.length]
-      setTimeout(() => voiceSeq([praise, `${target.word}!`]), 250)
       const nextRound = round + 1
-      setTimeout(() => {
+      const advance = () => {
         if (nextRound >= rounds) {
           setDone(true)
           setConfettiKey(Date.now()) // a second burst for the finale
           // Twin Mode → a shared, no-winner finale that names BOTH children
           // (uses their existing name clips + the celebration line; no new audio).
-          // Say the names we have clips for, then the celebration (no chime for
-          // unknown names — they still appear on the screen).
           const spokenNames = players ? players.slice(0, 2).filter(hasNameClip) : []
           setTimeout(() => voiceSeq([...spokenNames, 'All done! Wonderful listening!']), 300)
         } else {
           setRound(nextRound)
           deal(nextRound)
         }
-      }, 1900)
+      }
+      // Let the celebration land, speak praise + the word, THEN hold a settle beat
+      // so the word fully finishes before the next slide — a learner's pace, not a
+      // race. Chained to audio completion (not a bare timer that cuts the voice off).
+      setTimeout(() => {
+        voiceSeq([praise, `${target.word}!`]).then(() => setTimeout(advance, SETTLE_MS))
+      }, 250)
     } else {
       setWrongWord(item.word)
       playChime(item.word)

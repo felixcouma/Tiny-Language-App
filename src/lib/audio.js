@@ -219,6 +219,12 @@ export async function voiceSeq(parts) {
   }
 }
 
+// Natural learner pace: after speech finishes, hold this beat before advancing
+// (next slide / next word). A child learning needs more settle time than adult
+// conversation — keep auto-advances chained to audio completion + this pause,
+// never a bare timer that races the voice. Used across games/auto-play.
+export const SETTLE_MS = 900
+
 // Child names we ship pre-rendered voice clips for (spoken BY NAME in Twin Mode).
 // Any other name is shown on screen but NOT spoken — a missing name clip must
 // never chime or use the device voice. Extend this set when new name clips are
