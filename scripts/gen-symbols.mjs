@@ -148,8 +148,8 @@ const SUBJECT = {
   Shirt: 'a colourful t-shirt', Pants: 'a pair of blue pants', Hat: 'a cute sun hat', Socks: 'a pair of striped socks',
   // body
   Hand: 'a single open hand, palm forward', Foot: 'a single bare foot', Belly: 'a cartoon child with both hands on a round tummy',
-  Hair: 'a cartoon child face with a big clear head of hair on top, one hand pointing up to the hair',
-  Ears: "a cartoon child's head facing forward with both ears large and clearly visible, a hand pointing to one ear",
+  Hair: 'a cartoon child face with a big head of hair on top; one arm raised straight up high with the index finger reaching up to touch the hair at the very top of the head',
+  Ears: "a cartoon child's head facing forward with both ears large and clearly visible; a hand held out to the side beyond the edge of the head, to the right of the ear, one finger pointing sideways INWARD directly at the ear — clearly the ear, not the eye or cheek",
   // around home
   Chair: 'a small wooden chair', Table: 'a small wooden table', Sofa: 'a cosy soft sofa', Window: 'a bright open window',
   Light: 'a glowing yellow lamp', Stairs: 'a small set of stairs', Rug: 'a colourful patterned rug', Pillow: 'a soft pillow',
