@@ -9,12 +9,12 @@ sections (Build Status, Next Steps) are updated by hand each push.
 
 **Recent commits:**
 
+- `92d56c0 Feat: Word Board vocab fill-out + Counting 11-20 pacing`
 - `dc85a3e Assets: re-rendered voice clips (3 voices) + new Word Board symbols`
 - `48e3737 Fix: natural learner pace in the Listening Game`
 - `0f58d1a Feat: Word Board AAC redesign (stable positions) + vocab reshape`
 - `9f1c37a Feat: SLP Phase-1 language corrections + content-lint guardrail`
 - `5908590 Docs: note the warm, collapsible Parent Dashboard redesign`
-- `08bdb02 Revert: consolidate council into tools/council (drop root runner)`
 <!-- AUTO:END -->
 
 ---
