@@ -42,7 +42,7 @@ const TIER2 = {
   Move: ['Kick', 'Throw', 'Catch', 'Jump', 'Climb', 'Slide', 'Push', 'Pull'],
   Play: ['Dance', 'Laugh', 'Hug', 'Kiss', 'Clap', 'Blow', 'Read'],
   Everyday: ['Cry', 'Splash', 'Pick', 'Drop', 'Pour', 'Drink'],
-  Food: ['Apple', 'Banana', 'Orange', 'Bread', 'Cheese', 'Egg', 'Milk', 'Juice', 'Cookie', 'Candy', 'Snack', 'Rice', 'Avocado', 'Broccoli', 'Carrot', 'Meat', 'Ugali', 'Fries'],
+  Food: ['Apple', 'Banana', 'Orange', 'Bread', 'Cheese', 'Egg', 'Milk', 'Juice', 'Cookie', 'Candy', 'Snack', 'Rice', 'Avocado', 'Broccoli', 'Cucumber', 'Carrot', 'Meat', 'Ugali', 'Fries', 'Yoghurt'],
   Mealtime: ['Plate', 'Spoon', 'Fork', 'Bowl', 'Cup', 'Bottle', 'Bib', 'Napkin', 'Straw', 'Highchair', 'Mug', 'Tray'],
   Clothes: ['Shirt', 'Pants', 'Hat', 'Socks', 'Shoe', 'Coat', 'Dress', 'Pyjamas'],
   Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly', 'Ears', 'Teeth', 'Knee', 'Toes'],
@@ -62,7 +62,7 @@ const TIER3 = {
   Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Funny', 'Yummy'],
   Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock', 'Leaf', 'Sky'],
   'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter', 'Home', 'Park'],
-  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat'],
+  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat', 'Frog', 'Zebra'],
   School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape', 'Backpack', 'Marker', 'Paint', 'Sticker', 'Chalk', 'Eraser'],
   Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'After', 'Later'],
 }

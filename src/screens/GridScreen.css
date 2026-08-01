@@ -259,9 +259,8 @@
 }
 
 @media (min-width: 700px) {
-  .wb-board {
-    grid-template-columns: repeat(6, 1fr);
-  }
+  /* 4 columns on every screen — bigger, easier toddler targets, and every page
+     (a multiple of 4) fills complete rows with no gaps on any device. */
   .wb-cell {
     min-height: 120px;
   }
