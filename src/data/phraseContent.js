@@ -24,45 +24,47 @@ const keyOf = (w) =>
 
 // ---- Tiers, grouped by category (a parent/therapist sees the structure). -----
 // The complete VOCABULARY_CORE_200_WORDS set — every word appears exactly once.
+// Every fringe page fills complete 4-col rows (multiples of 4). Verbs are the 3 themed
+// pages (Move/Play/Everyday). Numbers stay in WORDS for Word Practice but are hidden from
+// the AAC board (they live in Counting Mountain).
 const TIER1 = {
-  // Verbs split into 3 themed pages (Move / Play / Everyday) so no single page is 48 long.
   Move: ['Go', 'Run'],
   Play: ['Play', 'Sing'],
   Everyday: ['Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Sit', 'Stand', 'Look'],
-  'Where words': ['In', 'On', 'Out', 'Up', 'Down', 'Here', 'There', 'Home'],
-  Things: ['Ball', 'Toy', 'Food', 'Water', 'Shoe', 'Book', 'Car', 'Door', 'Bed'],
+  'Where words': ['In', 'On', 'Out', 'Up', 'Down', 'Here', 'There'],
+  Things: ['Ball', 'Toy', 'Food', 'Water', 'Book', 'Car', 'Door', 'Bed'],
   Animals: ['Dog', 'Cat'],
-  People: ['Mama', 'Dada', 'Baby', 'Me', 'You', 'Bye', 'Friend'],
-  Feelings: ['Happy', 'Sad', 'More', 'Yes', 'No', 'All done', 'Tired', 'Hurt'],
+  People: ['Mama', 'Dada', 'Baby', 'Me', 'You', 'Friend', 'Boy', 'Girl', 'Sister', 'Brother', 'Grandma', 'Grandpa'],
+  Feelings: ['Happy', 'Sad', 'Tired', 'Hurt'],
   Describing: ['Big', 'Small', 'Hot', 'Cold'],
 }
 const TIER2 = {
   Move: ['Kick', 'Throw', 'Catch', 'Jump', 'Climb', 'Slide', 'Push', 'Pull'],
   Play: ['Dance', 'Laugh', 'Hug', 'Kiss', 'Clap', 'Blow', 'Read'],
   Everyday: ['Cry', 'Splash', 'Pick', 'Drop', 'Pour', 'Drink'],
-  Food: ['Apple', 'Banana', 'Bread', 'Cheese', 'Milk', 'Juice', 'Snack', 'Cookie', 'Rice', 'Avocado', 'Broccoli', 'Cucumber', 'Carrot', 'Egg', 'Meat', 'Ugali', 'Fries', 'Yoghurt'],
-  Mealtime: ['Plate', 'Spoon', 'Fork', 'Bowl', 'Cup', 'Bottle', 'Bib', 'Napkin', 'Straw', 'Highchair', 'Mug'],
-  Clothes: ['Shirt', 'Pants', 'Hat', 'Socks'],
-  Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly'],
+  Food: ['Apple', 'Banana', 'Orange', 'Bread', 'Cheese', 'Egg', 'Milk', 'Juice', 'Cookie', 'Candy', 'Snack', 'Rice', 'Avocado', 'Broccoli', 'Carrot', 'Meat', 'Ugali', 'Fries'],
+  Mealtime: ['Plate', 'Spoon', 'Fork', 'Bowl', 'Cup', 'Bottle', 'Bib', 'Napkin', 'Straw', 'Highchair', 'Mug', 'Tray'],
+  Clothes: ['Shirt', 'Pants', 'Hat', 'Socks', 'Shoe', 'Coat', 'Dress', 'Pyjamas'],
+  Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly', 'Ears', 'Teeth', 'Knee', 'Toes'],
   'Around home': ['Chair', 'Table', 'Sofa', 'Window', 'Light', 'Stairs', 'Rug', 'Pillow'],
   Toys: ['Block', 'Train', 'Truck', 'Doll', 'Puzzle', 'Swing', 'Balloon', 'Music'],
   Animals: ['Bird', 'Fish', 'Cow', 'Duck', 'Pig', 'Sheep', 'Horse'],
-  Colours: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  Colours: ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Brown', 'Black', 'White', 'Grey', 'Rainbow'],
   Numbers: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'],
-  'Asking words': ['Want', 'Where'], // enable requesting + question phrases
+  Questions: ['Want', 'Where', 'What', 'Who', 'Why', 'When', 'How', 'Can'],
 }
 const TIER3 = {
   Move: ['Spin', 'Bend', 'Ride', 'Roll', 'Skip', 'Hop'],
   Play: ['Peek', 'Hide', 'Find', 'Open', 'Close', 'Wave', 'Shake'],
   Everyday: ['Turn', 'Stretch'],
-  Feelings: ['Excited', 'Scared', 'Angry', 'Silly', 'Quiet'],
-  'Where words': ['Under', 'Behind', 'Between', 'Next to', 'Far'],
-  Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Bad', 'Old', 'New'],
-  Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock'],
-  'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter'],
-  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle'],
-  School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape'],
-  Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'When', 'After'],
+  Feelings: ['Excited', 'Scared', 'Angry', 'Silly', 'Quiet', 'Calm', 'Love', 'Sick'],
+  'Where words': ['Under', 'Behind', 'Between', 'Next to', 'Off'],
+  Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Funny', 'Yummy'],
+  Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock', 'Leaf', 'Sky'],
+  'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter', 'Home', 'Park'],
+  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat'],
+  School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape', 'Backpack', 'Marker', 'Paint', 'Sticker', 'Chalk', 'Eraser'],
+  Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'After', 'Later'],
 }
 
 function buildTier(groups, tier) {

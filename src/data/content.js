@@ -193,14 +193,17 @@ const NUM_IPA = ['/wʌn/', '/tu/', '/θri/', '/fɔr/', '/faɪv/', '/sɪks/', '/�
 const COUNT_NOUN = ['red apple', 'yellow bananas', 'happy puppies', 'green frogs', 'silly monkeys', 'bright balloons', 'shiny stars', 'spotted ladybugs', 'orange carrots', 'tiny toes', 'pretty butterflies', 'fluffy bunnies', 'sparkly buttons', 'busy ants', 'soft clouds', 'rolling wheels', 'singing birds', 'tasty cookies', 'cheerful flowers', 'dancing raindrops']
 const numbers = NUM.map((word, i) => {
   const n = i + 1
-  // Count fully all the way up (1…N) for every number — children count along, so
-  // 11–20 must say every number, not skip with "1, 2, 3 … N".
+  // 1–10: count along fully (1…N) — the count-along is the point at this stage.
+  // 11–20: DON'T recount to 20 every time (a toddler gets bored) — just name the
+  // number and show the quantity ("Eleven! Look, eleven pretty butterflies!").
   const seq = Array.from({ length: n }, (_, k) => k + 1).join(', ')
   const lower = word.toLowerCase()
   return {
     word, numeral: n, count: n, ipa: NUM_IPA[i], color: CAT.count.color,
     sound: `number-${n}`,
-    say: `${word}! Count with me… ${seq}. ${word} ${COUNT_NOUN[i]}!`,
+    say: n <= 10
+      ? `${word}! Count with me… ${seq}. ${word} ${COUNT_NOUN[i]}!`
+      : `${word}! Look, ${lower} ${COUNT_NOUN[i]}!`,
     // Enriched ladder (number word, not the digit): "Five monkeys" · "Count to five" · "I see five".
     expand: [`${word} ${COUNT_NOUN[i]}`, `Count to ${lower}`, `I see ${lower}`],
   }

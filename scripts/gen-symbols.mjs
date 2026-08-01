@@ -53,7 +53,7 @@ const STYLE =
   'consistent children’s-book style, high quality.'
 
 const NUM_WORDS = { One: 1, Two: 2, Three: 3, Four: 4, Five: 5, Six: 6, Seven: 7, Eight: 8, Nine: 9, Ten: 10 }
-const COLOURS = new Set(['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'])
+const COLOURS = new Set(['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Pink', 'Brown', 'Black', 'White', 'Grey'])
 
 // Fixed character so the "Head, Shoulders, Knees and Toes" song poses read as ONE
 // consistent toddler (benchmark for song animations — see docs/SONG_ANIMATIONS_SCOPE.md).
@@ -148,6 +148,8 @@ const SUBJECT = {
   Shirt: 'a colourful t-shirt', Pants: 'a pair of blue pants', Hat: 'a cute sun hat', Socks: 'a pair of striped socks',
   // body
   Hand: 'a single open hand, palm forward', Foot: 'a single bare foot', Belly: 'a cartoon child with both hands on a round tummy',
+  Hair: 'a cartoon child face with a big clear head of hair on top, one hand pointing up to the hair',
+  Ears: "a cartoon child's head facing forward with both ears large and clearly visible, a hand pointing to one ear",
   // around home
   Chair: 'a small wooden chair', Table: 'a small wooden table', Sofa: 'a cosy soft sofa', Window: 'a bright open window',
   Light: 'a glowing yellow lamp', Stairs: 'a small set of stairs', Rug: 'a colourful patterned rug', Pillow: 'a soft pillow',
@@ -186,6 +188,19 @@ const SUBJECT = {
   Day: 'a bright daytime sky with a sun', Night: 'a dark night sky with a moon and stars', Morning: 'a sunrise over green hills',
   Afternoon: 'a high midday sun in a blue sky', Today: 'a friendly calendar page', Now: 'a simple round clock face',
   When: 'a round clock face with a thinking question mark', After: 'an arrow pointing from one clock to the next',
+  // ---- fringe-page fill-out batch ----
+  Boy: 'a cheerful cartoon little boy standing and waving', Girl: 'a cheerful cartoon little girl standing and waving',
+  Tray: 'a food serving tray', Coat: 'a warm buttoned winter coat', Dress: 'a pretty little summer dress',
+  Pyjamas: 'a cosy two-piece pyjama set',
+  Knee: 'a cartoon child standing with one leg bent, the knee joint clearly circled and pointed at',
+  Rainbow: 'a bright colourful rainbow arc with a little cloud', Calm: 'a calm peaceful smiling face with gently closed eyes',
+  Love: 'a single big red love heart', Sick: 'a poorly sick face with a thermometer in the mouth',
+  Funny: 'a silly laughing face with the tongue sticking out', Yummy: 'a happy face licking its lips, yummy',
+  Leaf: 'a single fresh green leaf', Sky: 'a bright blue sky with one fluffy white cloud and a sun',
+  Park: 'a friendly park scene with a tree, a bench and a swing', Backpack: 'a colourful school backpack',
+  Marker: 'a chunky colourful marker pen with the cap off', Paint: 'a paint palette with bright colours and a brush',
+  Sticker: 'a shiny gold star sticker', Chalk: 'a stick of white chalk beside a small chalkboard',
+  Eraser: 'a pink pencil eraser', Candy: 'a colourful wrapped candy sweet with a swirly lollipop',
 }
 
 function subjectFor(word) {
