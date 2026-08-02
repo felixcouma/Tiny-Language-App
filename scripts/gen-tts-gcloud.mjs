@@ -80,19 +80,14 @@ function voiceRows() {
 
 /* ---- phrase rows (mirror gen-phrases.mjs) ---- */
 const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
+// MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (same strings → same clips).
+const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Errrrrr' }
 function gamePrompts(item) {
   const w = item.word.toLowerCase()
   const out = []
-  if (item.soundLabel) {
-    out.push(`Listen… ${item.soundLabel}! Where is the ${w}?`)
-    out.push(`find the ${w} — listen, ${item.soundLabel}!`)
-  } else if (item.action) {
-    out.push(`Which one is ${w}?`)
-    out.push(`which one is ${w}?`)
-  } else {
-    out.push(`Can you find the ${w}?`)
-    out.push(`find the ${w}!`)
-  }
+  if (item.soundLabel) out.push(`${PROMPT_CUE[item.word] || item.soundLabel}! Where's the ${w}?`)
+  else if (item.action) out.push(item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`)
+  else out.push(`Where's the ${w}?`)
   out.push(`Yes! ${item.word}!`)
   out.push(item.action ? `Try again. Which one is ${w}?` : `Try again. Find the ${w}.`)
   return out
@@ -118,7 +113,7 @@ function phraseRows() {
   for (const world of WORLDS) {
     if (!POOL_IDS.includes(world.id)) continue
     for (const item of world.items) if (!item.portrait) {
-      add(`Which one starts with ${item.word[0].toUpperCase()}? Find the ${item.word.toLowerCase()}!`)
+      add(`Which one starts with ${item.word[0].toUpperCase()}? Where's the ${item.word.toLowerCase()}?`)
     }
   }
   return [...bySlug.values()]

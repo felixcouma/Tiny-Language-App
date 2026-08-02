@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-01 05:21 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-02 03:46 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `2a28dc8 Fix: Hair symbol — fingertip rests on the hair (not the sky)`
 - `88ffc36 Fix: clearer Hair/Ears symbols — reposition the pointing hand`
 - `3e1999f Feat: Word Board is 4 columns on every screen (gap-free)`
 - `0c6ac80 Assets: fill-out symbols + word/counting clips (3 voices)`
 - `92d56c0 Feat: Word Board vocab fill-out + Counting 11-20 pacing`
 - `dc85a3e Assets: re-rendered voice clips (3 voices) + new Word Board symbols`
-- `48e3737 Fix: natural learner pace in the Listening Game`
 <!-- AUTO:END -->
 
 ---

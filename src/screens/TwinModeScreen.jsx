@@ -8,10 +8,18 @@ const POOL = WORLDS.filter((w) =>
   .flatMap((w) => w.items)
   .filter((it) => !it.portrait)
 
+// Same descriptive cues as the Listening Game (Zebra's neigh = Horse, etc.).
+const CUE = {
+  Zebra: 'Black and white stripes',
+  Butterfly: 'Pretty wings',
+  Turtle: 'Slow and steady',
+  Elephant: 'Errrrrr',
+}
 function buildPrompt(item) {
-  if (item.soundLabel) return `find the ${item.word.toLowerCase()} — listen, ${item.soundLabel}!`
-  if (item.action) return `which one is ${item.word.toLowerCase()}?`
-  return `find the ${item.word.toLowerCase()}!`
+  const w = item.word.toLowerCase()
+  if (item.soundLabel) return `${CUE[item.word] || item.soundLabel}! Where's the ${w}?`
+  if (item.action) return item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`
+  return `Where's the ${w}?`
 }
 
 // Turn-taking for two children. The two real profile names lead each prompt

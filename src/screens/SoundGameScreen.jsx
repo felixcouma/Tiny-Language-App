@@ -8,11 +8,21 @@ const POOL = WORLDS.filter((w) =>
   .flatMap((w) => w.items)
   .filter((it) => !it.portrait)
 
+// Descriptive cues for animals whose "sound" isn't a real sound (Flutter/Slow) or
+// collides with another animal (Zebra's neigh = Horse) — never train a mislabel.
+const CUE = {
+  Zebra: 'Black and white stripes',
+  Butterfly: 'Pretty wings',
+  Turtle: 'Slow and steady',
+  Elephant: 'Errrrrr',
+}
 function buildPrompt(item) {
-  if (item.soundLabel) return `Listen… ${item.soundLabel}! Where is the ${item.word.toLowerCase()}?`
-  // Actions can't be "found" — ask which picture shows the action (correct grammar).
-  if (item.action) return `Which one is ${item.word.toLowerCase()}?`
-  return `Can you find the ${item.word.toLowerCase()}?`
+  const w = item.word.toLowerCase()
+  // Sound-first (natural, contracted): "Moo! Where's the cow?"
+  if (item.soundLabel) return `${CUE[item.word] || item.soundLabel}! Where's the ${w}?`
+  // Actions can't be "found" — narrate the doer: "Who's jumping?"
+  if (item.action) return item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`
+  return `Where's the ${w}?`
 }
 
 export default function SoundGameScreen() {

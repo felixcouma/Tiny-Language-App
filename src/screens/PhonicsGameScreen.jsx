@@ -27,7 +27,7 @@ function pickDistractors(target, pool, count) {
 }
 
 function buildPrompt(item) {
-  return `Which one starts with ${letterOf(item)}? Find the ${item.word.toLowerCase()}!`
+  return `Which one starts with ${letterOf(item)}? Where's the ${item.word.toLowerCase()}?`
 }
 
 function promptBadge(target) {
