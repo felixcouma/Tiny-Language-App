@@ -241,5 +241,16 @@ export const getWorld = (id) => WORLDS.find((w) => w.id === id)
 // (played as its own clip, then the word). Pre-rendered like every other phrase.
 export const PRAISE = ['Yay!', 'Awesome!', 'Good job!', 'Amazing!', 'Spectacular!', 'Wonderful!', 'Hooray!']
 
+// Correct-answer feedback = a descriptive PREFIX + the word ("You found the" → "cow!"),
+// so praise labels the target (reinforces the word). A light interjection is used at
+// most ~1 in 4 turns. Each prefix is spoken then the item's own word clip follows.
+export const PRAISE_TEMPLATES = ['You found the', "There's the", 'Yes —', "That's the"]
+export const PRAISE_LIGHT = ['Yay!', 'Nice!', 'You did it!']
+// Errorless retry (no failure state): after a wrong tap, help escalates — gentle
+// "Try again", then the prompt again, then narrow the choices, then MODEL the answer
+// ("Here —" + the word) and accept it as success so the child is never stuck.
+export const RETRY_AGAIN = 'Try again.'
+export const RETRY_MODEL = 'Here —'
+
 // Pools for the games (items that have a resolvable photo make the best choices).
 export const photoWorlds = ['my-body', 'things-i-do', 'safari-island', 'home-village']

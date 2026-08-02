@@ -25,7 +25,7 @@ import { GoogleAuth } from 'google-auth-library'
 import { writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { WORLDS, PRAISE } from '../src/data/content.js'
+import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
@@ -107,6 +107,7 @@ function phraseRows() {
   // cue for children without a name clip, and the shared finale line.
   ;['Audrey,', 'Adriel,', 'Ezra,', 'Leila,', 'Ethan,', 'Your turn!', 'All done! Wonderful listening!'].forEach(add)
   PRAISE.forEach(add) // rotating praise words spoken on a correct answer
+  PRAISE_TEMPLATES.forEach(add); PRAISE_LIGHT.forEach(add); add(RETRY_AGAIN); add(RETRY_MODEL) // labelled praise + errorless retry cues
   // Single letters (Learning + Word Practice "starts with X" buttons play voice(letter)).
   'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(add)
   // Phonics prompts ("Which one starts with D? Find the dog!") — mirror PhonicsGameScreen.

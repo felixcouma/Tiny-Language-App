@@ -134,6 +134,14 @@
   animation: wobble 0.4s var(--easing-out);
   opacity: 0.75;
 }
+/* Errorless narrowing: after repeated misses, fade the non-choices and make them
+   inert so the child picks from just the two that remain (no wrong "buzz"). */
+.choice.is-dim {
+  opacity: 0.25;
+  filter: grayscale(0.6);
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--easing-out), filter var(--duration-normal) var(--easing-out);
+}
 
 .progress {
   display: flex;

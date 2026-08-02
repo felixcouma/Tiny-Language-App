@@ -10,7 +10,7 @@
 import { readdirSync, unlinkSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { WORLDS, PRAISE } from '../src/data/content.js'
+import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -46,6 +46,7 @@ for (const world of WORLDS) {
 // Hardcoded spoken cues that aren't derived from content/phrases — keep them.
 ;['Audrey,', 'Adriel,', 'Ethan', 'Ezra', 'Leila', 'Your turn!', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
 PRAISE.forEach((t) => validPhrases.add(slugify(t))) // rotating praise clips (correct-answer feedback)
+;[...PRAISE_TEMPLATES, ...PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL].forEach((t) => validPhrases.add(slugify(t))) // labelled praise + retry cues
 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((t) => validPhrases.add(slugify(t))) // letter buttons
 for (const world of WORLDS) { // phonics "which one starts with X?" prompts
   if (!POOL_IDS.includes(world.id)) continue

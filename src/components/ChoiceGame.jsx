@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
-import { PRAISE } from '../data/content'
+import { PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../data/content'
 import { playCelebration, playChime, voice, voiceSeq, hasNameClip, SETTLE_MS } from '../lib/audio'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
@@ -57,9 +57,11 @@ export default function ChoiceGame({
   const [rightWord, setRightWord] = useState(null)
   const [confettiKey, setConfettiKey] = useState(null)
   const [done, setDone] = useState(false)
+  const [narrowTo, setNarrow] = useState(null) // errorless: after 3 misses, keep only 2 bright
   const locked = useRef(false)
   const answered = useRef(false) // record at most one outcome per round (true "first try")
-  const praiseIdx = useRef(Math.floor(Math.random() * PRAISE.length)) // rotate praise, varied start
+  const attempts = useRef(0) // wrong taps this round → drives the errorless retry ladder
+  const praiseIdx = useRef(Math.floor(Math.random() * PRAISE_TEMPLATES.length)) // rotate praise, varied start
 
   const player = players ? players[round % players.length] : null
 
@@ -73,8 +75,10 @@ export default function ChoiceGame({
       setTiles(shuffle([t, ...distractors]))
       setWrongWord(null)
       setRightWord(null)
+      setNarrow(null)
       locked.current = false
       answered.current = false
+      attempts.current = 0
       const namePart = players ? players[roundIdx % players.length] : null
       setTimeout(() => voiceSeq([nameCue(namePart), buildPrompt(t, { round: roundIdx })]), 450)
     },
@@ -86,51 +90,73 @@ export default function ChoiceGame({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Correct answer — or a MODELLED answer after repeated misses — celebrates + advances.
+  const finish = (isModel) => {
+    locked.current = true
+    setRightWord(target.word)
+    setNarrow(null)
+    if (!isModel) {
+      setConfettiKey(Date.now())
+      playCelebration()
+    }
+    const nextRound = round + 1
+    const advance = () => {
+      if (nextRound >= rounds) {
+        setDone(true)
+        setConfettiKey(Date.now()) // a second burst for the finale
+        // Twin Mode → a shared, no-winner finale that names BOTH children.
+        const spokenNames = players ? players.slice(0, 2).filter(hasNameClip) : []
+        setTimeout(() => voiceSeq([...spokenNames, 'All done! Wonderful listening!']), 300)
+      } else {
+        setRound(nextRound)
+        deal(nextRound)
+      }
+    }
+    // Model → "Here — cow!"; otherwise labelled praise ("You found the" + "cow!"),
+    // with a light interjection ~1 in 4. Chained to audio completion + a settle beat
+    // so the word never gets cut off (a learner's pace, not a race).
+    let parts
+    if (isModel) {
+      parts = [RETRY_MODEL, `${target.word}!`]
+    } else {
+      const i = praiseIdx.current++
+      parts =
+        i % 4 === 3
+          ? [PRAISE_LIGHT[Math.floor(i / 4) % PRAISE_LIGHT.length]]
+          : [PRAISE_TEMPLATES[i % PRAISE_TEMPLATES.length], `${target.word}!`]
+    }
+    setTimeout(() => voiceSeq(parts).then(() => setTimeout(advance, SETTLE_MS)), isModel ? 200 : 250)
+  }
+
   const onPick = (item) => {
     if (locked.current) return
+    // A dimmed tile (after narrowing) is inert — errorless, never a wrong "buzz".
+    if (narrowTo && !narrowTo.has(item.word)) return
     const correct = item.word === target.word
-    // Record the round's outcome once, on the FIRST tap, so the parent
-    // dashboard's "found first try" reflects reality (not one row per wrong tap).
+    // Record the round's outcome once, on the FIRST tap ("found first try").
     if (!answered.current) {
       answered.current = true
       recordGame(correct)
     }
     if (correct) {
-      locked.current = true
-      setRightWord(item.word)
-      setConfettiKey(Date.now())
-      playCelebration()
-      // Rotating warm praise ("Awesome!" …) then the word — both pre-rendered clips.
-      const praise = PRAISE[praiseIdx.current++ % PRAISE.length]
-      const nextRound = round + 1
-      const advance = () => {
-        if (nextRound >= rounds) {
-          setDone(true)
-          setConfettiKey(Date.now()) // a second burst for the finale
-          // Twin Mode → a shared, no-winner finale that names BOTH children
-          // (uses their existing name clips + the celebration line; no new audio).
-          const spokenNames = players ? players.slice(0, 2).filter(hasNameClip) : []
-          setTimeout(() => voiceSeq([...spokenNames, 'All done! Wonderful listening!']), 300)
-        } else {
-          setRound(nextRound)
-          deal(nextRound)
-        }
-      }
-      // Let the celebration land, speak praise + the word, THEN hold a settle beat
-      // so the word fully finishes before the next slide — a learner's pace, not a
-      // race. Chained to audio completion (not a bare timer that cuts the voice off).
-      setTimeout(() => {
-        voiceSeq([praise, `${target.word}!`]).then(() => setTimeout(advance, SETTLE_MS))
-      }, 250)
-    } else {
-      setWrongWord(item.word)
-      playChime(item.word)
-      const retry = target.action
-        ? `Try again. Which one is ${target.word.toLowerCase()}?`
-        : `Try again. Find the ${target.word.toLowerCase()}.`
-      setTimeout(() => voice(retry), 200)
-      setTimeout(() => setWrongWord(null), 600)
+      finish(false)
+      return
     }
+    // Errorless retry ladder: help escalates, then we MODEL the answer and accept it
+    // as success — the child is never stuck and never "fails".
+    attempts.current += 1
+    const n = attempts.current
+    setWrongWord(item.word)
+    playChime(item.word)
+    if (n >= 4) {
+      finish(true) // model + accept
+      return
+    }
+    if (n === 3) setNarrow(new Set([target.word, item.word])) // narrow to 2 choices
+    // n1: a gentle "Try again."; n2/n3: repeat the prompt (its sound cue helps too).
+    const help = n === 1 ? [RETRY_AGAIN] : [buildPrompt(target, { round })]
+    setTimeout(() => voiceSeq(help), 200)
+    setTimeout(() => setWrongWord(null), 600)
   }
 
   const replay = () => {
@@ -198,7 +224,7 @@ export default function ChoiceGame({
             key={item.word}
             className={`choice ${rightWord === item.word ? 'is-right' : ''} ${
               wrongWord === item.word ? 'is-wrong' : ''
-            }`}
+            } ${narrowTo && !narrowTo.has(item.word) ? 'is-dim' : ''}`}
             onClick={() => onPick(item)}
             aria-label={item.word}
           >
