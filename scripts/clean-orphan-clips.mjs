@@ -23,7 +23,7 @@ const slugify = (t) =>
 /* valid phrase slugs (must match gen-phrases.mjs) */
 const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
 // MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (same strings → valid slugs).
-const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Errrrrr' }
+const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Ppprrrr, ppprrrr' }
 function gamePrompts(item) {
   const w = item.word.toLowerCase()
   const out = []

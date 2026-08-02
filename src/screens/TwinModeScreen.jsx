@@ -13,7 +13,7 @@ const CUE = {
   Zebra: 'Black and white stripes',
   Butterfly: 'Pretty wings',
   Turtle: 'Slow and steady',
-  Elephant: 'Errrrrr',
+  Elephant: 'Ppprrrr, ppprrrr',
 }
 function buildPrompt(item) {
   const w = item.word.toLowerCase()

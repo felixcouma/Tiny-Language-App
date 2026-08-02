@@ -81,7 +81,7 @@ function voiceRows() {
 /* ---- phrase rows (mirror gen-phrases.mjs) ---- */
 const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
 // MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (same strings → same clips).
-const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Errrrrr' }
+const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Ppprrrr, ppprrrr' }
 function gamePrompts(item) {
   const w = item.word.toLowerCase()
   const out = []
