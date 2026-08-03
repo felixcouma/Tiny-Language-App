@@ -12,6 +12,7 @@
  */
 
 import { premiumEnabled, premiumSpeak, stopPremium } from './tts'
+import { FX_KEYS } from '../data/fxKeys.js'
 
 const BASE = import.meta.env.BASE_URL || '/'
 
@@ -259,16 +260,16 @@ export function setStorybookVoice(id) {
 }
 
 /* ---------------- Real animal sound effects (voice-independent) ---------------- */
-// Items with a real recorded sound at public/sounds/fx/<key>.mp3 (the file already
-// bakes a coherent 3–4x repeat). The flow is: say the word, THEN play the sound.
-const FX_KEYS = new Set([
-  'dog', 'cat', 'cow', 'sheep', 'bird', 'frog', 'monkey', 'lion', 'bear', 'duck',
-  'zebra', 'horse', 'pig', 'chicken', 'rooster', 'elephant', 'bee',
-  'owl', 'wolf', 'goose', 'crow',
-  // Snake is intentionally spoken-only (warm "hiss, hissss!") — no clean CC hiss exists
-  // and a real hiss reads poorly on phone speakers. Like butterfly/turtle/fish: no fx file.
-])
+// FX_KEYS (which items have a real fx recording) lives in ../data/fxKeys.js so the
+// game screens + clip scripts can share it. The file bakes a coherent 3–4x repeat.
 const missingFile = new Set() // urls known to be absent (avoid retrying)
+
+// Play an item's real recorded animal sound on its own (used by the games' prompt,
+// so the child hears the actual trumpet/oink instead of a spelled-out onomatopoeia).
+export async function playFx(key) {
+  if (muted || !key || !FX_KEYS.has(key)) return
+  await playClip(`${BASE}sounds/fx/${key}.mp3`)
+}
 
 /* ---------------- Combined item playback ---------------- */
 let currentEl = null

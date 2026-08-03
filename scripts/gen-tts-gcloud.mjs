@@ -26,6 +26,7 @@ import { writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
+import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
@@ -81,11 +82,12 @@ function voiceRows() {
 /* ---- phrase rows (mirror gen-phrases.mjs) ---- */
 const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
 // MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (same strings → same clips).
-const PROMPT_CUE = { Zebra: 'Black and white stripes', Butterfly: 'Pretty wings', Turtle: 'Slow and steady', Elephant: 'Ppprrrr, ppprrrr' }
+// fx-animals play the real recorded sound (no spoken onomatopoeia clip needed).
+const PROMPT_CUE = { Butterfly: 'Pretty wings', Turtle: 'Slow and steady' }
 function gamePrompts(item) {
   const w = item.word.toLowerCase()
   const out = []
-  if (item.soundLabel) out.push(`${PROMPT_CUE[item.word] || item.soundLabel}! Where's the ${w}?`)
+  if (item.soundLabel) out.push(hasFx(item.sound) ? `Where's the ${w}?` : `${PROMPT_CUE[item.word] || item.soundLabel}! Where's the ${w}?`)
   else if (item.action) out.push(item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`)
   else out.push(`Where's the ${w}?`)
   out.push(`Yes! ${item.word}!`)

@@ -1,5 +1,6 @@
 import ChoiceGame from '../components/ChoiceGame.jsx'
 import { WORLDS, useStore } from '../store'
+import { hasFx } from '../data/fxKeys.js'
 
 // Same photo-friendly pool as the listening game.
 const POOL = WORLDS.filter((w) =>
@@ -8,16 +9,17 @@ const POOL = WORLDS.filter((w) =>
   .flatMap((w) => w.items)
   .filter((it) => !it.portrait)
 
-// Same descriptive cues as the Listening Game (Zebra's neigh = Horse, etc.).
+// Same as the Listening Game: fx-animals play the real sound; others get a spoken cue.
 const CUE = {
-  Zebra: 'Black and white stripes',
   Butterfly: 'Pretty wings',
   Turtle: 'Slow and steady',
-  Elephant: 'Ppprrrr, ppprrrr',
 }
 function buildPrompt(item) {
   const w = item.word.toLowerCase()
-  if (item.soundLabel) return `${CUE[item.word] || item.soundLabel}! Where's the ${w}?`
+  if (item.soundLabel) {
+    if (hasFx(item.sound)) return `Where's the ${w}?`
+    return `${CUE[item.word] || item.soundLabel}! Where's the ${w}?`
+  }
   if (item.action) return item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`
   return `Where's the ${w}?`
 }

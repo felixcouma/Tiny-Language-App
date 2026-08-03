@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../data/content'
-import { playCelebration, playChime, voice, voiceSeq, hasNameClip, SETTLE_MS } from '../lib/audio'
+import { playCelebration, playChime, voice, voiceSeq, playFx, hasNameClip, SETTLE_MS } from '../lib/audio'
+import { hasFx } from '../data/fxKeys.js'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import TodayProgressLine from './TodayProgressLine.jsx'
@@ -65,6 +66,15 @@ export default function ChoiceGame({
 
   const player = players ? players[round % players.length] : null
 
+  // Speak a round's prompt: (twin name) → the REAL animal sound (fx-animals, so the
+  // child hears the actual trumpet/oink, not a spelled-out onomatopoeia) → the question.
+  const speakPrompt = async (item, namePart, roundIdx) => {
+    const name = nameCue(namePart)
+    if (name) await voice(name)
+    if (hasFx(item.sound)) await playFx(item.sound)
+    await voice(buildPrompt(item, { round: roundIdx }))
+  }
+
   const deal = useCallback(
     (roundIdx) => {
       const t = pool[Math.floor(Math.random() * pool.length)]
@@ -80,7 +90,7 @@ export default function ChoiceGame({
       answered.current = false
       attempts.current = 0
       const namePart = players ? players[roundIdx % players.length] : null
-      setTimeout(() => voiceSeq([nameCue(namePart), buildPrompt(t, { round: roundIdx })]), 450)
+      setTimeout(() => speakPrompt(t, namePart, roundIdx), 450)
     },
     [pool, choices, buildPrompt, players, pickDistractors],
   )
@@ -153,9 +163,9 @@ export default function ChoiceGame({
       return
     }
     if (n === 3) setNarrow(new Set([target.word, item.word])) // narrow to 2 choices
-    // n1: a gentle "Try again."; n2/n3: repeat the prompt (its sound cue helps too).
-    const help = n === 1 ? [RETRY_AGAIN] : [buildPrompt(target, { round })]
-    setTimeout(() => voiceSeq(help), 200)
+    // n1: a gentle "Try again."; n2/n3: repeat the prompt (real sound cue included).
+    if (n === 1) setTimeout(() => voice(RETRY_AGAIN), 200)
+    else setTimeout(() => speakPrompt(target, null, round), 200)
     setTimeout(() => setWrongWord(null), 600)
   }
 
@@ -212,7 +222,7 @@ export default function ChoiceGame({
         {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
         <button
           className="hint-btn"
-          onClick={() => target && voiceSeq([nameCue(player), buildPrompt(target, { round })])}
+          onClick={() => target && speakPrompt(target, player, round)}
         >
           Listen again
         </button>
