@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-03 20:20 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-03 20:42 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `9b347ae Chore: gitignore the local dev-idle auto-stop helper`
 - `358b823 Fix: game prompts play the REAL animal sound (not spelled onomatopoeia)`
 - `53e389c Feat: labelled praise (§1.6) + errorless retry ladder (§1.7 / 1.11)`
 - `5579625 Fix: elephant game cue → a trumpet "Ppprrrr, ppprrrr!" (not "Errrrrr")`
 - `7e0f354 Feat: natural game prompts (§1.5) + fix mislabeling cues (§1.8)`
 - `2a28dc8 Fix: Hair symbol — fingertip rests on the hair (not the sky)`
-- `88ffc36 Fix: clearer Hair/Ears symbols — reposition the pointing hand`
 <!-- AUTO:END -->
 
 ---
@@ -52,15 +52,22 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
   and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence). "Things I Do"
   **verbs animate** here (looped key-pose frames — see below).
-- **Listening Game** & **Twin Mode** — listen → tap the right picture; Twin Mode does turn-taking
-  that speaks each child's name (clip when we have one — audrey/adriel/ezra/leila/ethan — else a
-  warm **"Your turn!"** cue, never a chime) and ends on a shared, **no-winner** "You did it
-  together!" finale. Rotating warm praise; gentle wobble on a miss (no scores).
+- **Listening Game** & **Twin Mode** — the prompt asks **"Where's the …?" / "Who's …?"** and plays the
+  **real recorded animal sound** (`fx/<key>.mp3`, `src/data/fxKeys.js`) for fx-animals instead of a
+  spelled-out onomatopoeia; non-fx animals speak a short cue. Correct → **labelled praise** ("You found
+  the cow!", a light interjection ~1 in 4). Wrong is **errorless** (`ChoiceGame.jsx`): help escalates —
+  "Try again" → repeat the prompt → **narrow to two** (others fade + go inert) → **model** the answer
+  ("Here — cow!") and accept as success; help fires only on the child's tap (no failure state, no
+  scores). Twin Mode does turn-taking (name clip when we have one — audrey/adriel/ezra/leila/ethan —
+  else a warm **"Your turn!"**) and a shared, **no-winner** "You did it together!" finale.
 - **Word Practice / Phrase Builder** — per-child stage (`phraseLevel`): tap words, or build 2-/3-word
   phrases (`src/data/phraseContent.js`, `PhraseScreen`). Readiness graduates a child from words →
   phrases at ~25 distinct words.
-- **Word Board (AAC)** — therapist-style communication board with a message strip, plus a **Find**
-  word-focus mode (one target hops cell-to-cell, advances after 5 finds) for early trackers (`GridScreen`).
+- **Word Board (AAC)** — a real communication board with **stable symbol positions** (SLP §S1): a fixed
+  **Core** page (`CORE_BOARD`) that never shuffles + position-stable category pages, a **4-column** grid
+  on every screen (bigger toddler targets, gap-free — every page is a multiple of 4), and a message strip
+  (**CLEAR empties the message, never the board**). Separate **Find** word-focus mode (one target hops
+  cell-to-cell, advances after 5 finds). `GridScreen`; guarded by `verify-word-board.mjs`.
 - **Letter Sounds** (phonics), **Chant** (sing-along), **Today with Pip** (adaptive session),
   **Collection** (gentle word collecting), **Rest / screen-time** (per-child limit + quiet hours).
 - **Sing with Pip** — 13 **public-domain children's songs** (U.S. State Dept "Sing Out Loud",

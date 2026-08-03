@@ -3,6 +3,22 @@
 > Tracked backlog of things deliberately deferred (mostly blocked on credits/quota).
 > When ready, do the steps below and commit.
 
+## 📍 Phases remaining (at a glance) — updated 2026-08-03
+- **SLP Phase 1 (language) — ~90% done.** Left: **1.4** Phrase Builder natural audio (say-override),
+  **1.8 (rule half)** homonym game-pool rule (Chicken-food vs Chicken-animal), **1.9** IPA/doc
+  wording + regenerate `PHRASES_REVIEW.md`. *(Done this session: language corrections, natural game
+  prompts, labelled praise, errorless retry ladder, real-fx animal sounds in prompts, Word Board AAC
+  redesign + full vocab fill-out — see §15.)*
+- **SLP Phase 2 (vocabulary + structure) — not started.** Vocabulary expansion, `fn` tags (unlocks
+  lint Rule C), routine-based language ("Every Day with Pip").
+- **Parent insight instrumentation (#2) + weekly narrative (#3) — future**, gated on a privacy-safe
+  local signal (see `COUNCIL_REVIEW_RESPONSE.md`).
+- **Part C — Stripe billing — scoped, not built.**
+- **Owner ear-checks — ongoing:** regenerated Stage-1 lines, new word/prompt clips, Counting 11–20,
+  and the re-recorded **"pig"** word clip (was "pid").
+- **Dev automation (local):** `post-commit` hook auto-starts the Vite dev server; the
+  `TinyVoice-dev-idle-stop` scheduled task stops it after 24h with no commit.
+
 ## 1. Remaining vocabulary images (18) — only these still need nano
 Reduced 25 → 18 for FREE first:
 - **Numbers 1–10**: generated locally as coloured digit+dot cards (`scripts/gen-numbers.mjs`,
@@ -200,3 +216,48 @@ Custom/renamed children have no name clip, so they can't be spoken in the warm v
 Part B reconcile is pilot-simple (cloud-wins on fresh sign-in, else push local — see
 `src/lib/cloud.js`). Fine at pilot scale. Before shipping richer/real-time sync, define + test a
 proper conflict-resolution/merge policy. **Do not add real-time sync without it.**
+
+## 15. SLP Content & Speech Plan (Phases 0–2) — 2026-07/08
+Source: `TinyVoice_SLP_Content_Working_Plan_FINAL`. Grading/response in `COUNCIL_REVIEW_RESPONSE.md`.
+
+### Phase 0 — guardrails — ✅ DONE
+- **Language linter** `scripts/lint-language.mjs` wired into `npm run check`: Rule A (contractions),
+  Rule B (habitual 3sg on `say` + full-sentence rungs). Rule C (fn coverage) deferred to Phase 2.
+- 0.1 (council context refresh) — moot; the root `council.js` was consolidated into `tools/council/`.
+
+### Phase 1 — correct existing language — mostly ✅
+- ✅ **1.1/1.2/1.3** `content.js`: Things-I-Do ladders character-narrated progressive (pronoun from
+  `actionAnimations.js`), Safari rung-3 progressive, Music "It's a…", Home/Rainbow contractions,
+  stale header rewritten. Re-rendered ×3 voices; stale clips pruned.
+- ✅ **1.5** Natural game prompts — "Where's the …?" / "Who's …?" (SoundGame/TwinMode/Phonics).
+- ✅ **1.6** Labelled praise — "You found the {word}!" + a light interjection ~1 in 4
+  (`PRAISE_TEMPLATES` / `PRAISE_LIGHT` in `content.js`).
+- ✅ **1.7 / 1.11** Errorless retry ladder — "Try again" → repeat prompt → narrow to 2 (others fade +
+  go inert) → MODEL the answer ("Here — cow!") and accept as success. Help fires only on the child's
+  tap (patient; no failure state). `ChoiceGame.jsx`.
+- ✅ **1.8 (prompt half)** Mislabel cues fixed (Zebra → "Black and white stripes", not the horse's
+  neigh; butterfly/turtle). **Real animal fx in game prompts** — fx-animals play the recorded sound
+  (real trumpet / oink ×3) instead of TTS onomatopoeia; `FX_KEYS` shared via `src/data/fxKeys.js`,
+  played by `ChoiceGame` before the spoken "Where's the …?".
+- ✅ **1.10** Feelings → emotions only (More/Yes/No/All done live on the Word Board **Core** page).
+- ⬜ **1.4** Phrase Builder natural audio (say-override): telegraphic cubes ("Look Dog") but natural
+  spoken audio ("Look, dog!"). Structural change to `phraseContent.js` + `PhraseScreen` + the clip
+  pipeline — slug stays on the blocks so existing clips don't orphan.
+- ⬜ **1.8 (rule half)** homonym game-pool rule: never co-place `food-chicken` + `chicken` (or
+  `food-fish` + `fish`) in one choice array.
+- ⬜ **1.9** `list-phrases.mjs` wording ("articulation target" → pronunciation reference) + regenerate
+  `PHRASES_REVIEW.md`.
+
+### §S1 — Word Board = real AAC board — ✅ DONE (+ vocab fill-out)
+- Fixed **Core** page (`CORE_BOARD` in `phraseContent.js`), position-stable fringe pages, **CLEAR =
+  message strip only**, Find decoupled, parent-modelling hint. `verify-word-board.mjs` in `verify:ui`.
+- **Full vocab fill-out**: every page a multiple of 4; **4 columns on every screen** (bigger toddler
+  targets, gap-free on all devices); Colours full set (pink/brown/black/white/grey/rainbow), School 12,
+  People 12 (family), Body 12, Questions 8; verbs split **Move / Play / Everyday**; **Numbers hidden**
+  from the board (they live in Counting Mountain). ~30 new AAC symbols + clips (3 voices), clearer
+  Hair/Ears/Knee, a proper "more" sign. **Counting Mountain 11–20** now names the number + shows the
+  quantity (no boring recount).
+
+### Phase 2 — not started
+Vocabulary expansion, `fn` tags (unlocks lint Rule C), routine-based language ("Every Day with Pip"),
+weekly parent narrative. Some new vocab may need images + 3-voice clips (Vertex, on the GCP credit).

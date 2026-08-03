@@ -23,11 +23,15 @@ browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
   **speaks the word** in a warm voice, plus a **Language Ladder** (2-word → 3-word phrases)
 - **Animations:** "Things I Do" **verbs move** on the stage (calm key-pose loops) and all
   **13 songs animate** with a karaoke caption
-- **Listening Game & Twin Mode:** listen → tap the right picture → confetti; wrong taps
-  wobble gently (no penalty). Twin Mode does **turn-taking** and ends on a shared,
-  **no-winner** "you did it together!" finale
+- **Listening Game & Twin Mode:** the prompt asks "Where's the …?" / "Who's …?" and plays the
+  **real recorded animal sound**; a correct tap gives **labelled praise** ("You found the cow!").
+  Wrong taps are **errorless** — help escalates gently (repeat → narrow to two → model the answer)
+  and it's accepted as success, never a fail. Twin Mode does **turn-taking** + a shared "you did it
+  together!" finale
 - **Word Practice / Phrase Builder:** per-child stage — tap words, or build 2-/3-word phrases
-- **Word Board (AAC):** a therapist-style communication board + a **Find** word-focus mode
+- **Word Board (AAC):** a real communication board with **stable symbol positions** — a fixed Core
+  page + position-stable category pages, 4-column grid, message strip (CLEAR keeps the board), plus a
+  separate **Find** word-focus mode
 - **Letter Sounds** (phonics) · **Sing with Pip** (13 public-domain songs, a real transport
   player) · **Today with Pip** (adaptive session) · **Collection** · **Rest / screen-time**
 - **Multi-child profiles:** generic, **renamable** children; per-child progress, stage, voice,

@@ -1,0 +1,12 @@
+#!/bin/sh
+# Auto-start the Vite dev server after a commit if it isn't already running.
+# Pairs with the local "TinyVoice-dev-idle-stop" scheduled task (stops dev after 24h
+# idle) — every commit resets that clock and brings dev back up if it was stopped.
+# Windows-only + a no-op when dev is already up; silently skips elsewhere / in CI.
+command -v curl >/dev/null 2>&1 || exit 0
+curl -s -o /dev/null --max-time 2 http://localhost:5173/ 2>/dev/null && exit 0   # already up
+command -v powershell >/dev/null 2>&1 || exit 0                                   # non-Windows → skip
+ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+WROOT="$(cd "$ROOT" && pwd -W 2>/dev/null || echo "$ROOT")"                        # Windows-style path
+powershell -NoProfile -Command "Start-Process -FilePath 'powershell' -ArgumentList '-NoProfile','-Command','npm run dev' -WorkingDirectory '$WROOT' -WindowStyle Hidden" >/dev/null 2>&1
+exit 0

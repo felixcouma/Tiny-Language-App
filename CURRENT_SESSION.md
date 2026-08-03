@@ -3,7 +3,38 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-07-31 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-08-03 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Word Board vocab fill-out + game-audio overhaul + dev automation.** (Continues the 07-31 SLP work.)
+> - **Word Board vocab fill-out:** every fringe page now fills complete rows and the board is **4
+>   columns on every screen** (bigger toddler targets, gap-free on phone + wide screens). Colours got
+>   the full set (pink/brown/black/white/grey/rainbow), School → 12, People → 12 (family), Body → 12,
+>   Questions → 8, Food/Animals → 20 (+Orange/Candy, +Tiger/Goat/Frog/Zebra), **Mealtime** (was
+>   "Eating"), verbs split **Move / Play / Everyday**, **Numbers hidden** (they live in Counting
+>   Mountain). ~30 new AAC symbols + 3-voice clips; clearer **Hair/Ears/Knee**, a proper **"more"**
+>   sign. **Counting Mountain 11–20** now names the number + shows the quantity (no boring recount).
+> - **Games — natural language + errorless feedback:** prompts are now "Where's the …?" / "Who's …?"
+>   (§1.5). Correct → **labelled praise** ("You found the cow!", light interjection ~1 in 4; §1.6).
+>   Wrong → an **errorless retry ladder** (§1.7/1.11): "Try again" → repeat the prompt → **narrow to 2**
+>   (others fade + go inert) → **model the answer** ("Here — cow!") and accept as success. No failure
+>   state; help fires only on the child's tap.
+> - **Real animal sounds in game prompts (§1.8):** fx-animals (cow/pig/elephant/… 21) now play the
+>   **recorded** trumpet/oink/moo (already baked to repeat 3–4×) instead of TTS spelling out
+>   onomatopoeia (fixed elephant "Ppprrrr" + pig oink-x1). `FX_KEYS` centralised in
+>   **`src/data/fxKeys.js`** (shared by screens + clip scripts); `ChoiceGame` plays the fx before the
+>   spoken "Where's the …?". Mislabel cues fixed (Zebra ≠ neigh). Re-recorded the **"pig"** word clip
+>   (TTS had said "pid") — owner to ear-confirm.
+> - **Dev automation (local, machine-specific):** a committed **`.githooks/post-commit`** auto-starts
+>   the Vite dev server after every commit (idempotent, Windows-guarded); a **`TinyVoice-dev-idle-stop`**
+>   Windows scheduled task (hourly) stops it after 24h with no commit. Helper script + log gitignored.
+> - **Verify:** `check` + full `verify:ui` green throughout; new clips generated ×3 voices, orphans
+>   pruned, oversize scan clean.
+> - **Left (see `docs/LEFT_TO_DO.md` §15):** SLP 1.4 (Phrase Builder say-override), 1.8 homonym
+>   game-pool rule, 1.9 docs; then Phase 2. Owner ear-checks ongoing.
+
+---
+
+## Session — 2026-07-31 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **SLP Phase-1 language corrections + Word Board AAC redesign + natural learner pace.**
 > - **Phase 1 / Stage 1 (language):** `content.js` — Things-I-Do ladder rungs now character-narrated
