@@ -16,3 +16,6 @@ npm-debug.log*
 # Google Cloud service-account key (local secret — never commit)
 scripts/gcloud-sa-key.json
 scripts/_review/
+# Local Windows dev-idle auto-stop helper (machine-specific path) + its log
+scripts/dev-idle-stop.ps1
+scripts/dev-idle-stop.log
