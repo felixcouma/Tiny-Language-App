@@ -153,35 +153,65 @@ const TWO_WORD = [
   'Want Ball', 'Want Milk', 'More Apple', 'More Cookie',
   // saying no / refusing
   'No Ball', 'No More', 'No Bed',
-  // joint attention (look together)
-  'Look Dog', 'Look Cat', 'Look Baby',
+  // joint attention (look together) — natural spoken audio, telegraphic cubes
+  { blocks: 'Look Dog', say: 'Look, dog!' },
+  { blocks: 'Look Cat', say: 'Look, cat!' },
+  { blocks: 'Look Baby', say: 'Look, baby!' },
   // social
   'Bye Bye',
 ]
 
 const THREE_WORD = [
-  // action + where + thing
-  'Sit On Chair', 'Jump On Bed', 'Climb Up Stairs', 'Go In Car',
-  // action + thing + direction
-  'Throw Ball Up', 'Kick Ball Out', 'Roll Ball Down', 'Push Car Up',
+  // action + where + thing — audio inserts the article ("on the chair")
+  { blocks: 'Sit On Chair', say: 'Sit on the chair.' },
+  { blocks: 'Jump On Bed', say: 'Jump on the bed.' },
+  { blocks: 'Climb Up Stairs', say: 'Climb up the stairs.' },
+  { blocks: 'Go In Car', say: 'Go in the car.' },
+  // action + thing + direction — the particle (up/out/down) IS the concept, so it stays
+  { blocks: 'Throw Ball Up', say: 'Throw the ball up.' },
+  { blocks: 'Kick Ball Out', say: 'Kick the ball out.' },
+  { blocks: 'Roll Ball Down', say: 'Roll the ball down.' },
+  { blocks: 'Push Car Up', say: 'Push the car up.' },
   // action + describing + thing
-  'Eat Big Apple', 'Eat Red Apple', 'Drink Cold Milk', 'Kick Big Ball', 'Throw Small Ball',
-  // action + more + thing
+  { blocks: 'Eat Big Apple', say: 'Eat the big apple.' },
+  { blocks: 'Eat Red Apple', say: 'Eat the red apple.' },
+  { blocks: 'Drink Cold Milk', say: 'Drink the cold milk.' },
+  { blocks: 'Kick Big Ball', say: 'Kick the big ball.' },
+  { blocks: 'Throw Small Ball', say: 'Throw the small ball.' },
+  // action + more + thing — already natural spoken, left as-is
   'Eat More Food', 'Drink More Milk', 'Eat More Cookie',
-  // who + action + thing
-  'Mama Hug Baby', 'Baby Eat Food', 'Baby Drink Milk', 'Dog Eat Food', 'Cat Play Ball',
-  'Baby Go Up', 'Baby Sit Down',
-  // action + describing + thing (was pure descriptors — added a verb for therapy value)
-  'Throw Big Ball', 'Push Blue Car', 'Ride Fast Bike',
-  // requesting more (functional)
+  // who + action + thing — full auxiliary "is" so the morpheme is audible to a toddler
+  { blocks: 'Mama Hug Baby', say: 'Mama is hugging the baby.' },
+  { blocks: 'Baby Eat Food', say: 'The baby is eating.' },
+  { blocks: 'Baby Drink Milk', say: 'The baby is drinking milk.' },
+  { blocks: 'Dog Eat Food', say: 'The dog is eating.' },
+  { blocks: 'Cat Play Ball', say: 'The cat is playing.' },
+  { blocks: 'Baby Go Up', say: 'The baby is going up.' },
+  { blocks: 'Baby Sit Down', say: 'The baby is sitting down.' },
+  // action + describing + thing (a verb added for therapy value)
+  { blocks: 'Throw Big Ball', say: 'Throw the big ball.' },
+  { blocks: 'Push Blue Car', say: 'Push the blue car.' },
+  { blocks: 'Ride Fast Bike', say: 'Ride the bike fast.' },
+  // requesting more (functional) — natural spoken, left as-is
   'Want More Milk', 'Want More Food',
-  // refusing
+  // refusing — natural spoken, left as-is
   'No More Milk', 'No More Ball',
-  // asking where (question formation)
-  'Where Ball Go', 'Where Mama Go',
+  // asking where — frozen wh-question frame keeps its natural contraction
+  { blocks: 'Where Ball Go', say: "Where's the ball?" },
+  { blocks: 'Where Mama Go', say: "Where's Mama?" },
 ]
 
-const toEntries = (list) => list.map((phrase) => ({ words: phrase.split(' '), phrase }))
+// Each phrase entry carries three things: `words` (the telegraphic CUBES the child
+// taps), `phrase` (the blocks string — display label + stable progress key), and
+// `say` (the natural sentence the "hear them together" button SPEAKS). Plain strings
+// where all three coincide; `{ blocks, say }` objects where the audio is a grammatical
+// expansion of the cubes (§1.4 — telegraphic visual, natural audio).
+const toEntries = (list) =>
+  list.map((item) =>
+    typeof item === 'string'
+      ? { words: item.split(' '), phrase: item, say: item }
+      : { words: item.blocks.split(' '), phrase: item.blocks, say: item.say },
+  )
 
 // Phrases keyed by word-count. The Phrase Builder toggles between these.
 export const PHRASES = { 2: toEntries(TWO_WORD), 3: toEntries(THREE_WORD) }

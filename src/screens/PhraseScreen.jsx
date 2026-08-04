@@ -211,8 +211,9 @@ function PhraseMode({ level, onWords }) {
   }
   const sayPhrase = () => {
     stopSpeaking()
-    voice(entry.phrase)
-    recordPhrase(entry.phrase)
+    // Cubes stay telegraphic; the "together" button SPEAKS the natural sentence (§1.4).
+    voice(entry.say || entry.phrase)
+    recordPhrase(entry.phrase) // progress key stays the stable blocks string
     setHeard(true)
     if (!muted) playCelebration()
   }
@@ -266,7 +267,7 @@ function PhraseMode({ level, onWords }) {
       <button
         className={`ph-phrase ${heard ? 'is-heard' : ''}`}
         onClick={sayPhrase}
-        aria-label={`Hear the phrase ${entry.phrase}`}
+        aria-label={`Hear the phrase ${entry.say || entry.phrase}`}
       >
         <span className="ph-phrase-text">{entry.phrase}</span>
         <span className="ph-hear">

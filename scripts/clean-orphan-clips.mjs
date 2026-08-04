@@ -38,7 +38,7 @@ function gamePrompts(item) {
 const validPhrases = new Set()
 for (const w of WORDS) validPhrases.add(slugify(w.word))
 for (const w of CORE_BOARD) validPhrases.add(slugify(w)) // AAC core board words
-for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) validPhrases.add(slugify(e.phrase))
+for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) validPhrases.add(slugify(e.say || e.phrase)) // §1.4: valid slug = the spoken sentence
 for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach((t) => validPhrases.add(slugify(t)))
 for (const world of WORLDS) {
   if (!POOL_IDS.includes(world.id)) continue

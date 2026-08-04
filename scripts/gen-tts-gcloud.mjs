@@ -99,7 +99,7 @@ function phraseRows() {
   const add = (t) => { const s = slugify(t); if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: t }) }
   for (const w of WORDS) add(w.word)
   for (const w of CORE_BOARD) add(w) // AAC core board words (some aren't in WORDS)
-  for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.phrase)
+  for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.say || e.phrase) // §1.4: clip = the natural spoken sentence
   for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach(add)
   for (const world of WORLDS) {
     if (!POOL_IDS.includes(world.id)) continue
