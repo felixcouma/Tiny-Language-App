@@ -64,7 +64,7 @@ w(PHRASES[3].map((p) => `“${p.phrase}”`).join(' · '))
 w('')
 w('## 3. Spoken lines by world (Learning)')
 w('Each item: the **word**, the **sentence** the child hears, the **expansion ladder**, and the')
-w('articulation target (IPA) where defined. Source: `src/data/content.js`.')
+w('pronunciation reference (IPA) where defined — how the word sounds, not an articulation target. Source: `src/data/content.js`.')
 for (const world of WORLDS) {
   w('')
   w(`### ${world.name} (${world.items.length})`)

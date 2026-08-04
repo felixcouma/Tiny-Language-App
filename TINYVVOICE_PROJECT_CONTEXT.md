@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-04 03:02 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-04 03:40 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `c0977ec Fix: Safari fx repeat 3x + stop prompt on tap (no clipped praise)`
 - `5c30721 Docs: refresh for the game/vocab overhaul + add dev automation`
 - `9b347ae Chore: gitignore the local dev-idle auto-stop helper`
 - `358b823 Fix: game prompts play the REAL animal sound (not spelled onomatopoeia)`
 - `53e389c Feat: labelled praise (§1.6) + errorless retry ladder (§1.7 / 1.11)`
 - `5579625 Fix: elephant game cue → a trumpet "Ppprrrr, ppprrrr!" (not "Errrrrr")`
-- `7e0f354 Feat: natural game prompts (§1.5) + fix mislabeling cues (§1.8)`
 <!-- AUTO:END -->
 
 ---

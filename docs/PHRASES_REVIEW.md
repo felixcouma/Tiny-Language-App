@@ -14,33 +14,35 @@
   *Current setup: Adriel → words, Audrey → phrases.*
 - **No scores, no failure.** A wrong tap gives a gentle "try again", never a penalty.
 
-**At a glance:** 221 core words · 54 two-word + 32 three-word phrase models · 140 learning items across 7 worlds.
+**At a glance:** 270 core words · 54 two-word + 32 three-word phrase models · 140 learning items across 7 worlds.
 
 ---
 
 ## 1. Core vocabulary — Word Practice / Phrase Builder / Word Board
-The functional single-word set the twins practise (221 words), grouped by category.
+The functional single-word set the twins practise (270 words), grouped by category.
 
-- **Doing words** (48): Go, Play, Eat, Sleep, Stop, Help, Come, Run, Sit, Stand, Look, Sing, Kick, Throw, Catch, Jump, Dance, Laugh, Cry, Hug, Kiss, Clap, Splash, Climb, Slide, Push, Pull, Pick, Drop, Pour, Drink, Blow, Read, Peek, Hide, Find, Open, Close, Turn, Spin, Stretch, Bend, Ride, Roll, Skip, Hop, Wave, Shake
-- **Where words** (13): In, On, Out, Up, Down, Here, There, Home, Under, Behind, Between, Next to, Far
-- **Things** (10): Ball, Toy, Food, Water, Cup, Shoe, Book, Car, Door, Bed
-- **Animals** (15): Dog, Cat, Bird, Fish, Cow, Duck, Pig, Sheep, Horse, Lion, Monkey, Elephant, Mouse, Bunny, Turtle
-- **People** (7): Mama, Dada, Baby, Me, You, Bye, Friend
-- **Feelings** (13): Happy, Sad, More, Yes, No, All done, Tired, Hurt, Excited, Scared, Angry, Silly, Quiet
-- **Describing** (17): Big, Small, Hot, Cold, Soft, Hard, Wet, Dry, Clean, Dirty, Loud, Fast, Slow, Good, Bad, Old, New
-- **Food** (18): Apple, Banana, Bread, Cheese, Milk, Juice, Snack, Cookie, Rice, Avocado, Broccoli, Cucumber, Carrot, Egg, Meat, Ugali, Fries, Yoghurt
-- **Eating** (4): Plate, Spoon, Fork, Bowl
-- **Clothes** (4): Shirt, Pants, Hat, Socks
-- **Body** (8): Hand, Foot, Head, Eyes, Nose, Mouth, Hair, Belly
+- **Move** (16): Go, Run, Kick, Throw, Catch, Jump, Climb, Slide, Push, Pull, Spin, Bend, Ride, Roll, Skip, Hop
+- **Play** (16): Play, Sing, Dance, Laugh, Hug, Kiss, Clap, Blow, Read, Peek, Hide, Find, Open, Close, Wave, Shake
+- **Everyday** (16): Eat, Sleep, Stop, Help, Come, Sit, Stand, Look, Cry, Splash, Pick, Drop, Pour, Drink, Turn, Stretch
+- **Where words** (12): In, On, Out, Up, Down, Here, There, Under, Behind, Between, Next to, Off
+- **Things** (8): Ball, Toy, Food, Water, Book, Car, Door, Bed
+- **Animals** (24): Dog, Cat, Bird, Fish, Cow, Duck, Pig, Sheep, Horse, Lion, Monkey, Elephant, Bunny, Turtle, Bear, Tiger, Goat, Frog, Zebra, Owl, Rooster, Wolf, Goose, Crow
+- **People** (12): Mama, Dada, Baby, Me, You, Friend, Boy, Girl, Sister, Brother, Grandma, Grandpa
+- **Feelings** (12): Happy, Sad, Tired, Hurt, Excited, Scared, Angry, Silly, Quiet, Calm, Love, Sick
+- **Describing** (16): Big, Small, Hot, Cold, Soft, Hard, Wet, Dry, Clean, Dirty, Loud, Fast, Slow, Good, Funny, Yummy
+- **Food** (20): Apple, Banana, Orange, Bread, Cheese, Egg, Milk, Juice, Cookie, Candy, Snack, Rice, Avocado, Broccoli, Cucumber, Carrot, Meat, Ugali, Fries, Yoghurt
+- **Mealtime** (12): Plate, Spoon, Fork, Bowl, Cup, Bottle, Bib, Napkin, Straw, Highchair, Mug, Tray
+- **Clothes** (8): Shirt, Pants, Hat, Socks, Shoe, Coat, Dress, Pyjamas
+- **Body** (12): Hand, Foot, Head, Eyes, Nose, Mouth, Hair, Belly, Ears, Teeth, Knee, Toes
 - **Around home** (8): Chair, Table, Sofa, Window, Light, Stairs, Rug, Pillow
 - **Toys** (8): Block, Train, Truck, Doll, Puzzle, Swing, Balloon, Music
-- **Colours** (6): Red, Blue, Yellow, Green, Purple, Orange
+- **Colours** (12): Red, Orange, Yellow, Green, Blue, Purple, Pink, Brown, Black, White, Grey, Rainbow
 - **Numbers** (10): One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-- **Asking words** (2): Want, Where
-- **Nature** (10): Tree, Flower, Grass, Sun, Moon, Star, Rain, Snow, Cloud, Rock
-- **Going places** (6): Bus, Plane, Boat, Bike, Motorcycle, Helicopter
-- **School** (6): Pencil, Paper, Crayon, Scissors, Glue, Shape
-- **Time** (8): Day, Night, Morning, Afternoon, Today, Now, When, After
+- **Questions** (8): Want, Where, What, Who, Why, When, How, Can
+- **Nature** (12): Tree, Flower, Grass, Sun, Moon, Star, Rain, Snow, Cloud, Rock, Leaf, Sky
+- **Going places** (8): Bus, Plane, Boat, Bike, Motorcycle, Helicopter, Home, Park
+- **School** (12): Pencil, Paper, Crayon, Scissors, Glue, Shape, Backpack, Marker, Paint, Sticker, Chalk, Eraser
+- **Time** (8): Day, Night, Morning, Afternoon, Today, Now, After, Later
 
 ## 2. Phrase combinations (modelled in Phrase Builder)
 Natural word combinations the child hears and builds — every word drawn from the core set above.
@@ -53,7 +55,7 @@ Natural word combinations the child hears and builds — every word drawn from t
 
 ## 3. Spoken lines by world (Learning)
 Each item: the **word**, the **sentence** the child hears, the **expansion ladder**, and the
-articulation target (IPA) where defined. Source: `src/data/content.js`.
+pronunciation reference (IPA) where defined — how the word sounds, not an articulation target. Source: `src/data/content.js`.
 
 ### My Body (13)
 - **Head**  `/hɛd/` — “My head! This is my head. Pat your head!”
@@ -85,61 +87,61 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
 
 ### Things I Do (28)
 - **Washing hands** — “Washing hands! I wash my hands. Scrub, scrub!”
-  - ladder: “Wash hands” → “I wash” → “I wash my hands”
+  - ladder: “Wash hands” → “She's washing” → “She's washing her hands”
 - **Eating** — “Eating! Yum, yum, yum!”
-  - ladder: “I eat” → “Eat food” → “I eat my food”
+  - ladder: “He's eating” → “Eat food” → “He's eating his food”
 - **Drinking** — “Drinking! Glug, glug, glug!”
-  - ladder: “I drink” → “Drink milk” → “I drink my milk”
+  - ladder: “She's drinking” → “Drink milk” → “She's drinking her milk”
 - **Sleeping** — “Sleeping! Shhh… night night.”
-  - ladder: “I sleep” → “Go sleep” → “I go to sleep”
+  - ladder: “He's sleeping” → “Go to sleep” → “He's going to sleep”
 - **Walking** — “Walking! Step, step, step!”
-  - ladder: “I walk” → “Walk slow” → “I walk to you”
+  - ladder: “She's walking” → “Walk slowly” → “She's walking to you”
 - **Running** — “Running! Go, go, go!”
-  - ladder: “I run” → “Run fast” → “I run and run”
+  - ladder: “He's running” → “Run fast” → “He's running fast”
 - **Jumping** — “Jumping! Boing, boing, boing!”
-  - ladder: “I jump” → “Jump high” → “I jump up high”
+  - ladder: “She's jumping” → “Jump high” → “She's jumping high”
 - **Laughing** — “Laughing! Ha ha ha ha!”
-  - ladder: “I laugh” → “So funny” → “I laugh with you”
+  - ladder: “They're laughing” → “So funny” → “They're laughing together”
 - **Clapping** — “Clapping! Clap, clap, clap!”
-  - ladder: “I clap” → “Clap hands” → “I clap my hands”
+  - ladder: “He's clapping” → “Clap hands” → “He's clapping his hands”
 - **Hugging** — “Hugging! A big, warm squeeze!”
-  - ladder: “Big hug” → “Hug me” → “I hug my mommy”
+  - ladder: “Big hug” → “Hug me” → “They're hugging”
 - **Dancing** — “Dancing! Wiggle and twirl!”
-  - ladder: “I dance” → “Dance with me” → “I love to dance”
+  - ladder: “They're dancing” → “Dance with me” → “They're dancing together”
 - **Brushing teeth** — “Brushing teeth! Brush, brush, brush!”
-  - ladder: “Brush teeth” → “Clean teeth” → “I brush my teeth”
+  - ladder: “Brush teeth” → “Clean teeth” → “She's brushing her teeth”
 - **Riding a bike** — “Riding a bike! Pedal, pedal, pedal!”
-  - ladder: “I ride” → “Ride bike” → “I ride my bike”
+  - ladder: “He's riding” → “Ride a bike” → “He's riding his bike”
 - **Blowing bubbles** — “Blowing bubbles! Puff… pop, pop, pop!”
-  - ladder: “I blow” → “Blow bubbles” → “I blow the bubbles”
+  - ladder: “She's blowing” → “Blow bubbles” → “She's blowing bubbles”
 - **Climbing stairs** — “Climbing stairs! Up, up, up we go!”
-  - ladder: “I climb” → “Climb up” → “I climb the stairs”
+  - ladder: “He's climbing” → “Climb up” → “He's climbing the stairs”
 - **Playing with toys** — “Playing with toys! Build and play!”
-  - ladder: “I play” → “Play toys” → “I play with my toys”
+  - ladder: “They're playing” → “Play with toys” → “They're playing with toys”
 - **Kicking a ball** — “Kicking a ball! Kick it far!”
-  - ladder: “I kick” → “Kick ball” → “I kick the ball”
+  - ladder: “She's kicking” → “Kick the ball” → “She's kicking the ball”
 - **Reading a book** — “Reading a book! Turn the page!”
-  - ladder: “I read” → “Read book” → “I read my book”
+  - ladder: “He's reading” → “Read a book” → “He's reading his book”
 - **Waving** — “Waving! Hello, hello! Bye bye!”
-  - ladder: “I wave” → “Wave hello” → “I wave to you”
+  - ladder: “She's waving” → “Wave hello” → “She's waving to you”
 - **Swimming** — “Swimming! Splash and paddle!”
-  - ladder: “I swim” → “Swim fast” → “I swim in the water”
-- **Crying** — “Crying! Boo hoo. It is okay.”
-  - ladder: “I cry” → “Baby cries” → “I am sad and I cry”
+  - ladder: “He's swimming” → “Swim fast” → “He's swimming”
+- **Crying** — “Crying! Boo hoo. It's okay.”
+  - ladder: “She's crying” → “So sad” → “She's crying. She's sad”
 - **Painting** — “Painting! Dab, dab, dab. Pretty colours!”
-  - ladder: “I paint” → “Paint a picture” → “I paint a pretty picture”
+  - ladder: “She's painting” → “Paint a picture” → “She's painting a picture”
 - **Throwing a ball** — “Throwing a ball! Throw it high!”
-  - ladder: “I throw” → “Throw ball” → “I throw the ball”
+  - ladder: “He's throwing” → “Throw the ball” → “He's throwing the ball”
 - **Cooking** — “Cooking! Stir, stir, stir. Yummy!”
-  - ladder: “I cook” → “Cook food” → “I cook in the pot”
+  - ladder: “He's cooking” → “Cook food” → “He's cooking”
 - **Peekaboo** — “Peekaboo! Where are you? I see you!”
   - ladder: “Peekaboo” → “I see you” → “Peekaboo, I see you”
 - **Waking up** — “Waking up! Good morning! Stretch and yawn.”
-  - ladder: “I wake” → “Wake up” → “I wake up”
+  - ladder: “He's waking up” → “Wake up” → “He's waking up”
 - **Pointing** — “Pointing! Look over there!”
-  - ladder: “I point” → “Point there” → “I point to it”
+  - ladder: “She's pointing” → “Point there” → “She's pointing at it”
 - **Getting dressed** — “Getting dressed! Shirt on. All dressed!”
-  - ladder: “I dress” → “Get dressed” → “I get dressed”
+  - ladder: “He's getting dressed” → “Get dressed” → “He's getting dressed”
 
 ### Home Village (35)
 - **Mommy** — “Mommy! I love you, Mommy.”
@@ -147,13 +149,13 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
 - **Daddy** — “Daddy! I love you, Daddy.”
   - ladder: “Hi Daddy” → “Love Daddy” → “I love my Daddy”
 - **Sister** — “My sister! I love my sister.”
-  - ladder: “My sister” → “Play sister” → “I play with sister”
+  - ladder: “My sister” → “Play with sister” → “I play with sister”
 - **Brother** — “My brother! I play with my brother.”
-  - ladder: “My brother” → “Play brother” → “I play with brother”
+  - ladder: “My brother” → “Play with brother” → “I play with brother”
 - **Grandma** — “Grandma! I hug my Grandma.”
   - ladder: “Hug Grandma” → “Love Grandma” → “I hug my Grandma”
-- **Grandpa** — “Grandpa is here! Hi, Grandpa!”
-  - ladder: “Grandpa here” → “Hi Grandpa” → “I see my Grandpa”
+- **Grandpa** — “Grandpa's here! Hi, Grandpa!”
+  - ladder: “Grandpa's here” → “Hi Grandpa” → “I see my Grandpa”
 - **Cup** — “A cup! For drinking. Sip, sip!”
   - ladder: “My cup” → “Red cup” → “I want my cup”
 - **Milk** — “Milk! Yummy white milk.”
@@ -215,57 +217,57 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
 
 ### Safari Island (26)
 - **Dog**  `/dɔg/` — “The dog! Listen… woof, woof!”
-  - ladder: “Big dog” → “Dog runs” → “The dog runs fast”
+  - ladder: “Big dog” → “Dog runs” → “The dog's running fast”
 - **Cat**  `/kæt/` — “The cat! Listen… meow, meow!”
-  - ladder: “Soft cat” → “Cat sleeps” → “The cat is sleeping”
+  - ladder: “Soft cat” → “Cat sleeps” → “The cat's sleeping”
 - **Cow**  `/kaʊ/` — “The cow! Listen… mooooo!”
-  - ladder: “Big cow” → “Cow eats” → “The cow eats grass”
+  - ladder: “Big cow” → “Cow eats” → “The cow's eating grass”
 - **Duck**  `/dʌk/` — “The duck! Listen… quack, quack!”
-  - ladder: “Little duck” → “Duck swims” → “The duck swims”
+  - ladder: “Little duck” → “Duck swims” → “The duck's swimming”
 - **Pig**  `/pɪg/` — “The pig! Listen… oink, oink!”
-  - ladder: “Big pig” → “Pig oinks” → “The pig says oink”
+  - ladder: “Big pig” → “Pig oinks” → “The pig's saying oink”
 - **Horse**  `/hɔrs/` — “The horse! Listen… neighhh!”
-  - ladder: “Big horse” → “Horse runs” → “The horse runs fast”
+  - ladder: “Big horse” → “Horse runs” → “The horse's running fast”
 - **Sheep**  `/ʃip/` — “The sheep! Listen… baa, baa!”
-  - ladder: “Soft sheep” → “Sheep baas” → “The sheep says baa”
+  - ladder: “Soft sheep” → “Sheep baas” → “The sheep's saying baa”
 - **Chicken**  `/ˈtʃɪkɪn/` — “The chicken! Listen… cluck, cluck!”
-  - ladder: “Little chicken” → “Chicken pecks” → “The chicken pecks corn”
+  - ladder: “Little chicken” → “Chicken pecks” → “The chicken's eating corn”
 - **Rooster**  `/ˈrustər/` — “The rooster! Listen… cock-a-doodle-doo!”
-  - ladder: “Big rooster” → “Rooster crows” → “The rooster crows at dawn”
+  - ladder: “Big rooster” → “Rooster crows” → “The rooster's crowing in the morning”
 - **Bird**  `/bɜrd/` — “The bird! Listen… tweet, tweet!”
-  - ladder: “Tiny bird” → “Bird flies” → “The bird can fly”
+  - ladder: “Tiny bird” → “Bird flies” → “The bird's flying”
 - **Fish**  `/fɪʃ/` — “The fish! Listen… blub, blub!”
-  - ladder: “Little fish” → “Fish swims” → “The fish swims fast”
+  - ladder: “Little fish” → “Fish swims” → “The fish's swimming”
 - **Lion**  `/ˈlaɪən/` — “The lion! Hear the big roar… roar!”
-  - ladder: “Big lion” → “Lion roars” → “The lion roars loud”
+  - ladder: “Big lion” → “Lion roars” → “The lion's roaring”
 - **Monkey**  `/ˈmʌŋki/` — “The monkey! Listen… ooh ooh ah ah!”
-  - ladder: “Funny monkey” → “Monkey climbs” → “The monkey climbs high”
+  - ladder: “Funny monkey” → “Monkey climbs” → “The monkey's climbing”
 - **Elephant**  `/ˈɛləfənt/` — “The elephant! So big! Trumpet sound!”
-  - ladder: “Big elephant” → “Elephant stomps” → “The elephant is huge”
+  - ladder: “Big elephant” → “Elephant stomps” → “The elephant's big”
 - **Bear**  `/bɛr/` — “The bear! Listen… grrrowl!”
-  - ladder: “Big bear” → “Bear sleeps” → “The bear is sleeping”
+  - ladder: “Big bear” → “Bear sleeps” → “The bear's sleeping”
 - **Rabbit**  `/ˈræbɪt/` — “The rabbit! Hop, hop, hop!”
-  - ladder: “Fast rabbit” → “Rabbit hops” → “The rabbit hops away”
+  - ladder: “Fast rabbit” → “Rabbit hops” → “The rabbit's hopping”
 - **Frog**  `/frɑg/` — “The frog! Listen… croak, croak!”
-  - ladder: “Little frog” → “Frog jumps” → “The frog jumps high”
+  - ladder: “Little frog” → “Frog jumps” → “The frog's jumping”
 - **Bee**  `/bi/` — “The bee! Listen… buzz, buzz!”
-  - ladder: “Tiny bee” → “Bee flies” → “The bee buzzes”
-- **Butterfly**  `/ˈbʌtərflaɪ/` — “The butterfly! Pretty fluttering wings!”
-  - ladder: “Pretty butterfly” → “Butterfly flies” → “The butterfly flutters”
+  - ladder: “Tiny bee” → “Bee flies” → “The bee's buzzing”
+- **Butterfly**  `/ˈbʌtərflaɪ/` — “The butterfly! Pretty wings!”
+  - ladder: “Pretty butterfly” → “Butterfly flies” → “The butterfly's flying”
 - **Turtle**  `/ˈtɜrtəl/` — “The turtle! Slow and steady.”
-  - ladder: “Slow turtle” → “Turtle walks” → “The turtle walks slow”
+  - ladder: “Slow turtle” → “Turtle walks” → “The turtle's walking. So slow”
 - **Zebra**  `/ˈzɛbrə/` — “The zebra! Black and white stripes!”
   - ladder: “Big zebra” → “Zebra runs” → “The zebra has stripes”
 - **Snake**  `/sneɪk/` — “The snake! Listen… hiss, hissss!”
-  - ladder: “Long snake” → “Snake slides” → “The snake slides slow”
+  - ladder: “Long snake” → “Snake slides” → “The snake's sliding”
 - **Owl**  `/aʊl/` — “The owl! Listen… hoot, hoot!”
-  - ladder: “Wise owl” → “Owl hoots” → “The owl hoots at night”
+  - ladder: “Big owl” → “Owl's hooting” → “The owl's hooting”
 - **Wolf**  `/wʊlf/` — “The wolf! Listen… ah-wooooo!”
-  - ladder: “Big wolf” → “Wolf howls” → “The wolf howls at the moon”
+  - ladder: “Big wolf” → “Wolf howls” → “The wolf's howling”
 - **Goose**  `/ɡus/` — “The goose! Listen… honk, honk!”
-  - ladder: “Big goose” → “Goose honks” → “The goose says honk”
+  - ladder: “Big goose” → “Goose honks” → “The goose's honking”
 - **Crow**  `/kroʊ/` — “The crow! Listen… caw, caw!”
-  - ladder: “Black crow” → “Crow caws” → “The crow says caw”
+  - ladder: “Black crow” → “Crow caws” → “The crow's cawing”
 
 ### Rainbow Island (10)
 - **Red**  `/rɛd/` — “Red! Like a red apple.”
@@ -276,10 +278,10 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
   - ladder: “Yellow sun” → “Yellow duck” → “The sun is yellow”
 - **Green**  `/grin/` — “Green! Like green grass.”
   - ladder: “Green grass” → “Green leaf” → “The grass is green”
-- **Orange**  `/ˈɔrɪndʒ/` — “Orange! Like an orange.”
+- **Orange**  `/ˈɔrɪndʒ/` — “Orange! Like an orange carrot.”
   - ladder: “Orange ball” → “Orange fish” → “I like orange”
 - **Purple**  `/ˈpɜrpəl/` — “Purple! Like purple grapes.”
-  - ladder: “Purple grape” → “Purple cup” → “Grapes are purple”
+  - ladder: “Purple grapes” → “Purple cup” → “Grapes are purple”
 - **Pink**  `/pɪŋk/` — “Pink! Like a pink flower.”
   - ladder: “Pink flower” → “Pink shoe” → “The flower is pink”
 - **Brown**  `/braʊn/` — “Brown! Like a brown bear.”
@@ -310,44 +312,44 @@ articulation target (IPA) where defined. Source: `src/data/content.js`.
   - ladder: “Nine orange carrots” → “Count to nine” → “I see nine”
 - **Ten**  `/tɛn/` — “Ten! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10. Ten tiny toes!”
   - ladder: “Ten tiny toes” → “Count to ten” → “I see ten”
-- **Eleven**  `/ɪˈlɛvən/` — “Eleven! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11. Eleven pretty butterflies!”
+- **Eleven**  `/ɪˈlɛvən/` — “Eleven! Look, eleven pretty butterflies!”
   - ladder: “Eleven pretty butterflies” → “Count to eleven” → “I see eleven”
-- **Twelve**  `/twɛlv/` — “Twelve! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12. Twelve fluffy bunnies!”
+- **Twelve**  `/twɛlv/` — “Twelve! Look, twelve fluffy bunnies!”
   - ladder: “Twelve fluffy bunnies” → “Count to twelve” → “I see twelve”
-- **Thirteen**  `/ˈθɜrˈtin/` — “Thirteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13. Thirteen sparkly buttons!”
+- **Thirteen**  `/ˈθɜrˈtin/` — “Thirteen! Look, thirteen sparkly buttons!”
   - ladder: “Thirteen sparkly buttons” → “Count to thirteen” → “I see thirteen”
-- **Fourteen**  `/ˈfɔrˈtin/` — “Fourteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14. Fourteen busy ants!”
+- **Fourteen**  `/ˈfɔrˈtin/` — “Fourteen! Look, fourteen busy ants!”
   - ladder: “Fourteen busy ants” → “Count to fourteen” → “I see fourteen”
-- **Fifteen**  `/ˈfɪfˈtin/` — “Fifteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15. Fifteen soft clouds!”
+- **Fifteen**  `/ˈfɪfˈtin/` — “Fifteen! Look, fifteen soft clouds!”
   - ladder: “Fifteen soft clouds” → “Count to fifteen” → “I see fifteen”
-- **Sixteen**  `/ˈsɪksˈtin/` — “Sixteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16. Sixteen rolling wheels!”
+- **Sixteen**  `/ˈsɪksˈtin/` — “Sixteen! Look, sixteen rolling wheels!”
   - ladder: “Sixteen rolling wheels” → “Count to sixteen” → “I see sixteen”
-- **Seventeen**  `/ˈsɛvənˈtin/` — “Seventeen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17. Seventeen singing birds!”
+- **Seventeen**  `/ˈsɛvənˈtin/` — “Seventeen! Look, seventeen singing birds!”
   - ladder: “Seventeen singing birds” → “Count to seventeen” → “I see seventeen”
-- **Eighteen**  `/ˈeɪˈtin/` — “Eighteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18. Eighteen tasty cookies!”
+- **Eighteen**  `/ˈeɪˈtin/` — “Eighteen! Look, eighteen tasty cookies!”
   - ladder: “Eighteen tasty cookies” → “Count to eighteen” → “I see eighteen”
-- **Nineteen**  `/ˈnaɪnˈtin/` — “Nineteen! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19. Nineteen cheerful flowers!”
+- **Nineteen**  `/ˈnaɪnˈtin/` — “Nineteen! Look, nineteen cheerful flowers!”
   - ladder: “Nineteen cheerful flowers” → “Count to nineteen” → “I see nineteen”
-- **Twenty**  `/ˈtwɛnti/` — “Twenty! Count with me… 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20. Twenty dancing raindrops!”
+- **Twenty**  `/ˈtwɛnti/` — “Twenty! Look, twenty dancing raindrops!”
   - ladder: “Twenty dancing raindrops” → “Count to twenty” → “I see twenty”
 
 ### Music Forest (8)
 - **Cow** — “Listen… mooooo! Who says moo? The cow!”
-  - ladder: “Who is it?” → “It is a cow” → “The cow says moo”
+  - ladder: “Who is it?” → “It's a cow” → “The cow says moo”
 - **Duck** — “Listen… quack! Who says quack? The duck!”
-  - ladder: “Who is it?” → “It is a duck” → “The duck says quack”
+  - ladder: “Who is it?” → “It's a duck” → “The duck says quack”
 - **Dog** — “Listen… woof! Who says woof? The dog!”
-  - ladder: “Who is it?” → “It is a dog” → “The dog says woof”
+  - ladder: “Who is it?” → “It's a dog” → “The dog says woof”
 - **Cat** — “Listen… meow! Who says meow? The cat!”
-  - ladder: “Who is it?” → “It is a cat” → “The cat says meow”
+  - ladder: “Who is it?” → “It's a cat” → “The cat says meow”
 - **Lion** — “Listen… roar! Who says roar? The lion!”
-  - ladder: “Who is it?” → “It is a lion” → “The lion says roar”
+  - ladder: “Who is it?” → “It's a lion” → “The lion says roar”
 - **Bee** — “Listen… buzz! Who says buzz? The bee!”
-  - ladder: “Who is it?” → “It is a bee” → “The bee says buzz”
+  - ladder: “Who is it?” → “It's a bee” → “The bee says buzz”
 - **Sheep** — “Listen… baa! Who says baa? The sheep!”
-  - ladder: “Who is it?” → “It is a sheep” → “The sheep says baa”
+  - ladder: “Who is it?” → “It's a sheep” → “The sheep says baa”
 - **Frog** — “Listen… croak! Who says croak? The frog!”
-  - ladder: “Who is it?” → “It is a frog” → “The frog says croak”
+  - ladder: “Who is it?” → “It's a frog” → “The frog says croak”
 
 ## 4. Game & listening prompts
 What the child hears in the **Listening Game**, **Twin Mode**, and **Letter Sounds** (phonics).

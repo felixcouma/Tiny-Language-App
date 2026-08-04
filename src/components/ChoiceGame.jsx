@@ -78,9 +78,13 @@ export default function ChoiceGame({
   const deal = useCallback(
     (roundIdx) => {
       const t = pool[Math.floor(Math.random() * pool.length)]
+      // Homonym guard (§1.8): never put a food next to its same-named animal in one round
+      // (Chicken leg / Chicken, Fish fillet / Fish) — they'd say the same word. Keyed off the
+      // `food-` sound prefix, so only those pairs collide.
+      const hkey = (it) => String(it.sound || '').replace(/^food-/, '') || it.word.toLowerCase()
       const distractors = pickDistractors
         ? pickDistractors(t, pool, choices - 1)
-        : shuffle(pool.filter((p) => p.word !== t.word)).slice(0, choices - 1)
+        : shuffle(pool.filter((p) => p.word !== t.word && hkey(p) !== hkey(t))).slice(0, choices - 1)
       setTarget(t)
       setTiles(shuffle([t, ...distractors]))
       setWrongWord(null)

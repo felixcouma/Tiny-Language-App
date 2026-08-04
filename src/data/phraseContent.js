@@ -62,7 +62,7 @@ const TIER3 = {
   Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Funny', 'Yummy'],
   Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock', 'Leaf', 'Sky'],
   'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter', 'Home', 'Park'],
-  Animals: ['Lion', 'Monkey', 'Elephant', 'Mouse', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat', 'Frog', 'Zebra'],
+  Animals: ['Lion', 'Monkey', 'Elephant', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat', 'Frog', 'Zebra', 'Owl', 'Rooster', 'Wolf', 'Goose', 'Crow'],
   School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape', 'Backpack', 'Marker', 'Paint', 'Sticker', 'Chalk', 'Eraser'],
   Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'After', 'Later'],
 }
