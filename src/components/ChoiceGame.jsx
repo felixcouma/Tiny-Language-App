@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../data/content'
-import { playCelebration, playChime, voice, voiceSeq, playFx, hasNameClip, SETTLE_MS } from '../lib/audio'
+import { playCelebration, playChime, voice, voiceSeq, playFx, stopSpeaking, hasNameClip, SETTLE_MS } from '../lib/audio'
 import { hasFx } from '../data/fxKeys.js'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
@@ -142,6 +142,9 @@ export default function ChoiceGame({
     if (locked.current) return
     // A dimmed tile (after narrowing) is inert — errorless, never a wrong "buzz".
     if (narrowTo && !narrowTo.has(item.word)) return
+    // Stop any still-playing prompt (esp. the longer real-fx one) so the praise/word
+    // that follows plays cleanly and never gets clipped by leftover prompt audio.
+    stopSpeaking()
     const correct = item.word === target.word
     // Record the round's outcome once, on the FIRST tap ("found first try").
     if (!answered.current) {
