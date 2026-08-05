@@ -46,11 +46,14 @@ const slug = (w) => String(w || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').re
 const outKey = (word) => imageKeyFor(word) || slug(word)
 
 const STYLE =
-  'Flat vector cartoon symbol for a toddler AAC language board. One single clear ' +
-  'concept, bold simple rounded shapes, thick clean dark outlines, bright cheerful ' +
-  'colours, plain solid off-white background, single centered subject, NO text, NO ' +
-  'letters, NO numbers, NO words, friendly and cute, instantly recognizable, ' +
-  'consistent children’s-book style, high quality.'
+  'Premium, polished professional children’s-book illustration for a toddler AAC ' +
+  'language board. One single clear concept, a single adorable centered subject on a ' +
+  'plain solid off-white background. Clean confident rounded outlines with soft cel ' +
+  'shading, gentle gradients and subtle soft shadows for depth, warm rich vibrant ' +
+  'colours, smooth refined linework, crisp high detail, delightful and characterful, ' +
+  'no extra props or decorations beyond what is described. NO text, NO letters, NO ' +
+  'numbers, NO words, instantly recognizable, consistent style, high-resolution, ' +
+  'gallery-quality.'
 
 const NUM_WORDS = { One: 1, Two: 2, Three: 3, Four: 4, Five: 5, Six: 6, Seven: 7, Eight: 8, Nine: 9, Ten: 10 }
 const COLOURS = new Set(['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Pink', 'Brown', 'Black', 'White', 'Grey'])
@@ -93,6 +96,26 @@ const SUBJECT = {
   Roll: 'a colourful ball rolling with motion lines', Skip: 'a cute toddler skipping happily',
   Hop: 'a cute toddler hopping on one foot', Wave: 'a cute toddler waving hello with one hand',
   Shake: 'two cartoon hands doing a friendly handshake',
+  // social / core-communication words (abstract — use conventional toddler depictions).
+  // NOTE (premium re-render phasing): the toddler character here currently renders light-
+  // skinned. Per the project's inclusivity convention (see the diverse family portraits
+  // below), future premium passes must VARY skin tone across the set (black / brown / white
+  // / asian) so the app reflects every family — bake an explicit skin-tone into each subject.
+  Yes: 'a cute toddler nodding their head yes with an enthusiastic happy smile and a cheerful thumbs-up',
+  No: 'a cute toddler shaking their head no, one open hand gently raised, mild firm expression',
+  'All done': 'a cute toddler holding both open palms up and turned outward in a finished all-done gesture, pleased satisfied smile',
+  Bye: 'a cute toddler waving goodbye with one raised open hand, warm cheerful smile',
+  Okay: 'a cute toddler giving a cheerful thumbs-up with one hand, happy reassured smile',
+  Please: 'a cute toddler with both hands gently clasped together at their chest, sweet hopeful pleading smile, nothing else in the scene',
+  'Thank you': 'a cute toddler touching their chin with the fingertips of one flat hand and moving it outward, warm grateful smile',
+  Hi: 'a cute toddler waving one open hand in a big friendly hello, wide happy smile',
+  Mine: 'a cute toddler hugging a teddy bear tightly to their chest with both arms, showing it belongs to them',
+  Again: 'two bold cheerful circular repeat arrows chasing around in a loop, with a small cartoon hand',
+  'Uh-oh': 'a cute toddler with a worried surprised face and both hands on their cheeks, a small tipped-over cup beside them',
+  Wow: 'a cute toddler with a delighted amazed face, wide open mouth and sparkling star eyes, both hands raised in wonder',
+  Sorry: 'a cute toddler with a gentle apologetic sad face and one hand resting on their chest',
+  'Night-night': 'a cute toddler sleeping peacefully in a cosy bed under a blanket, a friendly crescent moon and little stars above',
+  Yay: 'a cute toddler cheering with both arms raised high and a big joyful smile, little celebration sparkles around',
   // prepositions
   In: 'a red ball inside an open box', On: 'a red ball on top of a closed box', Out: 'a red ball coming out of a box',
   Up: 'a single big bold cheerful arrow pointing straight up', Down: 'a single big bold cheerful arrow pointing straight down',

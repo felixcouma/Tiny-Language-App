@@ -28,6 +28,10 @@ const keyOf = (w) =>
 // pages (Move/Play/Everyday). Numbers stay in WORDS for Word Practice but are hidden from
 // the AAC board (they live in Counting Mountain).
 const TIER1 = {
+  // Core communication — the highest-frequency social/regulatory words. These live on
+  // the AAC Core board but were absent from Word Practice; a child browsing now meets
+  // them too. First category = the Word Practice landing (communication before labels).
+  Social: ['Yes', 'No', 'More', 'All done', 'Okay', 'Please', 'Thank you', 'Hi', 'Bye', 'Mine', 'Again', 'Uh-oh', 'Wow', 'Sorry', 'Night-night', 'Yay'],
   Move: ['Go', 'Run'],
   Play: ['Play', 'Sing'],
   Everyday: ['Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Sit', 'Stand', 'Look'],
@@ -67,9 +71,25 @@ const TIER3 = {
   Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'After', 'Later'],
 }
 
+// Closed-class ("function") words — pronouns, prepositions, question words, and
+// social/regulatory markers. Tagged per-word because categories are mixed (in Questions,
+// "Where/What/…" are function words but "Want" is a content verb). Unlocks lint Rule C
+// (function-word coverage) and lets tools reason about word class.
+const FN_WORDS = new Set([
+  // prepositions / location
+  'In', 'On', 'Out', 'Up', 'Down', 'Here', 'There', 'Under', 'Behind', 'Between', 'Next to', 'Off',
+  // pronouns
+  'Me', 'You', 'Mine',
+  // question words + modal
+  'Where', 'What', 'Who', 'Why', 'When', 'How', 'Can',
+  // social / regulatory (the whole Social category)
+  'Yes', 'No', 'More', 'All done', 'Okay', 'Please', 'Thank you', 'Hi', 'Bye',
+  'Again', 'Uh-oh', 'Wow', 'Sorry', 'Night-night', 'Yay',
+])
+
 function buildTier(groups, tier) {
   return Object.entries(groups).flatMap(([category, words]) =>
-    words.map((word) => ({ word, key: keyOf(word), category, tier }))
+    words.map((word) => ({ word, key: keyOf(word), category, tier, fn: FN_WORDS.has(word) }))
   )
 }
 

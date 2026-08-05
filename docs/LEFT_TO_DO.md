@@ -3,16 +3,26 @@
 > Tracked backlog of things deliberately deferred (mostly blocked on credits/quota).
 > When ready, do the steps below and commit.
 
-## 📍 Phases remaining (at a glance) — updated 2026-08-03
-- **SLP Phase 1 (language) — ~90% done.** Left: **1.4** Phrase Builder natural audio (say-override),
-  **1.8 (rule half)** homonym game-pool rule (Chicken-food vs Chicken-animal), **1.9** IPA/doc
-  wording + regenerate `PHRASES_REVIEW.md`. *(Done this session: language corrections, natural game
-  prompts, labelled praise, errorless retry ladder, real-fx animal sounds in prompts, Word Board AAC
-  redesign + full vocab fill-out — see §15.)*
-- **SLP Phase 2 (vocabulary + structure) — not started.** Vocabulary expansion, `fn` tags (unlocks
-  lint Rule C), routine-based language ("Every Day with Pip").
-- **Parent insight instrumentation (#2) + weekly narrative (#3) — future**, gated on a privacy-safe
-  local signal (see `COUNCIL_REVIEW_RESPONSE.md`).
+## 📍 Phases remaining (at a glance) — updated 2026-08-05
+- **SLP Phase 1 (language) — ✅ DONE.** All of 1.4 (Phrase Builder natural say-override audio),
+  1.8 (homonym game-pool rule), 1.9 (doc wording + `PHRASES_REVIEW.md`) shipped, plus the earlier
+  language corrections, natural game prompts, labelled praise, errorless retry, real-fx sounds,
+  Word Board AAC redesign + vocab fill-out (see §15).
+- **SLP Phase 2 (vocabulary + structure) — A+B DONE; C deferred.**
+  - **A ✅ Social category** (16 core-communication words: Yes/No/More/All done/Okay/Please/Thank
+    you/Hi/Bye/Mine/Again/Uh-oh/Wow/Sorry/Night-night/Yay) — now the Word Practice landing; images
+    (premium) + clips ×3 shipped. **`fn` tags** on all 286 words.
+  - **B ✅ Lint Rule C** (function-word coverage: pronouns/prepositions/question-words/social
+    pillars + 10% ratio backstop) live in `npm run check`.
+  - **C ⏳ "Every Day with Pip"** (routine-based connected-language mode) — deferred; needs a
+    design/mockup pass before build.
+- **Premium image phasing — IN PROGRESS.** New house style is premium (soft cel-shading, richer
+  palette — see `gen-symbols.mjs` STYLE). Replacing the flat-vector board art **in bits**, batch by
+  batch. The Social set (16) is the first premium batch shipped. **Requirement:** premium character
+  re-renders MUST be multi-ethnic (black / brown / white / asian) — the Social batch came out
+  uniformly light-skinned and is a candidate for a diverse redo in a later phase.
+- **Parent insight instrumentation (#2) + weekly narrative (#3 = Phase 2 D) — future**, gated on a
+  privacy-safe local signal (see `COUNCIL_REVIEW_RESPONSE.md`).
 - **Part C — Stripe billing — scoped, not built.**
 - **Owner ear-checks — ongoing:** regenerated Stage-1 lines, new word/prompt clips, Counting 11–20,
   and the re-recorded **"pig"** word clip (was "pid").

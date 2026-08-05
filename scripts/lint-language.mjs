@@ -9,11 +9,15 @@
  *   use bare habitual present ("The dog runs") for a here-and-now action — use the
  *   progressive ("The dog's running"). SCOPED to say + rung 3 only: the telegraphic
  *   rung-2 ladder forms ("Dog runs") are intentionally kept and NOT flagged.
+ * Rule C — function-word coverage: the core vocabulary must not be noun-dominated. It
+ *   checks the four closed-class pillars (pronouns, prepositions, question words, social
+ *   regulators) each carry a minimum, plus a backstop on the overall `fn` ratio. Uses the
+ *   per-word `fn` tag in phraseContent.js.
  *
  * Add a string to ALLOW_A / ALLOW_B below to whitelist a deliberate exception.
  */
 import { WORLDS } from '../src/data/content.js'
-import { PHRASES } from '../src/data/phraseContent.js'
+import { PHRASES, WORDS } from '../src/data/phraseContent.js'
 
 // Rule A — uncontracted forms in spoken output.
 const UNCONTRACTED = /\b(it is|that is|where is|he is|she is|they are|we are|i am|let us|do not|can not|will not)\b/i
@@ -66,7 +70,23 @@ export function runLanguageLint({ fail, ok } = {}) {
     if (m) { report(`[lang B/3sg] ${where}: "${text}" — bare habitual "${m[1]}" (use progressive)`); n++ }
   }
 
-  if (n === 0) pass(`language lint clean (${items.length} spoken strings; Rules A+B)`)
+  // Rule C — function-word coverage (uses the per-word `fn` tag). A noun-only board is
+  // clinically poor: each closed-class pillar must carry a minimum, plus a ratio backstop.
+  const fnWords = WORDS.filter((w) => w.fn)
+  const pillars = [
+    { name: 'pronouns', min: 2, has: (w) => w.category === 'People' || w.word === 'Mine' },
+    { name: 'prepositions', min: 6, has: (w) => w.category === 'Where words' },
+    { name: 'question words', min: 4, has: (w) => w.category === 'Questions' },
+    { name: 'social regulators', min: 6, has: (w) => w.category === 'Social' },
+  ]
+  for (const p of pillars) {
+    const count = fnWords.filter(p.has).length
+    if (count < p.min) { report(`[lang C/coverage] ${p.name}: only ${count} function word(s), need ≥ ${p.min}`); n++ }
+  }
+  const ratio = fnWords.length / (WORDS.length || 1)
+  if (ratio < 0.1) { report(`[lang C/ratio] function words are ${(ratio * 100).toFixed(1)}% of the core set — need ≥ 10% (noun-dominated)`); n++ }
+
+  if (n === 0) pass(`language lint clean (${items.length} spoken strings; Rules A+B+C — ${fnWords.length} function words, ${(ratio * 100).toFixed(0)}%)`)
   return n
 }
 
