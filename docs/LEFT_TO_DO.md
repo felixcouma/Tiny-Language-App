@@ -32,10 +32,12 @@ not just the spoken "Boo hoo. It's okay." it says today.
   premium **number cards** (1–20). `gen-symbols` gained **429-auto-retry** + **auto-diversify**.
   - **Left as-is (intentional):** Colour swatches + Number cards (flat is better for those targets).
   - **Cache bumped** `tv-images-v2`→`-v3` (force-purge stale art everywhere).
-- **Animation frames (~125: song-/act-/do-) — OPTIONAL, TO DECIDE.** Not premiumized. Motion masks
-  the flat style, and per-sequence character-consistency + motion-review make a full re-render the
-  highest-effort/highest-risk/lowest-payoff piece. Recommendation: leave as-is, or a small pilot
-  (one song + one verb) before committing to all 125. See scoping notes.
+- **Animation frames (~125: song-/act-/do-) — ✅ DECIDED: LEAVE AS-IS (2026-08-06).** Ran a
+  throwaway premium pilot (do-eating + do-jumping, anchor-conditioned, temp/untracked). Finding:
+  consistency holds, but the premium lift is **marginal** — anchoring on the flat base pose (required
+  to keep the character stable) pulls the render back toward flat, and motion masks the rest. A real
+  lift would need re-drawing the premium bases + re-anchoring all 125 frames + full motion re-review —
+  not worth it. Static-image premium is where the payoff is, and that's done.
 - **Parent insight instrumentation (#2) + weekly narrative (#3 = Phase 2 D) — future**, gated on a
   privacy-safe local signal (see `COUNCIL_REVIEW_RESPONSE.md`).
 - **Part C — Stripe billing — scoped, not built.**
