@@ -247,6 +247,9 @@ const SUBJECT = {
   Turtle: 'a cute green turtle with a friendly patterned shell',
   Bear: 'a cute round brown teddy-style bear cub',
   Frog: 'a cute smiling green frog sitting',
+  Chicken: 'a cute plump hen chicken with soft white feathers and a small red comb',
+  Bee: 'a cute round striped bumblebee with little wings',
+  Butterfly: 'a cute butterfly with big colourful patterned wings',
   // ABC Songs words (Alphabet Friends)
   Egg: 'a single smooth white egg', Goat: 'a cute white goat with little horns',
   House: 'a single cute cartoon house with a red roof', 'Ice cream': 'a cute ice cream cone with a pink scoop',

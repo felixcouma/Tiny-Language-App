@@ -54,8 +54,12 @@ function svg(n) {
   </svg>`
 }
 
+// Range is configurable so Counting Mountain's 11–20 get the SAME premium card style
+// as 1–10:  NUM_FROM=11 NUM_TO=20 node scripts/gen-numbers.mjs  (default 1..10).
+const FROM = Number(process.env.NUM_FROM || 1)
+const TO = Number(process.env.NUM_TO || 10)
 let ok = 0
-for (let n = 1; n <= 10; n++) {
+for (let n = FROM; n <= TO; n++) {
   const buf = Buffer.from(svg(n))
   await sharp(buf, { density: 200 }).resize(512, 512).webp({ quality: 90 }).toFile(path.join(OUT, `number-${n}.webp`))
   ok++

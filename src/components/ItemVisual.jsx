@@ -30,25 +30,7 @@ export default function ItemVisual({ item, kind = 'stage', paused = false }) {
   const cls = `visual visual-${kind}`
 
   if (item.numeral != null) {
-    const color = BRIGHTS[(item.numeral - 1) % BRIGHTS.length]
-    return (
-      <div className={`${cls} visual-number`} aria-label={`Number ${item.numeral}`}>
-        <div className="visual-numeral" style={{ color }}>
-          {item.numeral}
-        </div>
-        {kind === 'stage' && (
-          <div className="visual-stars">
-            {Array.from({ length: item.count }).map((_, i) => (
-              <Star
-                key={i}
-                color={BRIGHTS[i % BRIGHTS.length]}
-                style={{ animationDelay: `${i * 70}ms` }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    )
+    return <NumberCard item={item} cls={cls} kind={kind} />
   }
 
   if (item.swatch) {
@@ -86,6 +68,40 @@ export default function ItemVisual({ item, kind = 'stage', paused = false }) {
   }
 
   return <Photo item={item} cls={cls} />
+}
+
+// Counting Mountain: the premium number card (public/images/number-N.webp — the SAME
+// card the Word Board shows, so 1–20 look consistent everywhere). Falls back to the
+// animated numeral + counting stars if the card is missing.
+const PORTRAIT_BASE_N = import.meta.env.BASE_URL || '/'
+function NumberCard({ item, cls, kind }) {
+  const [failed, setFailed] = useState(false)
+  if (!failed && item.sound) {
+    return (
+      <div className={`${cls} visual-photo`} aria-label={`Number ${item.numeral}`}>
+        <img
+          src={`${PORTRAIT_BASE_N}images/${item.sound}.webp`}
+          alt={`Number ${item.numeral}`}
+          onError={() => setFailed(true)}
+        />
+      </div>
+    )
+  }
+  const color = BRIGHTS[(item.numeral - 1) % BRIGHTS.length]
+  return (
+    <div className={`${cls} visual-number`} aria-label={`Number ${item.numeral}`}>
+      <div className="visual-numeral" style={{ color }}>
+        {item.numeral}
+      </div>
+      {kind === 'stage' && (
+        <div className="visual-stars">
+          {Array.from({ length: item.count }).map((_, i) => (
+            <Star key={i} color={BRIGHTS[i % BRIGHTS.length]} style={{ animationDelay: `${i * 70}ms` }} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 // Family members: show a curated local illustration (public/images/<sound>.webp) when
