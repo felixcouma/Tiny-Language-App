@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { ROUTINES } from '../data/routines'
 import {
@@ -82,9 +82,26 @@ function Picker({ onPick, onExit }) {
 }
 
 /* ------------------------------ routine player ---------------------------- */
+// Resolve a routine's steps for ONE playthrough: a variable step ({ variants, pick })
+// expands to `pick` randomly-chosen variants, so each play can teach a different body
+// part etc. Fixed steps pass through unchanged.
+function resolveSteps(raw) {
+  const out = []
+  for (const s of raw) {
+    if (s.variants) {
+      const shuffled = [...s.variants].sort(() => Math.random() - 0.5)
+      out.push(...shuffled.slice(0, s.pick || 1))
+    } else {
+      out.push(s)
+    }
+  }
+  return out
+}
+
 function Player({ routine, onExit, onHome }) {
   const muted = useStore((s) => s.muted)
-  const steps = routine.steps
+  // Resolve variable steps once per playthrough (this Player mounts fresh per selection).
+  const steps = useMemo(() => resolveSteps(routine.steps), [routine])
   const [idx, setIdx] = useState(0)
   const [tapped, setTapped] = useState(false)
   const [done, setDone] = useState(false)

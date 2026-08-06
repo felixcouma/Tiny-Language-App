@@ -67,11 +67,21 @@ export const ROUTINES = [
     tagline: 'Splish, splash!',
     grad: 'linear-gradient(160deg,#7ec7f0,#3a95d6)',
     steps: [
-      { say: 'Time for a bath!', tap: 'Bath', img: 'rt-bath' }, // child in a bubbly tub
-      { say: 'Wash your hands.', tap: 'Hand', anim: 'do-washing' },
+      { say: 'Bath time!', tap: 'Bath', img: 'rt-bath' }, // child in a bubbly tub
+      { say: "Here's the soap.", tap: 'Soap' },
+      // Variable step — a different body part each playthrough (`pick` chosen at random),
+      // so the routine stays fresh and quietly teaches more body words over repeats.
+      {
+        pick: 1,
+        variants: [
+          { say: 'Wash your tummy!', tap: 'Tummy' }, // → body-tummy via imageKeyFor
+          { say: 'Wash your feet!', tap: 'Feet' }, // → body-feet
+          { say: 'Wash your arms!', tap: 'Arms', img: 'body-arm' }, // no vocab image — dedicated
+          { say: 'Wash your hair!', tap: 'Hair' }, // → body-hair
+        ],
+      },
       { say: 'Splash, splash!', tap: 'Splash' },
-      { say: "Where's the soap?", tap: 'Soap' },
-      { say: 'All done — dry off!', tap: 'Towel' },
+      { say: 'All done! Time to dry off.', tap: 'Towel' },
     ],
   },
   {
@@ -89,10 +99,14 @@ export const ROUTINES = [
   },
 ]
 
+// Flatten a step to its concrete leaf(s) — a variable step contributes all its variants.
+const stepLeaves = (s) => (s.variants ? s.variants : [s])
+const allSteps = () => ROUTINES.flatMap((r) => r.steps.flatMap(stepLeaves))
+
 // Every narration line — for the clip generator, the orphan-cleaner allowlist, the
 // language linter, and the SLP inventory (so nothing drifts across sources).
-export const routineSayLines = () => ROUTINES.flatMap((r) => r.steps.map((s) => s.say))
+export const routineSayLines = () => allSteps().map((s) => s.say)
 
 // Unique tap-target words — most are core vocab, but a routine can introduce a few of its
-// own (Bath / Soap / Towel). Surfaced so the clip generator + orphan-cleaner cover them.
-export const routineTapWords = () => [...new Set(ROUTINES.flatMap((r) => r.steps.map((s) => s.tap)))]
+// own (Bath / Soap / Towel / body parts). Surfaced so clip-gen + orphan-cleaner cover them.
+export const routineTapWords = () => [...new Set(allSteps().map((s) => s.tap))]
