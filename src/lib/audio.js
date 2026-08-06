@@ -342,6 +342,13 @@ export async function playItem(item) {
   const key = item.sound
   const phrase = item.say || item.word || ''
 
+  // 0) The "Crying" verb → the cartoon-cry sound (public/sounds/fx/cry.mp3) FIRST, then the
+  //    warm reassurance ("Crying! …It's okay."). playClip awaits the cry to finish; it's
+  //    silent-and-instant if the file isn't present yet, so this degrades gracefully.
+  if (!muted && key === 'do-crying') {
+    await playClip(`${BASE}sounds/fx/cry.mp3`)
+  }
+
   // 1) Say the word/phrase (warm bundled voice → premium → chime; never device voice).
   await sayWord(key, phrase)
 

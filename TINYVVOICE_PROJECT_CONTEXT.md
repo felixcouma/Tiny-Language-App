@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-06 16:47 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-06 17:35 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `358bbc0 Docs: animation frames decided — leave as-is (premium pilot showed marginal payoff)`
 - `0e476b6 Feat: finish premium static re-render (Phases 12-14) + refresh-restore + finalize`
 - `397b8a3 Feat: premium Phase 11 (Describing/Feelings + content animals) + Bath/Park audio`
 - `8d4826c Feat: premium Phase 10 + Counting Mountain number cards + diverse family fixes`
 - `d00abbc Feat: Phase 2 C (Every Day with Pip) + premium image re-render (Phases 1-9)`
 - `dcbc318 Feat: Phase 2 A+B — Social/core-communication category + fn tags + lint Rule C`
-- `3e59ef4 Feat: §1.4 Phrase Builder — telegraphic cubes, natural spoken audio`
 <!-- AUTO:END -->
 
 ---

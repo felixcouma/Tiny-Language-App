@@ -26,6 +26,12 @@ Replaced/added by the project owner (trimmed to ~1.5–3.5 s, fade-out, mono 24 
 The duck now plays a real quack (previously sounded like a chick).
 > _Source / licence to be confirmed by the project owner._
 
+## Project-owner provided (2026-08-06)
+
+**cry** (`fx/cry.mp3`) — a cartoon child-cry, for the "Crying" verb (Things I Do). Provided
+by the project owner; trimmed to ~3.4 s with a fade-out, normalised, mono.
+> _Source / licence to be confirmed by the project owner._
+
 ## Songs — "Sing with Pip" (`public/sounds/songs/`)
 
 The 13 children's songs are from the **U.S. Department of State, Office of English
