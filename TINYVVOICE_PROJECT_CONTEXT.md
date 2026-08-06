@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-06 03:18 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-06 03:53 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `8d4826c Feat: premium Phase 10 + Counting Mountain number cards + diverse family fixes`
 - `d00abbc Feat: Phase 2 C (Every Day with Pip) + premium image re-render (Phases 1-9)`
 - `dcbc318 Feat: Phase 2 A+B — Social/core-communication category + fn tags + lint Rule C`
 - `3e59ef4 Feat: §1.4 Phrase Builder — telegraphic cubes, natural spoken audio`
 - `fdf72c3 Feat: easy wins — homonym game guard, Word Board animals filled, SLP doc wording`
 - `c0977ec Fix: Safari fx repeat 3x + stop prompt on tap (no clipped praise)`
-- `5c30721 Docs: refresh for the game/vocab overhaul + add dev automation`
 <!-- AUTO:END -->
 
 ---

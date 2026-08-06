@@ -250,6 +250,16 @@ const SUBJECT = {
   Chicken: 'a cute plump hen chicken with soft white feathers and a small red comb',
   Bee: 'a cute round striped bumblebee with little wings',
   Butterfly: 'a cute butterfly with big colourful patterned wings',
+  // content-key leftovers (Phase 13) — keyed by the raw content image key
+  'body-feet': 'two cute cartoon bare feet, toes wiggling',
+  'body-fingers': 'a cute cartoon hand with all five fingers spread and wiggling',
+  'body-hands': 'two cute open cartoon hands, palms facing out',
+  'body-knees': 'a pair of cartoon legs bent at the knees, kneeling',
+  'body-tummy': 'a cute round cartoon tummy belly with a little belly button',
+  'home-shoes': 'a cute pair of little sneaker shoes side by side',
+  'home-bath': 'a cute bathtub filled with bubbly water and white foam',
+  'food-chicken': 'a single cooked golden-brown chicken drumstick',
+  'food-fish': 'a cooked fish fillet on a small plate',
   // ABC Songs words (Alphabet Friends)
   Egg: 'a single smooth white egg', Goat: 'a cute white goat with little horns',
   House: 'a single cute cartoon house with a red roof', 'Ice cream': 'a cute ice cream cone with a pink scoop',
