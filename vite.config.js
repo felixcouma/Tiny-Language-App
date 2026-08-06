@@ -31,9 +31,9 @@ export default defineConfig({
             urlPattern: ({ url }) => url.pathname.includes('/images/'),
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'tv-images-v2',
-              // ~215 bundled WebP today; headroom so a fully-explored install stays cached.
-              expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheName: 'tv-images-v3', // bumped: force-purge stale art after the premium re-render
+              // ~450 bundled WebP today; headroom so a fully-explored install stays cached.
+              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 90 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

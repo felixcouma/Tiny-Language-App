@@ -13,6 +13,7 @@ import { CORE_BOARD } from '../src/data/phraseContent.js'
 const APP = process.argv[2] || 'http://localhost:5173/'
 
 const seed = `
+  try { sessionStorage.clear() } catch (e) {}  // each goto starts from Home (nav-restore is per-tab)
   const profs = [
     { id:'child1', name:'Mia', initials:'MI', color:'#FF1493', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[], expectantPause:false },
     { id:'child2', name:'Leo', initials:'LE', color:'#1E90FF', stage:'first', limit:0, bedtime:null, phraseLevel:1, focusWords:[], enabledSongs:[], expectantPause:false },

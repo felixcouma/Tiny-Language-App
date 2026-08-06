@@ -3,24 +3,39 @@
 > Tracked backlog of things deliberately deferred (mostly blocked on credits/quota).
 > When ready, do the steps below and commit.
 
-## 📍 Phases remaining (at a glance) — updated 2026-08-05
-- **SLP Phase 1 (language) — ✅ DONE.** All of 1.4 (Phrase Builder natural say-override audio),
-  1.8 (homonym game-pool rule), 1.9 (doc wording + `PHRASES_REVIEW.md`) shipped, plus the earlier
-  language corrections, natural game prompts, labelled praise, errorless retry, real-fx sounds,
-  Word Board AAC redesign + vocab fill-out (see §15).
-- **SLP Phase 2 (vocabulary + structure) — A+B DONE; C deferred.**
-  - **A ✅ Social category** (16 core-communication words: Yes/No/More/All done/Okay/Please/Thank
-    you/Hi/Bye/Mine/Again/Uh-oh/Wow/Sorry/Night-night/Yay) — now the Word Practice landing; images
-    (premium) + clips ×3 shipped. **`fn` tags** on all 286 words.
-  - **B ✅ Lint Rule C** (function-word coverage: pronouns/prepositions/question-words/social
-    pillars + 10% ratio backstop) live in `npm run check`.
-  - **C ⏳ "Every Day with Pip"** (routine-based connected-language mode) — deferred; needs a
-    design/mockup pass before build.
-- **Premium image phasing — IN PROGRESS.** New house style is premium (soft cel-shading, richer
-  palette — see `gen-symbols.mjs` STYLE). Replacing the flat-vector board art **in bits**, batch by
-  batch. The Social set (16) is the first premium batch shipped. **Requirement:** premium character
-  re-renders MUST be multi-ethnic (black / brown / white / asian) — the Social batch came out
-  uniformly light-skinned and is a candidate for a diverse redo in a later phase.
+## 🔊 Baby-cry sound (owner request 2026-08-05) — TO SCOPE
+The **Crying / Baby** element should play a distinctive **cartoonish, rhythmic, repetitive
+baby-cry** — the classic "**wah-wah-wah**" / "**wee-wee-wee**" whimper (like kids' apps/videos) —
+not just the spoken "Boo hoo. It's okay." it says today.
+- **Where it triggers:** decide — the Things-I-Do **Crying** item, the **Cry** verb, and/or the
+  **Baby** word (confirm with owner).
+- **How to source:** likely a real short cartoon-cry FX in `public/sounds/fx/<key>.mp3` (looped
+  3–4× like the animal sounds, credited in `public/sounds/CREDITS.md`) and played via `playFx` the
+  way fx-animals do — TTS saying "wah wah wah" would sound like a voice, not a cry, so avoid that.
+- **Toddler-safety:** keep it light/cartoonish, never a distressing real infant cry.
+
+## 📍 Phases remaining (at a glance) — updated 2026-08-06
+- **SLP Phase 1 (language) — ✅ DONE.** 1.4 / 1.8 / 1.9 plus the earlier language corrections,
+  natural game prompts, labelled praise, errorless retry, real-fx sounds, Word Board AAC redesign.
+- **SLP Phase 2 — A+B+C DONE; D open.**
+  - **A ✅ Social category** (16 words) + **`fn` tags** on all words.
+  - **B ✅ Lint Rule C** (function-word coverage) in `npm run check`.
+  - **C ✅ "Every Day with Pip"** — 5 routines (Mealtime, Bedtime, Getting dressed, Bath, Park),
+    tap-along + generous auto-advance, verb animations, fully voiced. `verify-routines.mjs` in suite.
+  - **D ⏳ Weekly parent narrative** — not started (parent-track, local weekly signal).
+- **Premium image re-render — ✅ COMPLETE (static images).** Every representational static image is
+  now premium (soft cel-shading, richer palette — `gen-symbols.mjs` STYLE). Covered Social, Animals,
+  Verbs, Food/Mealtime, People, Body/Clothes, Nature/Places/Toys, Things/Home/School,
+  Describing/Feelings, Where/Questions/Time, ABC "Alphabet Friends", content leftovers. Character
+  renders are **multi-ethnic** (auto skin-tone rotation + diverse family: Black Mama/Dada, Asian
+  Baby; Home Village Mommy/Daddy + Bath **reuse** those images). Counting Mountain now uses the
+  premium **number cards** (1–20). `gen-symbols` gained **429-auto-retry** + **auto-diversify**.
+  - **Left as-is (intentional):** Colour swatches + Number cards (flat is better for those targets).
+  - **Cache bumped** `tv-images-v2`→`-v3` (force-purge stale art everywhere).
+- **Animation frames (~125: song-/act-/do-) — OPTIONAL, TO DECIDE.** Not premiumized. Motion masks
+  the flat style, and per-sequence character-consistency + motion-review make a full re-render the
+  highest-effort/highest-risk/lowest-payoff piece. Recommendation: leave as-is, or a small pilot
+  (one song + one verb) before committing to all 125. See scoping notes.
 - **Parent insight instrumentation (#2) + weekly narrative (#3 = Phase 2 D) — future**, gated on a
   privacy-safe local signal (see `COUNCIL_REVIEW_RESPONSE.md`).
 - **Part C — Stripe billing — scoped, not built.**

@@ -33,6 +33,7 @@ const CHECKS = [
   ['verify-parent-insights.mjs', []], // twin nudge · say-it-at-home · why notes · focus-first Auto Play
   ['verify-word-board.mjs', []], // AAC board: stable symbol positions across switch/CLEAR/reload/profile
   ['verify-routines.mjs', []], // Every Day with Pip: picker → player → tap-advance → finale
+  ['verify-nav.mjs', []], // page refresh restores the current screen (not Home)
 ]
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

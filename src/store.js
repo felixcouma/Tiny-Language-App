@@ -164,13 +164,32 @@ const initialProfiles = loadProfiles()
 const initialActive = loadJSON(ACTIVE_KEY, null)
 const initialChildCount = loadChildCount(initialProfiles)
 
+// Remember the current screen across a page REFRESH (per-tab, sessionStorage) so a reload
+// stays on the page you were on instead of jumping Home. A fresh visit (new tab / reopened
+// browser) still starts at Home. Gated/transient screens are never restored (re-gate on
+// reload); a restored Learning screen needs its world to still exist.
+const NAV_KEY = 'tv_nav_v1'
+const NO_RESTORE = new Set(['setup', 'profiles', 'parent', 'rest'])
+const loadNav = () => {
+  try { return JSON.parse(sessionStorage.getItem(NAV_KEY)) } catch { return null }
+}
+const restoredNav = (() => {
+  if (initialChildCount == null || !initialActive) return null // setup / "who's playing?" flow wins
+  const n = loadNav()
+  if (!n || !n.screen || NO_RESTORE.has(n.screen)) return null
+  if (n.screen === 'learning' && !getWorld(n.worldId)) return null // world must still exist
+  return n
+})()
+
 export const useStore = create((set, get) => ({
   // First run on a fresh device asks "how many children?" (setup). Otherwise land
   // on Home if a child is chosen, else the "who's playing?" picker.
-  screen: initialChildCount == null ? 'setup' : initialActive ? 'home' : 'profiles',
+  screen: restoredNav
+    ? restoredNav.screen
+    : initialChildCount == null ? 'setup' : initialActive ? 'home' : 'profiles',
   childCount: initialChildCount, // 1 | 2 | null(not yet chosen)
-  worldId: null,
-  itemIndex: 0,
+  worldId: restoredNav?.worldId ?? null,
+  itemIndex: restoredNav?.itemIndex ?? 0,
   muted: isMuted(),
   autoPlay: false,
 
@@ -526,5 +545,19 @@ export const useStore = create((set, get) => ({
       return { progress: fresh }
     }),
 }))
+
+// Persist the current screen (+ Learning context) per-tab whenever it changes, so a page
+// refresh restores it (see restoredNav above). Only writes when the nav actually changes.
+if (typeof window !== 'undefined') {
+  let lastNav = ''
+  useStore.subscribe((s) => {
+    const nav = `${s.screen}|${s.worldId}|${s.itemIndex}`
+    if (nav === lastNav) return
+    lastNav = nav
+    try {
+      sessionStorage.setItem(NAV_KEY, JSON.stringify({ screen: s.screen, worldId: s.worldId, itemIndex: s.itemIndex }))
+    } catch { /* private mode / storage full — refresh just falls back to Home */ }
+  })
+}
 
 export { WORLDS, getWorld }

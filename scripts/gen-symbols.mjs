@@ -255,7 +255,7 @@ const SUBJECT = {
   'body-fingers': 'a cute cartoon hand with all five fingers spread and wiggling',
   'body-hands': 'two cute open cartoon hands, palms facing out',
   'body-knees': 'a pair of cartoon legs bent at the knees, kneeling',
-  'body-tummy': 'a cute round cartoon tummy belly with a little belly button',
+  'body-tummy': 'a cute cartoon little boy, fully dressed in a t-shirt and shorts, using one hand to lift the bottom hem of his t-shirt up just a little to point at his round tummy and belly button, cheerful and playful, wholesome and child-appropriate, ONLY the tummy shown, no bare chest',
   'home-shoes': 'a cute pair of little sneaker shoes side by side',
   'home-bath': 'a cute bathtub filled with bubbly water and white foam',
   'food-chicken': 'a single cooked golden-brown chicken drumstick',
