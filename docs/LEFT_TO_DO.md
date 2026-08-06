@@ -3,16 +3,12 @@
 > Tracked backlog of things deliberately deferred (mostly blocked on credits/quota).
 > When ready, do the steps below and commit.
 
-## 🔊 Baby-cry sound (owner request 2026-08-05) — TO SCOPE
-The **Crying / Baby** element should play a distinctive **cartoonish, rhythmic, repetitive
-baby-cry** — the classic "**wah-wah-wah**" / "**wee-wee-wee**" whimper (like kids' apps/videos) —
-not just the spoken "Boo hoo. It's okay." it says today.
-- **Where it triggers:** decide — the Things-I-Do **Crying** item, the **Cry** verb, and/or the
-  **Baby** word (confirm with owner).
-- **How to source:** likely a real short cartoon-cry FX in `public/sounds/fx/<key>.mp3` (looped
-  3–4× like the animal sounds, credited in `public/sounds/CREDITS.md`) and played via `playFx` the
-  way fx-animals do — TTS saying "wah wah wah" would sound like a voice, not a cry, so avoid that.
-- **Toddler-safety:** keep it light/cartoonish, never a distressing real infant cry.
+## 🔊 Baby-cry sound — ✅ DONE (2026-08-06)
+The Things-I-Do **Crying** verb plays a real cartoon child-cry (`public/sounds/fx/cry.mp3`,
+owner-provided, ~3.4s) BEFORE the warm "Crying! …It's okay." line, via `playItem`→`playClip`
+(graceful if absent). Synth attempts (Web Audio) were tried + dropped — only a real recording
+reads as a convincing cartoon cry. *(Optional follow-up: drop the spoken "Boo hoo" now that a
+real cry plays — a 1-clip ×3 regen; left as-is unless owner asks.)*
 
 ## 📍 Phases remaining (at a glance) — updated 2026-08-06
 - **SLP Phase 1 (language) — ✅ DONE.** 1.4 / 1.8 / 1.9 plus the earlier language corrections,

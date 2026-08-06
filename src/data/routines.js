@@ -43,7 +43,7 @@ export const ROUTINES = [
       { say: "It's dark. Night-night!", tap: 'Night-night', img: 'rt-night' }, // dark sky, window + moon
       { say: 'Brush your teeth.', tap: 'Teeth', anim: 'do-brushing' },
       { say: 'Read a book.', tap: 'Book', anim: 'do-reading' },
-      { say: 'Hug your teddy.', tap: 'Hug', anim: 'do-hugging' },
+      { say: 'Hug your bunny.', tap: 'Hug', anim: 'do-hug-toy' },
       { say: 'Sleep tight.', tap: 'Sleep', img: 'night-night' }, // premium sleeping child — moved to the end
     ],
   },

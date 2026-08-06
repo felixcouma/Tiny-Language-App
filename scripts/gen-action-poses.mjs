@@ -104,6 +104,16 @@ const ACTIONS = {
     ],
   },
 
+  // A child hugging a soft toy — for the Bedtime routine ("hug your bunny").
+  hugbunny: {
+    subject: 'child', poses: [
+      { key: 'act-hugbunny-1', anchor: 'song-ready',
+        action: 'The same teal-shirt boy holds a cute soft grey-and-white bunny plush toy out in front of him with both hands, arms open, about to hug it, happy smile.' },
+      { key: 'act-hugbunny-2', anchor: 'act-hugbunny-1',
+        action: 'The exact same boy now hugs the same bunny plush toy tightly against his chest with both arms, eyes gently closed, cuddling it, content, with a couple of little heart marks floating nearby.' },
+    ],
+  },
+
   // ---------- GIRL solo ----------
   wash: {
     subject: 'child', poses: [

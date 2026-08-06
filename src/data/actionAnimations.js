@@ -19,6 +19,8 @@ export const ACTION_ANIMATIONS = {
   'do-blowing': { frames: ['act-bubbles-blow', 'act-bubbles-float'], ms: 780 },
   // BOTH children — reach, then a warm hug.
   'do-hugging': { frames: ['act-hug-open', 'act-hug-squeeze'], ms: 720 },
+  // One child hugging a bunny plush — Bedtime routine ("hug your bunny").
+  'do-hug-toy': { frames: ['act-hugbunny-1', 'act-hugbunny-2'], ms: 760 },
 
   // ---- GIRL solo ----
   'do-washing': { frames: ['act-wash-1', 'act-wash-2'], ms: 620 },
