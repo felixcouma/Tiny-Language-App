@@ -28,6 +28,7 @@ import path from 'node:path'
 import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
 import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
+import { routineSayLines, routineTapWords } from '../src/data/routines.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -99,6 +100,8 @@ function phraseRows() {
   const add = (t) => { const s = slugify(t); if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: t }) }
   for (const w of WORDS) add(w.word)
   for (const w of CORE_BOARD) add(w) // AAC core board words (some aren't in WORDS)
+  routineSayLines().forEach(add) // Every Day with Pip — routine narration lines
+  routineTapWords().forEach(add) // routine tap-target words (incl. a few new ones: Bath/Soap/Towel)
   for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.say || e.phrase) // §1.4: clip = the natural spoken sentence
   for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach(add)
   for (const world of WORLDS) {

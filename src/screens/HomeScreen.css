@@ -101,6 +101,14 @@
   background: linear-gradient(180deg, #ffd24d, #ff9a00);
   box-shadow: 0 5px 0 #d97e00, 0 8px 16px rgba(0, 0, 0, 0.22);
 }
+.home2-routines {
+  width: 100%;
+  min-height: 58px;
+  font-size: 19px;
+  margin-bottom: var(--space-md);
+  background: linear-gradient(180deg, #6fd39a, #2fa873);
+  box-shadow: 0 5px 0 #1f8659, 0 8px 16px rgba(0, 0, 0, 0.22);
+}
 .home2-speech {
   width: 100%;
   min-height: 56px;

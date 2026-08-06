@@ -32,6 +32,7 @@ const CHECKS = [
   ['verify-song-player.mjs', []], // Sing with Pip player: transport + auto-advance + stop-at-end
   ['verify-parent-insights.mjs', []], // twin nudge · say-it-at-home · why notes · focus-first Auto Play
   ['verify-word-board.mjs', []], // AAC board: stable symbol positions across switch/CLEAR/reload/profile
+  ['verify-routines.mjs', []], // Every Day with Pip: picker → player → tap-advance → finale
 ]
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))

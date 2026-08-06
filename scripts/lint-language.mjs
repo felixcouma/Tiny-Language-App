@@ -18,6 +18,7 @@
  */
 import { WORLDS } from '../src/data/content.js'
 import { PHRASES, WORDS } from '../src/data/phraseContent.js'
+import { routineSayLines } from '../src/data/routines.js'
 
 // Rule A — uncontracted forms in spoken output.
 const UNCONTRACTED = /\b(it is|that is|where is|he is|she is|they are|we are|i am|let us|do not|can not|will not)\b/i
@@ -47,6 +48,8 @@ function collect() {
       if (text) all.push({ text, where: `phrase/${e.phrase}`, rung: 'phrase' })
     }
   }
+  // Every Day with Pip — routine narration lines (new spoken content, held to A/B).
+  for (const line of routineSayLines()) all.push({ text: line, where: `routine/"${line}"`, rung: 'say' })
   return all
 }
 

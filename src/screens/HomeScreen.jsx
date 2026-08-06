@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const openAbc = useStore((s) => s.openAbc)
   const openEcho = useStore((s) => s.openEcho)
   const openSongs = useStore((s) => s.openSongs)
+  const openRoutines = useStore((s) => s.openRoutines)
   const requestGate = useStore((s) => s.requestGate)
   const openProfiles = useStore((s) => s.openProfiles)
   const openToday = useStore((s) => s.openToday)
@@ -69,6 +70,16 @@ export default function HomeScreen() {
         }}
       >
         ▸ Today with Pip
+      </button>
+
+      <button
+        className="chunky home2-routines"
+        onClick={() => {
+          playChime('routines')
+          openRoutines()
+        }}
+      >
+        ▸ Every Day with Pip
       </button>
 
       <button

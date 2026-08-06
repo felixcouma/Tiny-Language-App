@@ -1,0 +1,218 @@
+/* Every Day with Pip — calm routine scenes. Reuses global .scene / .scene-globe /
+   .speech-bubble / .round-btn / .big-btn / .chunky tokens. */
+
+.scene.routine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100dvh;
+  padding: 12px 16px 28px;
+  gap: 14px;
+}
+
+.rt-top {
+  width: 100%;
+  max-width: 620px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.rt-spacer {
+  min-width: 44px;
+}
+.rt-title-main {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #5a4636;
+}
+.rt-badge {
+  padding: 6px 16px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.rt-greet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+/* ---- picker ---- */
+.rt-picker {
+  width: 100%;
+  max-width: 620px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 6px;
+}
+.rt-card {
+  border: none;
+  border-radius: 22px;
+  padding: 26px 16px;
+  min-height: 116px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  transition: transform 0.12s ease;
+}
+.rt-card:active {
+  transform: scale(0.97);
+}
+.rt-card-name {
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.rt-card-tag {
+  font-size: 0.9rem;
+  opacity: 0.95;
+}
+
+/* ---- player ---- */
+.rt-dots {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+.rt-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(120, 100, 80, 0.25);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.rt-dot.on {
+  background: #f3a742;
+}
+.rt-dot.cur {
+  background: #f3a742;
+  transform: scale(1.35);
+}
+
+.rt-target {
+  border: none;
+  background: #fff;
+  border-radius: 28px;
+  padding: 18px;
+  width: min(80vw, 320px);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.rt-target-img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+.rt-target-anim {
+  width: 82%;
+  height: 82%;
+  position: relative;
+}
+.rt-target-anim .act-anim,
+.rt-target-anim .act-anim-frame {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.rt-word {
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: #5a4636;
+}
+.rt-target.is-glow {
+  animation: rt-glow 1.6s ease-in-out infinite;
+}
+.rt-target.is-tapped {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 6px rgba(243, 167, 66, 0.55), 0 6px 20px rgba(0, 0, 0, 0.14);
+}
+@keyframes rt-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(243, 167, 66, 0), 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(243, 167, 66, 0.35), 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rt-target.is-glow {
+    animation: none;
+    box-shadow: 0 0 0 5px rgba(243, 167, 66, 0.3), 0 6px 20px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.rt-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+.rt-next {
+  border: none;
+  background: #f3a742;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  padding: 12px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+}
+.chunky.arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ---- done ---- */
+.rt-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8vh;
+  text-align: center;
+}
+.rt-done-title {
+  font-size: 1.8rem;
+  color: #5a4636;
+  margin: 4px 0 0;
+}
+.rt-done-sub {
+  color: #7a6552;
+  margin: 0;
+}
+.rt-done-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  width: min(80vw, 300px);
+}
+
+/* widen for tablet / laptop */
+@media (min-width: 700px) {
+  .rt-picker {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

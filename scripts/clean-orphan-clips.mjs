@@ -13,6 +13,7 @@ import path from 'node:path'
 import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
 import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
+import { routineSayLines, routineTapWords } from '../src/data/routines.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SOUNDS = path.join(__dirname, '..', 'public', 'sounds')
@@ -38,6 +39,8 @@ function gamePrompts(item) {
 const validPhrases = new Set()
 for (const w of WORDS) validPhrases.add(slugify(w.word))
 for (const w of CORE_BOARD) validPhrases.add(slugify(w)) // AAC core board words
+routineSayLines().forEach((t) => validPhrases.add(slugify(t))) // Every Day with Pip narration
+routineTapWords().forEach((t) => validPhrases.add(slugify(t))) // routine tap words (Bath/Soap/Towel)
 for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) validPhrases.add(slugify(e.say || e.phrase)) // §1.4: valid slug = the spoken sentence
 for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach((t) => validPhrases.add(slugify(t)))
 for (const world of WORLDS) {

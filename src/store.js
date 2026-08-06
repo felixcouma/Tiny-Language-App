@@ -420,6 +420,7 @@ export const useStore = create((set, get) => ({
   openRest: () => set({ screen: 'rest', autoPlay: false }),
   openChant: () => set({ screen: 'chant', autoPlay: false }),
   openSongs: () => set({ screen: 'songs', autoPlay: false }),
+  openRoutines: () => set({ screen: 'routines', autoPlay: false }),
 
   finishOnboarding: () => {
     saveJSON('tv_onboarded', true)

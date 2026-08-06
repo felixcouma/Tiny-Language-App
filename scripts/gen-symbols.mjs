@@ -126,8 +126,43 @@ const SUBJECT = {
   Ball: 'a classic bright inflatable beach ball with red, blue, green and yellow curved panels meeting at the top, glossy, round and cheerful',
   Toy: 'a colourful toy box overflowing with toys', Food: 'a plate piled with yummy food', Water: 'a clear glass of water',
   Shoe: 'a single cute sneaker shoe', Car: 'a cute little red car', Door: 'a friendly closed wooden door',
+  // routine props (Every Day with Pip)
+  Spoon: 'a single cute baby spoon',
+  Book: 'a single cute closed picture book with a colourful cover',
+  Teeth: 'a cheerful big smile showing clean white teeth with a toothbrush and a dab of toothpaste',
+  // abstract words — prepositions / questions / time (Phase 11)
+  Off: 'a red ball lifted up and away, off the top of a box',
+  Want: 'a cute toddler reaching out with both open hands, wanting something, eager face',
+  Where: 'a big friendly question mark next to a red location map-pin',
+  What: 'a big friendly question mark beside a closed mystery box',
+  Who: 'a big friendly question mark beside the silhouette of a person',
+  Why: 'a big friendly curly question mark beside a thoughtful thinking face',
+  How: 'a big friendly question mark beside a glowing lightbulb',
+  Can: 'a cute toddler flexing one arm with a proud can-do smile',
+  Later: 'a friendly clock with an arrow curving forward to a later time',
+  // body parts (iconic — kept neutral, not a full figure)
+  Head: 'a cute simple friendly cartoon head and face',
+  Eyes: 'a pair of big friendly cartoon eyes',
+  Nose: 'a cute cartoon nose on a simple friendly face',
+  Mouth: 'a cute smiling cartoon mouth with soft lips',
+  Toes: 'a cute cartoon bare foot showing five little wiggly toes',
+  // routine scene/summary images (multi-ethnic per the inclusivity convention above)
+  'rt-mealtime':
+    'a cute happy toddler with warm brown skin sitting on a little chair at a small table, a plate of food in front of them, holding a spoon up to their mouth, mid-bite and delighted',
+  'rt-night':
+    'a single cosy cartoon bedroom window at night — through the glass panes a deep blue night sky with a big friendly crescent moon and a few little stars — the wall around the window plain and light',
+  'rt-dressed':
+    'a cute happy toddler with dark brown skin, fully dressed head to toe with ALL items clearly visible — a t-shirt, pants, shoes and a hat — waving goodbye with one hand, ready to go out',
+  'rt-bath':
+    'a cute happy toddler sitting in a bathtub full of white bubbles and foam, splashing, only head and shoulders above the bubbles',
+  Soap: 'a single cute bar of soap with a few little bubbles',
+  Towel: 'a single soft folded bath towel',
+  Cup: 'a cute colourful toddler drinking cup',
+  Bed: 'a cute cosy little bed with a soft pillow and a folded blanket',
   // people
-  Mama: 'a kind smiling cartoon mother', Dada: 'a kind smiling cartoon father', Baby: 'a cute smiling baby',
+  Mama: 'a kind smiling cartoon Black mother with deep brown skin and dark natural hair, head and shoulders',
+  Dada: 'a kind smiling cartoon father with deep brown skin, short black hair and a neat beard, head and shoulders',
+  Baby: 'a cute smiling baby with light golden skin and soft East Asian features',
   // family portraits — deliberately diverse skin tones across the set (brown / black /
   // white) so the app feels inclusive to every family the therapist shows it to.
   Mommy: 'a kind smiling cartoon mother with warm light-brown skin and dark hair in a bun, head and shoulders',
@@ -195,6 +230,23 @@ const SUBJECT = {
   Goose: 'a cute white goose with an orange beak',
   Crow: 'a cute glossy black crow bird',
   Rooster: 'a cute proud rooster (cockerel) with a bright red comb and wattle, golden-brown body, and long curved dark green tail feathers, standing tall',
+  // core animals (premium re-render — Phase 3)
+  Dog: 'a cute happy puppy dog sitting, floppy ears and a wagging tail',
+  Cat: 'a cute sitting kitten with a fluffy tail and big eyes',
+  Bird: 'a cute plump little bluebird with a cheerful face',
+  Fish: 'a cute round orange fish with friendly fins',
+  Cow: 'a cute black-and-white spotted cow with a little pink nose',
+  Duck: 'a cute fluffy yellow duckling',
+  Pig: 'a cute round pink piglet with a curly tail',
+  Sheep: 'a cute fluffy white sheep with a woolly coat',
+  Horse: 'a cute brown pony horse with a soft flowing mane',
+  Lion: 'a cute lion cub with a fluffy golden mane',
+  Monkey: 'a cute brown monkey with a long curly tail',
+  Elephant: 'a cute grey baby elephant with big floppy ears and a curly trunk',
+  Bunny: 'a cute fluffy bunny rabbit with long floppy ears',
+  Turtle: 'a cute green turtle with a friendly patterned shell',
+  Bear: 'a cute round brown teddy-style bear cub',
+  Frog: 'a cute smiling green frog sitting',
   // ABC Songs words (Alphabet Friends)
   Egg: 'a single smooth white egg', Goat: 'a cute white goat with little horns',
   House: 'a single cute cartoon house with a red roof', 'Ice cream': 'a cute ice cream cone with a pink scoop',
@@ -230,6 +282,19 @@ function subjectFor(word) {
   if (NUM_WORDS[word]) return `${NUM_WORDS[word]} big round colourful dots arranged neatly together`
   if (COLOURS.has(word)) return `a single large flat solid ${word.toLowerCase()}-coloured circle, centered`
   return SUBJECT[word] || `a clear simple cartoon symbol clearly representing "${word}"`
+}
+
+// Inclusivity convention: character illustrations must span skin tones (black / brown /
+// white / asian), not default to light-skinned. For any character subject that doesn't
+// already pin a tone, inject one that ROTATES by index so a batch comes out diverse.
+const SKIN_TONES = ['warm brown', 'deep brown', 'fair', 'light golden with East Asian features', 'olive tan']
+// Human children only — deliberately NOT bare "baby" (that matched "baby elephant" and
+// spawned a child riding it). The People "Baby" card pins its own tone in its subject.
+const isCharacter = (s) => /\b(toddler|child|children|boy|girl|kid)\b/i.test(s)
+const hasTone = (s) => /\bskin\b|complexion|East Asian|light-brown|dark brown|brown skin/i.test(s)
+function diversify(subject, i) {
+  if (!isCharacter(subject) || hasTone(subject)) return subject
+  return `${subject}, the child has ${SKIN_TONES[i % SKIN_TONES.length]} skin`
 }
 
 const ai = USE_VERTEX
@@ -269,24 +334,36 @@ const run = LIMIT ? todo.slice(0, LIMIT) : todo
 console.log(`symbols to generate: ${run.length} (of ${items.length} words)`)
 
 const results = { ok: [], failed: [] }
-let capHits = 0
-for (let i = 0; i < run.length; i++) {
+const QUOTA_WAIT = Number(process.env.QUOTA_WAIT_MS || 65000) // per-minute image quota reset
+const MAX_RETRY = Number(process.env.QUOTA_RETRIES || 12) // wait-and-retry a 429 this many times
+let stop = false
+for (let i = 0; i < run.length && !stop; i++) {
   const { key, word, subject } = run[i]
-  const prompt = `${STYLE} Subject: ${subject}.`
-  try {
-    let data
-    if (!MODEL) { const p = await pickModel(prompt); if (!p) throw new Error('no model produced an image'); MODEL = p.model; data = p.data }
-    else data = await generate(MODEL, prompt)
-    if (!data) throw new Error('no image data')
-    writeFileSync(path.join(OUT_DIR, `${key}.png`), Buffer.from(data, 'base64'))
-    results.ok.push(key); capHits = 0
-    console.log(`(${i + 1}/${run.length}) ✓ ${key}.png — "${word}"`)
-  } catch (e) {
-    const msg = String(e.message || e)
-    results.failed.push({ key, err: msg.slice(0, 120) })
-    console.log(`(${i + 1}/${run.length}) ✗ ${key} — ${msg.slice(0, 120)}`)
-    if (/exceeded its monthly spending cap|billing/i.test(msg)) { console.log('\nSpending cap hit — stopping.'); break }
-    if (/429|RESOURCE_EXHAUSTED|quota/i.test(msg) && ++capHits >= 5) { console.log('\nRate/quota limit — stopping.'); break }
+  const prompt = `${STYLE} Subject: ${diversify(subject, i)}.`
+  for (let attempt = 0; ; attempt++) {
+    try {
+      let data
+      if (!MODEL) { const p = await pickModel(prompt); if (!p) throw new Error('no model produced an image'); MODEL = p.model; data = p.data }
+      else data = await generate(MODEL, prompt)
+      if (!data) throw new Error('no image data')
+      writeFileSync(path.join(OUT_DIR, `${key}.png`), Buffer.from(data, 'base64'))
+      results.ok.push(key)
+      console.log(`(${i + 1}/${run.length}) ✓ ${key}.png — "${word}"`)
+      break
+    } catch (e) {
+      const msg = String(e.message || e)
+      if (/exceeded its monthly spending cap|billing/i.test(msg)) {
+        console.log('\nSpending cap hit — stopping.'); results.failed.push({ key, err: msg.slice(0, 120) }); stop = true; break
+      }
+      // Quota 429: wait for the per-minute window to reset and retry the SAME image.
+      if (/429|RESOURCE_EXHAUSTED|quota/i.test(msg) && attempt < MAX_RETRY) {
+        console.log(`(${i + 1}/${run.length}) …quota, waiting ${Math.round(QUOTA_WAIT / 1000)}s and retrying (${attempt + 1}/${MAX_RETRY})`)
+        await sleep(QUOTA_WAIT); continue
+      }
+      results.failed.push({ key, err: msg.slice(0, 120) })
+      console.log(`(${i + 1}/${run.length}) ✗ ${key} — ${msg.slice(0, 120)}`)
+      break
+    }
   }
   await sleep(Number(process.env.PACE_MS || 1500))
 }
