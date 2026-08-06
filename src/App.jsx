@@ -1,23 +1,26 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { useStore } from './store'
-import SetupScreen from './screens/SetupScreen.jsx'
-import ProfilePickerScreen from './screens/ProfilePickerScreen.jsx'
-import HomeScreen from './screens/HomeScreen.jsx'
-import LearningScreen from './screens/LearningScreen.jsx'
-import SoundGameScreen from './screens/SoundGameScreen.jsx'
-import TwinModeScreen from './screens/TwinModeScreen.jsx'
-import ParentDashboard from './screens/ParentDashboard.jsx'
-import TodayScreen from './screens/TodayScreen.jsx'
-import CollectionScreen from './screens/CollectionScreen.jsx'
-import RestScreen from './screens/RestScreen.jsx'
-import ChantScreen from './screens/ChantScreen.jsx'
-import PhonicsGameScreen from './screens/PhonicsGameScreen.jsx'
-import PhraseScreen from './screens/PhraseScreen.jsx'
-import GridScreen from './screens/GridScreen.jsx'
-import ABCSongScreen from './screens/ABCSongScreen.jsx'
-import EchoScreen from './screens/EchoScreen.jsx'
-import SongScreen from './screens/SongScreen.jsx'
-import RoutineScreen from './screens/RoutineScreen.jsx'
+import HomeScreen from './screens/HomeScreen.jsx' // eager — the landing + fallback screen
+// The rest are code-split: each screen's JS loads on demand the first time it's opened
+// (then cached by the service worker), so the initial bundle stays small and Home paints
+// fast — the biggest win for slow devices.
+const SetupScreen = lazy(() => import('./screens/SetupScreen.jsx'))
+const ProfilePickerScreen = lazy(() => import('./screens/ProfilePickerScreen.jsx'))
+const LearningScreen = lazy(() => import('./screens/LearningScreen.jsx'))
+const SoundGameScreen = lazy(() => import('./screens/SoundGameScreen.jsx'))
+const TwinModeScreen = lazy(() => import('./screens/TwinModeScreen.jsx'))
+const ParentDashboard = lazy(() => import('./screens/ParentDashboard.jsx'))
+const TodayScreen = lazy(() => import('./screens/TodayScreen.jsx'))
+const CollectionScreen = lazy(() => import('./screens/CollectionScreen.jsx'))
+const RestScreen = lazy(() => import('./screens/RestScreen.jsx'))
+const ChantScreen = lazy(() => import('./screens/ChantScreen.jsx'))
+const PhonicsGameScreen = lazy(() => import('./screens/PhonicsGameScreen.jsx'))
+const PhraseScreen = lazy(() => import('./screens/PhraseScreen.jsx'))
+const GridScreen = lazy(() => import('./screens/GridScreen.jsx'))
+const ABCSongScreen = lazy(() => import('./screens/ABCSongScreen.jsx'))
+const EchoScreen = lazy(() => import('./screens/EchoScreen.jsx'))
+const SongScreen = lazy(() => import('./screens/SongScreen.jsx'))
+const RoutineScreen = lazy(() => import('./screens/RoutineScreen.jsx'))
 import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
@@ -122,7 +125,9 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <Screen />
+      <Suspense fallback={<div className="scene"><div className="scene-globe" /></div>}>
+        <Screen />
+      </Suspense>
       <UpdatePrompt />
       <CollectToast />
       {key === 'home' && activeProfileId && !onboarded && <Onboarding />}

@@ -1,10 +1,14 @@
-import { supabase } from './supabase'
+import { getSupabase, cloudConfigured } from './supabase'
 
 /*
  * Cloud sync (Part B). Offline-first: localStorage stays the source of truth for
  * the child UI; this layer mirrors the active parent's children + per-child
  * progress to Supabase so it survives a reinstall and follows them to a new
  * device. Sign-in is optional and lives in the (gated) Parent area.
+ *
+ * The Supabase client is loaded LAZILY (see supabase.js) — every function here
+ * resolves it via `await getSupabase()`, which returns null when cloud isn't
+ * configured, so the big library never enters the initial bundle.
  *
  * Reconciliation policy (pilot-simple, recovery-first):
  *  - Fresh magic-link SIGN-IN: if the cloud is empty, push this device's data up
@@ -47,6 +51,7 @@ const toChildRow = (uid, p, slot) => ({
 const fromChildRow = (r) => ({ id: r.id, name: r.name, ...(r.settings || {}) })
 
 async function uid() {
+  const supabase = await getSupabase()
   if (!supabase) return null
   const { data } = await supabase.auth.getUser()
   return data?.user?.id || null
@@ -54,6 +59,8 @@ async function uid() {
 
 // ---- pushes ----------------------------------------------------------------
 export async function pushChildren(profiles) {
+  const supabase = await getSupabase()
+  if (!supabase) return
   const id = await uid()
   if (!id) return
   const rows = profiles.filter((p) => !p.guest).map((p, i) => toChildRow(id, p, i + 1))
@@ -65,6 +72,8 @@ export async function pushChildren(profiles) {
 
 export async function pushProgress(childId, data) {
   if (!childId || childId === 'guest') return
+  const supabase = await getSupabase()
+  if (!supabase) return
   const id = await uid()
   if (!id) return
   const { error } = await supabase.from('progress').upsert({
@@ -78,6 +87,7 @@ export async function pushProgress(childId, data) {
 
 // ---- pull + reconcile ------------------------------------------------------
 async function pullAll() {
+  const supabase = await getSupabase()
   if (!supabase) return null
   const [{ data: children }, { data: progress }] = await Promise.all([
     supabase.from('children').select('*').order('slot'),
@@ -110,6 +120,8 @@ async function reconcile(store) {
 // the signup trigger, and ignoreDuplicates means an existing row (and its trial
 // clock) is never reset. RLS lets a parent insert only their own id.
 export async function ensureAccount() {
+  const supabase = await getSupabase()
+  if (!supabase) return null
   const id = await uid()
   if (!id) return null
   const { data: u } = await supabase.auth.getUser()
@@ -124,6 +136,7 @@ export async function ensureAccount() {
 
 // ---- auth actions (used by the Parent area) --------------------------------
 export async function signInWithEmail(email) {
+  const supabase = await getSupabase()
   if (!supabase) throw new Error('Cloud not configured')
   return supabase.auth.signInWithOtp({
     email,
@@ -132,6 +145,7 @@ export async function signInWithEmail(email) {
 }
 
 export async function signOut() {
+  const supabase = await getSupabase()
   if (supabase) await supabase.auth.signOut()
 }
 
@@ -139,6 +153,8 @@ export async function signOut() {
 // progress cascade away via the FK. The auth user itself can only be removed
 // server-side (admin), but all of the family's data is gone.
 export async function deleteCloudData() {
+  const supabase = await getSupabase()
+  if (!supabase) return
   const id = await uid()
   if (!id) return
   await supabase.from('accounts').delete().eq('id', id)
@@ -148,12 +164,13 @@ export async function deleteCloudData() {
 // ---- one-time wiring (called from App) -------------------------------------
 let started = false
 export function initCloud(store) {
-  if (!supabase || started) return
+  if (!cloudConfigured || started) return
   started = true
 
   // A magic link that's expired or already used redirects back with an error in
   // the URL hash (e.g. #error_code=otp_expired). Capture it for a friendly note
-  // in the Account area, then strip the hash so the URL stays clean.
+  // in the Account area, then strip the hash so the URL stays clean. (Sync — no
+  // client needed, so it happens before the library finishes loading.)
   try {
     const h = window.location.hash || ''
     if (/(?:^|[#&])(?:error|error_code)=/.test(h)) {
@@ -165,49 +182,54 @@ export function initCloud(store) {
     /* ignore */
   }
 
-  let reconciledFor = null
-  supabase.auth.onAuthStateChange(async (event, session) => {
-    store.getState().setSession(session || null)
-    if (!session?.user) {
-      store.getState().setAccount(null)
-      store.getState().setCloudStatus('idle')
-      return
-    }
-    store.getState().setAuthError(null) // a good session clears any stale-link note
-    store.getState().setCloudStatus('syncing')
-    try {
-      // Ensure the account row exists FIRST — children/progress FK to it, and the
-      // trial banner needs it. Show it immediately so the parent sees their trial.
-      store.getState().setAccount(await ensureAccount())
-      if (event === 'SIGNED_IN' && reconciledFor !== session.user.id) {
-        reconciledFor = session.user.id
-        await reconcile(store) // fresh login → recover/seed
-      } else {
-        await pushChildren(store.getState().profiles) // reload → keep cloud current
-      }
-      store.getState().setCloudStatus('synced')
-    } catch (e) {
-      console.warn('[cloud] sync failed', e?.message || e)
-      store.getState().setCloudStatus('error')
-    }
-  })
+  // Load the client (lazily), then wire auth + debounced sync.
+  getSupabase().then((supabase) => {
+    if (!supabase) return
 
-  // Debounced pushes while signed in (profiles + active child's progress).
-  let tp = null
-  let tg = null
-  store.subscribe((state, prev) => {
-    if (!state.session?.user) return
-    if (state.profiles !== prev.profiles) {
-      clearTimeout(tp)
-      tp = setTimeout(() => pushChildren(state.profiles), 800)
-    }
-    if (
-      state.progress !== prev.progress &&
-      state.activeProfileId &&
-      state.activeProfileId !== 'guest'
-    ) {
-      clearTimeout(tg)
-      tg = setTimeout(() => pushProgress(state.activeProfileId, state.progress), 800)
-    }
+    let reconciledFor = null
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      store.getState().setSession(session || null)
+      if (!session?.user) {
+        store.getState().setAccount(null)
+        store.getState().setCloudStatus('idle')
+        return
+      }
+      store.getState().setAuthError(null) // a good session clears any stale-link note
+      store.getState().setCloudStatus('syncing')
+      try {
+        // Ensure the account row exists FIRST — children/progress FK to it, and the
+        // trial banner needs it. Show it immediately so the parent sees their trial.
+        store.getState().setAccount(await ensureAccount())
+        if (event === 'SIGNED_IN' && reconciledFor !== session.user.id) {
+          reconciledFor = session.user.id
+          await reconcile(store) // fresh login → recover/seed
+        } else {
+          await pushChildren(store.getState().profiles) // reload → keep cloud current
+        }
+        store.getState().setCloudStatus('synced')
+      } catch (e) {
+        console.warn('[cloud] sync failed', e?.message || e)
+        store.getState().setCloudStatus('error')
+      }
+    })
+
+    // Debounced pushes while signed in (profiles + active child's progress).
+    let tp = null
+    let tg = null
+    store.subscribe((state, prev) => {
+      if (!state.session?.user) return
+      if (state.profiles !== prev.profiles) {
+        clearTimeout(tp)
+        tp = setTimeout(() => pushChildren(state.profiles), 800)
+      }
+      if (
+        state.progress !== prev.progress &&
+        state.activeProfileId &&
+        state.activeProfileId !== 'guest'
+      ) {
+        clearTimeout(tg)
+        tg = setTimeout(() => pushProgress(state.activeProfileId, state.progress), 800)
+      }
+    })
   })
 }

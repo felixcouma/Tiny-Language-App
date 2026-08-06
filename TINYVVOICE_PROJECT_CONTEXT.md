@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-06 17:45 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-06 22:41 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `892d317 Fix: Bedtime "Hug your bunny" — a child hugging a bunny, not two kids hugging`
 - `7e2ec70 Feat: baby-cry — real cartoon child-cry FX on the "Crying" verb`
 - `358bbc0 Docs: animation frames decided — leave as-is (premium pilot showed marginal payoff)`
 - `0e476b6 Feat: finish premium static re-render (Phases 12-14) + refresh-restore + finalize`
 - `397b8a3 Feat: premium Phase 11 (Describing/Feelings + content animals) + Bath/Park audio`
 - `8d4826c Feat: premium Phase 10 + Counting Mountain number cards + diverse family fixes`
-- `d00abbc Feat: Phase 2 C (Every Day with Pip) + premium image re-render (Phases 1-9)`
 <!-- AUTO:END -->
 
 ---
