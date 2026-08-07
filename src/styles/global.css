@@ -331,6 +331,32 @@ button {
   transform: translateY(3px);
   box-shadow: 0 2px 0 #d97e00, 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* Big call-to-action button (game + routine finales: "Play again" / "Another routine" /
+   "Home"). GLOBAL so it styles every screen — screens are code-split, so a shared class
+   defined in one screen's CSS would vanish on the others. */
+.big-btn {
+  min-height: 60px;
+  padding: 0 26px;
+  border-radius: 28px;
+  background: #fff;
+  border: 3px solid #fff;
+  color: var(--text-dark);
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1), 0 8px 14px rgba(0, 0, 0, 0.15);
+}
+.big-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.big-btn.primary {
+  background: linear-gradient(180deg, #ff9a3d, #ff6a00);
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
+}
+
 .chunky.arrow {
   width: 62px;
   height: 56px;
