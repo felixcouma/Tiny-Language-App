@@ -29,6 +29,7 @@ import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODE
 import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 import { routineSayLines, routineTapWords } from '../src/data/routines.js'
+import { spokenTexts } from '../src/data/spokenPhrases.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -80,47 +81,13 @@ function voiceRows() {
   return items
 }
 
-/* ---- phrase rows (mirror gen-phrases.mjs) ---- */
-const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
-// MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (same strings → same clips).
-// fx-animals play the real recorded sound (no spoken onomatopoeia clip needed).
-const PROMPT_CUE = { Butterfly: 'Pretty wings', Turtle: 'Slow and steady' }
-function gamePrompts(item) {
-  const w = item.word.toLowerCase()
-  const out = []
-  if (item.soundLabel) out.push(hasFx(item.sound) ? `Where's the ${w}?` : `${PROMPT_CUE[item.word] || item.soundLabel}! Where's the ${w}?`)
-  else if (item.action) out.push(item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`)
-  else out.push(`Where's the ${w}?`)
-  out.push(`Yes! ${item.word}!`)
-  out.push(item.action ? `Try again. Which one is ${w}?` : `Try again. Find the ${w}.`)
-  return out
-}
+/* ---- phrase rows — the canonical spoken set (src/data/spokenPhrases.js), so gen-tts,
+   clean-orphan and the audio-coverage guard can never drift. ---- */
 function phraseRows() {
   const bySlug = new Map()
-  const add = (t) => { const s = slugify(t); if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: t }) }
-  for (const w of WORDS) add(w.word)
-  for (const w of CORE_BOARD) add(w) // AAC core board words (some aren't in WORDS)
-  routineSayLines().forEach(add) // Every Day with Pip — routine narration lines
-  routineTapWords().forEach(add) // routine tap-target words (incl. a few new ones: Bath/Soap/Towel)
-  for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) add(e.say || e.phrase) // §1.4: clip = the natural spoken sentence
-  for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach(add)
-  for (const world of WORLDS) {
-    if (!POOL_IDS.includes(world.id)) continue
-    for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach(add)
-  }
-  // Twin Mode: per-child name clips (spoken before a turn), the generic "Your turn!"
-  // cue for children without a name clip, and the shared finale line.
-  ;['Audrey,', 'Adriel,', 'Ezra,', 'Leila,', 'Ethan,', 'Your turn!', 'All done! Wonderful listening!'].forEach(add)
-  PRAISE.forEach(add) // rotating praise words spoken on a correct answer
-  PRAISE_TEMPLATES.forEach(add); PRAISE_LIGHT.forEach(add); add(RETRY_AGAIN); add(RETRY_MODEL) // labelled praise + errorless retry cues
-  // Single letters (Learning + Word Practice "starts with X" buttons play voice(letter)).
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(add)
-  // Phonics prompts ("Which one starts with D? Find the dog!") — mirror PhonicsGameScreen.
-  for (const world of WORLDS) {
-    if (!POOL_IDS.includes(world.id)) continue
-    for (const item of world.items) if (!item.portrait) {
-      add(`Which one starts with ${item.word[0].toUpperCase()}? Where's the ${item.word.toLowerCase()}?`)
-    }
+  for (const t of spokenTexts()) {
+    const s = slugify(t)
+    if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: t })
   }
   return [...bySlug.values()]
 }

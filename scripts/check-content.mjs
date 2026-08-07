@@ -5,6 +5,7 @@
 import { WORLDS, getWorld, photoWorlds } from '../src/data/content.js'
 import { runLanguageLint } from './lint-language.mjs'
 import { runCssScopeCheck } from './verify-css-scope.mjs'
+import { runAudioCoverageCheck } from './verify-audio-coverage.mjs'
 
 let errors = 0
 const fail = (msg) => {
@@ -65,6 +66,9 @@ errors += runLanguageLint({ fail, ok })
 // 7. CSS scope guard — no className used in one code-split screen but defined only in
 // another's CSS chunk (would render unstyled). See verify-css-scope.mjs.
 errors += runCssScopeCheck({ fail, ok })
+
+// 8. Audio coverage — every phrase the app speaks has a clip (else a silent chime).
+errors += runAudioCoverageCheck({ fail, ok })
 
 if (errors) {
   console.error(`\n${errors} problem(s) found.`)

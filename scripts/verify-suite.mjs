@@ -63,6 +63,11 @@ const run = async () => {
     if (b.status !== 0) { console.error('✗ build failed'); process.exit(1) }
   }
 
+  // Static bundle-size budget on the freshly-built entry chunk (perf-regression guard).
+  console.log('\n▶ verify-bundle-size.mjs')
+  const bs = spawnSync('node', [path.join(__dirname, 'verify-bundle-size.mjs')], { cwd: ROOT, stdio: 'inherit' })
+  if (bs.status !== 0) { console.error('✗ bundle-size over budget'); process.exit(1) }
+
   // 2. Serve the built app.
   console.log(`▶ starting preview server on ${URL} …`)
   const server = spawn(npm, ['run', 'preview', '--', '--port', String(PORT), '--strictPort'], {

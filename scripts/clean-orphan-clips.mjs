@@ -13,7 +13,7 @@ import path from 'node:path'
 import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../src/data/content.js'
 import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
-import { routineSayLines, routineTapWords } from '../src/data/routines.js'
+import { spokenTexts } from '../src/data/spokenPhrases.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SOUNDS = path.join(__dirname, '..', 'public', 'sounds')
@@ -22,42 +22,10 @@ const APPLY = process.argv.includes('--apply')
 const slugify = (t) =>
   String(t || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
 
-/* valid phrase slugs (must match gen-phrases.mjs) */
-const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
-// MUST mirror SoundGameScreen/TwinModeScreen buildPrompt (fx-animals play the real sound).
-const PROMPT_CUE = { Butterfly: 'Pretty wings', Turtle: 'Slow and steady' }
-function gamePrompts(item) {
-  const w = item.word.toLowerCase()
-  const out = []
-  if (item.soundLabel) out.push(hasFx(item.sound) ? `Where's the ${w}?` : `${PROMPT_CUE[item.word] || item.soundLabel}! Where's the ${w}?`)
-  else if (item.action) out.push(item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`)
-  else out.push(`Where's the ${w}?`)
-  out.push(`Yes! ${item.word}!`)
-  out.push(item.action ? `Try again. Which one is ${w}?` : `Try again. Find the ${w}.`)
-  return out
-}
+/* valid phrase slugs — the canonical spoken set (src/data/spokenPhrases.js), shared with
+   gen-tts + the audio-coverage guard so they can never drift apart. */
 const validPhrases = new Set()
-for (const w of WORDS) validPhrases.add(slugify(w.word))
-for (const w of CORE_BOARD) validPhrases.add(slugify(w)) // AAC core board words
-routineSayLines().forEach((t) => validPhrases.add(slugify(t))) // Every Day with Pip narration
-routineTapWords().forEach((t) => validPhrases.add(slugify(t))) // routine tap words (Bath/Soap/Towel)
-for (const size of Object.keys(PHRASES)) for (const e of PHRASES[size]) validPhrases.add(slugify(e.say || e.phrase)) // §1.4: valid slug = the spoken sentence
-for (const world of WORLDS) for (const item of world.items) (item.expand || []).forEach((t) => validPhrases.add(slugify(t)))
-for (const world of WORLDS) {
-  if (!POOL_IDS.includes(world.id)) continue
-  for (const item of world.items) if (!item.portrait) gamePrompts(item).forEach((t) => validPhrases.add(slugify(t)))
-}
-// Hardcoded spoken cues that aren't derived from content/phrases — keep them.
-;['Audrey,', 'Adriel,', 'Ethan', 'Ezra', 'Leila', 'Your turn!', 'All done! Wonderful listening!'].forEach((t) => validPhrases.add(slugify(t)))
-PRAISE.forEach((t) => validPhrases.add(slugify(t))) // rotating praise clips (correct-answer feedback)
-;[...PRAISE_TEMPLATES, ...PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL].forEach((t) => validPhrases.add(slugify(t))) // labelled praise + retry cues
-'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((t) => validPhrases.add(slugify(t))) // letter buttons
-for (const world of WORLDS) { // phonics "which one starts with X?" prompts
-  if (!POOL_IDS.includes(world.id)) continue
-  for (const item of world.items) if (!item.portrait) {
-    validPhrases.add(slugify(`Which one starts with ${item.word[0].toUpperCase()}? Where's the ${item.word.toLowerCase()}?`))
-  }
-}
+for (const t of spokenTexts()) validPhrases.add(slugify(t))
 
 /* valid voice keys (must match gen-audio.mjs): item.sound for any item with spoken text */
 const validVoice = new Set()
