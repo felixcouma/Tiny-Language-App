@@ -6,6 +6,8 @@ import { WORLDS, getWorld, photoWorlds } from '../src/data/content.js'
 import { runLanguageLint } from './lint-language.mjs'
 import { runCssScopeCheck } from './verify-css-scope.mjs'
 import { runAudioCoverageCheck } from './verify-audio-coverage.mjs'
+import { runAssetIntegrityCheck } from './verify-assets.mjs'
+import { runSettingsSyncCheck } from './verify-settings-sync.mjs'
 
 let errors = 0
 const fail = (msg) => {
@@ -69,6 +71,12 @@ errors += runCssScopeCheck({ fail, ok })
 
 // 8. Audio coverage — every phrase the app speaks has a clip (else a silent chime).
 errors += runAudioCoverageCheck({ fail, ok })
+
+// 9. Asset integrity — animation frames / routine images / fx files all exist.
+errors += runAssetIntegrityCheck({ fail, ok })
+
+// 10. Per-child settings sync — every cloud-synced setting is in the child seed.
+errors += runSettingsSyncCheck({ fail, ok })
 
 if (errors) {
   console.error(`\n${errors} problem(s) found.`)
