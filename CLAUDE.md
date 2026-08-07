@@ -11,7 +11,7 @@ mobile-first PWA). Live: https://felixcouma.github.io/Tiny-Language-App/
 ```bash
 npm install && npm run dev    # local dev (vite, port 5173; LAN-exposed)
 npm run build                 # prebuild runs `check`; emits dist/ + service worker
-npm run check                 # content integrity (7 worlds / item shapes / counting / colours / game pool)
+npm run check                 # content integrity + language lint + CSS-scope guard (see below)
 npm run preview               # serve the production build
 ```
 
@@ -34,6 +34,7 @@ TinyVoice is now a **therapist-driven pilot**: primary surface is **Vercel** (`t
 ## Tooling & reviews
 - **`tools/council/`** — a standalone "Agent Council" review tool (own `package.json`; Express + Anthropic SDK — kept OUT of the app's deps). `cd tools/council && npm install && npm start`. Its critiques are evaluated against the real code in **`docs/COUNCIL_REVIEW_RESPONSE.md`** (accept/reframe/decline) — treat council output as an outside-in view, not ground truth.
 - Backlog lives in **`docs/LEFT_TO_DO.md`** (numbered items, done/open status). Verify UI changes headlessly with the `scripts/verify-*.mjs` Playwright checks (each asserts 0 console errors); `npm install playwright --no-save` first (asset-gen installs prune it). **`npm run verify:ui`** is the regression suite — it builds, serves `vite preview`, and runs the checks as one pass/fail gate. `verify-actions.mjs` tests a **device × reduced-motion matrix** (a Reduce-Motion freeze once shipped unnoticed because the old test only ran motion-ON — don't remove that dimension).
+- **Code-split CSS gotcha + guard.** Screens are lazy-loaded (`React.lazy` in `App.jsx`), so each screen's CSS is its own chunk. A className used in screen A but **defined only in screen B's CSS** renders **unstyled** on A (this bit us once — `.big-btn` on the routine finale). Rule: a shared class goes in **`src/styles/global.css`**; a component's class lives in that component's own imported CSS. **`scripts/verify-css-scope.mjs`** (wired into `npm run check`) statically enforces this — it fails if a JSX file uses a class that's neither global nor in a CSS that file imports.
 
 ## Conventions (golden rules)
 - **No emoji, no synthetic placeholders** — real WebP illustrations + warm voice + real animal sounds.

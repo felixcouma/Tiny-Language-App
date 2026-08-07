@@ -1,0 +1,30 @@
+/* Language ladder chips (Ladder.jsx). Co-located with the component so the styles load
+   wherever Ladder renders (Learning AND Today) — not just the Learning code-split chunk.
+   `slide-up-fade` keyframe is global. */
+.l2-ladder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+  max-width: 360px;
+}
+.ladder-chip {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  color: var(--text-dark);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  animation: slide-up-fade var(--duration-normal) var(--easing-out) both;
+}
+.ladder-chip:active {
+  transform: scale(0.94);
+}
+@media (min-width: 700px) {
+  .l2-ladder {
+    max-width: 540px;
+  }
+}

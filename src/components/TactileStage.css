@@ -45,3 +45,21 @@
     display: none;
   }
 }
+/* The little "tap to hear" speaker overlaid on the card. Co-located with TactileStage so
+   it's styled wherever the stage renders (Learning + Today). `pulse` keyframe is global. */
+.card-speaker {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffd24d, #ffb01f);
+  border: 3px solid #fff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse 2.2s var(--easing-out) infinite;
+}

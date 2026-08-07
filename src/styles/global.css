@@ -357,6 +357,20 @@ button {
   box-shadow: 0 5px 0 #d35600, 0 8px 14px rgba(0, 0, 0, 0.2);
 }
 
+/* The tappable word + its bare-button wrapper — shared by the Learning stage and the
+   Today session (both code-split), so GLOBAL. */
+.l2-word-btn {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.l2-word {
+  font-size: var(--size-lg);
+  margin: var(--space-md) 0 4px;
+  text-align: center;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6);
+}
+
 .chunky.arrow {
   width: 62px;
   height: 56px;

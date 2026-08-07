@@ -62,27 +62,7 @@
   width: min(72vw, 280px);
   background: linear-gradient(180deg, #eafaff 0%, #ffffff 100%);
 }
-.card-speaker {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #ffd24d, #ffb01f);
-  border: 3px solid #fff;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-  animation: pulse 2.2s var(--easing-out) infinite;
-}
-.l2-word-btn {
-  background: none;
-  border: none;
-  padding: 0;
-}
+/* .card-speaker moved to TactileStage.css; .l2-word-btn to global.css (used in Today too). */
 /* A gentle marker when the current word is one a grown-up pinned as a focus/practice
    word — makes the therapy target legible without any score or pressure. */
 .l2-focus {
@@ -113,12 +93,7 @@
 .l2-letter:active {
   transform: scale(0.95);
 }
-.l2-word {
-  font-size: var(--size-lg);
-  margin: var(--space-md) 0 4px;
-  text-align: center;
-  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.6);
-}
+/* .l2-word moved to global.css (used in Today too). */
 
 /* Music Forest sound badge with equalizer */
 .music-badge {
@@ -161,29 +136,7 @@
   50% { transform: scaleY(1); }
 }
 
-/* language ladder */
-.l2-ladder {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-sm);
-  margin-top: var(--space-md);
-  max-width: 360px;
-}
-.ladder-chip {
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  color: var(--text-dark);
-  font-size: 15px;
-  font-weight: 700;
-  box-shadow: var(--shadow-sm);
-  animation: slide-up-fade var(--duration-normal) var(--easing-out) both;
-}
-.ladder-chip:active {
-  transform: scale(0.94);
-}
+/* language ladder → moved to components/Ladder.css (used in Learning + Today). */
 
 /* bottom play bar */
 .l2-playbar {
@@ -206,9 +159,6 @@
   }
   .l2-card .visual-stage {
     width: min(58vw, 380px);
-  }
-  .l2-ladder {
-    max-width: 540px;
   }
 }
 @media (min-width: 1024px) {

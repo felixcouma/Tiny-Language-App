@@ -1,4 +1,5 @@
 import { voice } from '../lib/audio'
+import './Ladder.css'
 
 /* Language Ladder: tap a phrase to hear it (word → sentence).
    Stage-aware: "first words" shows one gentle step; "sentences" shows all. */

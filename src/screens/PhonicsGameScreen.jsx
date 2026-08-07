@@ -1,5 +1,6 @@
 import ChoiceGame from '../components/ChoiceGame.jsx'
 import { WORLDS } from '../store'
+import './PhonicsGameScreen.css'
 
 // Photo-friendly pool (same as the listening game).
 const POOL = WORLDS.filter((w) =>

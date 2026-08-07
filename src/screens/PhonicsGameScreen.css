@@ -1,0 +1,19 @@
+/* Phonics prompt badge (the big letter shown above the tap tiles). PhonicsGameScreen
+   passes this as ChoiceGame's promptBadge; co-located here so the style loads with the
+   Phonics screen chunk instead of relying on the game chunk's CSS. `pulse` is global. */
+.phonics-letter {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ffd24d, #ffb01f);
+  border: 3px solid #fff;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s var(--easing-out) infinite;
+}
