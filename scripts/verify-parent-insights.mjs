@@ -32,10 +32,12 @@ const SEED = `
   localStorage.setItem('tv_progress_v1__child1', JSON.stringify({
     lastSeen: recent(['Lion','Zebra','Giraffe','Monkey','Elephant']),
     byWorld: { 'safari-island': 5, 'things-i-do': 2 },
+    week: { start: '', byWorld: { 'safari-island': 5, 'things-i-do': 2 }, wordsHeard: 12 },
   }));
   localStorage.setItem('tv_progress_v1__child2', JSON.stringify({
     lastSeen: recent(['Mommy']),
     byWorld: { 'home-village': 1 },
+    week: { start: '', byWorld: { 'music-forest': 3 }, wordsHeard: 4 },
   }));
 `
 
@@ -61,6 +63,14 @@ const run = async () => {
   await page.locator('.gate-input').fill(String(Number(m[1]) + Number(m[2])))
   await page.locator('.gate-go').click()
   await page.waitForSelector('.parent-main', { timeout: 5000 })
+
+  // A0) weekly narrative — "This week with Pip": one line per child, each naming the world
+  //     they explored most this rolling week (from progress.week.byWorld).
+  const week = page.locator('.gu-week')
+  ok((await week.count()) === 1, '"This week with Pip" weekly card is shown')
+  const weekText = (await week.textContent().catch(() => '')) || ''
+  ok(/Mia/.test(weekText) && /Safari Island/.test(weekText), `weekly: Mia loved Safari Island ("${weekText.trim()}")`)
+  ok(/Leo/.test(weekText) && /Music Forest/.test(weekText), 'weekly: Leo loved Music Forest')
 
   // A) twin divergence nudge
   const nudge = page.locator('.twin-nudge')

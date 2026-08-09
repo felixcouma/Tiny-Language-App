@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-07 18:18 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-09 04:40 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `cf2162f Test: asset-integrity + settings-sync guards (batch: #3/#5/#6)`
 - `ed9d608 Test: audio-coverage + game-prompt + bundle-size guards (kills 2 mirrors)`
 - `d2e761e Test+Fix: CSS-scope guard catches code-split style bugs — fixed 6 latent ones`
 - `37cf008 Fix: routine finale buttons unstyled after code-split — move .big-btn to global CSS`
 - `ab52d81 Feat: Bath routine redesign — logical order + variable "wash your ___" step`
 - `c7f9440 Perf: code-split screens + lazy-load Supabase — ~52% smaller initial JS`
-- `892d317 Fix: Bedtime "Hug your bunny" — a child hugging a bunny, not two kids hugging`
 <!-- AUTO:END -->
 
 ---

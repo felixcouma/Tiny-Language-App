@@ -18,7 +18,9 @@ real cry plays — a 1-clip ×3 regen; left as-is unless owner asks.)*
   - **B ✅ Lint Rule C** (function-word coverage) in `npm run check`.
   - **C ✅ "Every Day with Pip"** — 5 routines (Mealtime, Bedtime, Getting dressed, Bath, Park),
     tap-along + generous auto-advance, verb animations, fully voiced. `verify-routines.mjs` in suite.
-  - **D ⏳ Weekly parent narrative** — not started (parent-track, local weekly signal).
+  - **D ✅ Weekly parent narrative** — "This week with Pip" card in the Parent dashboard: one
+    line per child naming the world they explored most this rolling 7-day window. New local
+    `progress.week` signal (counts only; rides progress-sync). Tested in verify-parent-insights.
 - **Premium image re-render — ✅ COMPLETE (static images).** Every representational static image is
   now premium (soft cel-shading, richer palette — `gen-symbols.mjs` STYLE). Covered Social, Animals,
   Verbs, Food/Mealtime, People, Body/Clothes, Nature/Places/Toys, Things/Home/School,

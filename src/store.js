@@ -120,6 +120,7 @@ const emptyProgress = () => ({
   phrases: {}, // phrase -> count (Level 2 speech practice)
   abcSeen: {}, // letter -> count (ABC Songs; "mastered" = count >= 4)
   daily: { date: '', newWords: 0, phrases: 0, wordsHeard: 0 }, // today's counts (parent-facing line)
+  week: { start: '', byWorld: {}, wordsHeard: 0 }, // rolling 7-day counts (weekly parent narrative)
   firstUse: Date.now(),
   lastUse: Date.now(),
 })
@@ -139,6 +140,30 @@ function bumpDaily(daily, delta) {
     phrases: (base.phrases || 0) + (delta.phrases || 0),
     wordsHeard: (base.wordsHeard || 0) + (delta.wordsHeard || 0),
   }
+}
+
+// Rolling 7-day activity for the weekly parent narrative. Auto-resets once the window is a
+// week old (or the clock moved back). Counts only — no content, no fine timestamps.
+const dayKeyToDate = (k) => { const [y, m, d] = String(k).split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1) }
+function bumpWeek(week, { worldId, wordsHeard = 0 } = {}) {
+  const key = dayKey()
+  let base = week && week.start ? week : null
+  if (base) {
+    const elapsed = (dayKeyToDate(key) - dayKeyToDate(base.start)) / 86400000
+    if (!(elapsed >= 0 && elapsed < 7)) base = null // window rolled over (or clock moved back)
+  }
+  base = base || { start: key, byWorld: {}, wordsHeard: 0 }
+  const byWorld = { ...(base.byWorld || {}) }
+  if (worldId) byWorld[worldId] = (byWorld[worldId] || 0) + 1
+  return { start: base.start, byWorld, wordsHeard: (base.wordsHeard || 0) + wordsHeard }
+}
+
+// The world a child explored most in the current rolling week → { id, count } | null.
+// Exported for the Parent dashboard's weekly narrative.
+export function weeklyFavWorld(progress) {
+  const bw = progress?.week?.byWorld || {}
+  const top = Object.entries(bw).sort((a, b) => b[1] - a[1])[0]
+  return top && top[1] > 0 ? { id: top[0], count: top[1] } : null
 }
 
 function loadProgressFor(id) {
@@ -485,6 +510,7 @@ export const useStore = create((set, get) => ({
       p.collected = { ...p.collected, [item.word]: true }
       if (worldId) p.byWorld = { ...p.byWorld, [worldId]: (p.byWorld[worldId] || 0) + 1 }
       p.daily = bumpDaily(p.daily, { wordsHeard: 1, newWords: isNew ? 1 : 0 })
+      p.week = bumpWeek(p.week, { worldId, wordsHeard: 1 })
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return {
@@ -513,6 +539,7 @@ export const useStore = create((set, get) => ({
       p.seen = { ...p.seen, [word]: (p.seen[word] || 0) + 1 }
       p.lastSeen = { ...p.lastSeen, [word]: Date.now() }
       p.daily = bumpDaily(p.daily, { wordsHeard: 1, newWords: isNew ? 1 : 0 })
+      p.week = bumpWeek(p.week, { wordsHeard: 1 })
       p.lastUse = Date.now()
       saveJSON(progKey(s.activeProfileId), p)
       return { progress: p }

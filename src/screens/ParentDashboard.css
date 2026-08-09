@@ -76,6 +76,39 @@
   color: var(--gu-tangerine);
 }
 
+/* Weekly narrative — "This week with Pip" (Phase 2 D). */
+.gu-week {
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--bg-white);
+  border: 2px solid #cfe8ff;
+  box-shadow: 0 2px 8px rgba(40, 120, 255, 0.1);
+}
+.gu-week-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #2f7dd1;
+  margin-bottom: 4px;
+}
+.gu-week-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--gu-navy);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.gu-week-list b {
+  color: #2f7dd1;
+}
+.gu-week-empty {
+  margin: 0;
+  color: var(--text-gray);
+  font-size: 14px;
+}
+
 /* Quiet divider between the open everyday controls and the collapsed "more" group. */
 .panels-divider {
   margin: var(--space-lg) 0 var(--space-xs);

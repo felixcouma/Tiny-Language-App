@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useStore, getWorld, STAGES, WORLDS, FOCUS_MAX } from '../store'
+import { useStore, getWorld, weeklyFavWorld, STAGES, WORLDS, FOCUS_MAX } from '../store'
 import {
   STORYBOOK_VOICES,
   getStorybookVoice,
@@ -58,6 +58,8 @@ export default function ParentDashboard() {
           </div>
         </div>
         <PipSays />
+
+        <WeekWithPip />
 
         <ActiveChild />
 
@@ -221,6 +223,45 @@ function PipSays() {
         <>Pip says: pick a world together and let’s hear those first words!</>
       )}
     </p>
+  )
+}
+
+// Weekly narrative (Phase 2 D): a warm plain-language line on what each child loved most
+// this rolling week (from the local `week.byWorld` signal — counts only, never synced as a
+// separate field; rides the existing progress sync). One line per child.
+function WeekWithPip() {
+  const child = useStore((s) => s.activeProfile())
+  const childCount = useStore((s) => s.childCount)
+  const profiles = useStore((s) => s.profiles)
+  const progress = useStore((s) => s.progress)
+  const progressFor = useStore((s) => s.progressFor)
+  if (!child) return null
+
+  const lineFor = (name, pr) => {
+    const fav = weeklyFavWorld(pr)
+    const world = fav && getWorld(fav.id)?.name
+    return world ? { name, world } : null
+  }
+  const rows =
+    childCount === 2
+      ? profiles.filter((k) => !k.guest).slice(0, 2).map((k) => lineFor(k.name, progressFor(k.id) || {})).filter(Boolean)
+      : [lineFor(child.name, progress)].filter(Boolean)
+
+  return (
+    <div className="gu-week">
+      <div className="gu-week-title">This week with Pip</div>
+      {rows.length ? (
+        <ul className="gu-week-list">
+          {rows.map((r, i) => (
+            <li key={i}>
+              <b>{r.name}</b> loved <b>{r.world}</b>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="gu-week-empty">Play together this week and Pip will share what they loved most.</p>
+      )}
+    </div>
   )
 }
 
