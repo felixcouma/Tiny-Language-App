@@ -3,7 +3,42 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
-## Latest Session — 2026-08-03 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+## Latest Session — 2026-08-10 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
+
+> **Phase 2 complete (A/B/C/D) · full premium image re-render · perf · a regression-guard suite.**
+> - **SLP Phase 2 done.** **A** — a **Social / core-communication** category (16 words: Yes/No/More/
+>   All done/Okay/Please/Thank you/Hi/Bye/Mine/Again/Uh-oh/Wow/Sorry/Night-night/Yay), now the Word
+>   Practice landing, + a per-word **`fn`** (function-word) tag on all words. **B** — lint **Rule C**
+>   (function-word coverage) in `npm run check`. **C** — **Every Day with Pip**: 5 guided routine
+>   scenes (Mealtime, Bedtime, Getting dressed, Bath, Park) in `src/data/routines.js` +
+>   `RoutineScreen.jsx`, tap-along with a generous no-fail auto-advance, verb animations, fully voiced,
+>   incl. a **variable "wash your ___"** step (random body part each play). **D** — **"This week with
+>   Pip"** weekly parent narrative: a new local `progress.week` rolling-7-day signal → the world each
+>   child explored most (WeekWithPip card in the Parent dashboard; counts only, privacy-safe).
+> - **Premium image re-render — 100% of representational static art** to the premium house style (soft
+>   cel-shading, richer palette; `gen-symbols.mjs` STYLE), with **multi-ethnic** characters (auto
+>   skin-tone rotation + a diverse family: Black Mama/Dada, Asian Baby; Home-Village Mommy/Daddy + Bath
+>   **reuse** those images). Counting Mountain now shows premium **number cards 1–20** (ItemVisual).
+>   Colour swatches + number cards left flat by design. **Animation frames left as-is** (a throwaway
+>   premium pilot showed marginal payoff). Image cache bumped `tv-images-v2`→`v3`.
+> - **Performance.** Screens are `React.lazy` code-split and Supabase is lazy-loaded (`getSupabase()`),
+>   cutting **initial JS ~52%** (~148→~71 KB gzip). Entry-chunk budget guard added.
+> - **Regression guards** (all wired into `npm run check` / `verify:ui`), each caught a real latent
+>   bug: **css-scope** (a class used in one code-split screen but defined in another's chunk →
+>   unstyled; found the finale buttons + Ladder/word buttons broken in *Today*), **audio-coverage**
+>   (every spoken phrase has a clip, else a silent chime), **asset-integrity** (anim frames / routine
+>   images / fx files exist), **settings-sync** (cloud-synced per-child setting is seeded),
+>   **bundle-size**. Killed the 4-way game-prompt mirror + 2-way phrase-set mirror →
+>   `src/data/gamePrompt.js` + `src/data/spokenPhrases.js` (one source of truth).
+> - **Fixes.** Page **refresh now stays on the current screen** (per-tab `sessionStorage` nav +
+>   `verify-nav`); a real **cartoon baby-cry** on the Crying verb (`public/sounds/fx/cry.mp3`, played
+>   before the reassurance); Bedtime **"hug your bunny"** (new `do-hug-toy` animation of a child
+>   hugging a bunny, not two kids); Bath reordered (soap before wash).
+> - **Open:** Part C Stripe (deferred by owner); small tweaks (Bath wash count 1↔2; a diverse redo of
+>   the 16 light-skinned Social images); owner ear-checks (cry, routine/Bath clips). A focused
+>   **security review** of the session's changes came back **clean** (no findings).
+
+## Session — 2026-08-03 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Word Board vocab fill-out + game-audio overhaul + dev automation.** (Continues the 07-31 SLP work.)
 > - **Word Board vocab fill-out:** every fringe page now fills complete rows and the board is **4

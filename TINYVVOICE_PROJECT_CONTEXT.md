@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-09 04:40 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-10 19:31 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `e97a23f Feat: Phase 2 D — "This week with Pip" weekly parent narrative`
 - `cf2162f Test: asset-integrity + settings-sync guards (batch: #3/#5/#6)`
 - `ed9d608 Test: audio-coverage + game-prompt + bundle-size guards (kills 2 mirrors)`
 - `d2e761e Test+Fix: CSS-scope guard catches code-split style bugs — fixed 6 latent ones`
 - `37cf008 Fix: routine finale buttons unstyled after code-split — move .big-btn to global CSS`
 - `ab52d81 Feat: Bath routine redesign — logical order + variable "wash your ___" step`
-- `c7f9440 Perf: code-split screens + lazy-load Supabase — ~52% smaller initial JS`
 <!-- AUTO:END -->
 
 ---
@@ -89,6 +89,27 @@ sections (Build Status, Next Steps) are updated by hand each push.
   phrases" at session-end (game done + wind-down). Per-child daily bucket, not a child score.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
+
+### ✅ Done recently (2026-08)
+- **SLP Phase 2 complete (A/B/C/D).** **A** — a **Social / core-communication** Word-Practice page
+  (16 words) + a per-word **`fn`** function-word tag. **B** — lint **Rule C** (function-word coverage).
+  **C** — **Every Day with Pip**: 5 guided routine scenes (Mealtime/Bedtime/Getting dressed/Bath/Park;
+  `src/data/routines.js` + `RoutineScreen.jsx`), tap-along + no-fail generous auto-advance, verb
+  animations, fully voiced, with a variable "wash your ___" step. **D** — **"This week with Pip"**
+  weekly parent narrative (new local `progress.week` rolling-7-day signal; `weeklyFavWorld()`).
+- **Premium image re-render — 100% of representational static art** (soft cel-shading; `gen-symbols.mjs`
+  STYLE) with **multi-ethnic** characters (auto skin-tone rotation + diverse family; Home-Village
+  Mommy/Daddy + Bath reuse those images). Counting Mountain uses premium **number cards 1–20**. Colour
+  swatches + number cards stay flat by design; **animation frames left as-is** (pilot = marginal payoff).
+  Image cache bumped `tv-images-v2`→`v3`.
+- **Performance:** screens **`React.lazy` code-split** + Supabase **lazy-loaded** → initial JS **~52%**
+  smaller (~148→~71 KB gzip).
+- **Regression-guard suite** (in `npm run check` / `verify:ui`): **css-scope**, **audio-coverage**,
+  **asset-integrity**, **settings-sync**, **bundle-size** — each caught a real latent bug. The
+  game-prompt (4×) and spoken-phrase-set (2×) mirrors were consolidated into `src/data/gamePrompt.js`
+  + `src/data/spokenPhrases.js`.
+- **Fixes:** refresh **stays on the current screen** (per-tab nav); real **cartoon baby-cry** on the
+  Crying verb (`fx/cry.mp3`); Bedtime **"hug your bunny"** animation; §1.4 Phrase-Builder natural audio.
 
 ### ✅ Done recently (2026-07)
 - **"Things I Do" action animations — 28 verbs** (§7b): every verb now MOVES on the Learning stage.

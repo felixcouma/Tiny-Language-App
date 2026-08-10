@@ -28,17 +28,26 @@ browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
   Wrong taps are **errorless** — help escalates gently (repeat → narrow to two → model the answer)
   and it's accepted as success, never a fail. Twin Mode does **turn-taking** + a shared "you did it
   together!" finale
-- **Word Practice / Phrase Builder:** per-child stage — tap words, or build 2-/3-word phrases
+- **Word Practice / Phrase Builder:** per-child stage — tap words (incl. a **Social / core-
+  communication** page: yes, no, more, please, all done…), or build 2-/3-word phrases; cubes stay
+  telegraphic while the audio speaks the **natural sentence**
 - **Word Board (AAC):** a real communication board with **stable symbol positions** — a fixed Core
   page + position-stable category pages, 4-column grid, message strip (CLEAR keeps the board), plus a
   separate **Find** word-focus mode
+- **Every Day with Pip:** guided **routine scenes** (Mealtime · Bedtime · Getting dressed · Bath ·
+  Park) that model connected language — Pip narrates, one calm tap-along per step, no-fail auto-advance,
+  and verbs animate (a random "wash your ___" body part each bath)
 - **Letter Sounds** (phonics) · **Sing with Pip** (13 public-domain songs, a real transport
   player) · **Today with Pip** (adaptive session) · **Collection** · **Rest / screen-time**
 - **Multi-child profiles:** generic, **renamable** children; per-child progress, stage, voice,
   screen-time, bedtime, focus words & songs — all on the device
 - **Parent Dashboard:** gentle insight + settings (voice, **Wait time**, songs, focus words) in a
-  warm, colour-coded layout with collapsible panels (a Pip hero + a live "heard N words" line);
+  warm, colour-coded layout with collapsible panels (a Pip hero + a live "heard N words" line + a
+  **"This week with Pip"** narrative naming the world each child loved most this week);
   **optional** cloud sign-in (Supabase magic link) to back up & sync + a 30-day soft-trial
+- **Fast & installable:** screens are code-split and Supabase loads only on sign-in — small initial
+  JS for slow devices; a static guard suite (`npm run check`) keeps styles, audio clips, assets and
+  bundle size honest
 - **No scores, no streaks, no pressure** — gentle collection & celebration only
 
 ## Speech-first (the mission)
