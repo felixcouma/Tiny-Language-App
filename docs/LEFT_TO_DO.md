@@ -10,6 +10,20 @@ owner-provided, ~3.4s) BEFORE the warm "Crying! …It's okay." line, via `playIt
 reads as a convincing cartoon cry. *(Optional follow-up: drop the spoken "Boo hoo" now that a
 real cry plays — a 1-clip ×3 regen; left as-is unless owner asks.)*
 
+## 🧒 Baked child-name voices — ⬜ CODE DONE, awaiting clip generation (2026-08-17)
+The app now speaks children **by name** (Twin Mode turns, finale) from a baked catalog of
+**200 common US names** (100 boys + 100 girls) in `src/data/names.js` — the single source imported
+by `audio.js` (`hasNameClip`/`canSpeakName`), `spokenPhrases.js` (coverage/orphan) and the clip
+generator. Unknown names (the long tail) are spoken via the **premium runtime voice**
+(`src/lib/tts.js`, synth+cache) when configured, else shown but not chimed. **Blocked on generation:**
+`npm run check` fails on **195 missing name clips** (5 already exist) until the owner runs — on the
+GCP TTS credit, then ear-checks a sample:
+```bash
+node scripts/gen-tts-gcloud.mjs --kind names        # 195 × 3 voices → sounds/phrases + sounds/<voice>/phrases
+node scripts/clean-orphan-clips.mjs --apply          # (keeps them — names are in spokenTexts now)
+npm run check                                         # goes green once clips exist → commit
+```
+
 ## 📍 Phases remaining (at a glance) — updated 2026-08-06
 - **SLP Phase 1 (language) — ✅ DONE.** 1.4 / 1.8 / 1.9 plus the earlier language corrections,
   natural game prompts, labelled praise, errorless retry, real-fx sounds, Word Board AAC redesign.

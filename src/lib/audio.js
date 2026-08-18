@@ -13,6 +13,7 @@
 
 import { premiumEnabled, premiumSpeak, stopPremium } from './tts'
 import { FX_KEYS } from '../data/fxKeys.js'
+import { NAME_SET } from '../data/names.js'
 
 const BASE = import.meta.env.BASE_URL || '/'
 
@@ -226,12 +227,15 @@ export async function voiceSeq(parts) {
 // never a bare timer that races the voice. Used across games/auto-play.
 export const SETTLE_MS = 900
 
-// Child names we ship pre-rendered voice clips for (spoken BY NAME in Twin Mode).
-// Any other name is shown on screen but NOT spoken — a missing name clip must
-// never chime or use the device voice. Extend this set when new name clips are
-// generated (or wire on-demand name TTS for arbitrary names).
-export const NAME_CLIP_NAMES = new Set(['audrey', 'adriel', 'ezra', 'leila', 'ethan'])
-export const hasNameClip = (name) => NAME_CLIP_NAMES.has(String(name || '').trim().toLowerCase())
+// Child names we ship pre-rendered voice clips for (spoken BY NAME in Twin Mode,
+// praise, routines). The catalog lives in src/data/names.js so audio.js, the
+// coverage/orphan scripts and the clip generator can't drift.
+export const NAME_CLIP_NAMES = NAME_SET
+export const hasNameClip = (name) => NAME_SET.has(String(name || '').trim().toLowerCase())
+// Can we speak this name warmly at all? A baked clip, OR the optional premium
+// runtime voice (src/lib/tts.js) which synthesises + caches any name on demand.
+// When neither applies the caller shows the name but never chimes / device-voices it.
+export const canSpeakName = (name) => hasNameClip(name) || premiumEnabled()
 
 /* ---------------- Storybook voice (bundled premium recordings) ---------------- */
 // Warm, kid-friendly voices pre-rendered with Gemini TTS, shipped under

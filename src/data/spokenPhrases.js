@@ -2,13 +2,16 @@ import { WORLDS, PRAISE, PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODE
 import { WORDS, CORE_BOARD, PHRASES } from './phraseContent.js'
 import { routineSayLines, routineTapWords } from './routines.js'
 import { gamePrompts } from './gamePrompt.js'
+import { ALL_NAMES, nameCue } from './names.js'
 
 // Worlds whose items become listening-game / phonics rounds.
 export const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
 
-// Twin Mode cues that aren't content-derived (name clip before a turn, generic turn cue,
-// shared finale). Slugs (comma stripped) are what actually names the file.
-export const NAME_CUES = ['Audrey,', 'Adriel,', 'Ezra,', 'Leila,', 'Ethan,', 'Your turn!', 'All done! Wonderful listening!']
+// Twin Mode cues that aren't content-derived: a "calling" clip per baked child name
+// (src/data/names.js — comma stripped by slugify, so Name, → name.mp3), the generic
+// turn cue and the shared finale. The name catalog is the single source (audio.js +
+// the clip generator import it too).
+export const NAME_CUES = [...ALL_NAMES.map(nameCue), 'Your turn!', 'All done! Wonderful listening!']
 
 // EVERY phrase the app speaks via voice() that needs a pre-rendered clip — ONE source of
 // truth for the clip generator (gen-tts), the orphan cleaner (clean-orphan) AND the

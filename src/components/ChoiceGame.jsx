@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useStore } from '../store'
 import { PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../data/content'
-import { playCelebration, playChime, voice, voiceSeq, playFx, stopSpeaking, hasNameClip, SETTLE_MS } from '../lib/audio'
+import { playCelebration, playChime, voice, voiceSeq, playFx, stopSpeaking, canSpeakName, SETTLE_MS } from '../lib/audio'
 import { hasFx } from '../data/fxKeys.js'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
@@ -13,7 +13,7 @@ import './ChoiceGame.css'
 // Twin Mode turn audio: speak the child's name when we have a clip, otherwise a
 // warm generic "Your turn!" cue (never a chime/device voice for an unknown name).
 // null for solo games (no players) → just the prompt.
-const nameCue = (name) => (name ? (hasNameClip(name) ? name : 'Your turn!') : null)
+const nameCue = (name) => (name ? (canSpeakName(name) ? name : 'Your turn!') : null)
 
 const shuffle = (arr) => {
   const a = [...arr]
@@ -119,7 +119,7 @@ export default function ChoiceGame({
         setDone(true)
         setConfettiKey(Date.now()) // a second burst for the finale
         // Twin Mode → a shared, no-winner finale that names BOTH children.
-        const spokenNames = players ? players.slice(0, 2).filter(hasNameClip) : []
+        const spokenNames = players ? players.slice(0, 2).filter(canSpeakName) : []
         setTimeout(() => voiceSeq([...spokenNames, 'All done! Wonderful listening!']), 300)
       } else {
         setRound(nextRound)

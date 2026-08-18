@@ -14,6 +14,7 @@
  * Run (resumable, skips existing):
  *   node scripts/gen-tts-gcloud.mjs                 # voice clips: counting+family FIRST, then the rest
  *   node scripts/gen-tts-gcloud.mjs --kind phrases  # the phrase backlog (single Aoede folder)
+ *   node scripts/gen-tts-gcloud.mjs --kind names    # baked child-name clips (src/data/names.js, ×3 voices)
  *   node scripts/gen-tts-gcloud.mjs --voices aoede  # one voice only
  *   node scripts/gen-tts-gcloud.mjs --force         # regenerate existing
  *
@@ -30,6 +31,7 @@ import { hasFx } from '../src/data/fxKeys.js'
 import { WORDS, PHRASES, CORE_BOARD } from '../src/data/phraseContent.js'
 import { routineSayLines, routineTapWords } from '../src/data/routines.js'
 import { spokenTexts } from '../src/data/spokenPhrases.js'
+import { ALL_NAMES, nameCue } from '../src/data/names.js'
 import { ABC_SONGS, abcKey } from '../src/data/abcSongs.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -92,6 +94,17 @@ function phraseRows() {
   return [...bySlug.values()]
 }
 
+/* ---- child-name rows — baked "calling" clips (src/data/names.js), one per name,
+   into the same phrase folders as phraseRows so voice(name) finds them. ---- */
+function nameRows() {
+  const bySlug = new Map()
+  for (const n of ALL_NAMES) {
+    const s = slugify(n)
+    if (s && !bySlug.has(s)) bySlug.set(s, { key: s, text: nameCue(n) })
+  }
+  return [...bySlug.values()]
+}
+
 /* ---- ABC song rows (one warm clip per letter) ---- */
 function abcRows() {
   let rows = ABC_SONGS.map((s) => ({ key: abcKey(s.letter), text: s.lyric }))
@@ -121,7 +134,11 @@ async function synth(voiceFolder, text, key) {
 }
 
 /* ---- run ---- */
-let items = KIND === 'phrases' ? phraseRows() : KIND === 'abc-songs' ? abcRows() : voiceRows()
+let items =
+  KIND === 'phrases' ? phraseRows()
+  : KIND === 'names' ? nameRows()
+  : KIND === 'abc-songs' ? abcRows()
+  : voiceRows()
 // --only a,b : EXACT keys (works for every kind incl. phrases — regen just those clips).
 if (ONLY) { const set = new Set(ONLY.split(',').map((s) => s.trim())); items = items.filter((it) => set.has(it.key)) }
 if (MATCH) items = items.filter((it) => it.key.includes(MATCH)) // --match number- : targeted (re)gen
@@ -130,7 +147,8 @@ if (LIMIT) items = items.slice(0, LIMIT) // --limit N: generate only the first N
 // sounds/<voice>/phrases/ so the voice toggle can switch the WHOLE UI. Voice clips: sounds/<voice>/.
 const targets =
   KIND === 'abc-songs' ? [{ folder: 'abc-songs', voice: 'aoede' }] // one warm clip per letter
-  : KIND === 'phrases' ? VOICES.map((v) => ({ folder: v === 'aoede' ? 'phrases' : `${v}/phrases`, voice: v }))
+  : KIND === 'phrases' || KIND === 'names' // names live alongside phrases so voice(name) resolves
+    ? VOICES.map((v) => ({ folder: v === 'aoede' ? 'phrases' : `${v}/phrases`, voice: v }))
   : VOICES.map((v) => ({ folder: v, voice: v }))
 console.log(`kind=${KIND} mode=${MODE} model=${MODEL} folders=[${targets.map((t) => t.folder).join(', ')}] items=${items.length}`)
 
