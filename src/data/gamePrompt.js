@@ -9,6 +9,8 @@ export const PROMPT_CUE = { Butterfly: 'Pretty wings', Turtle: 'Slow and steady'
 // The single "find it" question the game speaks for an item.
 export function findPrompt(item) {
   const w = item.word.toLowerCase()
+  // Numbers read as "Where's the number three?" (not "Where's the three?").
+  if (String(item.sound || '').startsWith('number-')) return `Where's the number ${w}?`
   if (item.soundLabel) {
     // fx-animals: the game plays the REAL trumpet/oink/… → just ask the question.
     if (hasFx(item.sound)) return `Where's the ${w}?`

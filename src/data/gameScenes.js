@@ -13,10 +13,14 @@
  * clip generator + the coverage guard cover them.
  */
 import { WORLDS } from './content.js'
+import { findPrompt } from './gamePrompt.js'
 
 const ITEM = new Map() // sound key -> item
 const WORLD_OF = new Map() // sound key -> world id (the "type" for distractors)
-for (const w of WORLDS) for (const it of w.items) if (it.sound) { ITEM.set(it.sound, it); WORLD_OF.set(it.sound, w.id) }
+// Keep the FIRST occurrence: some animal keys (cow/dog/lion/bee/…) appear in both
+// Safari and Music Forest; overwriting would split a scene's distractor "type" across
+// two worlds. Safari precedes Music Forest, so first-wins keeps every animal one type.
+for (const w of WORLDS) for (const it of w.items) if (it.sound && !ITEM.has(it.sound)) { ITEM.set(it.sound, it); WORLD_OF.set(it.sound, w.id) }
 
 export const itemByKey = (k) => ITEM.get(k)
 
@@ -61,11 +65,46 @@ export const SCENES = [
     items: ['body-head', 'body-hair', 'body-eyes', 'body-ears', 'body-nose', 'body-mouth', 'body-teeth', 'body-hands', 'body-fingers', 'body-tummy', 'body-knees', 'body-feet', 'body-toes'],
     find: ['body-head', 'body-knees', 'body-toes', 'body-eyes', 'body-nose'],
   },
+  {
+    id: 'zoo',
+    title: 'The Zoo',
+    grad: 'linear-gradient(135deg,#26A69A 0%,#9CCC65 100%)',
+    // Wild counterpart to the Farm — every animal has a REAL recorded sound (roar/etc.).
+    intro: 'We’re going to the zoo! Let’s find the animals.',
+    outro: 'What a wild day at the zoo!',
+    items: ['lion', 'elephant', 'monkey', 'bear', 'zebra', 'wolf'],
+    find: ['lion', 'elephant', 'monkey', 'bear', 'zebra'],
+  },
+  {
+    id: 'counting',
+    title: '1, 2, 3!',
+    grad: 'linear-gradient(135deg,#1E90FF 0%,#87CEEB 100%)',
+    intro: 'Let’s count together! Can you find the numbers?',
+    outro: 'One, two, three — you found them! Hooray!',
+    items: ['number-1', 'number-2', 'number-3', 'number-4', 'number-5'],
+    find: ['number-1', 'number-2', 'number-3', 'number-4', 'number-5'],
+  },
+  {
+    id: 'fruits',
+    title: 'Fruits & Veggies',
+    grad: 'linear-gradient(135deg,#66BB6A 0%,#FFCA28 100%)',
+    intro: 'Let’s fill the basket! Find the fruits and veggies.',
+    outro: 'Yum! A basket full of good food!',
+    items: ['apple', 'banana', 'avocado', 'broccoli', 'carrot', 'cucumber'],
+    find: ['apple', 'banana', 'broccoli', 'carrot', 'cucumber'],
+  },
 ]
 
 // Every intro/outro line the scenes speak — exported so gen-tts + the audio-coverage
 // guard cover them (like NAME_CUES). One source of truth.
 export const SCENE_LINES = SCENES.flatMap((s) => [s.intro, s.outro])
+
+// The find-it question for every scene target — so the number prompts ("Where's the
+// number three?") and any other scene prompt are covered/generated. Most (Safari/Home/
+// Body/Doing targets) already exist from the base game; this de-dups by slug downstream.
+export const SCENE_PROMPTS = SCENES.flatMap((s) =>
+  s.find.map((k) => ITEM.get(k)).filter(Boolean).map((it) => findPrompt(it)),
+)
 
 const shuffle = (arr) => {
   const a = [...arr]
@@ -89,13 +128,11 @@ export function sceneDistractors(target, sceneItemKeys, count) {
   return picks
 }
 
-// Build a fresh session: always include the Farm (the showpiece) + one other scene,
-// order randomised, flattened to an ordered list of round-specs the game plays
-// start-to-finish with intro/outro beats.
+// Build a fresh session: 2 DISTINCT scenes picked at random, in random order — so play
+// never opens on the same scene twice in a row. Flattened to an ordered list of round-
+// specs the game plays start-to-finish with intro/outro beats.
 export function buildSession() {
-  const farm = SCENES.find((s) => s.id === 'farm')
-  const other = shuffle(SCENES.filter((s) => s.id !== 'farm'))[0]
-  const chosen = shuffle([farm, other].filter(Boolean))
+  const chosen = shuffle(SCENES).slice(0, 2)
   const rounds = []
   for (const scene of chosen) {
     scene.find.forEach((key, i) => {
