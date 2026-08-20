@@ -1,21 +1,18 @@
+import { useMemo } from 'react'
 import ChoiceGame from '../components/ChoiceGame.jsx'
-import { WORLDS } from '../store'
 import { findPrompt } from '../data/gamePrompt.js'
+import { buildSession } from '../data/gameScenes.js'
 
-// Items that reliably show a photo (skip colours, numbers, and family portraits).
-const POOL = WORLDS.filter((w) =>
-  ['safari-island', 'things-i-do', 'my-body', 'home-village'].includes(w.id),
-)
-  .flatMap((w) => w.items)
-  .filter((it) => !it.portrait)
-
+// The listening game runs as mini-scenes (Old MacDonald's Farm, Snack Time, At the
+// Park) so each round stays on-theme instead of a random bag. A fresh session is
+// built per mount (2 scenes; Farm always in, order randomised).
 export default function SoundGameScreen() {
+  const plan = useMemo(() => buildSession(), [])
   return (
     <ChoiceGame
-      pool={POOL}
+      plan={plan}
       title="Listening Game"
       grad="linear-gradient(135deg, #355c7d 0%, #6c5b7b 100%)"
-      rounds={8}
       choices={4}
       buildPrompt={findPrompt}
     />

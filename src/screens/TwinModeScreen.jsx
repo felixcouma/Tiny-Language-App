@@ -1,27 +1,22 @@
+import { useMemo } from 'react'
 import ChoiceGame from '../components/ChoiceGame.jsx'
-import { WORLDS, useStore } from '../store'
+import { useStore } from '../store'
 import { findPrompt } from '../data/gamePrompt.js'
+import { buildSession } from '../data/gameScenes.js'
 
-// Same photo-friendly pool as the listening game.
-const POOL = WORLDS.filter((w) =>
-  ['safari-island', 'things-i-do', 'my-body', 'home-village'].includes(w.id),
-)
-  .flatMap((w) => w.items)
-  .filter((it) => !it.portrait)
-
-// Turn-taking for two children. The two real profile names lead each prompt
-// ("Audrey, find the dog!"). On the original device that's still Audrey & Adriel;
-// on a fresh family's device it's whatever the grown-up named their children.
+// Turn-taking for two children, now over the same mini-scenes as the listening game —
+// the twins build the table / find Old MacDonald's animals together. The two real
+// profile names lead each prompt ("Audrey, find the cow!").
 export default function TwinModeScreen() {
   const players = useStore((s) =>
     s.profiles.filter((p) => !p.guest).slice(0, 2).map((p) => p.name),
   )
+  const plan = useMemo(() => buildSession(), [])
   return (
     <ChoiceGame
-      pool={POOL}
+      plan={plan}
       title="Twin Mode"
       grad="linear-gradient(135deg, #ff8c00 0%, #ff1493 100%)"
-      rounds={8}
       choices={3}
       buildPrompt={findPrompt}
       players={players.length >= 2 ? players : null}

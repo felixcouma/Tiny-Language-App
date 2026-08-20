@@ -3,6 +3,7 @@ import { useStore } from '../store'
 import { PRAISE_TEMPLATES, PRAISE_LIGHT, RETRY_AGAIN, RETRY_MODEL } from '../data/content'
 import { playCelebration, playChime, voice, voiceSeq, playFx, stopSpeaking, canSpeakName, SETTLE_MS } from '../lib/audio'
 import { hasFx } from '../data/fxKeys.js'
+import { sceneDistractors } from '../data/gameScenes.js'
 import ItemVisual from './ItemVisual.jsx'
 import Confetti from './Confetti.jsx'
 import TodayProgressLine from './TodayProgressLine.jsx'
@@ -47,12 +48,17 @@ export default function ChoiceGame({
   players = null,
   pickDistractors = null, // (target, pool, count) => items
   promptBadge = null, // (target) => node, shown in the prompt area
+  plan = null, // scene mode: ordered round-specs {target, sceneItems, scene, first, last}
 }) {
   const goHome = useStore((s) => s.goHome)
   const recordGame = useStore((s) => s.recordGame)
 
+  // In scene mode the plan drives the round count; otherwise the `rounds` prop does.
+  const totalRounds = plan ? plan.length : rounds
+
   const [round, setRound] = useState(0) // completed rounds
   const [target, setTarget] = useState(null)
+  const [promptText, setPromptText] = useState('') // the current question, shown on screen (matches the audio)
   const [tiles, setTiles] = useState([])
   const [wrongWord, setWrongWord] = useState(null)
   const [rightWord, setRightWord] = useState(null)
@@ -65,10 +71,16 @@ export default function ChoiceGame({
   const praiseIdx = useRef(Math.floor(Math.random() * PRAISE_TEMPLATES.length)) // rotate praise, varied start
 
   const player = players ? players[round % players.length] : null
+  const activeScene = plan && plan[round] ? plan[round].scene : null
+  const activeGrad = activeScene ? activeScene.grad : grad
 
-  // Speak a round's prompt: (twin name) → the REAL animal sound (fx-animals, so the
-  // child hears the actual trumpet/oink, not a spelled-out onomatopoeia) → the question.
-  const speakPrompt = async (item, namePart, roundIdx) => {
+  // Speak a round's prompt: (scene intro at a scene's first round) → (twin name) → the
+  // REAL animal sound (fx-animals, so the child hears the actual moo/oink, not a spelled-
+  // out onomatopoeia) → the question. `withIntro` is true only on the initial deal, so
+  // "Listen again" / retries never replay the scene intro.
+  const speakPrompt = async (item, namePart, roundIdx, withIntro = false) => {
+    const spec = plan ? plan[roundIdx] : null
+    if (withIntro && spec?.first && spec.scene.intro) await voice(spec.scene.intro)
     const name = nameCue(namePart)
     if (name) await voice(name)
     if (hasFx(item.sound)) await playFx(item.sound)
@@ -77,15 +89,24 @@ export default function ChoiceGame({
 
   const deal = useCallback(
     (roundIdx) => {
-      const t = pool[Math.floor(Math.random() * pool.length)]
-      // Homonym guard (§1.8): never put a food next to its same-named animal in one round
-      // (Chicken leg / Chicken, Fish fillet / Fish) — they'd say the same word. Keyed off the
-      // `food-` sound prefix, so only those pairs collide.
-      const hkey = (it) => String(it.sound || '').replace(/^food-/, '') || it.word.toLowerCase()
-      const distractors = pickDistractors
-        ? pickDistractors(t, pool, choices - 1)
-        : shuffle(pool.filter((p) => p.word !== t.word && hkey(p) !== hkey(t))).slice(0, choices - 1)
+      let t, distractors
+      if (plan) {
+        // Scene mode: fixed target from the plan, distractors drawn WITHIN the scene.
+        const spec = plan[roundIdx]
+        t = spec.target
+        distractors = sceneDistractors(t, spec.sceneItems, choices - 1)
+      } else {
+        t = pool[Math.floor(Math.random() * pool.length)]
+        // Homonym guard (§1.8): never put a food next to its same-named animal in one round
+        // (Chicken leg / Chicken, Fish fillet / Fish) — they'd say the same word. Keyed off the
+        // `food-` sound prefix, so only those pairs collide.
+        const hkey = (it) => String(it.sound || '').replace(/^food-/, '') || it.word.toLowerCase()
+        distractors = pickDistractors
+          ? pickDistractors(t, pool, choices - 1)
+          : shuffle(pool.filter((p) => p.word !== t.word && hkey(p) !== hkey(t))).slice(0, choices - 1)
+      }
       setTarget(t)
+      setPromptText(buildPrompt(t, { round: roundIdx })) // visible question — same string that's spoken
       setTiles(shuffle([t, ...distractors]))
       setWrongWord(null)
       setRightWord(null)
@@ -94,9 +115,9 @@ export default function ChoiceGame({
       answered.current = false
       attempts.current = 0
       const namePart = players ? players[roundIdx % players.length] : null
-      setTimeout(() => speakPrompt(t, namePart, roundIdx), 450)
+      setTimeout(() => speakPrompt(t, namePart, roundIdx, true), 450)
     },
-    [pool, choices, buildPrompt, players, pickDistractors],
+    [pool, choices, buildPrompt, players, pickDistractors, plan],
   )
 
   useEffect(() => {
@@ -115,7 +136,7 @@ export default function ChoiceGame({
     }
     const nextRound = round + 1
     const advance = () => {
-      if (nextRound >= rounds) {
+      if (nextRound >= totalRounds) {
         setDone(true)
         setConfettiKey(Date.now()) // a second burst for the finale
         // Twin Mode → a shared, no-winner finale that names BOTH children.
@@ -126,6 +147,10 @@ export default function ChoiceGame({
         deal(nextRound)
       }
     }
+    // Scene mode: on a scene's last round (but not the very end), Pip closes the scene
+    // ("Time to eat!") before the next scene's intro plays.
+    const spec = plan ? plan[round] : null
+    const outro = spec?.last && nextRound < totalRounds ? [spec.scene.outro] : []
     // Model → "Here — cow!"; otherwise labelled praise ("You found the" + "cow!"),
     // with a light interjection ~1 in 4. Chained to audio completion + a settle beat
     // so the word never gets cut off (a learner's pace, not a race).
@@ -139,7 +164,7 @@ export default function ChoiceGame({
           ? [PRAISE_LIGHT[Math.floor(i / 4) % PRAISE_LIGHT.length]]
           : [PRAISE_TEMPLATES[i % PRAISE_TEMPLATES.length], `${target.word}!`]
     }
-    setTimeout(() => voiceSeq(parts).then(() => setTimeout(advance, SETTLE_MS)), isModel ? 200 : 250)
+    setTimeout(() => voiceSeq([...parts, ...outro]).then(() => setTimeout(advance, SETTLE_MS)), isModel ? 200 : 250)
   }
 
   const onPick = (item) => {
@@ -196,13 +221,13 @@ export default function ChoiceGame({
               </div>
               <h2 className="done-title">You did it together!</h2>
               <p className="done-sub">
-                {players.slice(0, 2).join(' & ')} found all {rounds} — great teamwork!
+                {players.slice(0, 2).join(' & ')} found all {totalRounds} — great teamwork!
               </p>
             </>
           ) : (
             <>
               <h2 className="done-title">Wonderful listening!</h2>
-              <p className="done-sub">You found {rounds} of them.</p>
+              <p className="done-sub">You found {totalRounds} of them.</p>
             </>
           )}
           <TodayProgressLine />
@@ -221,12 +246,16 @@ export default function ChoiceGame({
 
   return (
     <div className="game">
-      <Header title={title} grad={grad} onExit={goHome} />
+      <Header title={title} grad={activeGrad} onExit={goHome} />
       <Confetti fireKey={confettiKey} />
 
       <div className="game-prompt">
-        {promptBadge && target && promptBadge(target)}
-        {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
+        <div className="prompt-tags">
+          {activeScene && <div className="scene-pill">{activeScene.title}</div>}
+          {promptBadge && target && promptBadge(target)}
+          {player && <div className="turn-pill">{player}&rsquo;s turn</div>}
+        </div>
+        {promptText && <div className="prompt-text">{promptText}</div>}
         <button
           className="hint-btn"
           onClick={() => target && speakPrompt(target, player, round)}
@@ -250,8 +279,8 @@ export default function ChoiceGame({
         ))}
       </div>
 
-      <div className="progress" aria-label={`${round} of ${rounds}`}>
-        {Array.from({ length: rounds }).map((_, i) => (
+      <div className="progress" aria-label={`${round} of ${totalRounds}`}>
+        {Array.from({ length: totalRounds }).map((_, i) => (
           <span key={i} className={`pip ${i < round ? 'on' : ''}`} />
         ))}
       </div>
