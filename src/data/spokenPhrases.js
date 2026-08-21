@@ -3,7 +3,7 @@ import { WORDS, CORE_BOARD, PHRASES } from './phraseContent.js'
 import { routineSayLines, routineTapWords } from './routines.js'
 import { gamePrompts } from './gamePrompt.js'
 import { ALL_NAMES, nameCue } from './names.js'
-import { SCENE_LINES, SCENE_PROMPTS } from './gameScenes.js'
+import { SCENE_LINES, SCENE_PROMPTS, SCENE_PRAISE } from './gameScenes.js'
 
 // Worlds whose items become listening-game / phonics rounds.
 export const POOL_IDS = ['safari-island', 'things-i-do', 'my-body', 'home-village']
@@ -33,6 +33,7 @@ export function spokenTexts() {
   NAME_CUES.forEach(add)
   SCENE_LINES.forEach(add) // mini-scene intro/outro lines (Old MacDonald / Snack / Park / …)
   SCENE_PROMPTS.forEach(add) // scene find-it prompts (covers number prompts not in the base pool)
+  SCENE_PRAISE.forEach(add) // praise word ("Cow!") for every pool item — any can be the target now
   PRAISE.forEach(add)
   PRAISE_TEMPLATES.forEach(add)
   PRAISE_LIGHT.forEach(add)

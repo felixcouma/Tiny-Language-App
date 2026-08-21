@@ -24,6 +24,10 @@ for (const w of WORLDS) for (const it of w.items) if (it.sound && !ITEM.has(it.s
 
 export const itemByKey = (k) => ITEM.get(k)
 
+// Each scene = a coherent POOL of items + how many `rounds` to play from it. Targets are
+// sampled at random from the pool every session (see buildSession), and the 3 distractors
+// are drawn fresh within the pool each round — so no two plays show the same cards, and a
+// deep pool (Farm 9, Counting 20) is fully used, not a fixed handful.
 export const SCENES = [
   {
     id: 'farm',
@@ -33,8 +37,8 @@ export const SCENES = [
     // moo/oink/quack before "Where's the cow?" — the song frames the whole scene.
     intro: 'Old MacDonald had a farm! Ee-eye-ee-eye-oh! Let’s find his animals.',
     outro: 'Ee-eye-ee-eye-oh! You found all the animals!',
+    rounds: 5,
     items: ['cow', 'duck', 'pig', 'horse', 'sheep', 'chicken', 'dog', 'cat', 'rooster'],
-    find: ['cow', 'duck', 'pig', 'horse', 'sheep'],
   },
   {
     id: 'snack',
@@ -42,8 +46,8 @@ export const SCENES = [
     grad: 'linear-gradient(135deg,#FF8A65 0%,#FFD54F 100%)',
     intro: 'Let’s help set the table!',
     outro: 'Yummy! Time to eat!',
+    rounds: 5,
     items: ['apple', 'banana', 'home-milk', 'home-cup', 'home-spoon', 'cookie', 'juice', 'bread', 'egg', 'cheese', 'do-eating', 'do-drinking'],
-    find: ['apple', 'home-spoon', 'home-milk', 'do-eating', 'cookie'],
   },
   {
     id: 'park',
@@ -51,29 +55,28 @@ export const SCENES = [
     grad: 'linear-gradient(135deg,#4FC3F7 0%,#AED581 100%)',
     intro: 'Let’s play at the park!',
     outro: 'What fun! Time to go home.',
-    items: ['do-running', 'do-jumping', 'do-kicking', 'do-climbing', 'do-swimming'],
-    find: ['do-running', 'do-jumping', 'do-kicking', 'do-climbing'],
+    rounds: 5,
+    items: ['do-running', 'do-jumping', 'do-kicking', 'do-climbing', 'do-swimming', 'do-throwing', 'do-riding', 'do-playing'],
   },
   {
     id: 'body',
     title: 'Head to Toes',
     grad: 'linear-gradient(135deg,#FF6B6B 0%,#FFB6C6 100%)',
-    // Framed by "Head, Shoulders, Knees & Toes" — the body-parts counterpart to Old
-    // MacDonald. The find order follows the song for a familiar, singable arc.
+    // Framed by "Head, Shoulders, Knees & Toes" — the body-parts counterpart to Old MacDonald.
     intro: 'Head, shoulders, knees and toes! Let’s find them!',
     outro: 'Eyes and ears and mouth and nose! You found them all!',
+    rounds: 5,
     items: ['body-head', 'body-hair', 'body-eyes', 'body-ears', 'body-nose', 'body-mouth', 'body-teeth', 'body-hands', 'body-fingers', 'body-tummy', 'body-knees', 'body-feet', 'body-toes'],
-    find: ['body-head', 'body-knees', 'body-toes', 'body-eyes', 'body-nose'],
   },
   {
     id: 'zoo',
     title: 'The Zoo',
     grad: 'linear-gradient(135deg,#26A69A 0%,#9CCC65 100%)',
-    // Wild counterpart to the Farm — every animal has a REAL recorded sound (roar/etc.).
+    // Wild counterpart to the Farm — the mammals carry a REAL recorded sound (roar/etc.).
     intro: 'We’re going to the zoo! Let’s find the animals.',
     outro: 'What a wild day at the zoo!',
-    items: ['lion', 'elephant', 'monkey', 'bear', 'zebra', 'wolf'],
-    find: ['lion', 'elephant', 'monkey', 'bear', 'zebra'],
+    rounds: 5,
+    items: ['lion', 'elephant', 'monkey', 'bear', 'zebra', 'wolf', 'snake', 'turtle'],
   },
   {
     id: 'counting',
@@ -81,8 +84,8 @@ export const SCENES = [
     grad: 'linear-gradient(135deg,#1E90FF 0%,#87CEEB 100%)',
     intro: 'Let’s count together! Can you find the numbers?',
     outro: 'One, two, three — you found them! Hooray!',
-    items: ['number-1', 'number-2', 'number-3', 'number-4', 'number-5'],
-    find: ['number-1', 'number-2', 'number-3', 'number-4', 'number-5'],
+    rounds: 5,
+    items: Array.from({ length: 20 }, (_, i) => `number-${i + 1}`), // full 1–20 pool
   },
   {
     id: 'fruits',
@@ -90,8 +93,8 @@ export const SCENES = [
     grad: 'linear-gradient(135deg,#66BB6A 0%,#FFCA28 100%)',
     intro: 'Let’s fill the basket! Find the fruits and veggies.',
     outro: 'Yum! A basket full of good food!',
+    rounds: 5,
     items: ['apple', 'banana', 'avocado', 'broccoli', 'carrot', 'cucumber'],
-    find: ['apple', 'banana', 'broccoli', 'carrot', 'cucumber'],
   },
 ]
 
@@ -99,12 +102,12 @@ export const SCENES = [
 // guard cover them (like NAME_CUES). One source of truth.
 export const SCENE_LINES = SCENES.flatMap((s) => [s.intro, s.outro])
 
-// The find-it question for every scene target — so the number prompts ("Where's the
-// number three?") and any other scene prompt are covered/generated. Most (Safari/Home/
-// Body/Doing targets) already exist from the base game; this de-dups by slug downstream.
-export const SCENE_PROMPTS = SCENES.flatMap((s) =>
-  s.find.map((k) => ITEM.get(k)).filter(Boolean).map((it) => findPrompt(it)),
-)
+// Since ANY pool item can now be a target, every pool item's find-it question AND its
+// praise word ("Cow!") must have a clip — else a random target would chime. These feed
+// gen-tts + the coverage guard (de-duped by slug); most already exist from the base game.
+const SCENE_ITEMS = [...new Set(SCENES.flatMap((s) => s.items))].map((k) => ITEM.get(k)).filter(Boolean)
+export const SCENE_PROMPTS = SCENE_ITEMS.map((it) => findPrompt(it))
+export const SCENE_PRAISE = SCENE_ITEMS.map((it) => `${it.word}!`)
 
 const shuffle = (arr) => {
   const a = [...arr]
@@ -135,10 +138,10 @@ export function buildSession() {
   const chosen = shuffle(SCENES).slice(0, 2)
   const rounds = []
   for (const scene of chosen) {
-    scene.find.forEach((key, i) => {
-      const target = ITEM.get(key)
-      if (!target) return
-      rounds.push({ target, sceneItems: scene.items, scene, first: i === 0, last: i === scene.find.length - 1 })
+    const n = Math.min(scene.rounds || 5, scene.items.length)
+    const targets = shuffle(scene.items).slice(0, n).map((k) => ITEM.get(k)).filter(Boolean)
+    targets.forEach((target, i) => {
+      rounds.push({ target, sceneItems: scene.items, scene, first: i === 0, last: i === targets.length - 1 })
     })
   }
   return rounds
