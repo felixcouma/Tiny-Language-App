@@ -96,6 +96,26 @@ export const SCENES = [
     rounds: 5,
     items: ['apple', 'banana', 'avocado', 'broccoli', 'carrot', 'cucumber'],
   },
+  {
+    id: 'dance',
+    title: 'Dance Party',
+    grad: 'linear-gradient(135deg,#AB47BC 0%,#FF7043 100%)',
+    // Joyful action scene — "If you're happy and you know it": who's clapping/dancing/…?
+    intro: 'It’s a dance party! Let’s move and groove!',
+    outro: 'What a fun dance party!',
+    rounds: 5,
+    items: ['do-clapping', 'do-dancing', 'do-jumping', 'do-waving', 'do-hugging', 'do-laughing'],
+  },
+  {
+    id: 'morning',
+    title: 'Good Morning!',
+    grad: 'linear-gradient(135deg,#FFB74D 0%,#FFF176 100%)',
+    // "This is the way…" — the getting-ready routine as find-it (wake / brush / dress / eat).
+    intro: 'Good morning! Let’s get ready for the day.',
+    outro: 'All ready — let’s go!',
+    rounds: 5,
+    items: ['do-waking', 'do-brushing', 'do-getting', 'do-washing', 'do-eating'],
+  },
 ]
 
 // Every intro/outro line the scenes speak — exported so gen-tts + the audio-coverage
