@@ -52,9 +52,12 @@ present is thin. These three are parent-facing, cheap, and need nothing external
 
 ## 🟡 Sprint 2 — Frictionless return
 
-### 4. Sign-in friction: email OTP code + longer expiry
-- **What:** switch magic-link sign-in to a **6-digit email OTP code** (type the code — no "opened in
-  the wrong browser/phone" failure) and raise the OTP/link expiry (Supabase dashboard config).
+### 4. Sign-in friction: email OTP code + longer expiry — ⏸ DEFERRED until pilot feedback (owner, 2026-08-25)
+- **Decision:** don't pre-optimize sign-in friction. Ship the pilot first; if magic-link drop-off
+  actually shows up in feedback, build this then. (Persistent session already works, so the risk is
+  bounded — this only matters for first sign-in on a new device.)
+- **What (when triggered):** switch magic-link sign-in to a **6-digit email OTP code** (type the code
+  — no "opened in the wrong browser/phone" failure) and raise the OTP/link expiry (Supabase config).
 - **Why (I override the council here):** their "persistent session + PIN" fix is **already 90%
   done** — `supabase.js` has `persistSession: true` + `autoRefreshToken: true`, so on-device re-entry
   already works. The real residual friction is *first sign-in link expiry / wrong browser*, which a
