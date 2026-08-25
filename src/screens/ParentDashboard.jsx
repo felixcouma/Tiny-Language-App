@@ -63,6 +63,8 @@ export default function ParentDashboard() {
 
         <ActiveChild />
 
+        <ReadinessCard />
+
         <TrialBanner />
 
         <TwinNudge />
@@ -187,6 +189,35 @@ function Panel({ title, defaultOpen = false, accent, tint, children }) {
 }
 
 // Live "Pip says" line — connects the grown-up to the child's world with real data.
+// Readiness card — a celebratory, forward-looking nudge the moment the active child has a
+// working vocabulary and is still on single words. Framed as READINESS, never deficit; never
+// mentions another child (works the same for one child or two). Tapping turns on Phrase Builder
+// (the grown-up decides — we never switch automatically); the card then retires itself.
+function ReadinessCard() {
+  const child = useStore((s) => s.activeProfile())
+  const progress = useStore((s) => s.progress)
+  const setPhraseLevel = useStore((s) => s.setPhraseLevel)
+  if (!child) return null
+  const level = child.phraseLevel || 1
+  const n = distinctWordsHeard(progress)
+  if (level !== 1 || n < PHRASE_READY_AT) return null
+  const name = child.name
+
+  return (
+    <div className="gu-ready">
+      <p className="gu-ready-h">{name} is starting to put words together!</p>
+      <p className="gu-ready-p">
+        {name} has heard <b>{n} different words</b> — a lovely vocabulary. This week, try pairing
+        two of them in real moments, like <b>“more milk”</b> or <b>“big ball”</b>. Open Phrase
+        Builder whenever you’d like to practise together.
+      </p>
+      <button className="gu-ready-btn" onClick={() => setPhraseLevel(2)}>
+        Turn on Phrase Builder
+      </button>
+    </div>
+  )
+}
+
 // A Tip for Today — resolves to ONE specific word + a warm micro-action, tied to real
 // signals: the child's focus words first (parent-pinned therapy targets), else a word from
 // the world they loved most this week. Rotates once per day. Falls back to the general
@@ -528,9 +559,8 @@ function SpeechLevel() {
   if (!child) return null
   const level = child.phraseLevel || 1
   const phrasesExplored = Object.keys(phrases).length
-  // Gentle, parent-confirmed progression: suggest Phrase Builder once they have a
-  // working vocabulary. We never switch automatically — the grown-up decides.
-  const suggestPhrases = level === 1 && wordsHeard >= PHRASE_READY_AT
+  // The "ready for phrases" celebration now lives above the fold (ReadinessCard); this panel
+  // stays the plain level control. We never switch automatically — the grown-up decides.
 
   return (
     <>
@@ -541,18 +571,6 @@ function SpeechLevel() {
         For {child.name} — sets what “{level >= 2 ? 'Phrase Builder' : 'Word Practice'}” on
         the home screen shows. Advance levels when your speech therapist agrees.
       </p>
-
-      {suggestPhrases && (
-        <div className="phrase-suggest">
-          <p className="phrase-suggest-text">
-            {child.name} has heard <b>{wordsHeard}</b> different words — a lovely vocabulary
-            base. When your therapist agrees, they may be ready for two-word phrases.
-          </p>
-          <button className="phrase-suggest-btn" onClick={() => setPhraseLevel(2)}>
-            Move to Level 2 · Phrase Builder
-          </button>
-        </div>
-      )}
 
       <div className="voice-options">
         {PHRASE_LEVELS.map((l) => (

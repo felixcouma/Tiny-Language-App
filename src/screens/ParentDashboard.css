@@ -284,6 +284,44 @@
   font-weight: 800;
   color: #c98a00;
 }
+/* Readiness celebration — a warm, positive card above the fold when a child is ready
+   for phrases. Deliberately joyful (green), distinct from the yellow "tip" card. */
+.gu-ready {
+  margin: var(--space-md) 0 0;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #e3f7e8, #c8f0d4);
+  border: 2px solid #86d7a0;
+  animation: fade-scale-in var(--duration-normal) var(--easing-out);
+}
+.gu-ready-h {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1f7a45;
+  margin: 0 0 6px;
+}
+.gu-ready-p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #205234;
+  line-height: 1.55;
+}
+.gu-ready-p b {
+  font-weight: 800;
+  color: #14672f;
+}
+.gu-ready-btn {
+  width: 100%;
+  min-height: 48px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #2fae5f, #37c46b);
+  border: none;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+}
 .word-chips {
   display: flex;
   flex-wrap: wrap;
