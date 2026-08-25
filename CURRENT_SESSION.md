@@ -3,6 +3,35 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
+## Latest Session — 2026-08-25 · Branch `main` · Live on **Vercel** + **GitHub Pages**
+
+> **Speak-by-name + Listening-Game mini-scenes (the big one) + pilot/domain planning.**
+> - **Speak children by name.** 200 common US names (100 boys + 100 girls) baked to warm
+>   voice clips (×3 voices, 600) in `src/data/names.js` (single source → `audio.js`
+>   `hasNameClip`/`canSpeakName`, `spokenPhrases.js`, the generator). Twin Mode turns/finale +
+>   praise now say the child's name; the long tail falls to the premium runtime voice when
+>   configured, else "Your turn!" — never a chime. Serverless voice-matched option scoped in
+>   `docs/NAME_TTS_ONDEMAND.md`.
+> - **Listening Game & Twin Mode are now mini-scenes** (`src/data/gameScenes.js`, `ChoiceGame`
+>   `plan` mode). A session picks **2 of 13 scenes** at random, in random order; targets are
+>   **sampled from each scene's full pool** and distractors drawn within-scene, so cards vary
+>   every play. Scenes: Old MacDonald's Farm · The Zoo · Snack Time · Fruits & Veggies · At the
+>   Park · Head to Toes · 1-2-3! (numbers 1–20) · Dance Party · Good Morning! · **Bath Time ·
+>   Bedtime · Things That Go · Getting Dressed**. Two are song-anchored (Old MacDonald w/ real
+>   animal sounds; Head-Shoulders). The **active prompt shows on screen** ("Where's the cow?",
+>   matches the audio — a grown-up aid). The 4 object scenes reuse existing Word-Board images
+>   (registered as scene-only `EXTRA` items in gameScenes) → **zero new art**.
+> - **Coverage hardening.** Every scene item now self-covers its find-prompt AND praise word, so
+>   a random target never chimes — this also fixed several **base-game praise words** that were
+>   already silently chiming (chicken/eating/running/hands/knees/snake/shoes…). Coverage ~1575.
+> - **Tidies.** Crying verb drops the spoken "Boo hoo" (real cry FX carries it). `PHRASES_REVIEW.md`
+>   regenerated. Pamphlet + capabilities docs added (`docs/ONE_PAGER.md`,
+>   `docs/CAPABILITIES_AND_RECENT_CHANGES.md`, screenshots via `scripts/shoot-pamphlet.mjs`).
+> - **Planning (for discussion):** `docs/DOMAIN_AND_PILOT_TRACKING.md` — Cloudflare domain +
+>   invite-code device-cap anti-abuse + Web-Analytics/ledger/presence usage tracking.
+> - **Open:** decide domain/name-TTS specifics (see those docs); art-needing polish only if we
+>   want teddy/rocket/etc.; owner ear-checks on the new scene lines.
+
 ## Latest Session — 2026-08-10 · Branch `main` · Live on **Vercel** + **GitHub Pages** (both from `main`)
 
 > **Phase 2 complete (A/B/C/D) · full premium image re-render · perf · a regression-guard suite.**

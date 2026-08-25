@@ -10,19 +10,22 @@ owner-provided, ~3.4s) BEFORE the warm "Crying! …It's okay." line, via `playIt
 reads as a convincing cartoon cry. *(Optional follow-up: drop the spoken "Boo hoo" now that a
 real cry plays — a 1-clip ×3 regen; left as-is unless owner asks.)*
 
-## 🧒 Baked child-name voices — ⬜ CODE DONE, awaiting clip generation (2026-08-17)
-The app now speaks children **by name** (Twin Mode turns, finale) from a baked catalog of
-**200 common US names** (100 boys + 100 girls) in `src/data/names.js` — the single source imported
-by `audio.js` (`hasNameClip`/`canSpeakName`), `spokenPhrases.js` (coverage/orphan) and the clip
-generator. Unknown names (the long tail) are spoken via the **premium runtime voice**
-(`src/lib/tts.js`, synth+cache) when configured, else shown but not chimed. **Blocked on generation:**
-`npm run check` fails on **195 missing name clips** (5 already exist) until the owner runs — on the
-GCP TTS credit, then ear-checks a sample:
-```bash
-node scripts/gen-tts-gcloud.mjs --kind names        # 195 × 3 voices → sounds/phrases + sounds/<voice>/phrases
-node scripts/clean-orphan-clips.mjs --apply          # (keeps them — names are in spokenTexts now)
-npm run check                                         # goes green once clips exist → commit
-```
+## 🧒 Baked child-name voices — ✅ DONE (2026-08-17)
+The app speaks children **by name** (Twin Mode turns, finale, praise) from a baked catalog of
+**200 common US names** (100 boys + 100 girls) in `src/data/names.js` — single source for
+`audio.js` (`hasNameClip`/`canSpeakName`), `spokenPhrases.js` and the generator. **600 clips**
+generated (×3 voices). Unknown names use the **premium runtime voice** (`src/lib/tts.js`) when
+configured, else "Your turn!" — never a chime. *(Serverless voice-matched long-tail option is
+scoped in `docs/NAME_TTS_ONDEMAND.md` — awaiting a build decision.)*
+
+## 🎮 Listening-Game mini-scenes — ✅ DONE (2026-08-25)
+Listening Game + Twin Mode run **themed mini-scenes** (`src/data/gameScenes.js`, `ChoiceGame`
+`plan` mode): a session picks **2 of 13 scenes** at random/random-order; targets sampled from
+each scene's full pool, distractors within-scene, the active prompt shown on screen. Scenes:
+Farm (real animal sounds) · Zoo · Snack · Fruits & Veggies · Park · Head to Toes · 1-2-3!
+(1–20) · Dance Party · Good Morning! · Bath · Bedtime · Things That Go · Getting Dressed. Object
+scenes reuse Word-Board images as scene-only `EXTRA` items → no new art. **More scenes** just
+need a scene entry + intro/outro clips (art-needing extras: teddy, rocket, etc. — optional).
 
 ## 📍 Phases remaining (at a glance) — updated 2026-08-06
 - **SLP Phase 1 (language) — ✅ DONE.** 1.4 / 1.8 / 1.9 plus the earlier language corrections,
@@ -284,8 +287,8 @@ Source: `TinyVoice_SLP_Content_Working_Plan_FINAL`. Grading/response in `COUNCIL
   pipeline — slug stays on the blocks so existing clips don't orphan.
 - ⬜ **1.8 (rule half)** homonym game-pool rule: never co-place `food-chicken` + `chicken` (or
   `food-fish` + `fish`) in one choice array.
-- ⬜ **1.9** `list-phrases.mjs` wording ("articulation target" → pronunciation reference) + regenerate
-  `PHRASES_REVIEW.md`.
+- ✅ **1.9** `list-phrases.mjs` wording ("pronunciation reference … not an articulation target") +
+  `PHRASES_REVIEW.md` regenerated (2026-08-25).
 
 ### §S1 — Word Board = real AAC board — ✅ DONE (+ vocab fill-out)
 - Fixed **Core** page (`CORE_BOARD` in `phraseContent.js`), position-stable fringe pages, **CLEAR =

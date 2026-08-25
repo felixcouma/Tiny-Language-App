@@ -14,13 +14,14 @@
   *Current setup: Adriel → words, Audrey → phrases.*
 - **No scores, no failure.** A wrong tap gives a gentle "try again", never a penalty.
 
-**At a glance:** 270 core words · 54 two-word + 32 three-word phrase models · 140 learning items across 7 worlds.
+**At a glance:** 286 core words · 54 two-word + 32 three-word phrase models · 140 learning items across 7 worlds.
 
 ---
 
 ## 1. Core vocabulary — Word Practice / Phrase Builder / Word Board
-The functional single-word set the twins practise (270 words), grouped by category.
+The functional single-word set the twins practise (286 words), grouped by category.
 
+- **Social** (16): Yes, No, More, All done, Okay, Please, Thank you, Hi, Bye, Mine, Again, Uh-oh, Wow, Sorry, Night-night, Yay
 - **Move** (16): Go, Run, Kick, Throw, Catch, Jump, Climb, Slide, Push, Pull, Spin, Bend, Ride, Roll, Skip, Hop
 - **Play** (16): Play, Sing, Dance, Laugh, Hug, Kiss, Clap, Blow, Read, Peek, Hide, Find, Open, Close, Wave, Shake
 - **Everyday** (16): Eat, Sleep, Stop, Help, Come, Sit, Stand, Look, Cry, Splash, Pick, Drop, Pour, Drink, Turn, Stretch

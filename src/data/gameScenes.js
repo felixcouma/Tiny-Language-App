@@ -16,11 +16,20 @@ import { WORLDS } from './content.js'
 import { findPrompt } from './gamePrompt.js'
 
 const ITEM = new Map() // sound key -> item
-const WORLD_OF = new Map() // sound key -> world id (the "type" for distractors)
 // Keep the FIRST occurrence: some animal keys (cow/dog/lion/bee/…) appear in both
-// Safari and Music Forest; overwriting would split a scene's distractor "type" across
-// two worlds. Safari precedes Music Forest, so first-wins keeps every animal one type.
-for (const w of WORLDS) for (const it of w.items) if (it.sound && !ITEM.has(it.sound)) { ITEM.set(it.sound, it); WORLD_OF.set(it.sound, w.id) }
+// Safari and Music Forest; overwriting would swap in the wrong item object.
+for (const w of WORLDS) for (const it of w.items) if (it.sound && !ITEM.has(it.sound)) ITEM.set(it.sound, it)
+
+// Scene-only items: Word Board words that already ship an image (public/images/<key>.webp,
+// found via item.sound) and a word clip, but aren't Learning-world items. `sound` = the
+// image/clip key, so ItemVisual renders the picture and praise ("Soap!") reuses the word clip.
+const EXTRA = {
+  soap: 'Soap', towel: 'Towel', moon: 'Moon', pyjamas: 'Pyjamas', star: 'Star', pillow: 'Pillow',
+  car: 'Car', bus: 'Bus', train: 'Train', boat: 'Boat', plane: 'Plane', bike: 'Bike',
+  motorcycle: 'Motorcycle', helicopter: 'Helicopter', truck: 'Truck',
+  shirt: 'Shirt', pants: 'Pants', hat: 'Hat', socks: 'Socks', dress: 'Dress', coat: 'Coat',
+}
+for (const [sound, word] of Object.entries(EXTRA)) if (!ITEM.has(sound)) ITEM.set(sound, { word, sound, color: '#8AA4C8' })
 
 export const itemByKey = (k) => ITEM.get(k)
 
@@ -47,7 +56,7 @@ export const SCENES = [
     intro: 'Let’s help set the table!',
     outro: 'Yummy! Time to eat!',
     rounds: 5,
-    items: ['apple', 'banana', 'home-milk', 'home-cup', 'home-spoon', 'cookie', 'juice', 'bread', 'egg', 'cheese', 'do-eating', 'do-drinking'],
+    items: ['apple', 'banana', 'home-milk', 'home-cup', 'home-spoon', 'cookie', 'juice', 'bread', 'egg', 'cheese'],
   },
   {
     id: 'park',
@@ -116,6 +125,46 @@ export const SCENES = [
     rounds: 5,
     items: ['do-waking', 'do-brushing', 'do-getting', 'do-washing', 'do-eating'],
   },
+  {
+    id: 'bath',
+    title: 'Bath Time',
+    grad: 'linear-gradient(135deg,#4FC3F7 0%,#B3E5FC 100%)',
+    // "Splish splash" — the rubber duck bobs along.
+    intro: 'Splish splash! Time for a bath.',
+    outro: 'All clean! Time to dry off.',
+    rounds: 5,
+    items: ['soap', 'towel', 'water', 'duck', 'home-bath'],
+  },
+  {
+    id: 'bedtime',
+    title: 'Bedtime',
+    grad: 'linear-gradient(135deg,#5C6BC0 0%,#9575CD 100%)',
+    // "Twinkle, twinkle, little star" — the wind-down scene.
+    intro: 'Twinkle, twinkle! Time for bed.',
+    outro: 'Night night. Sweet dreams!',
+    rounds: 5,
+    items: ['home-bed', 'home-book', 'moon', 'star', 'pyjamas', 'pillow'],
+  },
+  {
+    id: 'vehicles',
+    title: 'Things That Go',
+    grad: 'linear-gradient(135deg,#EF5350 0%,#FFA726 100%)',
+    // "The wheels on the bus" — a rich pool of things that go.
+    intro: 'Beep beep! Let’s find things that go.',
+    outro: 'Vroom vroom! What a ride!',
+    rounds: 5,
+    items: ['car', 'bus', 'train', 'boat', 'plane', 'bike', 'motorcycle', 'helicopter', 'truck'],
+  },
+  {
+    id: 'dressing',
+    title: 'Getting Dressed',
+    grad: 'linear-gradient(135deg,#26A69A 0%,#80CBC4 100%)',
+    // "This is the way we put on our clothes."
+    intro: 'Let’s get dressed! Find the clothes.',
+    outro: 'All dressed! You look great!',
+    rounds: 5,
+    items: ['shirt', 'pants', 'hat', 'socks', 'dress', 'coat', 'home-shoes'],
+  },
 ]
 
 // Every intro/outro line the scenes speak — exported so gen-tts + the audio-coverage
@@ -135,20 +184,12 @@ const shuffle = (arr) => {
   return a
 }
 
-// Distractors for a scene round: same type (world) as the target, from the scene's own
-// items first, topped up from that world's wider pool only if the scene runs short.
+// Distractors for a scene round: other items from the SAME scene (each scene is a single
+// coherent kind — all animals / all food / all actions / all objects — so any sibling is a
+// fair, on-theme distractor). Drawn fresh each round, so cards vary play to play.
 export function sceneDistractors(target, sceneItemKeys, count) {
-  const type = WORLD_OF.get(target.sound)
-  const inScene = sceneItemKeys
-    .map((k) => ITEM.get(k))
-    .filter((it) => it && it.sound !== target.sound && WORLD_OF.get(it.sound) === type)
-  let picks = shuffle(inScene).slice(0, count)
-  if (picks.length < count) {
-    const used = new Set([target.sound, ...picks.map((p) => p.sound)])
-    const pool = WORLDS.find((w) => w.id === type)?.items.filter((it) => it.sound && !it.portrait && !used.has(it.sound)) || []
-    picks = picks.concat(shuffle(pool).slice(0, count - picks.length))
-  }
-  return picks
+  const pool = sceneItemKeys.map((k) => ITEM.get(k)).filter((it) => it && it.sound !== target.sound)
+  return shuffle(pool).slice(0, count)
 }
 
 // Build a fresh session: 2 DISTINCT scenes picked at random, in random order — so play

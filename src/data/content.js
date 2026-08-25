@@ -68,7 +68,7 @@ const doing = [
   { word: 'Reading a book', wiki: 'Book', say: 'Reading a book! Turn the page!', expand: ["He's reading", 'Read a book', "He's reading his book"] },
   { word: 'Waving', wiki: 'Wave (gesture)', say: 'Waving! Hello, hello! Bye bye!', expand: ["She's waving", 'Wave hello', "She's waving to you"] },
   { word: 'Swimming', wiki: 'Swimming', say: 'Swimming! Splash and paddle!', expand: ["He's swimming", 'Swim fast', "He's swimming"] },
-  { word: 'Crying', wiki: 'Crying', say: "Crying! Boo hoo. It's okay.", expand: ["She's crying", 'So sad', "She's crying. She's sad"] },
+  { word: 'Crying', wiki: 'Crying', say: "Crying! It's okay.", expand: ["She's crying", 'So sad', "She's crying. She's sad"] },
   { word: 'Painting', wiki: 'Painting', say: 'Painting! Dab, dab, dab. Pretty colours!', expand: ["She's painting", 'Paint a picture', "She's painting a picture"] },
   { word: 'Throwing a ball', wiki: 'Throwing', say: 'Throwing a ball! Throw it high!', expand: ["He's throwing", 'Throw the ball', "He's throwing the ball"] },
   { word: 'Cooking', wiki: 'Cooking', say: 'Cooking! Stir, stir, stir. Yummy!', expand: ["He's cooking", 'Cook food', "He's cooking"] },
