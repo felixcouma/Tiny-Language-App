@@ -14,7 +14,7 @@
 The one thing all reviews + I agree on: the pedagogy is strong; the wrapper that keeps parents
 present is thin. These three are parent-facing, cheap, and need nothing external.
 
-### 1. Parent value-prop onboarding (before setup) — **START HERE**
+### 1. Parent value-prop onboarding (before setup) — ✅ SHIPPED (2026-08-25, `cae54cd`/`b2600b8`)
 - **What:** a 3-screen parent intro shown on a fresh device **before** "how many children?".
   Order (my call — lead *universal*, not Twin, so single-child families aren't alienated):
   1. **Universal:** "First words, out loud." — the warm-voice / speech-first promise.
@@ -79,6 +79,15 @@ present is thin. These three are parent-facing, cheap, and need nothing external
 - **Size: M** after decisions.
 
 ---
+
+## 🚦 GATE — before onboarding real families with cloud sign-in
+**Publish a Privacy Policy first.** By default the app collects nothing (fully local), but the
+optional cloud-sync path stores **parent email + child display name + progress** (Supabase). That
+makes a privacy policy necessary the moment a real family opts in — especially as a children's app
+(COPPA / GDPR-K). Draft scaffolded in **`docs/PRIVACY_AND_TERMS_DRAFT.md`** (accurate to the code) —
+fill placeholders, legal-review, render as an in-app page linked from the grown-ups area + the
+sign-in step. Full ToS defers to commercial; the privacy policy does **not**. **Do not invite real
+cloud sign-ups until this is live.**
 
 ## ⚪ Later / infra (real, not urgent — do when it bites)
 - **CDN asset offload** — the committed-binary repo grows; songs (~29 MB) first. Move `/sounds/`

@@ -98,13 +98,7 @@ export default function ParentDashboard() {
           </section>
         )}
 
-        <div className="gu-tip">
-          <p className="gu-tip-h">A Tip for Today</p>
-          <p className="gu-tip-p">
-            Sit together and copy the “Say it together” phrases aloud. Hearing <em>you</em> say
-            “big brown cow” is the most powerful part — the app just gets the conversation started.
-          </p>
-        </div>
+        <TipForToday />
 
         {/* Everyday controls — open by default. */}
         <Panel title="Learning Level" defaultOpen accent="var(--gu-purple)" tint="#f7f1ff">
@@ -193,6 +187,47 @@ function Panel({ title, defaultOpen = false, accent, tint, children }) {
 }
 
 // Live "Pip says" line — connects the grown-up to the child's world with real data.
+// A Tip for Today — resolves to ONE specific word + a warm micro-action, tied to real
+// signals: the child's focus words first (parent-pinned therapy targets), else a word from
+// the world they loved most this week. Rotates once per day. Falls back to the general
+// modelling tip when there's no signal yet. Reinforces the "say it, then wait" strategy the
+// whole app is built around (never a demand, never a score).
+function TipForToday() {
+  const child = useStore((s) => s.activeProfile())
+  const progress = useStore((s) => s.progress)
+  if (!child) return null
+  const name = child.name
+  const focus = (child.focusWords || []).filter(Boolean)
+  const day = Math.floor(Date.now() / 86400000) // rotates daily, stable within the day
+
+  let word = null
+  if (focus.length) {
+    word = focus[day % focus.length]
+  } else {
+    const fav = weeklyFavWorld(progress)
+    const w = fav && getWorld(fav.id)
+    const pool = (w?.items || []).map((i) => i.word).filter(Boolean)
+    if (pool.length) word = pool[day % pool.length]
+  }
+
+  return (
+    <div className="gu-tip">
+      <p className="gu-tip-h">A Tip for Today</p>
+      {word ? (
+        <p className="gu-tip-p">
+          Catch a real moment for <b>“{word}”</b> with {name} today — say it slowly, then{' '}
+          <b>pause</b> and let them have a turn. Hearing <em>you</em> say it is the most powerful part.
+        </p>
+      ) : (
+        <p className="gu-tip-p">
+          Sit together and copy the “Say it together” phrases aloud. Hearing <em>you</em> say
+          “big brown cow” is the most powerful part — the app just gets the conversation started.
+        </p>
+      )}
+    </div>
+  )
+}
+
 function PipSays() {
   const p = useStore((s) => s.progress)
   const child = useStore((s) => s.activeProfile())
