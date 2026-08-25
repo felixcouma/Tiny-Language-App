@@ -103,7 +103,7 @@ const objects = [
 
 // Common foods with "action talk" — the spoken script models a mealtime VERB
 // ("Chew the apple", "Drink your juice", "Let me feed you avocado") so the word is
-// learned in the act of eating/feeding, as the speech therapist recommended. Kept in
+// learned in the act of eating/feeding, following speech-therapy best practice. Kept in
 // Home Village (alongside Milk/Cup/Spoon) rather than a new world. Sound key = bare
 // word so the existing apple/banana/juice/bread… images are reused; the two that share
 // a name with a Safari animal (Chicken, Fish) get a `food-` key + a qualified word so

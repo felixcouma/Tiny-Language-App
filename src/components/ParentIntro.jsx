@@ -26,8 +26,8 @@ const SLIDES = [
   },
   {
     key: 'slp',
-    title: 'Built with speech therapists.',
-    body: 'Designed around how toddlers really learn language — gentle, no scores, no pressure. More than flash cards: warm words in the moments that matter.',
+    title: 'Rooted in speech-therapy principles.',
+    body: 'Designed around how toddlers really learn language — drawing on speech-therapy best practices, with no scores and no pressure. More than flash cards: warm words in the moments that matter.',
     accent: 'linear-gradient(135deg,#26A69A 0%,#80CBC4 100%)',
   },
 ]

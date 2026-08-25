@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-25 21:22 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-25 21:29 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `cae54cd Feat: parent value-prop onboarding before setup (NEXT_BUILDS Sprint 1 #1)`
 - `02389e9 Docs: NEXT_BUILDS action plan — parent-wrapper sprint + decisions + infra`
 - `76f7247 Docs: council response — 2026-08 Action Document (accept/reframe/decline)`
 - `551b698 Feat: add Fork + Plate (Home Village) and Gold (Rainbow Island); distinct Toes`
 - `4107bcc Fix: dynamic scene pairing (no reload) + body-part images + context-doc pass`
 - `cc53210 Docs: README + CLAUDE.md — speak-by-name + Listening-Game mini-scenes`
-- `b51fe27 Feat: 4 object scenes (Bath/Bedtime/Things That Go/Getting Dressed) + tidies`
 <!-- AUTO:END -->
 
 ---
