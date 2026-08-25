@@ -1,0 +1,78 @@
+/* Parent value-prop intro (pre-setup). Own classes (component-scoped) — no shared names,
+   so the css-scope guard stays happy. Warmer/taller card than the child Onboarding, with a
+   coloured hero band per slide. */
+.pintro-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #eaf6ff 0%, #f5fbff 60%, #fffdf7 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  z-index: 50; /* above the setup screen underneath */
+  animation: fade-scale-in var(--duration-normal) var(--easing-out);
+}
+.pintro-card {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 0 0 var(--space-xl);
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+}
+.pintro-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) 0 calc(var(--space-lg) + 6px);
+  transition: background var(--duration-normal) var(--easing-out);
+}
+.pintro-title {
+  font-size: var(--size-lg);
+  color: var(--text-dark);
+  margin: var(--space-lg) var(--space-lg) var(--space-sm);
+}
+.pintro-body {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-gray);
+  line-height: 1.55;
+  margin: 0 var(--space-lg) var(--space-lg);
+}
+.pintro-body b {
+  color: var(--text-dark);
+  font-weight: 800;
+}
+.pintro-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: var(--space-lg);
+}
+.pintro-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-light);
+  transition: transform var(--duration-fast) var(--easing-out), background var(--duration-fast);
+}
+.pintro-dot.on {
+  background: linear-gradient(135deg, #ff8c00, #ff1493);
+  transform: scale(1.2);
+}
+.pintro-next {
+  width: calc(100% - 2 * var(--space-lg));
+  min-height: 56px;
+  font-size: 19px;
+}
+.pintro-skip {
+  display: block;
+  margin: var(--space-sm) auto 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-gray);
+  background: none;
+  border: none;
+}

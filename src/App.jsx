@@ -24,6 +24,7 @@ const RoutineScreen = lazy(() => import('./screens/RoutineScreen.jsx'))
 import ParentGate from './components/ParentGate.jsx'
 import InstallHint from './components/InstallHint.jsx'
 import Onboarding from './components/Onboarding.jsx'
+import ParentIntro from './components/ParentIntro.jsx'
 import CollectToast from './components/CollectToast.jsx'
 import UpdatePrompt from './components/UpdatePrompt.jsx'
 import { addMinute, isRestTime } from './lib/screentime'
@@ -68,6 +69,8 @@ export default function App() {
   const activeProfileId = useStore((s) => s.activeProfileId)
   const gateFor = useStore((s) => s.gateFor)
   const onboarded = useStore((s) => s.onboarded)
+  const seenIntro = useStore((s) => s.seenIntro)
+  const finishIntro = useStore((s) => s.finishIntro)
   const passGate = useStore((s) => s.passGate)
   const closeGate = useStore((s) => s.closeGate)
   const openRest = useStore((s) => s.openRest)
@@ -130,6 +133,7 @@ export default function App() {
       </Suspense>
       <UpdatePrompt />
       <CollectToast />
+      {key === 'setup' && !seenIntro && <ParentIntro onDone={finishIntro} />}
       {key === 'home' && activeProfileId && !onboarded && <Onboarding />}
       {key === 'home' && onboarded && <InstallHint />}
       {gateFor && <ParentGate title={gateTitle} onPass={passGate} onCancel={closeGate} />}

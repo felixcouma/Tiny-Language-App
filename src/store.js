@@ -230,6 +230,7 @@ export const useStore = create((set, get) => ({
   authError: null, // a returned magic-link error code (e.g. 'otp_expired'), else null
 
   gateFor: null, // grown-up gate purpose: 'parent' | 'more' | null
+  seenIntro: loadJSON('tv_seen_intro', false), // parent value-prop shown once (pre-setup)
   onboarded: loadJSON('tv_onboarded', false),
   lastCollected: null, // { item, id } — drives the "new friend!" toast
 
@@ -469,6 +470,10 @@ export const useStore = create((set, get) => ({
   finishOnboarding: () => {
     saveJSON('tv_onboarded', true)
     set({ onboarded: true })
+  },
+  finishIntro: () => {
+    saveJSON('tv_seen_intro', true)
+    set({ seenIntro: true })
   },
 
   // ---- grown-up gate ----
