@@ -28,7 +28,7 @@ present is thin. These three are parent-facing, cheap, and need nothing external
 - **Assets:** Pip + existing art only. **Size: M.** No audio needed (parent reads it).
 - **Done when:** fresh device → 3 parent screens → setup → child coach-marks; returning device skips.
 
-### 2. Sharpen "A Tip for Today" → a specific daily word + micro-action
+### 2. Sharpen "A Tip for Today" → a specific daily word + micro-action — ✅ SHIPPED (`63bedb7`)
 - **What:** resolve the dashboard tip to ONE concrete thing tied to real signals — a word from the
   child's **`focusWords`** (parent-pinned therapy words) or the **weekly favourite world's** vocab,
   plus a tiny action: *"Try 'more' at snack today."* Fall back to the current strategy tip when no
@@ -39,7 +39,7 @@ present is thin. These three are parent-facing, cheap, and need nothing external
 - **Size: S.** **Done when:** a child with focus words sees a specific word+action; without, the
   warm generic tip.
 
-### 3. Per-child "readiness" card (Parent Dashboard)
+### 3. Per-child "readiness" card (Parent Dashboard) — ✅ SHIPPED (`0b954ec`) · Sprint 1 COMPLETE
 - **What:** when a child's `phraseLevel` / `progress.seen` shows they're ready to move word→phrase,
   a celebratory, forward-looking card: *"[Name] is starting to put words together — here's one thing
   to try this week."* **Never references a sibling.** Works for 1 *or* 2 children.
