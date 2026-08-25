@@ -214,3 +214,48 @@ Agreed revised order + where each stands:
    toddler app must be a **lightweight local/opt-in signal**, not third-party analytics — design that first.
 3. **Scope the weekly parent *narrative*** — one paragraph, therapy-parent voice, earned by the #2 data.
    The one net-new retention bet; not started (correctly gated behind measurement).
+
+---
+
+# Meeting — Action Document (2026-08-25)
+
+> Source: `TinyVoice_Council_Action_Document.MD`. Grounded against the running app; the council
+> again reviewed **without codebase access** (docs only — some snapshots were stale). Core thesis
+> (*differentiated pedagogy, thin product wrapper*) is fair and accepted. Verdicts below.
+
+## ✅ Accept (accurate, high-leverage)
+1. **3-screen onboarding value-prop before setup** — the #1 gap. Setup jumps straight to "how many
+   children?" with no SLP framing / Twin hook / warm-voice promise; `ONE_PAGER.md` exists but isn't
+   in-app. Cheapest high-impact retention lever. **Next up.**
+2. **Twin communication-stage divergence card** — `phraseLevel`/`progress.seen` already exist per
+   child; surface "Child A is ready for phrases — here's how to support Child B" (supportive, **not**
+   "behind"). Highest-value unbuilt clinical feature; on-brand (parent-facing, no score).
+3. **Magic-link friction** — the ~1hr single-use expiry is a real drop-off; extend the window /
+   smoother re-request.
+4. **On-demand TTS + CDN asset offload** — already scoped (`NAME_TTS_ONDEMAND.md`); the committed-
+   binary bloat + `--no-save` fragility critiques are valid **longer-term** items, not this sprint.
+
+## 🔁 Reframe (right worry, wrong premise or fix)
+- **"Surface a coaching headline / daily prompt"** — **largely already shipped:** an actionable
+  **"A Tip for Today"** card renders *above the fold* (`ParentDashboard.jsx:102`, before the panels /
+  "More settings" divider). Reframe from *build* → *sharpen* (one specific daily word/phrase). (The
+  separate "Say it at home" text at line 619 is inside a collapsed panel — that one could rise.)
+- **Stripe "red flag"** — reframed from *oversight* → *deliberate decision*. Billing is **binned for
+  this pilot** (owner, standing decision); the soft trial (banner only, child play never blocked) is
+  by design. No paywall this phase.
+
+## ❌ Decline (factually wrong, or conflicts with our principles)
+- **"Routine Scenes are invisible from home nav" / "move them into primary navigation"** — **factually
+  wrong.** `Every Day with Pip` is the **second chunky button on Home** (`HomeScreen.jsx:76`,
+  `home2-routines`). Already maximally discoverable; the whole "freeze new scenes until discoverable"
+  quality-gate rests on this false premise and is therefore void.
+- **"Communicative temptation" / withholding to force a request** — **declined on principle.** Conflicts
+  with our **no-pressure / no-fail** golden rule; the expectant-pause is our gentle, responsive version.
+  We will not add withholding mechanics.
+- **Stale-snapshot nits** — cache is `tv-{sounds,images}-v3` (they cited v2); coverage is **1,544**
+  clips (they cited 1,575). Minor, but flags a docs-not-app read.
+
+## Net
+Treat as a **strong nudge toward the product wrapper (onboarding + conversion signal)**. Discount the two
+"discoverability" actions (already shipped), hold the no-pressure line, and keep billing binned. A short
+reconsideration note was sent back to re-ground the council on the live app.
