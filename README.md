@@ -23,11 +23,14 @@ browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
   **speaks the word** in a warm voice, plus a **Language Ladder** (2-word → 3-word phrases)
 - **Animations:** "Things I Do" **verbs move** on the stage (calm key-pose loops) and all
   **13 songs animate** with a karaoke caption
-- **Listening Game & Twin Mode:** the prompt asks "Where's the …?" / "Who's …?" and plays the
-  **real recorded animal sound**; a correct tap gives **labelled praise** ("You found the cow!").
-  Wrong taps are **errorless** — help escalates gently (repeat → narrow to two → model the answer)
-  and it's accepted as success, never a fail. Twin Mode does **turn-taking** + a shared "you did it
-  together!" finale
+- **Listening Game & Twin Mode:** play runs as **themed mini-scenes** — a session picks 2 of
+  **13 scenes** (Old MacDonald's Farm · The Zoo · Snack Time · Fruits & Veggies · At the Park ·
+  Head to Toes · 1-2-3! · Dance Party · Good Morning! · Bath Time · Bedtime · Things That Go ·
+  Getting Dressed) so the four choices are always related, opened & closed by Pip. Targets are
+  sampled fresh each play, the **active prompt shows on screen** ("Where's the cow?", matching the
+  audio), and fx-animals play the **real recorded sound**. A correct tap gives **labelled praise**;
+  wrong taps are **errorless** (repeat → narrow to two → model the answer — never a fail). Twin
+  Mode does **turn-taking** + a shared "you did it together!" finale, and cheers each child **by name**
 - **Word Practice / Phrase Builder:** per-child stage — tap words (incl. a **Social / core-
   communication** page: yes, no, more, please, all done…), or build 2-/3-word phrases; cubes stay
   telegraphic while the audio speaks the **natural sentence**
@@ -40,7 +43,9 @@ browser — see [`docs/CODESPACES.md`](./docs/CODESPACES.md).
 - **Letter Sounds** (phonics) · **Sing with Pip** (13 public-domain songs, a real transport
   player) · **Today with Pip** (adaptive session) · **Collection** · **Rest / screen-time**
 - **Multi-child profiles:** generic, **renamable** children; per-child progress, stage, voice,
-  screen-time, bedtime, focus words & songs — all on the device
+  screen-time, bedtime, focus words & songs — all on the device. The app **speaks a child by name**
+  in the warm voice — **200 common names** are baked in, and any other name uses the optional
+  premium runtime voice (else a gentle "Your turn!", never a chime)
 - **Parent Dashboard:** gentle insight + settings (voice, **Wait time**, songs, focus words) in a
   warm, colour-coded layout with collapsible panels (a Pip hero + a live "heard N words" line + a
   **"This week with Pip"** narrative naming the world each child loved most this week);
