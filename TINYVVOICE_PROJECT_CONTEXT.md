@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-25 18:59 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-25 19:33 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `4107bcc Fix: dynamic scene pairing (no reload) + body-part images + context-doc pass`
 - `cc53210 Docs: README + CLAUDE.md — speak-by-name + Listening-Game mini-scenes`
 - `b51fe27 Feat: 4 object scenes (Bath/Bedtime/Things That Go/Getting Dressed) + tidies`
 - `7febebc Feat: two more listening-game scenes — Dance Party + Good Morning!`
 - `5a1812f Feat: scene targets sampled from full pool + Counting 1–20; pilot-tracking map`
 - `b2badbe Feat: 3 more listening-game scenes (Zoo, 1-2-3 Counting, Fruits & Veggies)`
-- `470465e Feat: Listening Game mini-scenes (Farm/Snack/Park/Body) + visible prompt`
 <!-- AUTO:END -->
 
 ---

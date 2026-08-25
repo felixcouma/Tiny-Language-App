@@ -92,6 +92,8 @@ const objects = [
   { word: 'Cup', wiki: 'Cup', say: 'A cup! For drinking. Sip, sip!', expand: ['My cup', 'Red cup', 'I want my cup'] },
   { word: 'Milk', wiki: 'Milk', say: 'Milk! Yummy white milk.', expand: ['More milk', 'Warm milk', 'I want milk'] },
   { word: 'Spoon', wiki: 'Spoon', say: 'A spoon! For eating. Scoop, scoop!', expand: ['My spoon', 'Big spoon', 'I eat with a spoon'] },
+  { word: 'Fork', wiki: 'Fork', say: 'A fork! For eating. Poke, poke!', expand: ['My fork', 'Little fork', 'I eat with a fork'] },
+  { word: 'Plate', wiki: 'Plate', say: 'A plate! For your food. Yum, yum!', expand: ['My plate', 'Full plate', 'Food on my plate'] },
   { word: 'Shoes', wiki: 'Shoe', say: 'Shoes! For your feet. Walk, walk!', expand: ['My shoes', 'New shoes', 'I put on shoes'] },
   { word: 'Ball', wiki: 'Ball', say: 'A ball! Bounce and roll!', expand: ['Big ball', 'Red ball', 'I throw the ball'] },
   { word: 'Bed', wiki: 'Bed', say: 'A bed! Cosy and soft. Night night!', expand: ['My bed', 'Soft bed', 'I sleep in my bed'] },
@@ -182,6 +184,7 @@ const colors = [
   C('Brown', '#8B4513', '/braʊn/', 'a brown bear', ['Brown bear', 'Brown cow', 'The bear is brown']),
   C('White', '#FFFFFF', '/waɪt/', 'white milk', ['White milk', 'White cloud', 'The milk is white']),
   C('Black', '#2C3E50', '/blæk/', 'the night sky', ['Black cat', 'Black shoe', 'The cat is black']),
+  C('Gold', '#D4AF37', '/ɡoʊld/', 'a shiny gold star', ['Gold star', 'Shiny gold', 'The star is gold']),
 ]
 
 // ---------- COUNTING MOUNTAIN (1–20, with quantity dots) ----------

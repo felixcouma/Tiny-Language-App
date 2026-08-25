@@ -145,7 +145,7 @@ const SUBJECT = {
   Eyes: 'a pair of big friendly cartoon eyes',
   Nose: 'an adorable cartoon child face with a cute little round button nose as the clear central focus, one fingertip gently touching the tip of the nose, sweet and friendly',
   Mouth: 'a cute smiling cartoon mouth with soft lips',
-  Toes: 'a cute cartoon bare foot showing five little wiggly toes',
+  Toes: 'a big friendly close-up of one cute cartoon foot where the FIVE little toes fill most of the frame and are the unmistakable focus, the toes wiggling with little motion lines, and a hand gently tickling and pointing at the toes to draw the eye — clearly the TOES, zoomed in, not the whole foot',
   // routine scene/summary images (multi-ethnic per the inclusivity convention above)
   'rt-mealtime':
     'a cute happy toddler with warm brown skin sitting on a little chair at a small table, a plate of food in front of them, holding a spoon up to their mouth, mid-bite and delighted',
