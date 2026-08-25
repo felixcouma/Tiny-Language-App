@@ -195,8 +195,13 @@ export function sceneDistractors(target, sceneItemKeys, count) {
 // Build a fresh session: 2 DISTINCT scenes picked at random, in random order — so play
 // never opens on the same scene twice in a row. Flattened to an ordered list of round-
 // specs the game plays start-to-finish with intro/outro beats.
+let lastPair = [] // scene ids used by the previous session — excluded so play never opens on the same two
 export function buildSession() {
-  const chosen = shuffle(SCENES).slice(0, 2)
+  const avoid = new Set(lastPair)
+  let candidates = SCENES.filter((s) => !avoid.has(s.id))
+  if (candidates.length < 2) candidates = SCENES // safety (never with 13 scenes)
+  const chosen = shuffle(candidates).slice(0, 2)
+  lastPair = chosen.map((s) => s.id)
   const rounds = []
   for (const scene of chosen) {
     const n = Math.min(scene.rounds || 5, scene.items.length)

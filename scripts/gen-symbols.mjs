@@ -129,7 +129,7 @@ const SUBJECT = {
   // routine props (Every Day with Pip)
   Spoon: 'a single cute baby spoon',
   Book: 'a single cute closed picture book with a colourful cover',
-  Teeth: 'a cheerful big smile showing clean white teeth with a toothbrush and a dab of toothpaste',
+  Teeth: 'a happy cartoon child with a big wide-open smile showing a full row of clean shiny white teeth — the teeth are the large, prominent central focus of the image; NO toothbrush, no toothpaste',
   // abstract words — prepositions / questions / time (Phase 11)
   Off: 'a red ball lifted up and away, off the top of a box',
   Want: 'a cute toddler reaching out with both open hands, wanting something, eager face',
@@ -141,9 +141,9 @@ const SUBJECT = {
   Can: 'a cute toddler flexing one arm with a proud can-do smile',
   Later: 'a friendly clock with an arrow curving forward to a later time',
   // body parts (iconic — kept neutral, not a full figure)
-  Head: 'a cute simple friendly cartoon head and face',
+  Head: 'a cute cartoon child patting the top of their round head with both hands, the whole rounded head is clearly the focus, neat short simple hair, big happy smile',
   Eyes: 'a pair of big friendly cartoon eyes',
-  Nose: 'a cute cartoon nose on a simple friendly face',
+  Nose: 'an adorable cartoon child face with a cute little round button nose as the clear central focus, one fingertip gently touching the tip of the nose, sweet and friendly',
   Mouth: 'a cute smiling cartoon mouth with soft lips',
   Toes: 'a cute cartoon bare foot showing five little wiggly toes',
   // routine scene/summary images (multi-ethnic per the inclusivity convention above)
@@ -206,8 +206,8 @@ const SUBJECT = {
   Shirt: 'a colourful t-shirt', Pants: 'a pair of blue pants', Hat: 'a cute sun hat', Socks: 'a pair of striped socks',
   // body
   Hand: 'a single open hand, palm forward', Foot: 'a single bare foot', Belly: 'a cartoon child with both hands on a round tummy',
-  Hair: 'a cartoon child face with a big head of hair on top; one hand raised to the top of the head with the index fingertip resting ON the hair and touching it — the fingertip is on the hair, NOT reaching up into the empty air above the head',
-  Ears: "a cartoon child's head facing forward with both ears large and clearly visible; a hand held out to the side beyond the edge of the head, to the right of the ear, one finger pointing sideways INWARD directly at the ear — clearly the ear, not the eye or cheek",
+  Hair: 'a cartoon child with big, full, lush distinctive styled hair as the unmistakable focus (lots of thick visible hair, clearly the main feature), one hand gently stroking and touching the hair on top of the head',
+  Ears: "a cartoon child's head facing forward with BOTH ears large and clearly visible, and BOTH hands raised symmetrically — the left index finger touching/pointing at the left ear and the right index finger touching/pointing at the right ear, one finger on each ear, showing the child has two ears",
   // around home
   Chair: 'a small wooden chair', Table: 'a small wooden table', Sofa: 'a cosy soft sofa', Window: 'a bright open window',
   Light: 'a glowing yellow lamp', Stairs: 'a small set of stairs', Rug: 'a colourful patterned rug', Pillow: 'a soft pillow',

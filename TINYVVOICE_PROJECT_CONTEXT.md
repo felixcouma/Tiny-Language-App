@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-25 18:37 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-25 18:59 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `cc53210 Docs: README + CLAUDE.md — speak-by-name + Listening-Game mini-scenes`
 - `b51fe27 Feat: 4 object scenes (Bath/Bedtime/Things That Go/Getting Dressed) + tidies`
 - `7febebc Feat: two more listening-game scenes — Dance Party + Good Morning!`
 - `5a1812f Feat: scene targets sampled from full pool + Counting 1–20; pilot-tracking map`
 - `b2badbe Feat: 3 more listening-game scenes (Zoo, 1-2-3 Counting, Fruits & Veggies)`
 - `470465e Feat: Listening Game mini-scenes (Farm/Snack/Park/Body) + visible prompt`
-- `46b1bb2 Docs: high-level capabilities, recent changes & premium re-imaging summary`
 <!-- AUTO:END -->
 
 ---
@@ -52,14 +52,19 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Learning screen** — picture stage, word, IPA, big "hear it" button (auto-speaks on arrival),
   and **Language Ladder** chips that speak 2-word → 3-word phrases (word → sentence). "Things I Do"
   **verbs animate** here (looped key-pose frames — see below).
-- **Listening Game** & **Twin Mode** — the prompt asks **"Where's the …?" / "Who's …?"** and plays the
-  **real recorded animal sound** (`fx/<key>.mp3`, `src/data/fxKeys.js`) for fx-animals instead of a
-  spelled-out onomatopoeia; non-fx animals speak a short cue. Correct → **labelled praise** ("You found
-  the cow!", a light interjection ~1 in 4). Wrong is **errorless** (`ChoiceGame.jsx`): help escalates —
+- **Listening Game** & **Twin Mode** — play runs as **themed mini-scenes** (`src/data/gameScenes.js`):
+  a session picks **2 of 13 scenes** at random, in random order (Farm · Zoo · Snack · Fruits & Veggies ·
+  Park · Head to Toes · 1-2-3! · Dance Party · Good Morning! · Bath · Bedtime · Things That Go · Getting
+  Dressed), so the four choices are always **related**, opened & closed by Pip. Targets are **sampled
+  from each scene's full pool** and distractors drawn **within-scene**, so cards vary every play; the
+  **active prompt shows on screen** ("Where's the cow?", matching the audio — a grown-up aid). The prompt
+  asks **"Where's the …?" / "Who's …?"** and plays the **real recorded animal sound** (`fx/<key>.mp3`,
+  `src/data/fxKeys.js`) for fx-animals. Correct → **labelled praise** ("You found the cow!", light
+  interjection ~1 in 4). Wrong is **errorless** (`ChoiceGame.jsx`, `plan` mode): help escalates —
   "Try again" → repeat the prompt → **narrow to two** (others fade + go inert) → **model** the answer
   ("Here — cow!") and accept as success; help fires only on the child's tap (no failure state, no
-  scores). Twin Mode does turn-taking (name clip when we have one — audrey/adriel/ezra/leila/ethan —
-  else a warm **"Your turn!"**) and a shared, **no-winner** "You did it together!" finale.
+  scores). Twin Mode runs the same scenes with turn-taking, cheers each child **by name** (see below),
+  and ends on a shared, **no-winner** "You did it together!" finale.
 - **Word Practice / Phrase Builder** — per-child stage (`phraseLevel`): tap words, or build 2-/3-word
   phrases (`src/data/phraseContent.js`, `PhraseScreen`). Readiness graduates a child from words →
   phrases at ~25 distinct words.
@@ -76,6 +81,10 @@ sections (Build Status, Next Steps) are updated by hand each push.
 - **Multi-child profiles** — **generic, renamable** children (fresh devices ask "how many
   children? 1 or 2" at setup; Twin Mode gates on 2); per-child progress, stage, voice, screen-time,
   bedtime, focus words & songs, all in localStorage. The original device keeps its AJ/AG twins.
+- **Speak children by name** — the app cheers a child **by name** in the warm voice (Twin turns/finale,
+  praise): **200 common US names** are baked (`src/data/names.js`, ×3 voices); any other name uses the
+  optional premium runtime voice (`src/lib/tts.js`), else a gentle **"Your turn!"** — never a chime.
+  `audio.js` `hasNameClip`/`canSpeakName` gate it.
 - **Optional cloud accounts (Part B)** — parents may sign in (Supabase **magic link**) to back up +
   **sync** each child's progress/settings across devices and run a **30-day soft-trial** (banner
   only; child play never blocked). Fully local when Supabase env is absent. `src/lib/{supabase,cloud}.js`.
@@ -89,6 +98,19 @@ sections (Build Status, Next Steps) are updated by hand each push.
   phrases" at session-end (game done + wind-down). Per-child daily bucket, not a child score.
 - **Mobile-first PWA** — phone-width column, safe-area aware, add-to-home-screen, auto-updating
   service worker, `prefers-reduced-motion`, screen wake-lock so the device won't sleep mid-play.
+
+### ✅ Done recently (2026-08, later)
+- **Speak-by-name.** 200 common US names (`src/data/names.js`) baked to warm clips (×3 voices) — Twin
+  turns/finale/praise say the child's name; long tail → premium runtime voice, else "Your turn!".
+- **Listening Game & Twin Mode → mini-scenes** (`src/data/gameScenes.js`, `ChoiceGame` `plan` mode):
+  **13 scenes**, 2 sampled per session (random order), targets drawn from each full pool, within-scene
+  distractors, on-screen prompt, Pip intro/outro, per-scene header colour. Two song-anchored (Old
+  MacDonald w/ real animal sounds; Head-Shoulders). Object scenes reuse Word-Board images as scene-only
+  `EXTRA` items (no new art). Coverage hardened so a random target never chimes (also fixed latent
+  base-game praise-word chimes). Crying verb dropped the spoken "Boo hoo" (real cry FX carries it).
+- **Docs/marketing:** one-pager pamphlet + capabilities summary + screenshot script
+  (`docs/ONE_PAGER.md`, `CAPABILITIES_AND_RECENT_CHANGES.md`, `scripts/shoot-pamphlet.mjs`); pilot
+  planning (`DOMAIN_AND_PILOT_TRACKING.md`, on-demand name TTS scope `NAME_TTS_ONDEMAND.md`).
 
 ### ✅ Done recently (2026-08)
 - **SLP Phase 2 complete (A/B/C/D).** **A** — a **Social / core-communication** Word-Practice page
@@ -137,13 +159,16 @@ sections (Build Status, Next Steps) are updated by hand each push.
 ```
 src/
 ├── data/content.js        # 7 worlds / 140 items (say text, IPA, ladder phrases, PRAISE)
-├── data/phraseContent.js  # speech-therapy vocab (221 words / tiers / categories) + phrase banks
+├── data/phraseContent.js  # speech-therapy vocab (266 words / tiers / categories) + phrase banks + CORE_BOARD
+├── data/gameScenes.js     # Listening-Game / Twin-Mode mini-scenes (13; buildSession, plan, EXTRA items)
+├── data/names.js          # 200 baked child names (speak-by-name; hasNameClip/canSpeakName source)
+├── data/gamePrompt.js + spokenPhrases.js # single-source game prompts + every voice()'d string (coverage)
 ├── data/songs.js          # "Sing with Pip" catalog (13 PD songs; tag / grad / animated flag)
 ├── data/songAnimations.js # per-song animation configs (poses / lyrics / cue seq / timing) → build()
 ├── data/actionAnimations.js # "Things I Do" verb loops (keyed by item.sound) → ActionAnimation.jsx
-├── lib/audio.js           # warm voice-clip playback (sayWord/voice/voiceSeq/playItem) + chime/celebration
+├── lib/audio.js           # warm voice-clip playback (sayWord/voice/voiceSeq/playItem, name clips) + chime
 ├── lib/images.js          # local-WebP-first resolver (→ Unsplash/Pexels/Wikimedia) + cache
-├── lib/                   # tts.js (dormant premium hook) · today.js · screentime.js · useWakeLock.js
+├── lib/                   # tts.js (premium runtime voice — name long-tail) · today.js · screentime.js · useWakeLock.js
 ├── store.js               # Zustand: router, profiles, progress, stage, gate, screen-time
 ├── components/            # WordPic, TactileStage, ItemVisual, Ladder, Mascot(Pip), Confetti, ChoiceGame,
 │                          # SongAnimation, ActionAnimation, Onboarding, InstallHint, UpdatePrompt, ParentGate, ErrorBoundary

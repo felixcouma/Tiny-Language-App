@@ -48,10 +48,23 @@ export default function ChoiceGame({
   players = null,
   pickDistractors = null, // (target, pool, count) => items
   promptBadge = null, // (target) => node, shown in the prompt area
-  plan = null, // scene mode: ordered round-specs {target, sceneItems, scene, first, last}
+  plan: planProp = null, // scene mode (static): ordered round-specs {target, sceneItems, scene, first, last}
+  buildPlan = null, // scene mode (dynamic): () => a fresh plan; regenerated on "Play again" so scenes vary
 }) {
   const goHome = useStore((s) => s.goHome)
   const recordGame = useStore((s) => s.recordGame)
+
+  // Scene plan: a fresh one from buildPlan() (regenerated each replay so the 2 scenes never
+  // repeat), else the static `plan` prop. Held in state (for render) + a ref (so deal/finish
+  // never read a stale plan mid-replay).
+  const [plan, setPlan] = useState(() => (buildPlan ? buildPlan() : planProp))
+  const planRef = useRef(plan)
+  const nextPlan = () => {
+    const p = buildPlan ? buildPlan() : planProp
+    planRef.current = p
+    setPlan(p)
+    return p
+  }
 
   // In scene mode the plan drives the round count; otherwise the `rounds` prop does.
   const totalRounds = plan ? plan.length : rounds
@@ -79,7 +92,7 @@ export default function ChoiceGame({
   // out onomatopoeia) → the question. `withIntro` is true only on the initial deal, so
   // "Listen again" / retries never replay the scene intro.
   const speakPrompt = async (item, namePart, roundIdx, withIntro = false) => {
-    const spec = plan ? plan[roundIdx] : null
+    const spec = planRef.current ? planRef.current[roundIdx] : null
     if (withIntro && spec?.first && spec.scene.intro) await voice(spec.scene.intro)
     const name = nameCue(namePart)
     if (name) await voice(name)
@@ -90,9 +103,10 @@ export default function ChoiceGame({
   const deal = useCallback(
     (roundIdx) => {
       let t, distractors
-      if (plan) {
+      const activePlan = planRef.current
+      if (activePlan) {
         // Scene mode: fixed target from the plan, distractors drawn WITHIN the scene.
-        const spec = plan[roundIdx]
+        const spec = activePlan[roundIdx]
         t = spec.target
         distractors = sceneDistractors(t, spec.sceneItems, choices - 1)
       } else {
@@ -117,7 +131,7 @@ export default function ChoiceGame({
       const namePart = players ? players[roundIdx % players.length] : null
       setTimeout(() => speakPrompt(t, namePart, roundIdx, true), 450)
     },
-    [pool, choices, buildPrompt, players, pickDistractors, plan],
+    [pool, choices, buildPrompt, players, pickDistractors],
   )
 
   useEffect(() => {
@@ -149,7 +163,7 @@ export default function ChoiceGame({
     }
     // Scene mode: on a scene's last round (but not the very end), Pip closes the scene
     // ("Time to eat!") before the next scene's intro plays.
-    const spec = plan ? plan[round] : null
+    const spec = planRef.current ? planRef.current[round] : null
     const outro = spec?.last && nextRound < totalRounds ? [spec.scene.outro] : []
     // Model → "Here — cow!"; otherwise labelled praise ("You found the" + "cow!"),
     // with a light interjection ~1 in 4. Chained to audio completion + a settle beat
@@ -202,6 +216,7 @@ export default function ChoiceGame({
   }
 
   const replay = () => {
+    nextPlan() // fresh scene pair (buildSession avoids repeating the previous two) — no page reload needed
     setRound(0)
     setDone(false)
     deal(0)
