@@ -44,7 +44,7 @@ export const ROUTINES = [
       { say: 'Brush your teeth.', tap: 'Teeth', anim: 'do-brushing' },
       { say: 'Read a book.', tap: 'Book', anim: 'do-reading' },
       { say: 'Hug your bunny.', tap: 'Hug', anim: 'do-hug-toy' },
-      { say: 'Sleep tight.', tap: 'Sleep', img: 'night-night' }, // premium sleeping child — moved to the end
+      { say: 'Night, night. Good night.', tap: 'Sleep', img: 'night-night' }, // premium sleeping child — moved to the end
     ],
   },
   {
@@ -81,7 +81,7 @@ export const ROUTINES = [
         ],
       },
       { say: 'Splash, splash!', tap: 'Splash' },
-      { say: 'All done! Time to dry off.', tap: 'Towel' },
+      { say: 'All done, use your towel to dry off.', tap: 'Towel' },
     ],
   },
   {
