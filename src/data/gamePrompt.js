@@ -6,6 +6,14 @@ import { hasFx } from './fxKeys.js'
 // clips generate (and not get pruned). Now there is nothing to drift.
 export const PROMPT_CUE = { Butterfly: 'Pretty wings', Turtle: 'Slow and steady' }
 
+// Plural nouns take "Where ARE the …?" not "Where's the …?" — grammatically correct
+// adult-model speech (the telegraphic phrase cubes stay simplified by design; only the
+// spoken prompts are corrected).
+const PLURAL = new Set([
+  'eyes', 'ears', 'hands', 'fingers', 'knees', 'toes', 'feet', 'teeth',
+  'socks', 'pants', 'pyjamas', 'shoes', 'glasses', 'stairs',
+])
+
 // The single "find it" question the game speaks for an item.
 export function findPrompt(item) {
   const w = item.word.toLowerCase()
@@ -18,7 +26,7 @@ export function findPrompt(item) {
   }
   // Actions can't be "found" — narrate the doer ("Who's jumping?").
   if (item.action) return item.word === 'Peekaboo' ? "Who's playing peekaboo?" : `Who's ${w}?`
-  return `Where's the ${w}?`
+  return PLURAL.has(w) ? `Where are the ${w}?` : `Where's the ${w}?`
 }
 
 // Every spoken string a game round can produce for an item (prompt + praise + retry) —

@@ -51,6 +51,17 @@ export default function ItemVisual({ item, kind = 'stage', paused = false }) {
     return <Portrait item={item} cls={cls} />
   }
 
+  // "Who's eating?" in the listening game shows the mealtime scene image (child seated at
+  // the table with food) rather than the eating-verb frame — clearer for the round. The big
+  // Learning stage keeps the animation (the verb wants to move).
+  if (item.sound === 'do-eating' && kind !== 'stage') {
+    return (
+      <div className={`${cls} visual-photo`} aria-label={item.word}>
+        <img src={`${PORTRAIT_BASE}images/rt-mealtime.webp`} alt={item.word} />
+      </div>
+    )
+  }
+
   // "Things I Do" verbs with an animation: MOVE on the big learning stage (a verb wants
   // motion); on the small game/choice cards show the first frame as a still, so grids and
   // game rounds stay light. No audio to sync — the loop is purely visual.
