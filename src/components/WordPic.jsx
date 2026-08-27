@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { imageKeyFor } from '../data/phraseContent'
+import { imageKeyFor, COLOR_HEX } from '../data/phraseContent'
 import { slugify } from '../lib/audio'
 import './WordPic.css'
 
@@ -20,6 +20,15 @@ const colourFor = (w) => {
 export default function WordPic({ word, variant = 'cell', label = true }) {
   const [failed, setFailed] = useState(false)
   if (!word) return null
+  // Colour words → a real coloured swatch (consistent size, shows the colour).
+  const hex = COLOR_HEX[word]
+  if (hex) {
+    return (
+      <span className={`wp wp-${variant} wp-swatch`} style={{ '--swatch': hex }} aria-label={`${word} colour`}>
+        {label && <span className="wp-swatch-label">{word}</span>}
+      </span>
+    )
+  }
   if (failed) {
     return (
       <span className={`wp wp-${variant} wp-tile`} style={{ '--tile': colourFor(word) }}>

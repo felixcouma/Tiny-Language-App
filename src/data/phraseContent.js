@@ -31,13 +31,17 @@ const TIER1 = {
   // Core communication — the highest-frequency social/regulatory words. These live on
   // the AAC Core board but were absent from Word Practice; a child browsing now meets
   // them too. First category = the Word Practice landing (communication before labels).
-  Social: ['Yes', 'No', 'More', 'All done', 'Okay', 'Please', 'Thank you', 'Hi', 'Bye', 'Mine', 'Again', 'Uh-oh', 'Wow', 'Sorry', 'Night-night', 'Yay'],
+  // Social = social NICETIES only (8). The core communication words (yes/no/more/all done/
+  // mine) now live on the AAC Core board (CORE_BOARD) rather than duplicating here; night-
+  // night retired (covered by Time "Night" + the bedtime routine).
+  Social: ['Okay', 'Please', 'Thank you', 'Hi', 'Bye', 'Uh-oh', 'Wow', 'Sorry'],
   Move: ['Go', 'Run'],
   Play: ['Play', 'Sing'],
   Everyday: ['Eat', 'Sleep', 'Stop', 'Help', 'Come', 'Sit', 'Stand', 'Look'],
   'Where words': ['In', 'On', 'Out', 'Up', 'Down', 'Here', 'There'],
   Things: ['Ball', 'Toy', 'Food', 'Water', 'Book', 'Car', 'Door', 'Bed'],
-  Animals: ['Dog', 'Cat'],
+  // Animals split into Farm + Wild so each fringe page is smaller → bigger tiles.
+  Farm: ['Dog', 'Cat'],
   People: ['Mama', 'Dada', 'Baby', 'Me', 'You', 'Friend', 'Boy', 'Girl', 'Sister', 'Brother', 'Grandma', 'Grandpa'],
   Feelings: ['Happy', 'Sad', 'Tired', 'Hurt'],
   Describing: ['Big', 'Small', 'Hot', 'Cold'],
@@ -52,8 +56,9 @@ const TIER2 = {
   Body: ['Hand', 'Foot', 'Head', 'Eyes', 'Nose', 'Mouth', 'Hair', 'Belly', 'Ears', 'Teeth', 'Knee', 'Toes'],
   'Around home': ['Chair', 'Table', 'Sofa', 'Window', 'Light', 'Stairs', 'Rug', 'Pillow'],
   Toys: ['Block', 'Train', 'Truck', 'Doll', 'Puzzle', 'Swing', 'Balloon', 'Music'],
-  Animals: ['Bird', 'Fish', 'Cow', 'Duck', 'Pig', 'Sheep', 'Horse'],
-  Colours: ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Brown', 'Black', 'White', 'Grey', 'Rainbow'],
+  Farm: ['Cow', 'Duck', 'Pig', 'Sheep', 'Horse', 'Bird'],
+  Wild: ['Fish'],
+  Colours: ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'Pink', 'Brown', 'Black', 'White', 'Grey', 'Gold'],
   Numbers: ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'],
   Questions: ['Want', 'Where', 'What', 'Who', 'Why', 'When', 'How', 'Can'],
 }
@@ -66,7 +71,8 @@ const TIER3 = {
   Describing: ['Soft', 'Hard', 'Wet', 'Dry', 'Clean', 'Dirty', 'Loud', 'Fast', 'Slow', 'Good', 'Funny', 'Yummy'],
   Nature: ['Tree', 'Flower', 'Grass', 'Sun', 'Moon', 'Star', 'Rain', 'Snow', 'Cloud', 'Rock', 'Leaf', 'Sky'],
   'Going places': ['Bus', 'Plane', 'Boat', 'Bike', 'Motorcycle', 'Helicopter', 'Home', 'Park'],
-  Animals: ['Lion', 'Monkey', 'Elephant', 'Bunny', 'Turtle', 'Bear', 'Tiger', 'Goat', 'Frog', 'Zebra', 'Owl', 'Rooster', 'Wolf', 'Goose', 'Crow'],
+  Farm: ['Goat', 'Rooster', 'Goose', 'Bunny'],
+  Wild: ['Lion', 'Monkey', 'Elephant', 'Turtle', 'Bear', 'Tiger', 'Frog', 'Zebra', 'Owl', 'Wolf', 'Crow'],
   School: ['Pencil', 'Paper', 'Crayon', 'Scissors', 'Glue', 'Shape', 'Backpack', 'Marker', 'Paint', 'Sticker', 'Chalk', 'Eraser'],
   Time: ['Day', 'Night', 'Morning', 'Afternoon', 'Today', 'Now', 'After', 'Later'],
 }
@@ -82,9 +88,8 @@ const FN_WORDS = new Set([
   'Me', 'You', 'Mine',
   // question words + modal
   'Where', 'What', 'Who', 'Why', 'When', 'How', 'Can',
-  // social / regulatory (the whole Social category)
-  'Yes', 'No', 'More', 'All done', 'Okay', 'Please', 'Thank you', 'Hi', 'Bye',
-  'Again', 'Uh-oh', 'Wow', 'Sorry', 'Night-night', 'Yay',
+  // social / regulatory (core words now live on CORE_BOARD; Social page = niceties)
+  'Yes', 'No', 'More', 'All done', 'Mine', 'Okay', 'Please', 'Thank you', 'Hi', 'Bye', 'Uh-oh', 'Wow', 'Sorry',
 ])
 
 function buildTier(groups, tier) {
@@ -112,13 +117,15 @@ export const wordsInCategory = (cat) => WORDS.filter((w) => w.category === cat)
 // model language on the board; Sennott, Light & McNaughton 2016). Order IS the layout
 // (4 columns). SLP/AAC-editable: reorder or swap words here and the board follows.
 // Final vocab + spatial layout pending SLP review.
+// Function-first Core (16, a clean 4×4): the highest-frequency, most-combinable words —
+// agents/requests, actions, responses, locations. Deliberately NOT the social niceties
+// (those are the "Social" fringe page). `my`/`this` dropped as redundant with `mine`/`that`;
+// `here`→Where-words, `turn`→Everyday, `please`/`uh-oh`→Social (they already live there).
 export const CORE_BOARD = [
   'I', 'want', 'more', 'help',
-  'stop', 'go', 'look', 'my',
-  'mine', 'yes', 'no', 'all done',
-  'that', 'this', 'here', 'up',
-  'down', 'in', 'on', 'turn',
-  'please', 'uh-oh',
+  'go', 'stop', 'look', 'mine',
+  'yes', 'no', 'all done', 'that',
+  'up', 'down', 'in', 'on',
 ]
 
 // Real illustration (public/images/<key>.webp) for a word, when one exists in the
@@ -143,6 +150,15 @@ const WORD_ALIAS = {
 }
 // Resolve a word to an existing image key: exact content image → alias → none.
 export const imageKeyFor = (word) => WORD_IMAGE[keyOf(word)] || WORD_ALIAS[keyOf(word)] || null
+
+// Colour words render as a real coloured SWATCH (not a photo/text tile), so every colour
+// on the board looks identical in size + actually shows its colour. Hexes mirror Rainbow
+// Island's swatches. (Fixes blue/purple rendering larger from stray color-*.webp files.)
+export const COLOR_HEX = {
+  Red: '#FF3333', Orange: '#FF8C00', Yellow: '#FFD700', Green: '#32CD32', Blue: '#1E90FF',
+  Purple: '#9D4EDD', Pink: '#FF69B4', Brown: '#8B4513', Black: '#2C3E50', White: '#FFFFFF',
+  Grey: '#9AA3AD', Gold: '#D4AF37',
+}
 
 // (Kept for reference) words/categories scoped to a tier level. Practice now uses
 // the full bank above; the tier just orders the source arrays (core words first).

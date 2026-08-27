@@ -170,17 +170,17 @@
 /* category filter */
 .wb-cats {
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap; /* wrap onto multiple lines instead of a horizontal scroll bar */
+  justify-content: center;
+  gap: 5px;
   padding: 8px 10px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
   border-bottom: 2px solid #eef1f4;
 }
 .wb-cat {
   flex: 0 0 auto;
-  padding: 6px 12px;
+  padding: 5px 11px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #4a5763;
   background: #eef1f4;
@@ -188,6 +188,12 @@
 .wb-cat.is-active {
   color: #fff;
   background: #2f6fb0;
+}
+/* the "More ▾ / Less ▲" expander chip — a subtle control, distinct from the category chips */
+.wb-cat-more {
+  color: #2f6fb0;
+  background: #e3eefb;
+  border: 1px dashed #9dc0e8;
 }
 
 /* the lattice board — position-stable cells. Rows stretch to fill the height when a

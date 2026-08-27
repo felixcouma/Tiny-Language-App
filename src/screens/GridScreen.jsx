@@ -38,6 +38,28 @@ export default function GridScreen() {
 
   const [mode, setMode] = useState('board') // 'board' | 'find'
   const [page, setPage] = useState('Core') // 'Core' (fixed core board) | a category (fringe page)
+  const [catsOpen, setCatsOpen] = useState(false) // category tabs: collapsed to 2 rows + a "More" chip
+
+  // Tab order: Core first, Numbers hidden (they live in Counting Mountain), and Wild placed
+  // right after Farm so the two animal pages sit together.
+  const orderedCats = useMemo(() => {
+    const arr = ['Core', ...CATEGORIES.filter((c) => c !== 'Numbers')]
+    const wi = arr.indexOf('Wild')
+    const fi = arr.indexOf('Farm')
+    if (wi > -1 && fi > -1) {
+      arr.splice(wi, 1)
+      arr.splice(arr.indexOf('Farm') + 1, 0, 'Wild')
+    }
+    return arr
+  }, [])
+  const COLLAPSED_CATS = 9 // ~2 rows on a phone before the "More" chip
+  // Collapsed shows the first ~2 rows; always include the active page so its highlight is visible.
+  const shownCats = catsOpen
+    ? orderedCats
+    : (() => {
+        const head = orderedCats.slice(0, COLLAPSED_CATS)
+        return head.includes(page) || page === 'Core' ? head : [...head.slice(0, COLLAPSED_CATS - 1), page]
+      })()
 
   // Board pages are position-stable: the Core page is a fixed layout constant; each
   // fringe page is its category's words in the bank's deterministic order. No reveal,
@@ -199,8 +221,7 @@ export default function GridScreen() {
       )}
 
       <div className="wb-cats" role="tablist" aria-label="Word groups">
-        {/* Numbers live in the Counting Mountain world, not the communication board. */}
-        {['Core', ...CATEGORIES.filter((c) => c !== 'Numbers')].map((c) => (
+        {shownCats.map((c) => (
           <button
             key={c}
             className={`wb-cat ${c === page ? 'is-active' : ''}`}
@@ -209,6 +230,15 @@ export default function GridScreen() {
             {c}
           </button>
         ))}
+        {orderedCats.length > COLLAPSED_CATS && (
+          <button
+            className="wb-cat wb-cat-more"
+            onClick={() => setCatsOpen((o) => !o)}
+            aria-expanded={catsOpen}
+          >
+            {catsOpen ? 'Less ▲' : 'More ▾'}
+          </button>
+        )}
       </div>
 
       <main className="wb-board">

@@ -36,6 +36,28 @@
   line-height: 1.05;
   word-break: break-word;
 }
+/* ---- colour swatch: colour words render as the actual colour, identical size for all ---- */
+.wp-swatch {
+  gap: 3px;
+}
+.wp-swatch::before {
+  content: '';
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 22px;
+  border-radius: 14px;
+  background: var(--swatch);
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 -7px 14px rgba(0, 0, 0, 0.1), inset 0 5px 10px rgba(255, 255, 255, 0.35);
+}
+.wp-swatch-label {
+  flex: 0 0 auto;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.1;
+  color: #2c3e50;
+}
 
 /* ---- phrase cube (sits on a coloured cube) ---- */
 .wp-cube.wp-pic {

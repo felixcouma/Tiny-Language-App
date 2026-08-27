@@ -65,7 +65,7 @@ const run = async () => {
   ok(filled === CORE_BOARD.length, `board is non-blank on load (${filled}/${CORE_BOARD.length} filled) — not the old reveal board`)
 
   console.log('\n[2] Position-stable across a category round-trip')
-  await page.locator('.wb-cat', { hasText: 'Animals' }).click()
+  await page.locator('.wb-cat', { hasText: 'Farm' }).click() // Animals split into Farm/Wild
   await page.waitForTimeout(120)
   await page.locator('.wb-cat', { hasText: 'Core' }).click()
   await page.waitForTimeout(120)
