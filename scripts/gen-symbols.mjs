@@ -257,6 +257,23 @@ const SUBJECT = {
   'body-arm': 'two cute cartoon child arms held out, bare from short shirt sleeves',
   'body-knees': 'a pair of cartoon legs bent at the knees, kneeling',
   'body-tummy': 'a cute cartoon little boy, fully dressed in a t-shirt and shorts, using one hand to lift the bottom hem of his t-shirt up just a little to point at his round tummy and belly button, cheerful and playful, wholesome and child-appropriate, ONLY the tummy shown, no bare chest',
+  // --- Animation diversity — Batch 1 (FRESH method: each verb = one consistent diverse child
+  //     across its 2 frames; identical character spec, different pose). See ANIMATION_DIVERSITY_SCOPE.md.
+  // jumping — Asian girl
+  'act-jump-1': 'a cute premium soft cel-shaded cartoon East Asian toddler girl about 2 years old, straight black hair in short pigtails with pink bobbles, warm light skin, round happy face, wearing a sunny yellow t-shirt, blue leggings and little white shoes, full body, crouching down with knees bent and both arms swung back, about to spring up into a jump, plain off-white background',
+  'act-jump-2': 'a cute premium soft cel-shaded cartoon East Asian toddler girl about 2 years old, straight black hair in short pigtails with pink bobbles, warm light skin, round happy face, wearing a sunny yellow t-shirt, blue leggings and little white shoes, full body, jumping high up in the air with both arms raised overhead and legs tucked slightly, joyful open-mouth smile, plain off-white background',
+  // running — white boy
+  'act-run-1': 'a cute premium soft cel-shaded cartoon white toddler boy about 2 years old, tousled light-brown hair, fair skin, red t-shirt, blue denim shorts, white sneakers, full body, running mid-stride with the left knee lifted up and forward and the right leg back, arms bent and pumping, leaning forward, plain off-white background',
+  'act-run-2': 'a cute premium soft cel-shaded cartoon white toddler boy about 2 years old, tousled light-brown hair, fair skin, red t-shirt, blue denim shorts, white sneakers, full body, running mid-stride with the right knee lifted up and forward and the left leg back, arms bent and pumping the other way, leaning forward, plain off-white background',
+  // clapping — Black girl
+  'act-clap-1': 'a cute premium soft cel-shaded cartoon Black toddler girl about 2 years old, dark brown skin, springy afro puffs with pink bobbles, purple dress, pink shoes, full body, standing with both hands held wide apart about to clap, happy smile, plain off-white background',
+  'act-clap-2': 'a cute premium soft cel-shaded cartoon Black toddler girl about 2 years old, dark brown skin, springy afro puffs with pink bobbles, purple dress, pink shoes, full body, standing with both hands pressed together clapping in front of her chest, big open smile, plain off-white background',
+  // eating — brown girl (at a small table with a bowl)
+  'act-eat-1': 'a cute premium soft cel-shaded cartoon brown-skinned South Asian toddler girl about 2 years old, black wavy hair in a small top bun, warm brown skin, teal top, sitting at a small table with a bowl of food in front of her, holding a spoon and dipping it down into the bowl, plain off-white background',
+  'act-eat-2': 'a cute premium soft cel-shaded cartoon brown-skinned South Asian toddler girl about 2 years old, black wavy hair in a small top bun, warm brown skin, teal top, sitting at a small table with a bowl of food, lifting the spoon up to her open mouth about to take a happy bite, plain off-white background',
+  // brushing teeth — Asian boy
+  'act-brush-1': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, green pyjama top, head and shoulders, holding a toothbrush at the left side of his wide open smile brushing his teeth, plain off-white background',
+  'act-brush-2': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, green pyjama top, head and shoulders, holding a toothbrush raised at the top of his wide open smile brushing his teeth with a little white foam, plain off-white background',
   'home-shoes': 'a cute pair of little sneaker shoes side by side',
   'home-bath': 'a cute bathtub filled with bubbly water and white foam',
   // Every Day with Pip — "child putting on X" dressing steps + bath splash + park swing.
