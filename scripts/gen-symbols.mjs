@@ -259,6 +259,15 @@ const SUBJECT = {
   'body-tummy': 'a cute cartoon little boy, fully dressed in a t-shirt and shorts, using one hand to lift the bottom hem of his t-shirt up just a little to point at his round tummy and belly button, cheerful and playful, wholesome and child-appropriate, ONLY the tummy shown, no bare chest',
   'home-shoes': 'a cute pair of little sneaker shoes side by side',
   'home-bath': 'a cute bathtub filled with bubbly water and white foam',
+  // Every Day with Pip — "child putting on X" dressing steps + bath splash + park swing.
+  // Wholesome + fully covered: clothing goes on OVER existing clothes (no bare skin).
+  'rt-dress-shirt': 'a cheerful cartoon child wearing a full snug onesie bodysuit, pulling a colourful t-shirt down over their head and arms, putting the shirt ON over the onesie, fully covered and wholesome, child-appropriate',
+  'rt-dress-pants': 'a cheerful cartoon child wearing a full snug onesie bodysuit, standing and pulling a pair of trousers upward — the trousers are partway up, at just-below-the-knees, mid-pull — the onesie keeps the child fully covered, wholesome and child-appropriate, no bare skin',
+  'rt-dress-socks': 'a cute cartoon child sitting on the floor pulling a striped sock onto one foot, both legs covered, wholesome',
+  'rt-dress-shoes': 'a cute cartoon child sitting and slipping a shoe onto one foot, the other shoe nearby, cheerful',
+  'rt-dress-hat': 'a cheerful cartoon child placing a sun hat onto their own head with both hands',
+  'rt-splash': 'a happy cartoon child sitting inside a bathtub splashing the bubbly water with both hands, water droplets flying up, lots of bubbles and foam, playful and wholesome, only head and shoulders above the bubbles',
+  'rt-swing': 'a joyful cartoon child sitting on a playground swing, holding the ropes, legs swinging out forward, mid-swing, blue sky behind',
   'food-chicken': 'a single cooked golden-brown chicken drumstick',
   'food-fish': 'a cooked fish fillet on a small plate',
   // ABC Songs words (Alphabet Friends)

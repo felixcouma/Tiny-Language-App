@@ -53,11 +53,11 @@ export const ROUTINES = [
     tagline: "Let's get ready!",
     grad: 'linear-gradient(160deg,#7fd8a6,#49b586)',
     steps: [
-      { say: 'Shirt on!', tap: 'Shirt' },
-      { say: 'Now your pants.', tap: 'Pants' },
-      { say: 'Two socks.', tap: 'Socks' },
-      { say: 'Shoes on your feet.', tap: 'Shoe' },
-      { say: 'Hat on your head.', tap: 'Hat' },
+      { say: 'Shirt on!', tap: 'Shirt', img: 'act-dress-1' }, // child pulling a shirt over their head (reused)
+      { say: 'Now your pants.', tap: 'Pants', img: 'rt-dress-pants' },
+      { say: 'Two socks.', tap: 'Socks', img: 'rt-dress-socks' },
+      { say: 'Shoes on your feet.', tap: 'Shoe', img: 'rt-dress-shoes' },
+      { say: 'Hat on your head.', tap: 'Hat', img: 'rt-dress-hat' },
       { say: 'All ready! Bye-bye!', tap: 'Bye', img: 'rt-dressed' }, // fully dressed, all items on, waving bye
     ],
   },
@@ -80,7 +80,7 @@ export const ROUTINES = [
           { say: 'Wash your hair!', tap: 'Hair' }, // → body-hair
         ],
       },
-      { say: 'Splash, splash!', tap: 'Splash' },
+      { say: 'Splash, splash!', tap: 'Splash', img: 'rt-splash' },
       { say: 'All done, use your towel to dry off.', tap: 'Towel' },
     ],
   },
@@ -92,7 +92,7 @@ export const ROUTINES = [
     steps: [
       { say: "Let's go to the park!", tap: 'Park' },
       { say: 'Up the slide!', tap: 'Slide' },
-      { say: 'Swing up high!', tap: 'Swing' },
+      { say: 'Swing up high!', tap: 'Swing', img: 'rt-swing' },
       { say: 'Run fast!', tap: 'Run', anim: 'do-running' },
       { say: 'Wave bye-bye!', tap: 'Wave', anim: 'do-waving' },
     ],
