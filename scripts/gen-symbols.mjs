@@ -274,6 +274,25 @@ const SUBJECT = {
   // brushing teeth — Asian boy
   'act-brush-1': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, green pyjama top, head and shoulders, holding a toothbrush at the left side of his wide open smile brushing his teeth, plain off-white background',
   'act-brush-2': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, green pyjama top, head and shoulders, holding a toothbrush raised at the top of his wide open smile brushing his teeth with a little white foam, plain off-white background',
+  // --- Animation diversity — Batch 1b ---
+  // washing hands — Black boy
+  'act-wash-1': 'a cute premium soft cel-shaded cartoon Black toddler boy about 2 years old, dark brown skin, short curly black hair, orange t-shirt, standing at a small white sink rubbing his soapy hands together with white bubbles, plain off-white background',
+  'act-wash-2': 'a cute premium soft cel-shaded cartoon Black toddler boy about 2 years old, dark brown skin, short curly black hair, orange t-shirt, standing at a small white sink holding up his sudsy bubbly hands with a happy smile, plain off-white background',
+  // getting dressed — white girl (also used for the dressing-routine shirt step)
+  'act-dress-1': 'a cute premium soft cel-shaded cartoon white toddler girl about 2 years old, blonde hair in short pigtails, fair skin, wearing shorts, full body, pulling a pink t-shirt down over her head with both arms up coming through the sleeves, putting the shirt on, plain off-white background',
+  'act-dress-2': 'a cute premium soft cel-shaded cartoon white toddler girl about 2 years old, blonde hair in short pigtails, fair skin, wearing shorts, full body, the pink t-shirt halfway over her head as she peeks out playfully, arms partway into the sleeves, plain off-white background',
+  // waking up — brown girl (in bed)
+  'act-wake-1': 'a cute premium soft cel-shaded cartoon brown-skinned toddler girl about 2 years old, black hair, warm brown skin, lying cosy in a little bed under a soft blanket, stretching both arms up over her head as she wakes, plain off-white background',
+  'act-wake-2': 'a cute premium soft cel-shaded cartoon brown-skinned toddler girl about 2 years old, black hair, warm brown skin, sitting up in the little bed rubbing one eye with a big open-mouth yawn, plain off-white background',
+  // waving — Asian boy
+  'act-wave-1': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, blue-and-white striped t-shirt, full body, raising one open hand up beside his head to start a wave, big smile, plain off-white background',
+  'act-wave-2': 'a cute premium soft cel-shaded cartoon East Asian toddler boy about 2 years old, straight black hair, light skin, blue-and-white striped t-shirt, full body, waving his open hand tilted to the other side beside his head, cheerful, plain off-white background',
+  // dancing — BOTH: brown girl + white boy
+  'act-dance-1': 'two cute premium soft cel-shaded cartoon toddlers about 2 dancing together side by side: a brown-skinned girl with black curly hair in a pink dress, and a white boy with blond hair in a blue t-shirt and shorts, both with one arm raised mid-twirl, joyful, with a few small colourful cartoon music notes floating in the air around them, plain off-white background',
+  'act-dance-2': 'the same two cute cartoon toddlers dancing together: the brown-skinned girl with black curly hair in the pink dress and the white blond boy in the blue t-shirt, now with the OTHER arm raised and hips turned the other way, joyful, with a few small colourful cartoon music notes floating in the air around them, plain off-white background',
+  // hugging — BOTH: Black boy + Asian girl
+  'act-hug-open': 'two cute premium soft cel-shaded cartoon toddlers about 2 about to hug: a Black boy with short curly hair in a yellow t-shirt and an East Asian girl with a black bob in a red dress, both with arms open wide reaching toward each other, happy, plain off-white background',
+  'act-hug-squeeze': 'the same two cute cartoon toddlers now hugging warmly: the Black boy in the yellow t-shirt and the East Asian girl in the red dress wrapped in a warm squeeze together, eyes closed smiling, plain off-white background',
   'home-shoes': 'a cute pair of little sneaker shoes side by side',
   'home-bath': 'a cute bathtub filled with bubbly water and white foam',
   // Every Day with Pip — "child putting on X" dressing steps + bath splash + park swing.
