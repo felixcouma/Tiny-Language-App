@@ -3,6 +3,45 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
+## Latest Session — 2026-08-29 · Branch `main` · Live on **Vercel** + **GitHub Pages**
+
+> **Premium art finished + zoom-lock fix + song-recordings research.** (Continues 08-28.)
+> - **Whole app art is now premium** — all 9 object/animal song characters re-rendered (36 frames);
+>   see the 08-28 entry below. `verify-song-anims` + `check` green.
+> - **Zoom lock (commit `2df2be3`)** — toddlers were accidentally pinch/double-tap zooming the
+>   content off-screen (frustrating; the app is already a fixed-width column sized to the screen).
+>   iOS Safari **ignores** the viewport meta's `user-scalable=no`, so new **`src/lib/lockZoom.js`**
+>   cancels iOS pinch (`gesture*` events), any two-finger `touchmove`, and Ctrl/⌘+wheel zoom; called
+>   once from `main.jsx`. Double-tap stays covered by the existing CSS `touch-action: manipulation`.
+>   Single-finger scroll/taps untouched. `verify:ui` green.
+> - **Song-recordings research → `docs/SONG_RECORDINGS_RESEARCH.md`** (the plan to replace the draggy
+>   State-Dept choir takes with crisp, steady, sync-friendly recordings). Key findings:
+>   - A **recording carries its own copyright** separate from the PD tune, and the app is heading to
+>     paid — so any replacement must be **PD or commercially-licensed**. Truly-PD **and** crisp **and**
+>     a cohesive full set of all 13 essentially **doesn't exist**.
+>   - Source comparison (Pixabay single-artist / LibriVox PD / Wikimedia patchwork / LoC National
+>     Jukebox / generate-our-own). **Recommendation: generate our own** cohesive set — melodies are
+>     PD, and it's the only path that nails coverage + steadiness + cohesion at once (and lets us
+>     **delete the `songAnimations.js` "choir drag" timing**).
+>   - **Cost: ~$10 one-time.** Suno **Pro** (~$10/mo, 2,500 credits; Create = 10 credits → 2 takes)
+>     covers all 13 with heavy iteration (~650–1,300 credits) inside one month; Free tier has **no
+>     commercial rights**. Subscribe one month, generate + download all 13, cancel.
+>   - **How it works:** Suno **Custom mode** — we paste the **exact PD lyrics** (matching our captions;
+>     never auto-generated), a style prompt (warm voice, steady tempo, clear diction), and reuse **one
+>     saved Persona** across all 13 for a consistent singer.
+> - **Next steps (song recordings):**
+>   1. **Owner sets up Suno Pro** (needs the owner's account + payment — Claude can't create accounts
+>      or pay) and generates a **2-song pilot: Twinkle + Head-Shoulders** in Custom mode (exact
+>      lyrics + a shared Persona), downloads the MP3s.
+>   2. Drop the MP3s at `public/sounds/songs/<id>.mp3` (swapping a file needs **no code change** —
+>      runtime-cached) → Claude wires them into `SongScreen`, **A/B against the current choir takes**
+>      on-device for tempo/clarity/warmth.
+>   3. On approval, generate the remaining 11 with the same Persona, **re-tune/simplify the
+>      `songAnimations.js` timing** (a steady tempo lets us drop the per-song `hold`/`gap` drag),
+>      re-verify with `scripts/verify-song-anims.mjs`, update `public/sounds/CREDITS.md`.
+> - **Owner decisions still open:** strict-PD vs permissive-commercial (permissive unlocks the good
+>   options); voice style for the Persona (warm female to echo Aoede?); domain (leaning `tinyvoice.app`).
+
 ## Latest Session — 2026-08-28 · Branch `main` · Live on **Vercel** + **GitHub Pages**
 
 > **Animation-diversity initiative COMPLETE + a batch of NEW WORK (routines / listening game /

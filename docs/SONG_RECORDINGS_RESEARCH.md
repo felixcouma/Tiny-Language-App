@@ -104,6 +104,23 @@ Suno's pricing (2026), credit-based, three tiers:
 date), then cancel. Effectively **$8** if a month of annual is acceptable, but the single month at
 ~$10 is the clean answer. Trivial next to the value of a cohesive, steady, sync-friendly set.
 
+## How Suno works for us (Option E workflow)
+Suno has two modes — the distinction matters:
+- **Simple mode** auto-*writes* both lyrics and music from a description. **We don't use this** — it
+  would invent words that wouldn't match our karaoke captions.
+- **Custom mode** gives two boxes: a **Lyrics box** (you paste the exact words) + a **Style box**
+  (voice / instruments / tempo / mood), plus an **Instrumental toggle** (leave OFF — we want singing).
+
+So the recipe for our 13:
+1. **Paste the exact traditional public-domain lyrics** into the Lyrics box (matching our on-screen
+   captions in `songAnimations.js` — e.g. Head-Shoulders, Twinkle, etc.). We provide the words; Suno
+   never guesses them.
+2. **Style prompt**, e.g. *"gentle warm female voice, simple acoustic guitar, steady moderate tempo,
+   children's nursery rhyme, clear diction, no rubato."* (Tempo/clarity are the whole point.)
+3. **Persona for cohesion:** generate one song you like, **save its voice as a named Persona**, then
+   reuse that same Persona for all 13 → one singer, consistent tempo across the set. This is what the
+   current choir collection lacks and what makes the set easy to sync.
+
 ## Open questions for the owner
 1. **Strictly public-domain only, or is permissive-commercial (Pixabay License / Suno Pro) acceptable?**
    Truly-PD *and* crisp *and* a cohesive full set essentially doesn't exist — so strict-PD likely means
