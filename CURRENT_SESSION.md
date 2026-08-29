@@ -36,9 +36,18 @@
 >   sign-ups). No email collected today beyond the optional magic-link.
 > - **Council** — reconsideration note + accept/reframe/decline recorded in `COUNCIL_REVIEW_RESPONSE.md`
 >   (2026-08). Billing stays binned; no withholding mechanics.
-> - **Next (owner-requested):** a **premium-art pass on the 9 object/animal songs** (teapot, star,
->   mouse+clock, lamb, puppy, owl, bear, baby, horse+sleigh) — they're still the older flat-vector
->   song style, not the premium house style. Domain decision still parked (leaning `tinyvoice.app`).
+> - **Premium song art — DONE** (commit `77d7cfc`). Re-rendered all 9 object/animal song characters
+>   (teapot, star, mouse+clock, lamb, puppy, owl, bear, baby, horse+sleigh — 36 frames) to the
+>   premium house style via the same fresh-base + img2img method; poses swapped per existing key so
+>   `songAnimations.js` timing/captions are untouched. Bingo's puppy redesigned (was weakest); bear's
+>   bg cleaned to shed leaked © watermark blobs; clock "one" pinned to a single mouse. **The whole
+>   app's art is now premium.** `verify-song-anims` + `check` green.
+> - **Next track (owner-requested):** **song sync / captions / recordings.** The songs are the U.S.
+>   State Dept "Sing Out Loud" choir takes — they drag/rubato so much that `songAnimations.js` carries
+>   per-song hand-tuned "choir drag" hold/gap values just to stay on beat. Two options: (1) an ear-pass
+>   to fix captions/timing still off, or (2) source crisper, steadier public-domain kids' recordings
+>   (clear solo vocal, steady tempo) that are far easier to sync and would let us simplify the timing
+>   configs. Domain decision still parked (leaning `tinyvoice.app`).
 
 ## Latest Session — 2026-08-25 · Branch `main` · Live on **Vercel** + **GitHub Pages**
 
