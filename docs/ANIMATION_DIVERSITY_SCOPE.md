@@ -82,3 +82,31 @@ throughput**, which is why we batch and pilot.
 
 ## Open (settled)
 Model = rotate (A). Cast = 4×2 even. Method = decided by the pilot. Priority = most-seen first.
+
+---
+
+## ✅ COMPLETE (2026-08-28)
+
+The whole initiative shipped. Method **B (fresh, detailed character spec)** won the pilot —
+premium look — with a hard rule discovered mid-rollout: **frame 2 is conditioned on frame 1
+(img2img)** so clothing/skin/hair stay identical across a verb's two frames (a pure-fresh frame 2
+drifted the outfit — caught on dance/hug/wake). All add-on elements (music notes on dance, floating
+Zzz on sleep, "ha ha ha" on laugh) were done the same img2img way so the base imagery never changed.
+
+- **Verbs** — all ~24 solo + 5 social action verbs re-cast diverse (commits `5acaff7`, `bcffe…`
+  batch 2a/2b, plus polish `863b438`/`b308c8c`/`67bd5ff`). Both anchors recast; solo verbs rotate
+  the 4×2 cast, social verbs pair two ethnicities. `verify-actions` (device × reduced-motion) green.
+- **Child-featuring songs** — Head-Shoulders (Black girl), One-Two-Buckle (white boy), Hokey Pokey
+  (brown girl), The Happy Song (Asian boy). Commit `cdc6f52`. `verify-song-anims` green; the
+  `songAnimations.js` cue timeline/timing was left untouched (poses swapped per existing key only),
+  so every frame stays synced to its lyric.
+- **`song-toes` note** — the model refused a full fold-to-toes bend (kept giving a shallow
+  hands-near-knees crouch), and a lifted-leg fallback broke the song's rhythm. Final frame is an
+  **owner-supplied render** (a proper waist-bend toe-touch) from a different generator — so it's a
+  softer-shaded look than the flat-vector `gen-song-poses.mjs` prompt would reproduce; noted here in
+  case it's ever regenerated.
+
+**Not diverse (by design):** object/animal songs (teapot, star, mouse+clock, lamb, puppy, owl, bear,
+baby, horse+sleigh) — no child on screen, so no race to balance. **These are still in the older
+flat-vector song style, NOT the premium house style** → tracked separately as a *premium art* pass
+(see `CURRENT_SESSION.md` / the song-art survey), not part of this diversity scope.

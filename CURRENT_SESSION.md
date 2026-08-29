@@ -3,6 +3,43 @@
 > Update before commit/push so the next device/session knows where things stand.
 > Full state: `TINYVVOICE_PROJECT_CONTEXT.md`.
 
+## Latest Session — 2026-08-28 · Branch `main` · Live on **Vercel** + **GitHub Pages**
+
+> **Animation-diversity initiative COMPLETE + a batch of NEW WORK (routines / listening game /
+> Word Board) + Sprint-1 parent value.** See `docs/ANIMATION_DIVERSITY_SCOPE.md` (now marked done).
+> - **Animation diversity — DONE.** The "Things I Do" verbs *and* the 4 child-featuring songs now
+>   span **Black / brown / white / East-Asian × boy & girl**, matching the static-art convention.
+>   Method **B (fresh detailed character spec)** with **frame-2-conditioned-on-frame-1 (img2img)** so
+>   an outfit can't drift between a verb's two frames (the locked rule — caught on dance/hug/wake).
+>   Songs re-cast: Head-Shoulders = Black girl · One-Two-Buckle = white boy · Hokey Pokey = brown
+>   girl · Happy = Asian boy (commit `cdc6f52`). Poses swapped **per existing pose key only** →
+>   `songAnimations.js` cue timeline/timing untouched, so every frame stays synced to its lyric.
+>   `song-toes` = an **owner-supplied toe-touch render** (the model refused a full fold-to-toes; a
+>   lifted-leg fallback broke the rhythm) — a softer look than the flat-vector song prompt.
+>   `verify-actions` + `verify-song-anims` + `check` green.
+> - **NEW WORK batch** (routines / listening game / Word Board):
+>   - **Routines** — dressing steps show the child *putting on* each item (shirt reuses `act-dress-1`;
+>     pants/socks/shoes/hat = `rt-dress-*`); bedtime ends "Night, night. Good night."; bath adds a
+>     child-*splashing* image (`rt-splash`) + towel "All done, use your towel to dry off."; park adds
+>     a child-on-a-*swing* image (`rt-swing`).
+>   - **Listening game** — "Who's eating?" now shows the **mealtime scene** image (clearer than the
+>     eating-verb frame); plural prompts fixed to "Where **are** the …?" (`PLURAL` set in `gamePrompt`).
+>   - **Word Board** — category tabs on **2 rows** with a "More ▾/Less ▲" expander (no scroll); Core
+>     is **function-first 16** + Social → **niceties 8**; Animals split **Farm / Wild** (12 each);
+>     Colours: **Rainbow → Gold**, and all colours render as identical **swatches** (`COLOR_HEX` +
+>     `WordPic` swatch branch) so blue/purple/red match size.
+> - **Sprint-1 parent value** — a 3-screen **parent value-prop** intro (`ParentIntro`, slide-3
+>   "Rooted in speech-therapy principles." — honest: owner incorporated SLP concepts, isn't an SLP);
+>   a sharper **daily tip** (focus-word / weekly-world specific) + a celebratory **readiness card**
+>   (never references a sibling) in `ParentDashboard`. Sign-in OTP (#4) **deferred** to pilot feedback.
+> - **Privacy/ToS scaffolded** — `docs/PRIVACY_AND_TERMS_DRAFT.md` (owner to review before real cloud
+>   sign-ups). No email collected today beyond the optional magic-link.
+> - **Council** — reconsideration note + accept/reframe/decline recorded in `COUNCIL_REVIEW_RESPONSE.md`
+>   (2026-08). Billing stays binned; no withholding mechanics.
+> - **Next (owner-requested):** a **premium-art pass on the 9 object/animal songs** (teapot, star,
+>   mouse+clock, lamb, puppy, owl, bear, baby, horse+sleigh) — they're still the older flat-vector
+>   song style, not the premium house style. Domain decision still parked (leaning `tinyvoice.app`).
+
 ## Latest Session — 2026-08-25 · Branch `main` · Live on **Vercel** + **GitHub Pages**
 
 > **Speak-by-name + Listening-Game mini-scenes (the big one) + pilot/domain planning.**
