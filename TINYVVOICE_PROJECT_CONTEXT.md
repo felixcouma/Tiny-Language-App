@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-29 17:27 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-29 17:35 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `846d3fc Docs: research — sourcing crisper/steadier song recordings`
 - `dd1876f Docs: mark premium song art done; log song-sync as next track`
 - `77d7cfc Feat: premium re-render of all 9 object/animal song characters`
 - `505dda5 Docs: mark animation-diversity initiative complete + session log`
 - `cdc6f52 Feat: animation diversity — child-featuring songs re-cast diverse`
 - `67bd5ff Polish: swimming scene 2 → horizontal paddling pose`
-- `b308c8c Fix: waving full-body (both frames) + laughing floating "ha ha ha"`
 <!-- AUTO:END -->
 
 ---
