@@ -82,6 +82,28 @@ exactly how we piloted the premium art before churning.
   file needs no code change**; only `songAnimations.js` timing may be re-tuned/simplified.
 - Update `public/sounds/CREDITS.md` with the new source/license.
 
+## Suno cost for our 13 songs (Option E $ estimate)
+Suno's pricing (2026), credit-based, three tiers:
+| Plan | Price | Credits/mo | Commercial rights | Notes |
+|---|---|---|---|---|
+| Free | $0 | ~50/day | ❌ **no commercial use** | personal only — not usable for us |
+| **Pro** | **~$10/mo** (~$8/mo if annual) | **2,500** | ✅ | 4-min tracks, unlimited downloads |
+| Premier | ~$30/mo (~$24 annual) | 10,000 | ✅ | overkill for us |
+
+- **Credits per song:** pressing **Create = 10 credits** (Suno makes **2 variations** per press, ~5
+  each). So one "attempt" = 10 credits and gives you two takes to choose from.
+- **Our job = 13 songs.** Budget for iteration (regen to nail steady tempo + clear vocal + length):
+  - Comfortable **~5 attempts/song** → 13 × 5 × 10 = **650 credits**.
+  - Heavy **~10 attempts/song** → 13 × 10 × 10 = **1,300 credits**.
+- Both fit inside **a single month of Pro (2,500 credits)** with plenty of headroom — no Premier
+  needed, no extra add-ons (we only need the full-song MP3 download, which is unlimited on Pro; we
+  don't need stems/MIDI).
+
+**➡️ Bottom line: ~$10 one-time.** Subscribe to **Pro for one month**, generate + download all 13
+(commercial rights attach to what you make while subscribed — keep the download + a note of the plan
+date), then cancel. Effectively **$8** if a month of annual is acceptable, but the single month at
+~$10 is the clean answer. Trivial next to the value of a cohesive, steady, sync-friendly set.
+
 ## Open questions for the owner
 1. **Strictly public-domain only, or is permissive-commercial (Pixabay License / Suno Pro) acceptable?**
    Truly-PD *and* crisp *and* a cohesive full set essentially doesn't exist — so strict-PD likely means
