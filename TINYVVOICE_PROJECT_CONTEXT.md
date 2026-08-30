@@ -5,16 +5,16 @@ A git pre-commit hook auto-refreshes the metadata block below; the human-maintai
 sections (Build Status, Next Steps) are updated by hand each push.
 
 <!-- AUTO:START -->
-> _Auto-updated on commit — last refreshed **2026-08-29 19:58 UTC** on branch `main`._
+> _Auto-updated on commit — last refreshed **2026-08-30 19:16 UTC** on branch `main`._
 
 **Recent commits:**
 
+- `987e91e Docs: session log for recordings research + next steps; Suno workflow`
 - `a51c395 Docs: add Suno $ cost estimate for the 13-song set`
 - `2df2be3 Fix: lock app at 1x — block accidental pinch/double-tap zoom on mobile`
 - `846d3fc Docs: research — sourcing crisper/steadier song recordings`
 - `dd1876f Docs: mark premium song art done; log song-sync as next track`
 - `77d7cfc Feat: premium re-render of all 9 object/animal song characters`
-- `505dda5 Docs: mark animation-diversity initiative complete + session log`
 <!-- AUTO:END -->
 
 ---
